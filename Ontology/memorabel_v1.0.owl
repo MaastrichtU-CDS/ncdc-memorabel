@@ -1,0 +1,2833 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="skos" IRI="http://www.w3.org/2004/02/skos/core#"/>
+    <Prefix name="umls" IRI="http://bioportal.bioontology.org/ontologies/umls/"/>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ARWMC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Age"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE4_Carrier"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Allele_1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Allele_2"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Genotype"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#BECK_Anxiety"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Big_F"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Blood"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CES-D"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Assay"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Assay_Company"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Dates"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Measures"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Protocols"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CT"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Drugs"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cognitive_Screening_Tests"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_CSF_Collection"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_Diagnosis"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dementia_Medication"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diagnoses"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_Category"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_level"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GAD"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Gender"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Gray_Matter_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_Bi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_L"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_Method"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_R"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi_Abnormal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi_Cut-off"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_L"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Method"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_R"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hormonal_Therapy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV_Corrected"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Infarcts"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Left_MTA_Bilateral"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MINI_Anxiety_Interview"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Field_Strength"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Manufacturer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Protocol"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Software"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MTA_Bilateral"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Marital_Status"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds_Count"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#NPI"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Normal_Appearing_White_Matter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Medication"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PET"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PHQ-9"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Perivascular_Spaces"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychopharmaca"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Right_MTA_Bilateral"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SF-36"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Habits"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Vital_Sign"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Fazekas"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T002"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T004"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T005"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T007"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T008"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T011"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T012"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T013"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T014"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T015"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T016"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T017"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T018"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T019"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T020"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T022"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T023"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T024"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T025"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T026"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T028"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T029"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T030"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T031"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T037"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T038"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T040"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T041"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T042"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T043"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T044"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T045"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T046"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T048"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T049"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T050"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T051"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T053"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T054"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T055"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T056"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T058"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T059"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T061"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T062"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T063"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T064"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T065"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T066"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T067"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T068"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T069"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T070"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T071"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T073"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T074"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T075"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T079"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T080"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T081"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T083"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T085"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T086"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T087"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T088"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T089"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T090"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T091"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T092"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T093"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T094"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T095"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T097"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T098"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T099"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T100"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T101"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T102"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T103"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T104"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T109"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T114"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T121"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T122"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T125"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T126"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T127"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T129"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T130"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T131"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T167"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T168"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T169"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T170"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T171"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T184"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T185"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T190"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T191"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T192"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T194"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T195"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T196"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T197"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T203"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_date"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_Diagnosis"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="topDataProperty"/>
+            <Datatype abbreviatedIRI="xsd:dateTimeStamp"/>
+        </DataSomeValuesFrom>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ARWMC"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Age"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE4_Carrier"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Allele_1"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Allele_2"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Genotype"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#BECK_Anxiety"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Big_F"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Blood"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CES-D"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Assay"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Protocols"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Assay_Company"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Protocols"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Dates"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Measures"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Protocols"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CT"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Drugs"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cognitive_Screening_Tests"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T079"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_CSF_Collection"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Dates"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_Diagnosis"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dementia_Medication"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diagnoses"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_Category"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_level"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_level"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GAD"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GDS"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Gender"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Gray_Matter_Volume"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_Bi"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_L"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_Method"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Auto_R"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi_Abnormal"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi_Cut-off"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Bi"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_L"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_Method"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_R"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hormonal_Therapy"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV_Corrected"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Infarcts"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Left_MTA_Bilateral"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MINI_Anxiety_Interview"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Field_Strength"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Protocol"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Manufacturer"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Protocol"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Protocol"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Software"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Protocol"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MTA_Bilateral"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Marital_Status"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds_Count"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#NPI"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Normal_Appearing_White_Matter"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Medication"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PET"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PHQ-9"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Perivascular_Spaces"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychopharmaca"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Right_MTA_Bilateral"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SF-36"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Habits"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Vital_Sign"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Fazekas"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Volume"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T002"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T004"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T005"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T007"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T008"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T008"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T011"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T012"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T013"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T014"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T015"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T010"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T016"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T015"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T017"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T018"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T017"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T019"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T190"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T020"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T190"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T017"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T022"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T169"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T023"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T024"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T025"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T026"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T028"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T021"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T029"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T030"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T031"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T167"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T037"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T067"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T038"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T070"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T038"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T040"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T041"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T040"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T042"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T043"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T044"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T039"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T045"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T044"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T046"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T038"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T046"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T048"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T049"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T046"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T050"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T046"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T051"/>
+        <Class IRI="Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T051"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T053"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T054"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T053"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T055"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T053"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T056"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T058"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T059"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T058"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T058"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T061"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T058"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T062"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T063"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T062"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T064"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T065"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T057"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T066"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T067"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T051"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T068"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T067"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T069"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T068"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T070"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T067"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T071"/>
+        <Class IRI="Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T071"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T073"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T074"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T073"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T075"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T073"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T071"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T079"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T080"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T081"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T083"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T085"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T082"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T086"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T085"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T087"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T085"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T088"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T085"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T089"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T170"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T090"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T091"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T090"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T092"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T093"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T092"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T094"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T092"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T095"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T092"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T097"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T098"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T099"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T100"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T101"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T096"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T102"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T103"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T167"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T104"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T103"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T109"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T104"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T114"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T109"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T109"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T103"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T121"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T122"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T125"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T126"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T127"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T129"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T130"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T131"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T120"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T167"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T072"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T168"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T167"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T169"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T078"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T170"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T171"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T077"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T184"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T185"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T170"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T190"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T017"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T191"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T192"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T123"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T194"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T195"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T121"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T196"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T104"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T197"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T104"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T073"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T203"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T074"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
+    </SubClassOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </InverseFunctionalObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </AsymmetricObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </TransitiveObjectProperty>
+    <ReflexiveObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </ReflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </IrreflexiveObjectProperty>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T001</IRI>
+        <Literal>T001</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T001</IRI>
+        <Literal xml:lang="en">Organism</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T002</IRI>
+        <Literal>T002</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T002</IRI>
+        <Literal xml:lang="en">Plant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T004</IRI>
+        <Literal>T004</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T004</IRI>
+        <Literal xml:lang="en">Fungus</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T005</IRI>
+        <Literal>T005</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T005</IRI>
+        <Literal xml:lang="en">Virus</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T007</IRI>
+        <Literal>T007</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T007</IRI>
+        <Literal xml:lang="en">Bacterium</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T008</IRI>
+        <Literal>T008</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T008</IRI>
+        <Literal xml:lang="en">Animal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T010</IRI>
+        <Literal>T010</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T010</IRI>
+        <Literal xml:lang="en">Vertebrate</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T011</IRI>
+        <Literal>T011</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T011</IRI>
+        <Literal xml:lang="en">Amphibian</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T012</IRI>
+        <Literal>T012</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T012</IRI>
+        <Literal xml:lang="en">Bird</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T013</IRI>
+        <Literal>T013</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T013</IRI>
+        <Literal xml:lang="en">Fish</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T014</IRI>
+        <Literal>T014</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T014</IRI>
+        <Literal xml:lang="en">Reptile</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T015</IRI>
+        <Literal>T015</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T015</IRI>
+        <Literal xml:lang="en">Mammal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T016</IRI>
+        <Literal>T016</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T016</IRI>
+        <Literal xml:lang="en">Human</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T017</IRI>
+        <Literal>T017</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T017</IRI>
+        <Literal xml:lang="en">Anatomical Structure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T018</IRI>
+        <Literal>T018</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T018</IRI>
+        <Literal xml:lang="en">Embryonic Structure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T019</IRI>
+        <Literal>T019</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T019</IRI>
+        <Literal xml:lang="en">Congenital Abnormality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T020</IRI>
+        <Literal>T020</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T020</IRI>
+        <Literal xml:lang="en">Acquired Abnormality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T021</IRI>
+        <Literal>T021</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T021</IRI>
+        <Literal xml:lang="en">Fully Formed Anatomical Structure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T022</IRI>
+        <Literal>T022</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T022</IRI>
+        <Literal xml:lang="en">Body System</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T023</IRI>
+        <Literal>T023</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T023</IRI>
+        <Literal xml:lang="en">Body Part, Organ, or Organ Component</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T024</IRI>
+        <Literal>T024</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T024</IRI>
+        <Literal xml:lang="en">Tissue</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T025</IRI>
+        <Literal>T025</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T025</IRI>
+        <Literal xml:lang="en">Cell</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T026</IRI>
+        <Literal>T026</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T026</IRI>
+        <Literal xml:lang="en">Cell Component</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T028</IRI>
+        <Literal>T028</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T028</IRI>
+        <Literal xml:lang="en">Gene or Genome</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T029</IRI>
+        <Literal>T029</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T029</IRI>
+        <Literal xml:lang="en">Body Location or Region</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T030</IRI>
+        <Literal>T030</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T030</IRI>
+        <Literal xml:lang="en">Body Space or Junction</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T031</IRI>
+        <Literal>T031</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T031</IRI>
+        <Literal xml:lang="en">Body Substance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T032</IRI>
+        <Literal>T032</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T032</IRI>
+        <Literal xml:lang="en">Organism Attribute</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T033</IRI>
+        <Literal>T033</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T033</IRI>
+        <Literal xml:lang="en">Finding</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T034</IRI>
+        <Literal>T034</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T034</IRI>
+        <Literal xml:lang="en">Laboratory or Test Result</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T037</IRI>
+        <Literal>T037</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T037</IRI>
+        <Literal xml:lang="en">Injury or Poisoning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T038</IRI>
+        <Literal>T038</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T038</IRI>
+        <Literal xml:lang="en">Biologic Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T039</IRI>
+        <Literal>T039</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T039</IRI>
+        <Literal xml:lang="en">Physiologic Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T040</IRI>
+        <Literal>T040</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T040</IRI>
+        <Literal xml:lang="en">Organism Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T041</IRI>
+        <Literal>T041</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T041</IRI>
+        <Literal xml:lang="en">Mental Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T042</IRI>
+        <Literal>T042</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T042</IRI>
+        <Literal xml:lang="en">Organ or Tissue Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T043</IRI>
+        <Literal>T043</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T043</IRI>
+        <Literal xml:lang="en">Cell Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T044</IRI>
+        <Literal>T044</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T044</IRI>
+        <Literal xml:lang="en">Molecular Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T045</IRI>
+        <Literal>T045</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T045</IRI>
+        <Literal xml:lang="en">Genetic Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T046</IRI>
+        <Literal>T046</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T046</IRI>
+        <Literal xml:lang="en">Pathologic Function</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T047</IRI>
+        <Literal>T047</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T047</IRI>
+        <Literal xml:lang="en">Disease or Syndrome</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T048</IRI>
+        <Literal>T048</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T048</IRI>
+        <Literal xml:lang="en">Mental or Behavioral Dysfunction</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T049</IRI>
+        <Literal>T049</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T049</IRI>
+        <Literal xml:lang="en">Cell or Molecular Dysfunction</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T050</IRI>
+        <Literal>T050</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T050</IRI>
+        <Literal xml:lang="en">Experimental Model of Disease</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T051</IRI>
+        <Literal>T051</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T051</IRI>
+        <Literal xml:lang="en">Event</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T052</IRI>
+        <Literal>T052</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T052</IRI>
+        <Literal xml:lang="en">Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T053</IRI>
+        <Literal>T053</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T053</IRI>
+        <Literal xml:lang="en">Behavior</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T054</IRI>
+        <Literal>T054</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T054</IRI>
+        <Literal xml:lang="en">Social Behavior</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T055</IRI>
+        <Literal>T055</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T055</IRI>
+        <Literal xml:lang="en">Individual Behavior</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T056</IRI>
+        <Literal>T056</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T056</IRI>
+        <Literal xml:lang="en">Daily or Recreational Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T057</IRI>
+        <Literal>T057</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T057</IRI>
+        <Literal xml:lang="en">Occupational Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T058</IRI>
+        <Literal>T058</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T058</IRI>
+        <Literal xml:lang="en">Health Care Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T059</IRI>
+        <Literal>T059</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T059</IRI>
+        <Literal xml:lang="en">Laboratory Procedure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T060</IRI>
+        <Literal>T060</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T060</IRI>
+        <Literal xml:lang="en">Diagnostic Procedure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T061</IRI>
+        <Literal>T061</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T061</IRI>
+        <Literal xml:lang="en">Therapeutic or Preventive Procedure</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T062</IRI>
+        <Literal>T062</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T062</IRI>
+        <Literal xml:lang="en">Research Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T063</IRI>
+        <Literal>T063</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T063</IRI>
+        <Literal xml:lang="en">Molecular Biology Research Technique</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T064</IRI>
+        <Literal>T064</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T064</IRI>
+        <Literal xml:lang="en">Governmental or Regulatory Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T065</IRI>
+        <Literal>T065</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T065</IRI>
+        <Literal xml:lang="en">Educational Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T066</IRI>
+        <Literal>T066</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T066</IRI>
+        <Literal xml:lang="en">Machine Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T067</IRI>
+        <Literal>T067</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T067</IRI>
+        <Literal xml:lang="en">Phenomenon or Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T068</IRI>
+        <Literal>T068</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T068</IRI>
+        <Literal xml:lang="en">Human-caused Phenomenon or Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T069</IRI>
+        <Literal>T069</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T069</IRI>
+        <Literal xml:lang="en">Environmental Effect of Humans</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T070</IRI>
+        <Literal>T070</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T070</IRI>
+        <Literal xml:lang="en">Natural Phenomenon or Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T071</IRI>
+        <Literal>T071</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T071</IRI>
+        <Literal xml:lang="en">Entity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T072</IRI>
+        <Literal>T072</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T072</IRI>
+        <Literal xml:lang="en">Physical Object</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T073</IRI>
+        <Literal>T073</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T073</IRI>
+        <Literal xml:lang="en">Manufactured Object</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T074</IRI>
+        <Literal>T074</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T074</IRI>
+        <Literal xml:lang="en">Medical Device</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T075</IRI>
+        <Literal>T075</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T075</IRI>
+        <Literal xml:lang="en">Research Device</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T077</IRI>
+        <Literal>T077</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T077</IRI>
+        <Literal xml:lang="en">Conceptual Entity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T078</IRI>
+        <Literal>T078</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T078</IRI>
+        <Literal xml:lang="en">Idea or Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T079</IRI>
+        <Literal>T079</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T079</IRI>
+        <Literal xml:lang="en">Temporal Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T080</IRI>
+        <Literal>T080</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T080</IRI>
+        <Literal xml:lang="en">Qualitative Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T081</IRI>
+        <Literal>T081</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T081</IRI>
+        <Literal xml:lang="en">Quantitative Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T082</IRI>
+        <Literal>T082</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T082</IRI>
+        <Literal xml:lang="en">Spatial Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T083</IRI>
+        <Literal>T083</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T083</IRI>
+        <Literal xml:lang="en">Geographic Area</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T085</IRI>
+        <Literal>T085</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T085</IRI>
+        <Literal xml:lang="en">Molecular Sequence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T086</IRI>
+        <Literal>T086</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T086</IRI>
+        <Literal xml:lang="en">Nucleotide Sequence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T087</IRI>
+        <Literal>T087</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T087</IRI>
+        <Literal xml:lang="en">Amino Acid Sequence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T088</IRI>
+        <Literal>T088</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T088</IRI>
+        <Literal xml:lang="en">Carbohydrate Sequence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T089</IRI>
+        <Literal>T089</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T089</IRI>
+        <Literal xml:lang="en">Regulation or Law</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T090</IRI>
+        <Literal>T090</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T090</IRI>
+        <Literal xml:lang="en">Occupation or Discipline</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T091</IRI>
+        <Literal>T091</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T091</IRI>
+        <Literal xml:lang="en">Biomedical Occupation or Discipline</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T092</IRI>
+        <Literal>T092</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T092</IRI>
+        <Literal xml:lang="en">Organization</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T093</IRI>
+        <Literal>T093</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T093</IRI>
+        <Literal xml:lang="en">Health Care Related Organization</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T094</IRI>
+        <Literal>T094</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T094</IRI>
+        <Literal xml:lang="en">Professional Society</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T095</IRI>
+        <Literal>T095</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T095</IRI>
+        <Literal xml:lang="en">Self-help or Relief Organization</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T096</IRI>
+        <Literal>T096</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T096</IRI>
+        <Literal xml:lang="en">Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T097</IRI>
+        <Literal>T097</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T097</IRI>
+        <Literal xml:lang="en">Professional or Occupational Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T098</IRI>
+        <Literal>T098</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T098</IRI>
+        <Literal xml:lang="en">Population Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T099</IRI>
+        <Literal>T099</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T099</IRI>
+        <Literal xml:lang="en">Family Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T100</IRI>
+        <Literal>T100</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T100</IRI>
+        <Literal xml:lang="en">Age Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T101</IRI>
+        <Literal>T101</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T101</IRI>
+        <Literal xml:lang="en">Patient or Disabled Group</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T102</IRI>
+        <Literal>T102</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T102</IRI>
+        <Literal xml:lang="en">Group Attribute</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T103</IRI>
+        <Literal>T103</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T103</IRI>
+        <Literal xml:lang="en">Chemical</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T104</IRI>
+        <Literal>T104</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T104</IRI>
+        <Literal xml:lang="en">Chemical Viewed Structurally</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T109</IRI>
+        <Literal>T109</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T109</IRI>
+        <Literal xml:lang="en">Organic Chemical</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T114</IRI>
+        <Literal>T114</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T114</IRI>
+        <Literal xml:lang="en">Nucleic Acid, Nucleoside, or Nucleotide</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T116</IRI>
+        <Literal>T116</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T116</IRI>
+        <Literal xml:lang="en">Amino Acid, Peptide, or Protein</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T120</IRI>
+        <Literal>T120</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T120</IRI>
+        <Literal xml:lang="en">Chemical Viewed Functionally</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T121</IRI>
+        <Literal>T121</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T121</IRI>
+        <Literal xml:lang="en">Pharmacologic Substance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T122</IRI>
+        <Literal>T122</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T122</IRI>
+        <Literal xml:lang="en">Biomedical or Dental Material</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T123</IRI>
+        <Literal>T123</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T123</IRI>
+        <Literal xml:lang="en">Biologically Active Substance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T125</IRI>
+        <Literal>T125</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T125</IRI>
+        <Literal xml:lang="en">Hormone</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T126</IRI>
+        <Literal>T126</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T126</IRI>
+        <Literal xml:lang="en">Enzyme</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T127</IRI>
+        <Literal>T127</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T127</IRI>
+        <Literal xml:lang="en">Vitamin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T129</IRI>
+        <Literal>T129</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T129</IRI>
+        <Literal xml:lang="en">Immunologic Factor</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T130</IRI>
+        <Literal>T130</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T130</IRI>
+        <Literal xml:lang="en">Indicator, Reagent, or Diagnostic Aid</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T131</IRI>
+        <Literal>T131</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T131</IRI>
+        <Literal xml:lang="en">Hazardous or Poisonous Substance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T167</IRI>
+        <Literal>T167</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T167</IRI>
+        <Literal xml:lang="en">Substance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T168</IRI>
+        <Literal>T168</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T168</IRI>
+        <Literal xml:lang="en">Food</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T169</IRI>
+        <Literal>T169</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T169</IRI>
+        <Literal xml:lang="en">Functional Concept</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T170</IRI>
+        <Literal>T170</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T170</IRI>
+        <Literal xml:lang="en">Intellectual Product</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T171</IRI>
+        <Literal>T171</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T171</IRI>
+        <Literal xml:lang="en">Language</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T184</IRI>
+        <Literal>T184</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T184</IRI>
+        <Literal xml:lang="en">Sign or Symptom</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T185</IRI>
+        <Literal>T185</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T185</IRI>
+        <Literal xml:lang="en">Classification</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T190</IRI>
+        <Literal>T190</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T190</IRI>
+        <Literal xml:lang="en">Anatomical Abnormality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T191</IRI>
+        <Literal>T191</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T191</IRI>
+        <Literal xml:lang="en">Neoplastic Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T192</IRI>
+        <Literal>T192</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T192</IRI>
+        <Literal xml:lang="en">Receptor</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T194</IRI>
+        <Literal>T194</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T194</IRI>
+        <Literal xml:lang="en">Archaeon</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T195</IRI>
+        <Literal>T195</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T195</IRI>
+        <Literal xml:lang="en">Antibiotic</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T196</IRI>
+        <Literal>T196</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T196</IRI>
+        <Literal xml:lang="en">Element, Ion, or Isotope</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T197</IRI>
+        <Literal>T197</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T197</IRI>
+        <Literal xml:lang="en">Inorganic Chemical</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T200</IRI>
+        <Literal>T200</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T200</IRI>
+        <Literal xml:lang="en">Clinical Drug</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T201</IRI>
+        <Literal>T201</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T201</IRI>
+        <Literal xml:lang="en">Clinical Attribute</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T203</IRI>
+        <Literal>T203</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T203</IRI>
+        <Literal xml:lang="en">Drug Delivery Device</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:notation"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T204</IRI>
+        <Literal>T204</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>http://purl.bioontology.org/ontology/STY/T204</IRI>
+        <Literal xml:lang="en">Eukaryote</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
