@@ -20,6 +20,21 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Age"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_amount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Angina_Pectoris"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Anxiety"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE4_Carrier"/>
     </Declaration>
     <Declaration>
@@ -29,7 +44,13 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Allele_2"/>
     </Declaration>
     <Declaration>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Genotype"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Atrial_Fibrillation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#BECK_Anxiety"/>
@@ -38,13 +59,16 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Big_F"/>
     </Declaration>
     <Declaration>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Blood"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CES-D"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#COPD"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
@@ -77,6 +101,9 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Carotid_Stenosis"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
     </Declaration>
     <Declaration>
@@ -86,7 +113,7 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cognitive_Screening_Tests"/>
     </Declaration>
     <Declaration>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cohort"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
@@ -98,16 +125,34 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date_Diagnosis"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Delirium"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dementia_Medication"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Depression"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diabetes_Mellitus"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diagnoses"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dutch_Healthy_Diet_Score"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_Category"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_level"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Endocrine_Disorders"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#FFQ"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GAD"/>
@@ -152,10 +197,31 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#HCV_Manual_R"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Heart_Failure"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#History_of_Alcohol_Abuse"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hormonal_Therapy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypercholesterolemia"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hyperlipedemia"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypertension"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hyperthyroid_Function"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypothyroid_Function"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV"/>
@@ -171,6 +237,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Kidney_Disorder"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Left_MTA_Bilateral"/>
@@ -206,7 +275,10 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
     </Declaration>
     <Declaration>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Mediterranean_diet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Memory"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
@@ -215,10 +287,16 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds_Count"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Myocardial_Infarction"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#NPI"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Normal_Appearing_White_Matter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Nutrition"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
@@ -233,10 +311,31 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PHQ-9"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pacemaker"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Packyears"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Patient"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Perivascular_Spaces"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Plasma"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
@@ -254,16 +353,40 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SF-36"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Sleep"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Amount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Behaviour"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Habits"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroke"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Symbol_Digit_Substitution_Test"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TIA"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
     </Declaration>
     <Declaration>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Vital_Sign"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Fazekas"/>
@@ -275,7 +398,13 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Word_List"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dotter/stent_Placement"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
@@ -683,6 +812,26 @@
         <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T055"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_amount"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Angina_Pectoris"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Anxiety"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE4_Carrier"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
     </SubClassOf>
@@ -695,8 +844,16 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ApoE_Genotype"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Atrial_Fibrillation"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Word_List"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#BECK_Anxiety"/>
@@ -707,20 +864,24 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Blood"/>
-        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Word_List"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CES-D"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#COPD"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF"/>
-        <Class IRI="http://purl.bioontology.org/ontology/STY/T034"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CSF_Assay"/>
@@ -748,19 +909,23 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Drugs"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Carotid_Stenosis"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
@@ -771,8 +936,8 @@
         <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cohort"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T098"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
@@ -787,12 +952,28 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Date"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Delirium"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dementia_Medication"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Depression"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diabetes_Mellitus"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Endocrine_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Diagnoses"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dutch_Healthy_Diet_Score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Nutrition"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_Category"/>
@@ -801,6 +982,14 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Education_level"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Endocrine_Disorders"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#FFQ"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Nutrition"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#GAD"/>
@@ -859,12 +1048,40 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Heart_Failure"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hippocampal_Volume"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#History_of_Alcohol_Abuse"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hormonal_Therapy"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypercholesterolemia"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hyperlipedemia"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypertension"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Risk_Factors"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hyperthyroid_Function"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Endocrine_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Hypothyroid_Function"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Endocrine_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ICV"/>
@@ -885,6 +1102,10 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Intracranial_Volume"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Kidney_Disorder"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Left_MTA_Bilateral"/>
@@ -931,8 +1152,12 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Clinical_Information"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Mediterranean_diet"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Nutrition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Memory"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
@@ -943,6 +1168,10 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Myocardial_Infarction"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#NPI"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
@@ -951,12 +1180,16 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Nutrition"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T056"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Medication"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PET"/>
@@ -967,20 +1200,48 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pacemaker"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Other_Cardiac_Diseases"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Packyears"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Behaviour"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Patient"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T016"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Perivascular_Spaces"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
-        <Class IRI="http://purl.bioontology.org/ontology/STY/T033"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T028"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Plasma"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Memory"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychopharmaca"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medication_Use"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T200"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
@@ -995,20 +1256,52 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Sleep"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T056"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Behaviour"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Amount"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Behaviour"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Behaviour"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T055"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Smoking_Habits"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Somatic_Disorders"/>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Comorbidity"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroke"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Symbol_Digit_Substitution_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TIA"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Vital_Sign"/>
-        <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#WMH_Fazekas"/>
@@ -1023,8 +1316,16 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Word_List"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Memory"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dotter/stent_Placement"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cardiovascular_Disorders"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
