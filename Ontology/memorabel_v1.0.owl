@@ -17,6 +17,18 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ARWMC"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Delayed"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Delayed_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Immediate"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Immediate_Z-score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Age"/>
     </Declaration>
     <Declaration>
@@ -27,6 +39,21 @@
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_amount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_Beta_1-40"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_Beta_1-42"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Abnormal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Angina_Pectoris"/>
@@ -60,6 +87,21 @@
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Delayed"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Delayed_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Immediate"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Immediate_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Recognition"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
@@ -248,6 +290,9 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MINI_Anxiety_Interview"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MMSE_Total_Score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
     </Declaration>
     <Declaration>
@@ -285,6 +330,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds_Count"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Mini_Mental_State_Exam"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Myocardial_Infarction"/>
@@ -326,16 +374,52 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Pharmacogenetics_Findings"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Phosphorylated_Tau"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Plasma"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Type"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Type"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Delayed"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Delayed_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Immediate"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Immediate_Z-score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Type"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
@@ -350,7 +434,25 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Right_MTA_Bilateral"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SDST"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SDST_Z-score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SF-36"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Abnormal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Cut-off"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Region_of_Interest"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Sleep"/>
@@ -374,6 +476,30 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroke"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Interference"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Interference_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_1_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_2"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_2_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_3"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_3_Z-score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
     </Declaration>
     <Declaration>
@@ -383,7 +509,22 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TIA"/>
     </Declaration>
     <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-A"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-A_Z-score"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-B"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-B_Z-score"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Tau"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
@@ -402,6 +543,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_beta_42/40"/>
     </Declaration>
     <Declaration>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dotter/stent_Placement"/>
@@ -788,7 +932,22 @@
         <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#belongs_to"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_age"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_date"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_prescription"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_rating_scales"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_risk_factor"/>
     </Declaration>
     <Declaration>
         <AnnotationProperty abbreviatedIRI="skos:notation"/>
@@ -808,6 +967,22 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#White_Matter_Hyperintensities"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Delayed"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Delayed_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Immediate"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#AVLT_Immediate_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Auditory_Verbal_Learning_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Age"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T032"/>
     </SubClassOf>
@@ -822,6 +997,26 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_amount"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Alcohol_Usage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_Beta_1-40"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_Beta_1-42"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#PET"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Abnormal"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Angina_Pectoris"/>
@@ -866,6 +1061,26 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Body_Mass_Index"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T201"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Delayed"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Delayed_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Immediate"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Immediate_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_WL_Recognition"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#CERAD_Word_List"/>
@@ -1116,6 +1331,10 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MMSE_Total_Score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Mini_Mental_State_Exam"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Imaging"/>
     </SubClassOf>
@@ -1166,6 +1385,10 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds_Count"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Microbleeds"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Mini_Mental_State_Exam"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cognitive_Screening_Tests"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Myocardial_Infarction"/>
@@ -1220,20 +1443,68 @@
         <Class IRI="http://purl.bioontology.org/ontology/STY/T028"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Phosphorylated_Tau"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Plasma"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Type"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Attention_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Type"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Executive_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Delayed"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Delayed_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Immediate"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Immediate_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Memory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Type"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Priority_Memory_Test"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Psychiatric_Disorders"/>
@@ -1252,8 +1523,32 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Medial_Temporal_Lobe_Atrophy"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SDST"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Symbol_Digit_Substitution_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SDST_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Symbol_Digit_Substitution_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SF-36"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Rating_Scales"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Abnormal"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Cut-off"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#SUVR_Region_of_Interest"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_PET_Measures"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Sleep"/>
@@ -1284,6 +1579,38 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Interference"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Interference_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_1"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_1_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_2"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_2_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_3"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Part_3_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Stroop_Test"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Attention_and_Executive_Function"/>
     </SubClassOf>
@@ -1296,8 +1623,28 @@
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Cerebrovascular_Disorders"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-A"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-A_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-B"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#TMT-B_Z-score"/>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Brain_Volume"/>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#MRI_Measures"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Total_Tau"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Trail_Making_Test"/>
@@ -1322,6 +1669,10 @@
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#&apos;Neuropsychological_Examination&apos;"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Amyloid_beta_42/40"/>
+        <Class IRI="http://purl.bioontology.org/ontology/STY/T116"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Dotter/stent_Placement"/>
@@ -1835,6 +2186,30 @@
         <Class IRI="http://purl.bioontology.org/ontology/STY/T204"/>
         <Class IRI="http://purl.bioontology.org/ontology/STY/T001"/>
     </SubClassOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#belongs_to"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_age"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_date"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_prescription"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_rating_scales"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#has_risk_factor"/>
+        <ObjectProperty IRI="topObjectProperty"/>
+    </SubObjectPropertyOf>
     <FunctionalObjectProperty>
         <ObjectProperty IRI="topObjectProperty"/>
     </FunctionalObjectProperty>
