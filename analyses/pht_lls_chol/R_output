@@ -1,0 +1,792 @@
+collaboration = db.Collaboration(
+    name="Memorabel", 
+    encrypted=False,
+    organizations=[mumc, lumc]
+)
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This also installs the package vtg
+> install.packages("C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm\\src", repos = NULL, type="source")
+Installing package into ‘C:/Users/inigo.bermejo/Documents/R/win-library/3.6’
+(as ‘lib’ is unspecified)
+* installing *source* package 'vtg.glm' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+  converting help for package 'vtg.glm'
+    finding HTML links ... done
+    dglm                                    html  
+    writeln                                 html  
+** building package indices
+** testing if installed package can be loaded from temporary location
+*** arch - i386
+*** arch - x64
+** testing if installed package can be loaded from final location
+*** arch - i386
+*** arch - x64
+** testing if installed package keeps a record of temporary installation path
+* DONE (vtg.glm)
+> library('vtg.glm', lib.loc = "C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm\\src")
+Error in library("vtg.glm", lib.loc = "C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm\\src") : 
+  there is no package called ‘vtg.glm’
+> library('vtg.glm', lib.loc = "C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm")
+Error in library("vtg.glm", lib.loc = "C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm") : 
+  there is no package called ‘vtg.glm’
+> vtg.glm::dglm()
+Error in vtg.glm::dglm() : argument "client" is missing, with no default
+> vtg.glm::dglm
+function (client, formula, family = gaussian, tol = 1e-08, maxit = 25) 
+{
+    USE_VERBOSE_OUTPUT <- getOption("vtg.verbose_output", 
+        T)
+    lgr::threshold("debug")
+    image.name <- "harbor.vantage6.ai/vantage/vtg.glm@sha256:bf840d925d45e4b3218463bb6e3ba9aa27e2632d194d4556d6f788846acecbd2"
+    client$set.task.image(image.name, task.name <- "GLM")
+    vtg::log$debug("Initialising.")
+    if (client$use.master.container) {
+        vtg::log$debug(glue::glue("Running `dglm` in master container using image '{image.name}'"))
+        result <- client$call("dglm", formula, family, 
+            tol, maxit)
+        return(result)
+    }
+    master <- list(formula = formula, family = family, iter = 1, 
+        tol = tol, maxit = maxit)
+    repeat {
+        vtg::log$info(glue::glue("--> I am on iteration {master$iter}."))
+        results <- client$call("node_beta", master = master)
+        vtg::log$debug(glue::glue("--> length of results = {length(results)}"))
+        Ds <- lapply(results, as.data.frame)
+        vtg::log$debug("Master beta")
+        master <- vtg.glm::master_beta(master = master, nodes = results)
+        vtg::log$debug(glue::glue("--> length of results = {length(results)}"))
+        results <- client$call("node_deviance", master = master)
+        Ds <- lapply(results, as.data.frame)
+        vtg::log$debug("Master deviance")
+        master <- vtg.glm::master_deviance(nodes = results, master = master)
+        if (master$converged) {
+            vtg::log$debug("Converged.")
+            break
+        }
+    }
+    return(master)
+}
+<bytecode: 0x000000000f3c7b80>
+<environment: namespace:vtg.glm>
+> setup.client <- function() {
++   # Define parameters
++   username <- "inigo"
++   password <- "WelcomeToVantage6"
++   host <- 'https://dev.v6.personalhealthtrain.net'
++   api_path <- '/api'
++   
++   # Create the client
++   client <- vtg::Client$new(host, api_path=api_path)
++   client$authenticate(username, password)
++   
++   return(client)
++ }
+> # Create a client
+> client <- setup.client()
+DEBUG [15:01:08.709] Using API version: 1.0.1 
+> # Set collaboration to Memorabel
+> collaborations <- client$getCollaborations()
+DEBUG [15:01:11.249] Using organization_id 2 
+> collaborationId <- as.numeric(collaborations[collaborations$name == 'Memorabel',]$id)
+> client$setCollaborationId(collaborationId)
+> # vtg.dglm contains the function `dglm`.
+> model_hdlchol <- vtg.glm::dglm(client, formula = hdlchol ~ bmi + sex + age, family="logit",tol= 1e-08)
+DEBUG [15:01:20.238] Initialising. 
+INFO  [15:01:20.240] --> I am on iteration 1. 
+DEBUG [15:01:20.244] Regular call 
+INFO  [15:01:20.742] Task has been assigned id 41 
+INFO  [15:01:20.753]  run id 41 
+  waiting for results for task '/task/41' in 11m
+> # vtg.dglm contains the function `dglm`.
+> model_hdlchol <- vtg.glm::dglm(client, formula = hdlchol ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [15:12:37.388] Initialising. 
+INFO  [15:12:37.394] --> I am on iteration 1. 
+DEBUG [15:12:37.436] Regular call 
+INFO  [15:12:37.732] Task has been assigned id 42 
+INFO  [15:12:37.740]  run id 42 
+  waiting for results for task '/task/42' in 16m
+Restarting R session...
+
+> 
+> # This also installs the package vtg
+> install.packages("C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm\\src", repos = NULL, type="source")
+Installing package into ‘C:/Users/inigo.bermejo/Documents/R/win-library/3.6’
+(as ‘lib’ is unspecified)
+* installing *source* package 'vtg.glm' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+  converting help for package 'vtg.glm'
+    finding HTML links ... done
+    dglm                                    html  
+    writeln                                 html  
+** building package indices
+** testing if installed package can be loaded from temporary location
+*** arch - i386
+*** arch - x64
+** testing if installed package can be loaded from final location
+*** arch - i386
+*** arch - x64
+** testing if installed package keeps a record of temporary installation path
+* DONE (vtg.glm)
+> setup.client <- function() {
++   # Define parameters
++   username <- "inigo"
++   password <- "WelcomeToVantage6"
++   host <- 'https://dev.v6.personalhealthtrain.net'
++   api_path <- '/api'
++   
++   # Create the client
++   client <- vtg::Client$new(host, api_path=api_path)
++   client$authenticate(username, password)
++   
++   return(client)
++ }
+> # Create a client
+> client <- setup.client()
+> # Set collaboration to Memorabel
+> collaborations <- client$getCollaborations()
+> collaborationId <- as.numeric(collaborations[collaborations$name == 'Memorabel',]$id)
+> client$setCollaborationId(collaborationId)
+> # vtg.dglm contains the function `dglm`.
+> model_hdlchol <- vtg.glm::dglm(client, formula = hdlchol ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [15:29:09.870] Initialising. 
+INFO  [15:29:09.900] --> I am on iteration 1. 
+DEBUG [15:29:09.914] Regular call 
+INFO  [15:29:10.237] Task has been assigned id 43 
+INFO  [15:29:10.245]  run id 43 
+  waiting for results for task '/task/43' in 11m
+
+Restarting R session...
+
+> # This also installs the package vtg
+> install.packages("C:\\Users\\inigo.bermejo\\Documents\\Src\\vtg.glm\\src", repos = NULL, type="source")
+Installing package into ‘C:/Users/inigo.bermejo/Documents/R/win-library/3.6’
+(as ‘lib’ is unspecified)
+* installing *source* package 'vtg.glm' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+  converting help for package 'vtg.glm'
+    finding HTML links ... done
+    dglm                                    html  
+    writeln                                 html  
+** building package indices
+** testing if installed package can be loaded from temporary location
+*** arch - i386
+*** arch - x64
+** testing if installed package can be loaded from final location
+*** arch - i386
+*** arch - x64
+** testing if installed package keeps a record of temporary installation path
+* DONE (vtg.glm)
+> setup.client <- function() {
++   # Define parameters
++   username <- "inigo"
++   password <- "WelcomeToVantage6"
++   host <- 'https://dev.v6.personalhealthtrain.net'
++   api_path <- '/api'
++   
++   # Create the client
++   client <- vtg::Client$new(host, api_path=api_path)
++   client$authenticate(username, password)
++   
++   return(client)
++ }
+> # Create a client
+> client <- setup.client()
+> # Set collaboration to Memorabel
+> collaborations <- client$getCollaborations()
+> collaborationId <- as.numeric(collaborations[collaborations$name == 'Memorabel',]$id)
+> client$setCollaborationId(collaborationId)
+> # vtg.dglm contains the function `dglm`.
+> model_hdlchol <- vtg.glm::dglm(client, formula = hdlchol ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [15:42:40.428] Initialising. 
+INFO  [15:42:40.463] --> I am on iteration 1. 
+DEBUG [15:42:40.479] Regular call 
+INFO  [15:42:40.779] Task has been assigned id 44 
+INFO  [15:42:40.786]  run id 44 
+  waiting for results for task '/task/44' in 15m
+> # vtg.dglm contains the function `dglm`.
+> model_hdlchol <- vtg.glm::dglm(client, formula = hdlchol ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [16:23:39.490] Initialising. 
+INFO  [16:23:39.494] --> I am on iteration 1. 
+DEBUG [16:23:39.540] Regular call 
+INFO  [16:23:39.875] Task has been assigned id 45 
+INFO  [16:23:39.880]  run id 45 
+  waiting for results for task '/task/45' in  4s
+INFO  [16:23:44.516] Received 2 results. 
+DEBUG [16:23:44.523] Processing result for site 1 (organization_id=2) 
+DEBUG [16:23:44.532] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000083/input' 
+Loading token from '/mnt/data/task-000000083/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000083/output' 
+ 
+[DONE!]  
+DEBUG [16:23:44.540] Decoding base64 encoded result 
+DEBUG [16:23:44.550] Processing result for site 2 (organization_id=3) 
+DEBUG [16:23:44.557] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000084/input' 
+Loading token from '/mnt/data/task-000000084/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000084/output' 
+ 
+[DONE!]  
+DEBUG [16:23:44.561] Decoding base64 encoded result 
+DEBUG [16:23:44.570] --> length of results = 2 
+DEBUG [16:23:44.579] Master beta 
+DEBUG [16:23:44.589] Starting master Beta. 
+DEBUG [16:23:44.599] Merging node calculation to update new Betas. 
+DEBUG [16:23:44.611] Updating the Betas. 
+DEBUG [16:23:44.629] --> length of results = 2 
+DEBUG [16:23:44.637] Regular call 
+INFO  [16:23:44.876] Task has been assigned id 46 
+INFO  [16:23:44.888]  run id 46 
+  waiting for results for task '/task/46' in  4s
+INFO  [16:23:49.608] Received 2 results. 
+DEBUG [16:23:49.611] Processing result for site 1 (organization_id=2) 
+DEBUG [16:23:49.613] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000085/input' 
+Loading token from '/mnt/data/task-000000085/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000085/output' 
+ 
+[DONE!]  
+DEBUG [16:23:49.616] Decoding base64 encoded result 
+DEBUG [16:23:49.619] Processing result for site 2 (organization_id=3) 
+DEBUG [16:23:49.621] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000086/input' 
+Loading token from '/mnt/data/task-000000086/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000086/output' 
+ 
+[DONE!]  
+DEBUG [16:23:49.623] Decoding base64 encoded result 
+DEBUG [16:23:49.626] Master deviance 
+DEBUG [16:23:49.629] Starting master deviance. 
+DEBUG [16:23:49.631] Model hasn't converged. Max iteration not reached. 
+INFO  [16:23:49.634] --> I am on iteration 2. 
+DEBUG [16:23:49.637] Regular call 
+INFO  [16:23:49.869] Task has been assigned id 47 
+INFO  [16:23:49.877]  run id 47 
+  waiting for results for task '/task/47' in  5s
+INFO  [16:23:54.566] Received 2 results. 
+DEBUG [16:23:54.568] Processing result for site 1 (organization_id=2) 
+DEBUG [16:23:54.571] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000087/input' 
+Loading token from '/mnt/data/task-000000087/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000087/output' 
+ 
+[DONE!]  
+DEBUG [16:23:54.574] Decoding base64 encoded result 
+DEBUG [16:23:54.578] Processing result for site 2 (organization_id=3) 
+DEBUG [16:23:54.582] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000088/input' 
+Loading token from '/mnt/data/task-000000088/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000088/output' 
+ 
+[DONE!]  
+DEBUG [16:23:54.586] Decoding base64 encoded result 
+DEBUG [16:23:54.590] --> length of results = 2 
+DEBUG [16:23:54.596] Master beta 
+DEBUG [16:23:54.599] Starting master Beta. 
+DEBUG [16:23:54.602] Merging node calculation to update new Betas. 
+DEBUG [16:23:54.606] Updating the Betas. 
+DEBUG [16:23:54.610] --> length of results = 2 
+DEBUG [16:23:54.615] Regular call 
+INFO  [16:23:54.835] Task has been assigned id 48 
+INFO  [16:23:54.843]  run id 48 
+  waiting for results for task '/task/48' in  6s
+INFO  [16:24:00.572] Received 2 results. 
+DEBUG [16:24:00.579] Processing result for site 1 (organization_id=2) 
+DEBUG [16:24:00.582] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000089/input' 
+Loading token from '/mnt/data/task-000000089/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000089/output' 
+ 
+[DONE!]  
+DEBUG [16:24:00.584] Decoding base64 encoded result 
+DEBUG [16:24:00.586] Processing result for site 2 (organization_id=3) 
+DEBUG [16:24:00.589] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000090/input' 
+Loading token from '/mnt/data/task-000000090/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000090/output' 
+ 
+[DONE!]  
+DEBUG [16:24:00.591] Decoding base64 encoded result 
+DEBUG [16:24:00.596] Master deviance 
+DEBUG [16:24:00.598] Starting master deviance. 
+DEBUG [16:24:00.610] Model converged. Collecting output. 
+DEBUG [16:24:00.614] Converged. 
+> View(model_hdlchol)
+> model_try <- vtg.glm::dglm(client, formula = triglycerides ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [16:24:46.069] Initialising. 
+INFO  [16:24:46.072] --> I am on iteration 1. 
+DEBUG [16:24:46.076] Regular call 
+INFO  [16:24:46.426] Task has been assigned id 49 
+INFO  [16:24:46.435]  run id 49 
+  waiting for results for task '/task/49' in  4s
+INFO  [16:24:51.024] Received 2 results. 
+DEBUG [16:24:51.027] Processing result for site 1 (organization_id=2) 
+DEBUG [16:24:51.031] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000091/input' 
+Loading token from '/mnt/data/task-000000091/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000091/output' 
+ 
+[DONE!]  
+DEBUG [16:24:51.034] Decoding base64 encoded result 
+DEBUG [16:24:51.037] Processing result for site 2 (organization_id=3) 
+DEBUG [16:24:51.039] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000092/input' 
+Loading token from '/mnt/data/task-000000092/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000092/output' 
+ 
+[DONE!]  
+DEBUG [16:24:51.044] Decoding base64 encoded result 
+DEBUG [16:24:51.050] --> length of results = 2 
+DEBUG [16:24:51.055] Master beta 
+DEBUG [16:24:51.058] Starting master Beta. 
+DEBUG [16:24:51.061] Merging node calculation to update new Betas. 
+DEBUG [16:24:51.064] Updating the Betas. 
+DEBUG [16:24:51.067] --> length of results = 2 
+DEBUG [16:24:51.070] Regular call 
+INFO  [16:24:51.363] Task has been assigned id 50 
+INFO  [16:24:51.371]  run id 50 
+  waiting for results for task '/task/50' in  4s
+INFO  [16:24:55.931] Received 2 results. 
+DEBUG [16:24:55.934] Processing result for site 1 (organization_id=2) 
+DEBUG [16:24:55.937] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000093/input' 
+Loading token from '/mnt/data/task-000000093/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000093/output' 
+ 
+[DONE!]  
+DEBUG [16:24:55.939] Decoding base64 encoded result 
+DEBUG [16:24:55.942] Processing result for site 2 (organization_id=3) 
+DEBUG [16:24:55.944] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000094/input' 
+Loading token from '/mnt/data/task-000000094/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000094/output' 
+ 
+[DONE!]  
+DEBUG [16:24:55.948] Decoding base64 encoded result 
+DEBUG [16:24:55.952] Master deviance 
+DEBUG [16:24:55.955] Starting master deviance. 
+DEBUG [16:24:55.958] Model hasn't converged. Max iteration not reached. 
+INFO  [16:24:55.961] --> I am on iteration 2. 
+DEBUG [16:24:55.966] Regular call 
+INFO  [16:24:56.177] Task has been assigned id 51 
+INFO  [16:24:56.182]  run id 51 
+  waiting for results for task '/task/51' in  4s
+INFO  [16:25:00.701] Received 2 results. 
+DEBUG [16:25:00.704] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:00.707] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000095/input' 
+Loading token from '/mnt/data/task-000000095/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000095/output' 
+ 
+[DONE!]  
+DEBUG [16:25:00.709] Decoding base64 encoded result 
+DEBUG [16:25:00.712] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:00.714] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000096/input' 
+Loading token from '/mnt/data/task-000000096/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000096/output' 
+ 
+[DONE!]  
+DEBUG [16:25:00.717] Decoding base64 encoded result 
+DEBUG [16:25:00.720] --> length of results = 2 
+DEBUG [16:25:00.730] Master beta 
+DEBUG [16:25:00.735] Starting master Beta. 
+DEBUG [16:25:00.740] Merging node calculation to update new Betas. 
+DEBUG [16:25:00.745] Updating the Betas. 
+DEBUG [16:25:00.750] --> length of results = 2 
+DEBUG [16:25:00.754] Regular call 
+INFO  [16:25:00.979] Task has been assigned id 52 
+INFO  [16:25:00.985]  run id 52 
+  waiting for results for task '/task/52' in  4s
+INFO  [16:25:05.621] Received 2 results. 
+DEBUG [16:25:05.624] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:05.627] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000097/input' 
+Loading token from '/mnt/data/task-000000097/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000097/output' 
+ 
+[DONE!]  
+DEBUG [16:25:05.629] Decoding base64 encoded result 
+DEBUG [16:25:05.632] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:05.635] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000098/input' 
+Loading token from '/mnt/data/task-000000098/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000098/output' 
+ 
+[DONE!]  
+DEBUG [16:25:05.637] Decoding base64 encoded result 
+DEBUG [16:25:05.641] Master deviance 
+DEBUG [16:25:05.646] Starting master deviance. 
+DEBUG [16:25:05.651] Model converged. Collecting output. 
+DEBUG [16:25:05.654] Converged. 
+> model_totchol <- vtg.glm::dglm(client, formula = totchol ~ bmi + sex + age, family="gaussian",tol= 1e-08)
+DEBUG [16:25:27.946] Initialising. 
+INFO  [16:25:27.951] --> I am on iteration 1. 
+DEBUG [16:25:27.957] Regular call 
+INFO  [16:25:28.179] Task has been assigned id 53 
+INFO  [16:25:28.184]  run id 53 
+  waiting for results for task '/task/53' in  4s
+INFO  [16:25:32.882] Received 2 results. 
+DEBUG [16:25:32.884] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:32.886] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000099/input' 
+Loading token from '/mnt/data/task-000000099/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000099/output' 
+ 
+[DONE!]  
+DEBUG [16:25:32.889] Decoding base64 encoded result 
+DEBUG [16:25:32.891] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:32.894] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000100/input' 
+Loading token from '/mnt/data/task-000000100/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000100/output' 
+ 
+[DONE!]  
+DEBUG [16:25:32.896] Decoding base64 encoded result 
+DEBUG [16:25:32.899] --> length of results = 2 
+DEBUG [16:25:32.902] Master beta 
+DEBUG [16:25:32.905] Starting master Beta. 
+DEBUG [16:25:32.908] Merging node calculation to update new Betas. 
+DEBUG [16:25:32.911] Updating the Betas. 
+DEBUG [16:25:32.914] --> length of results = 2 
+DEBUG [16:25:32.918] Regular call 
+INFO  [16:25:33.149] Task has been assigned id 54 
+INFO  [16:25:33.155]  run id 54 
+  waiting for results for task '/task/54' in  4s
+INFO  [16:25:37.749] Received 2 results. 
+DEBUG [16:25:37.752] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:37.755] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000101/input' 
+Loading token from '/mnt/data/task-000000101/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000101/output' 
+ 
+[DONE!]  
+DEBUG [16:25:37.757] Decoding base64 encoded result 
+DEBUG [16:25:37.760] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:37.765] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000102/input' 
+Loading token from '/mnt/data/task-000000102/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000102/output' 
+ 
+[DONE!]  
+DEBUG [16:25:37.767] Decoding base64 encoded result 
+DEBUG [16:25:37.771] Master deviance 
+DEBUG [16:25:37.774] Starting master deviance. 
+DEBUG [16:25:37.777] Model hasn't converged. Max iteration not reached. 
+INFO  [16:25:37.782] --> I am on iteration 2. 
+DEBUG [16:25:37.785] Regular call 
+INFO  [16:25:38.036] Task has been assigned id 55 
+INFO  [16:25:38.043]  run id 55 
+  waiting for results for task '/task/55' in  5s
+INFO  [16:25:42.813] Received 2 results. 
+DEBUG [16:25:42.817] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:42.819] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000103/input' 
+Loading token from '/mnt/data/task-000000103/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000103/output' 
+ 
+[DONE!]  
+DEBUG [16:25:42.825] Decoding base64 encoded result 
+DEBUG [16:25:42.828] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:42.831] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000104/input' 
+Loading token from '/mnt/data/task-000000104/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_beta 
+Writing data to '/mnt/data/task-000000104/output' 
+ 
+[DONE!]  
+DEBUG [16:25:42.834] Decoding base64 encoded result 
+DEBUG [16:25:42.837] --> length of results = 2 
+DEBUG [16:25:42.841] Master beta 
+DEBUG [16:25:42.844] Starting master Beta. 
+DEBUG [16:25:42.847] Merging node calculation to update new Betas. 
+DEBUG [16:25:42.850] Updating the Betas. 
+DEBUG [16:25:42.853] --> length of results = 2 
+DEBUG [16:25:42.855] Regular call 
+INFO  [16:25:43.069] Task has been assigned id 56 
+INFO  [16:25:43.073]  run id 56 
+  waiting for results for task '/task/56' in  5s
+INFO  [16:25:48.759] Received 2 results. 
+DEBUG [16:25:48.762] Processing result for site 1 (organization_id=2) 
+DEBUG [16:25:48.764] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000105/input' 
+Loading token from '/mnt/data/task-000000105/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000105/output' 
+ 
+[DONE!]  
+DEBUG [16:25:48.767] Decoding base64 encoded result 
+DEBUG [16:25:48.770] Processing result for site 2 (organization_id=3) 
+DEBUG [16:25:48.772] Log:
+-----------------------------------------
+  Welcome to the Vantage Infrastructure
+-----------------------------------------
+Using '/mnt/data/database.csv' as database 
+Loading data from '/mnt/data/task-000000106/input' 
+Loading token from '/mnt/data/task-000000106/token' 
+Dispatching ... 
+Running a (mere) regular container. 
+Calling RPC_node_deviance 
+Writing data to '/mnt/data/task-000000106/output' 
+ 
+[DONE!]  
+DEBUG [16:25:48.775] Decoding base64 encoded result 
+DEBUG [16:25:48.778] Master deviance 
+DEBUG [16:25:48.780] Starting master deviance. 
+DEBUG [16:25:48.783] Model converged. Collecting output. 
+DEBUG [16:25:48.789] Converged. 
+> summary(model_hdlchol)
+              Length Class   Mode   
+converged      1     -none-  logical
+coefficients   4     -none-  numeric
+Std.Error      4     -none-  numeric
+pvalue         4     -none-  numeric
+zvalue         4     -none-  numeric
+dispersion     1     -none-  numeric
+est.disp       1     -none-  logical
+formula        3     formula call   
+family        11     family  list   
+iter           1     -none-  numeric
+deviance       1     -none-  numeric
+null.deviance  1     -none-  numeric
+nobs           1     -none-  numeric
+nvars          1     -none-  numeric
+> summary(model_try)
+              Length Class   Mode   
+converged      1     -none-  logical
+coefficients   4     -none-  numeric
+Std.Error      4     -none-  numeric
+pvalue         4     -none-  numeric
+zvalue         4     -none-  numeric
+dispersion     1     -none-  numeric
+est.disp       1     -none-  logical
+formula        3     formula call   
+family        11     family  list   
+iter           1     -none-  numeric
+deviance       1     -none-  numeric
+null.deviance  1     -none-  numeric
+nobs           1     -none-  numeric
+nvars          1     -none-  numeric
+> summary(model_totchol)
+              Length Class   Mode   
+converged      1     -none-  logical
+coefficients   4     -none-  numeric
+Std.Error      4     -none-  numeric
+pvalue         4     -none-  numeric
+zvalue         4     -none-  numeric
+dispersion     1     -none-  numeric
+est.disp       1     -none-  logical
+formula        3     formula call   
+family        11     family  list   
+iter           1     -none-  numeric
+deviance       1     -none-  numeric
+null.deviance  1     -none-  numeric
+nobs           1     -none-  numeric
+nvars          1     -none-  numeric
+> model_hdlchol$coefficients
+  (Intercept)           bmi       sexmale           age 
+ 2.4360032798 -0.0346771653 -0.3040737295  0.0004006767 
+> model_try$coefficients
+(Intercept)         bmi     sexmale         age 
+-0.68862279  0.06737459  0.38981989  0.01019226 
+> model_totchol$coefficients
+ (Intercept)          bmi      sexmale          age 
+ 4.774979197  0.017048446 -0.217382172  0.008206971 
+> model_hdlchol$formula
+hdlchol ~ bmi + sex + age
+> model_try$formula
+triglycerides ~ bmi + sex + age
+> model_totchol$formula
