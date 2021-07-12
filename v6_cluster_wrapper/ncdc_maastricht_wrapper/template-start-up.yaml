@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: start-up
+  labels:
+    app: start-up-app
+  namespace: ncdc-pht
+spec:
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: "ncdc-pht-storage"
+  containers:
+  - name: input-watcher
+    image: busybox:latest
+    command: ['sh', '-c', 'until [[ -f /mnt/data/data.json ]]; do echo waiting for the input; sleep 10; done;']
+    volumeMounts:
+    - name: data
+      mountPath: "/mnt/data"
+      subPath: "."
+  restartPolicy: Never
