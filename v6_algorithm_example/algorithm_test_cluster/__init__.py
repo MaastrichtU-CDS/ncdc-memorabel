@@ -75,7 +75,9 @@ def RPC_test_connection(data, weights):
         info("Trying the connection to the XNAT")
         projects = -1
         with xnat.connect(
-            f'{os.getenv("HOST")}:{os.getenv("PORT")}/{os.getenv("XNAT_HOST")}',
+            # If using a proxy server:
+            #f  '{os.getenv("HOST")}:{os.getenv("PORT")}/{os.getenv("XNAT_HOST")}',
+            os.getenv("XNAT_HOST"),
             user=os.getenv('XNAT_USER'),
             password=os.getenv('XNAT_PASSWORD')
         ) as session:
