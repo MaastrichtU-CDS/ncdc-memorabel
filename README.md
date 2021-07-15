@@ -11,3 +11,7 @@ The EMIF-AD ontology provides a starting point for a formal representation of th
 ## Data Harmonization
 
 The collaboration between the different cohorts requires an interoperable, maintainable, and reusable data infrastructure.
+
+## Vantage6 Cluster Wrapper
+
+A POC for a docker wrapper acting as the bridge between the vantage6 node and another server/cluster/hpc that will run the algorithm.
