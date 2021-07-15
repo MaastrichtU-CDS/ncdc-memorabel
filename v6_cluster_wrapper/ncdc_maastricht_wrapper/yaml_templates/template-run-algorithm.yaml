@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-container
+  labels:
+    app: test-container-app
+  namespace: ncdc-pht
+spec:
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: "ncdc-pht-storage"
+  containers:
+  - name: algorithm-container
+    image: pmateus/isolated-algorithm-test
+    volumeMounts:
+    - name: data
+      mountPath: "/mnt/data"
+      subPath: "."
+    envFrom:
+      - configMapRef:
+          name: ncdc-pht-config
+  restartPolicy: Never

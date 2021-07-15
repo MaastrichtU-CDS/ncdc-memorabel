@@ -10,7 +10,8 @@ FROM harbor.vantage6.ai/algorithms/algorithm-base
 ARG PKG_NAME="ncdc_maastricht_wrapper"
 
 RUN apt-get update
-RUN apt-get install -y apt-utils gcc libpq-dev wget iputils-ping
+#RUN apt-get install -y apt-utils gcc libpq-dev wget iputils-ping tar
+RUN apt-get install -y wget tar
 
 # Install the oc client
 RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz && tar xvf oc.tar.gz
@@ -19,9 +20,11 @@ RUN mv oc kubectl /usr/local/bin/
 # This will install your algorithm into this image.
 COPY . /app
 RUN pip install --no-cache-dir /app
+RUN pip install -r /app/requirements.txt
 
 # This will run your algorithm when the Docker container is started. The
 # wrapper takes care of the IO handling (communication between node and
 # algorithm). You dont need to change anything here.
+ENV TEMPLATES_FOLDER_PATH="/app/ncdc_maastricht_wrapper/json_templates"
 ENV PKG_NAME=${PKG_NAME}
 CMD python -c "from ncdc_maastricht_wrapper.docker_wrapper import docker_wrapper; docker_wrapper('${PKG_NAME}')"

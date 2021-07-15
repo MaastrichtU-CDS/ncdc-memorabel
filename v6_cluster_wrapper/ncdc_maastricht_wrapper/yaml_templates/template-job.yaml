@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example
+  namespace: ncdc-pht
+spec:
+  parallelism: 1
+  backoffLimit: 1
+  selector: {}
+  template:
+    metadata:
+      name: test-job
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: "ncdc-pht-storage"
+      containers:
+      - name: input-watcher
+        image: busybox
+        command: ['sh', '-c', 'until [[ -f /mnt/data/data2.json ]]; do echo waiting for the input; sleep 10; done;']
+        volumeMounts:
+        - name: data
+          mountPath: "/mnt/data"
+          subPath: "."
+      - name: input-watcher-2
+        image: busybox
+        command: ['sh', '-c', 'until [[ -f /mnt/data/data.json ]]; do echo waiting for the input; sleep 10; done;']
+        volumeMounts:
+        - name: data
+          mountPath: "/mnt/data"
+          subPath: "."
+      restartPolicy: Never

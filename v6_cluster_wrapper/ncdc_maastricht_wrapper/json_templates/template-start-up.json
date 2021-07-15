@@ -22,16 +22,11 @@
       {
         "name": "input-watcher",
         "image": "busybox",
-        "command": [
-          "sh",
-          "-c",
-          "until [[ -f /mnt/data/data.json ]]; do echo waiting for the input; sleep 10; done;"
-        ],
+        "command": [],
         "volumeMounts": [
           {
             "name": "data",
-            "mountPath": "/mnt/data",
-            "subPath": "."
+            "mountPath": "/mnt/data"
           }
         ]
       }

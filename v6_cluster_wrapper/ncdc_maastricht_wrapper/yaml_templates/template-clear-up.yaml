@@ -11,7 +11,7 @@ spec:
     persistentVolumeClaim:
       claimName: "ncdc-pht-storage"
   containers:
-  - name: input-watcher
+  - name: output-watcher
     image: busybox:latest
     command: ['sh', '-c', 'until [[ ! -f /mnt/data/data.json ]]; do echo waiting to clear up; sleep 10; done;']
     volumeMounts:

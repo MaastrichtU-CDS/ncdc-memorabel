@@ -2,9 +2,9 @@
     "apiVersion": "v1",
     "kind": "Pod",
     "metadata": {
-      "name": "clear-up",
+      "name": "run-algorithm",
       "labels": {
-        "app": "clear-up-app"
+        "app": "run-algorithm-app"
       },
       "namespace": "ncdc-pht"
     },
@@ -19,18 +19,19 @@
       ],
       "containers": [
         {
-          "name": "input-watcher",
-          "image": "busybox:latest",
-          "command": [
-            "sh",
-            "-c",
-            "until [[ ! -f /mnt/data/data.json ]]; do echo waiting to clear up; sleep 10; done;"
-          ],
+          "name": "algorithm-container",
+          "image": "",
           "volumeMounts": [
             {
               "name": "data",
-              "mountPath": "/mnt/data",
-              "subPath": "."
+              "mountPath": "/mnt/data"
+            }
+          ],
+          "envFrom": [
+            {
+              "configMapRef": {
+                "name": "ncdc-pht-config"
+              }
             }
           ]
         }
