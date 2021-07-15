@@ -29,7 +29,7 @@ The PHT infrastructure can be launched locally (allowing to test this approach m
 
 ### Algorithm example
 
-An algorithm example to quickly test the process can be found in `algorithm_example`.
+An algorithm example to quickly test the process can be found in `v6_algorithm_example`.
 The docker image is available under the following tag: `pmateus/test-cluster` (the method name would be `test_connection`)
 
 ### Creating a new task
