@@ -20,5 +20,6 @@ setup(
     python_requires='>=3.6',
     install_requires=[
         'vantage6-client',
+        'openshift-client==1.0.13'
     ]
 )

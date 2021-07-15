@@ -20,7 +20,6 @@ RUN mv oc kubectl /usr/local/bin/
 # This will install your algorithm into this image.
 COPY . /app
 RUN pip install --no-cache-dir /app
-RUN pip install -r /app/requirements.txt
 
 # This will run your algorithm when the Docker container is started. The
 # wrapper takes care of the IO handling (communication between node and
