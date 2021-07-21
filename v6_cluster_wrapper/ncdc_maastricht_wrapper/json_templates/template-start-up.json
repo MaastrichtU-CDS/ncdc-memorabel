@@ -21,7 +21,7 @@
     "containers": [
       {
         "name": "input-watcher",
-        "image": "busybox",
+        "image": "busybox:1.33",
         "command": [],
         "volumeMounts": [
           {

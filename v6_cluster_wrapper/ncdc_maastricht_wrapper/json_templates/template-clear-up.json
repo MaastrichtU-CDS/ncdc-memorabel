@@ -20,7 +20,7 @@
       "containers": [
         {
           "name": "output-watcher",
-          "image": "busybox:latest",
+          "image": "busybox:1.33",
           "command": [],
           "volumeMounts": [
             {
