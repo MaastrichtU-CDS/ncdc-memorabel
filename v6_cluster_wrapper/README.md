@@ -3,6 +3,8 @@
 The NCDC Memorabel project requires more computational power to certain tasks that can't be provided by the default server running the vantage6 node. 
 Being able to run an algorithm in a different machine while using the vantage6 infrastructure requires some adaptations.
 
+:bangbang: The V6 node image required some changes in order to make the communication with the cluster possible. This algorithm wrapper assumes that the **vantage6 node is running the following image pmateus/vantage6-node-whitelisted:2.0.0** (find more documentation on this version in the following [repository](https://github.com/pedro-cmat/vantage6-node)).
+
 ## Solution
 
 Each cohort will have a default docker image consisting of an adaptation from the usual algorithm wrapper used in vantage6.
