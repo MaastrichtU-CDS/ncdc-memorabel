@@ -1,0 +1,8 @@
+numpy
+scipy
+nipy
+pyparsing
+packaging
+nibabel
+mpmath
+sympy
