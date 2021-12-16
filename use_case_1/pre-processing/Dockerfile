@@ -1,4 +1,23 @@
+FROM vistalab/fsl-v5.0 as fsl
 FROM python:2.7
+
+# Create file structure
+RUN mkdir /usr/local/freesurfer /VBM /fsl
+
+# Copy the FSL files
+# Using directly the 'vistalab/fsl-v5.0' was causing problems
+# when trying to install the necessary python packages
+COPY --from=fsl /usr/share/fsl/5.0 /usr/share/fsl/5.0
+COPY --from=fsl /usr/lib/fsl/5.0 /usr/lib/fsl/5.0
+COPY --from=fsl /usr/share/fsl/data /usr/share/fsl/data
+COPY --from=fsl /usr/lib/ /usr/lib/
+RUN chmod +x /usr/share/fsl/5.0/bin/libnewimage.so
+RUN chmod +x /usr/share/fsl/5.0/bin/libmeshclass.so
+ENV FSLDIR=/usr/share/fsl/5.0
+ENV PATH=$PATH:$FSLDIR
+ENV LD_LIBRARY_PATH=$FSLDIR:/usr/share/fsl/5.0/bin
+ENV FSLOUTPUTTYPE=NIFTI_GZ
+# RUN /bin/bash -c 'source /usr/local/fsl/etc/fslconf/fsl.sh'
 
 # Install the requirements
 COPY requirements.txt ./
@@ -12,26 +31,23 @@ COPY ./license.txt /usr/local/freesurfer/.license
 # Using the freesurfer image as base will take around 10GB of space
 # FROM freesurfer/freesurfer:7.1.1
 
-# Install FSL
-RUN apt-get update && apt-get install -y tar unzip wget 
-#&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN wget -q http://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py
-RUN chmod 775 fslinstaller.py
-RUN /fslinstaller.py -d /usr/local/fsl -q
-
-ENV FSLDIR=/usr/local/fsl
-ENV PATH=$PATH:$FSLDIR
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$FSLDIR
-RUN /bin/bash -c 'source /usr/local/fsl/etc/fslconf/fsl.sh'
-ENV FSLMULTIFILEQUIT=TRUE
-ENV FSLOUTPUTTYPE=NIFTI_GZ
-RUN ln -s /usr/local/fsl/bin/eddy_openmp /usr/local/fsl/bin/eddy
-
 # Copy the necessary files
 COPY ./external_functions /utils
 COPY ./VBM /VBM
 COPY pre_processing.sh import_from_xnat.py upload_to_xnat.py ./
 RUN chmod +x ./pre_processing.sh
+
+# Set the necessary environment variables
+ENV CONFIG=/VBM/GM_2_MNI152GM_1mm.cnf
+ENV VBM_DIR=/VBM
+
+# Import environment variables
+#ENV IMAGES_INPUT = ${IMAGES_INPUT}
+#ENV IMAGES_OUTPUT = ${IMAGES_OUTPUT}
+#ENV XNAT_USER = ${XNAT_USER}
+#ENV XNAT_PASSWORD = ${XNAT_PASSWORD}
+#ENV XNAT_HOST = ${XNAT_HOST}
+#ENV XNAT_PROJECT = ${XNAT_PROJECT}
 
 # Start the service to pre-process the images
 CMD [ "bash" ]
