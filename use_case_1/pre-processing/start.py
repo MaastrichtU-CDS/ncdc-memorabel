@@ -7,6 +7,7 @@ import logging
 JOBS = os.getenv('JOBS') or 1
 INPUT_FOLDER = os.getenv('INPUT')
 OUTPUT_FOLDER = os.getenv('SAVE_PATH')
+LOG_PATH = os.getenv('LOG_PATH')
 
 # mp.cpu_count()
 
@@ -30,7 +31,7 @@ def pre_process(scan):
     )
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='/pre-processing.log', encoding='utf-8', level=logging.DEBUG)
+    logging.basicConfig(filename=f'{LOG_PATH}/pre-processing.log', level=logging.DEBUG)
     logging.info('Starting the process')
     with mp.Pool(processes=int(JOBS)) as pool:
         run = 1

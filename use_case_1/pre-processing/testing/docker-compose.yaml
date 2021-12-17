@@ -7,6 +7,7 @@ services:
       JOBS: 1
       INPUT: /mnt/data
       SAVE_PATH: /mnt/results
+      LOG_PATH: /mnt
     volumes:
       - ./tmp/data:/mnt/data
       - ./tmp/results:/mnt/results

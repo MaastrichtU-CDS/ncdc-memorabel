@@ -30,4 +30,6 @@ spec:
         value: "/mnt/data/input"
       - name: SAVE_PATH
         value: "/mnt/data/output"
+      - name: LOG_PATH
+        value: "/mnt/data/logs"
   restartPolicy: Never
