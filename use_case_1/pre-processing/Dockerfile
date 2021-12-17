@@ -34,7 +34,7 @@ COPY ./license.txt /usr/local/freesurfer/.license
 # Copy the necessary files
 COPY ./external_functions /utils
 COPY ./VBM /VBM
-COPY pre_processing.sh import_from_xnat.py upload_to_xnat.py ./
+COPY pre_processing.sh start.py ./
 RUN chmod +x ./pre_processing.sh
 
 # Set the necessary environment variables
@@ -50,4 +50,4 @@ ENV VBM_DIR=/VBM
 #ENV XNAT_PROJECT = ${XNAT_PROJECT}
 
 # Start the service to pre-process the images
-CMD [ "bash" ]
+CMD [ "python3", "start.py" ]

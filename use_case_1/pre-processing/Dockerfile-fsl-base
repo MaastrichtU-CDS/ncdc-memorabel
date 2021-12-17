@@ -1,0 +1,39 @@
+FROM vistalab/fsl-v5.0
+
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update
+RUN apt-get -y install python3.7 python3-pip
+RUN apt-get -y install python3-pip
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
+RUN update-alternatives --config python3
+RUN apt-get update
+RUN apt-get -y upgrade
+
+RUN mkdir /usr/local/freesurfer /VBM
+COPY ./external_functions /utils
+
+# Install the requirements
+COPY requirements.txt ./
+RUN python3 -m ensurepip --upgrade
+RUN python3.7 -m pip install -r requirements.txt
+
+# Configuring freesurfer
+ENV FREESURFER_HOME=/usr/local/freesurfer
+COPY ./license.txt /usr/local/freesurfer/.license
+
+# Alternative
+# Using the freesurfer image as base will take around 10GB of space
+# FROM freesurfer/freesurfer:7.1.1
+
+# Copy the necessary files
+RUN cd /
+COPY ./VBM /VBM
+COPY pre_processing.sh import_from_xnat.py upload_to_xnat.py ./
+RUN chmod +x ./pre_processing.sh
+
+# Start the service to pre-process the images
+CMD [ "bash" ]
+#CMD [ "python3 init.py" ]

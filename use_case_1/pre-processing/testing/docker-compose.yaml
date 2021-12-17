@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  preprocessing:
+    image: pmateus/memorabel-mri-preprocessing:0.0.1
+    environment:
+      JOBS: 1
+      INPUT: /mnt/data
+      SAVE_PATH: /mnt/results
+    volumes:
+      - ./tmp/data:/mnt/data
+      - ./tmp/results:/mnt/results

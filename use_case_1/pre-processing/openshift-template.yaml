@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: preprocessing
+  namespace: ncdc-pre-processing
+spec:
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: "ncdc-pre-processing"
+  containers:
+  # - name: input-watcher
+  #   image: busybox
+  #   command: ['sh', '-c', 'until [[ -d /mnt/data/input ]]; do echo waiting for the input; sleep 10; done;']
+  #   volumeMounts:
+  #   - name: data
+  #     mountPath: "/mnt/data"
+  #     subPath: "."
+  - name: pre-processing
+    image: pmateus/memorabel-mri-preprocessing:0.0.1
+    command: ['bash', '-c', 'until [ -d /mnt/data/input ]; do echo waiting for the input; sleep 10; done; python3 start.py;']
+    volumeMounts:
+    - name: data
+      mountPath: "/mnt/data"
+      subPath: "."
+    env:
+      - name: JOBS
+        value: "5"
+      - name: INPUT
+        value: "/mnt/data/input"
+      - name: SAVE_PATH
+        value: "/mnt/data/output"
+  restartPolicy: Never
