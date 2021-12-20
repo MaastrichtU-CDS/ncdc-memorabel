@@ -21,3 +21,10 @@ In a federated infrastructure, the computational requirements for the different 
 Usually more intensive tasks would be handled by a GPU cluster, a HPC, or another solution that can be momentarily reserved to execute it.
 However, in a federated context the first point of contact won't be a machine with such computational power.
 With this challenge in mind, this POC provides a docker wrapper acting as the bridge between the vantage6 node and another server/cluster/hpc that will run the algorithm.
+
+## Use Cases
+
+### Use case 1
+
+Includes the tools for the different steps necessary to have the data and methods ready for use case 1.
+The federated algorithm makes use of the vantage6 cluster wrapper.
