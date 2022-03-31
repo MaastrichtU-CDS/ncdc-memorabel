@@ -1,9 +1,0 @@
-__pycache__/
-database.ini
-*.pgsql
-omop_scripts/
-vocabularies/
-vocabular*.zip
-postgresql.zip
-mappings/
-__MACOSX
