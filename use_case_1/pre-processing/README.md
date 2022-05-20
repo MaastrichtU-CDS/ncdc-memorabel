@@ -12,7 +12,7 @@ Run the `./Dockerfile` in order to create the docker image to run the pipeline.
 
 ### Running
 
-A docker image is available under the following tag: `pmateus/memorabel-mri-preprocessing:0.0.1`.
+A docker image is available under the following tag: `pmateus/memorabel-mri-preprocessing:0.0.12`.
 The following environment variables should be provided to the container:
 - `JOBS`: number of parallel jobs to run.
 - `INPUT_FOLDER`: input folder where the data will be placed in the expected format.
