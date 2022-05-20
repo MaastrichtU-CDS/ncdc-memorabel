@@ -17,3 +17,5 @@ The following environment variables should be provided to the container:
 - `JOBS`: number of parallel jobs to run.
 - `INPUT_FOLDER`: input folder where the data will be placed in the expected format.
 - `SAVE_PATH`: output folder to store the results.
+
+Note: The current version doesn't use the multiprocessing tools due to problems in the running environment. However, the script can be initialized in parallel multiple times and the multiprocessing code is still available (commented).
