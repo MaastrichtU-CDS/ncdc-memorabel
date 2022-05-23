@@ -17,9 +17,7 @@ spec:
   #     mountPath: "/mnt/data"
   #     subPath: "."
   - name: pre-processing
-    # 0.0.12: Working version to run the VBM pipeline
-    # 0.0.13: Included the quality check scripts
-    image: pmateus/memorabel-mri-preprocessing:0.0.13
+    image: pmateus/memorabel-mri-qc:0.0.1
     # command: ['bash', '-c', 'until [ -d /mnt/data/input ]; do echo waiting for the input; sleep 10; done; python3 start.py;']
     command: ['bash', '-c', 'until [ -d /mnt/data/close ]; do echo waiting; sleep 300; done; rm -r /mnt/data/close;']
     volumeMounts:

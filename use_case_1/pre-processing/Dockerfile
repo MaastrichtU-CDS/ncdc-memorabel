@@ -34,6 +34,7 @@ COPY ./license.txt /usr/local/freesurfer/.license
 # Copy the necessary files
 COPY ./external_functions /utils
 COPY ./VBM /VBM
+COPY ./quality_check /qc
 COPY pre_processing.sh start.py ./
 RUN chmod +x ./pre_processing.sh
 
