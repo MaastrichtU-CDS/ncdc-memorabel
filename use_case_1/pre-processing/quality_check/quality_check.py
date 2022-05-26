@@ -43,6 +43,6 @@ if __name__ == "__main__":
                 # run QC with mode summary
                 print("QC with mode summary")
                 #python3 QC_vbm_reg.py  -mode summary -i $OUTPUT/nparray -o $OUTPUT/QC -logs $OUTPUT/np_logs -q 10
-                QC_vbm_reg.qc_summary(f"{os.getenv('OUTPUT_QC')}/logs", f"{os.getenv('OUTPUT_QC')}/QC", 10)
+                QC_vbm_reg.qc_summary(f"{os.getenv('OUTPUT_QC')}/np_logs", f"{os.getenv('OUTPUT_QC')}/QC", 10)
             except Exception as error:
                 print(f"Error found: {str(error)}")
