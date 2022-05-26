@@ -30,9 +30,9 @@ spec:
       - name: JOBS
         value: "1"
       - name: INPUT
-        value: "/mnt/input"
+        value: "/mnt/data/input"
       - name: SAVE_PATH
-        value: "/mnt/output"
+        value: "/mnt/data/output"
       - name: LOG_PATH
-        value: "/mnt/logs"
+        value: "/mnt/data/logs"
   restartPolicy: Never

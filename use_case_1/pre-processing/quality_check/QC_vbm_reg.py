@@ -1,8 +1,6 @@
-import sys
 import numpy as np
 import os
 import argparse
-import matplotlib.pyplot as plt
 import pandas as pd
 
 def load_data(data_path, region_code):

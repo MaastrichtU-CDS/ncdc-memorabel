@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: preprocessing
+  name: qc
   namespace: ncdc-use-case-1
 spec:
   volumes:
@@ -16,8 +16,8 @@ spec:
   #   - name: data
   #     mountPath: "/mnt/data"
   #     subPath: "."
-  - name: pre-processing
-    image: pmateus/memorabel-mri-qc:0.0.1
+  - name: qc
+    image: pmateus/memorabel-mri-qc:0.0.3
     # command: ['bash', '-c', 'until [ -d /mnt/data/input ]; do echo waiting for the input; sleep 10; done; python3 start.py;']
     command: ['bash', '-c', 'until [ -d /mnt/data/close ]; do echo waiting; sleep 300; done; rm -r /mnt/data/close;']
     volumeMounts:
