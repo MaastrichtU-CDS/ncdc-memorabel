@@ -38,6 +38,8 @@ COPY ./quality_check /qc
 COPY pre_processing.sh start.py ./
 RUN chmod +x ./pre_processing.sh
 
+RUN mkdir /mnt/input /mnt/output /mnt/logs
+
 # Set the necessary environment variables
 ENV CONFIG=/VBM/GM_2_MNI152GM_1mm.cnf
 ENV VBM_DIR=/VBM

@@ -19,7 +19,7 @@ spec:
   - name: pre-processing
     # 0.0.12: Working version to run the VBM pipeline
     # 0.0.13: Included the quality check scripts
-    image: pmateus/memorabel-mri-preprocessing:0.0.13
+    image: pmateus/memorabel-mri-preprocessing:0.0.14
     # command: ['bash', '-c', 'until [ -d /mnt/data/input ]; do echo waiting for the input; sleep 10; done; python3 start.py;']
     command: ['bash', '-c', 'until [ -d /mnt/data/close ]; do echo waiting; sleep 300; done; rm -r /mnt/data/close;']
     volumeMounts:
@@ -30,9 +30,9 @@ spec:
       - name: JOBS
         value: "1"
       - name: INPUT
-        value: "/mnt/data/input"
+        value: "/mnt/input"
       - name: SAVE_PATH
-        value: "/mnt/data/output"
+        value: "/mnt/output"
       - name: LOG_PATH
-        value: "/mnt/data/logs"
+        value: "/mnt/logs"
   restartPolicy: Never
