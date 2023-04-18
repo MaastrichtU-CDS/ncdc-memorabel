@@ -11,9 +11,7 @@ Depends:
 Imports:
     haven,
     tidyverse,
-    gtsummary,
     vtg,
-    flextable,
     modelsummary,
     broom,
     DBI,

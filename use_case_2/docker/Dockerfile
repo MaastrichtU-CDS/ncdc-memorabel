@@ -10,6 +10,10 @@ ARG IMAGE_NAME='maintainer/algorithm'
 
 LABEL maintainer="Main Tainer <user@example.com>"
 
+# Install the necessary dependencies
+RUN apt-get update
+RUN apt-get install -y apt-utils gcc libpq-dev
+
 # Install federated package
 COPY src/DESCRIPTION /usr/local/R/${PKG_NAME}/DESCRIPTION
 WORKDIR /usr/local/R/${PKG_NAME}
