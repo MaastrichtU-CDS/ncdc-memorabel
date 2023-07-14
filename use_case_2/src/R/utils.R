@@ -18,3 +18,17 @@ check_responses <- function(responses) {
     return(error_message)
   }
 }
+
+get_freq <- function(col) {
+  min <- as.integer(Sys.getenv("MINIMUM_FREQ", unset=5))
+  as.data.frame(table(col)) %>%
+    dplyr::mutate(Freq = replace(Freq, Freq < min, min))
+}
+
+summary_stats <- function(df) {
+  metrics = list(
+    "sex" = get_freq(df$sex),
+    "age" = summary(df$age),
+    "education" = get_freq(df$education_category_3)
+  )
+}

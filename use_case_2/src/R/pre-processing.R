@@ -1,12 +1,22 @@
-preprocessing <- function(df) {
+preprocessing <- function(df, local_std = TRUE) {
   # Identifying the participants that need to be excluded can be done by
   # checking if the variable value is NULL.
 
-  excluded <- unique(df$id[is.na(df$icam) | is.na(df$vwf) |
-                             df$wlt_status != 1 |
-                             df$stroop_status != 1 | df$ldst_status != 1 |
-                             df$fluency_status != 1 | is.na(df$priority_executive_stroop_3_time) |
-                             is.na(df$priority_memory_dr_ravlt)])
+  if (sum(!is.na(df$stroop_status)) > 0) {
+    excluded <- unique(df$id[!is.na(df$education_category_3) & is.na(df$icam) | is.na(df$vwf) |
+                               df$wlt_status != 1 |
+                               df$stroop_status != 1 | df$ldst_status != 1 |
+                               df$fluency_status != 1 | is.na(df$priority_executive_stroop_3_time) |
+                               is.na(df$priority_memory_dr_ravlt)])
+  } else {
+    excluded <- unique(df$id[!is.na(df$education_category_3) & !is.na(df$icam) & !is.na(df$vcam) & !is.na(df$e_selectin) &
+                               !is.na(df$attention_test_stroop_1_time) &
+                               !is.na(df$attention_test_stroop_2_time) &
+                               !(is.na(df$attention_test_sdst_60_correct) & is.na(df$attention_test_ldst_60_correct)) &
+                               !(is.na(df$priority_memory_im_pwlt) & is.na(df$priority_memory_im_15_word_list_correct)) &
+                               is.na(df$priority_executive_stroop_3_time)])
+  }
+
   vtg::log$info("Excluded '{length(excluded)}' participants")
 
   included <- unique(df$id[! df$id %in% excluded])
@@ -21,15 +31,15 @@ preprocessing <- function(df) {
   df$Age2 <- df$Age_cent^2
 
   ## Sex
-  df$Sex <- as.factor(df$sex)
+  # df$Sex <- as.factor(df$sex)
   # df <- df %>%
   #   dplyr::mutate(Sex = forcats::fct_recode(
   #     sex,
   #     "0" = "m",
   #     "1" = "f"
   #   ))
-  df$sex <- NULL
-  df$Sex_num <- as.numeric(df$Sex)
+  # df$sex <- NULL
+  # df$Sex_num <- as.numeric(df$Sex)
 
   ## Education - had to change Cogeduc to N_Education_3cat
   df$Education <- as.factor(df$education_category_3)
@@ -51,7 +61,7 @@ preprocessing <- function(df) {
 
 
   ## Hypercholesterolemia/Dyslipidemia
-  df$N_Chol_ratio <- df$hdl_ratio
+  df$N_Chol_ratio <- ifelse(is.na(df$hdl_ratio),(df$ldl + df$hdl) / df$hdl, df$hdl_ratio)
 
   df$Drugs_hypercholesterolemia <- as.factor(df$drugs_hypercholesterolemia)
   df$drugs_hypercholesterolemia <- NULL
@@ -103,7 +113,7 @@ preprocessing <- function(df) {
     dplyr::mutate(invZSTR1ts = ZSTR1ts * (-1))
   # Stroop II (important - sex differently coded in vd Elst! 0 = female, 1 = male)
   df$ZSTR2ts <- (df$attention_test_stroop_2_time - (52.458 + (df$Age_cent * 0.209) + (df$Age2 * 0.007) +
-                                                      (df$Sex_num * -2.390) + (df$Education_low * 4.235) +
+                                                      (df$sex * -2.390) + (df$Education_low * 4.235) +
                                                       (df$Education_high * -2.346))) / (sd(df$attention_test_stroop_2_time, na.rm = TRUE))
 
   df <- df %>%
@@ -115,49 +125,49 @@ preprocessing <- function(df) {
   df <- df %>%
     dplyr::mutate(invZSTR1ts = ZSTR1ts * (-1))
 
-  ## Episodic memory
-
-  ## Immediate memory/Short-term memory - 15 WLT Trial 1-3
-  # df$WLTscore3 <- (df$WLT1 + df$WLT2 + df$WLT3)
-  df$ZWLTscore3 <- (df$priority_memory_im_ravlt - (25.440 + (df$Age_cent * -0.150) + (df$Age2 * -0.0016) +
-                                                     (df$Sex_num * 2.217) + (df$Education_low * -1.699) +
-                                                     (df$Education_high * 1.467))) / sd(df$priority_memory_im_ravlt, na.rm = TRUE)
-  df <- df %>%
-    dplyr::rename(Priority_memory_im_z = ZWLTscore3)
-
-  ## Delayed memory/Long-term memory - 15 WLT --> OR retention score???
-  df$ZWLTRscore <- (df$priority_memory_dr_ravlt - (10.924 + (df$Age_cent * -0.073) + (df$Age2 * -0.0009) +
-                                                     (df$Sex_num * 1.197) + (df$Education_low * -0.844) +
-                                                     (df$Education_high * 0.424))) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE)
-  df <- df %>%
-    dplyr::rename(Priority_memory_dr_z = ZWLTRscore)
-
-
-  ## Processing speed - Letter Digit Substitution Test
-  df$ZLDST60 <- (df$attention_test_ldst_60_correct - (48.27 + (df$Age_cent * -0.28) + (df$Sex_num * 0.81) +
-                                                        (df$Education_low * -4.53) + (df$Education_high * 1.12))) /
-    sd(df$attention_test_ldst_60_correct, na.rm = TRUE)
-  df <- df %>%
-    dplyr::rename(Priority_speed_z = ZLDST60)
-
-  ## Executive function -
-  # Stroop III or STRINT? if STRINT, recalculation in order studies needed!
-  # also, STRINT has 3 missings here; Willemijn says Stroop III
-  df$ZSTR3ts <- (df$priority_executive_stroop_3_time - (82.601 + (df$Age_cent * 0.714) + (df$Age2 * 0.023) +
-                                                          (df$Sex_num * -4.470) + (df$Education_low * 13.285) +
-                                                          (df$Education_high * -3.873))) / (sd(df$priority_executive_stroop_3_time, na.rm = TRUE))
-  #dat <- dat %>% dplyr::mutate(lnZSTR3ts = log(ZSTR3ts)) # cannot do that because of negative and zero values!
-  df <- df %>%
-    dplyr::mutate(invZSTR3ts = ZSTR3ts * (-1))
-  df <- df %>%
-    dplyr::rename(Priority_executive_z = invZSTR3ts)
-
-  ## Language - Animal fluency
-  df$ZFLUcor <- (df$priority_language_animal_fluency_60_correct - (24.777 + (df$Age_cent * -0.97) + (df$Education_low * 2.790) +
-                                                                     (df$Education_high * 1.586))) / sd(df$priority_language_animal_fluency_60_correct, na.rm = TRUE)
-  df <- df %>%
-    dplyr::rename(Priority_language_z = ZFLUcor)
-
+  # ## Episodic memory
+  #
+  # ## Immediate memory/Short-term memory - 15 WLT Trial 1-3
+  # # df$WLTscore3 <- (df$WLT1 + df$WLT2 + df$WLT3)
+  # df$ZWLTscore3 <- (df$priority_memory_im_ravlt - (25.440 + (df$Age_cent * -0.150) + (df$Age2 * -0.0016) +
+  #                                                    (df$Sex_num * 2.217) + (df$Education_low * -1.699) +
+  #                                                    (df$Education_high * 1.467))) / sd(df$priority_memory_im_ravlt, na.rm = TRUE)
+  # df <- df %>%
+  #   dplyr::rename(Priority_memory_im_z = ZWLTscore3)
+  #
+  # ## Delayed memory/Long-term memory - 15 WLT --> OR retention score???
+  # df$ZWLTRscore <- (df$priority_memory_dr_ravlt - (10.924 + (df$Age_cent * -0.073) + (df$Age2 * -0.0009) +
+  #                                                    (df$Sex_num * 1.197) + (df$Education_low * -0.844) +
+  #                                                    (df$Education_high * 0.424))) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE)
+  # df <- df %>%
+  #   dplyr::rename(Priority_memory_dr_z = ZWLTRscore)
+  #
+  #
+  # ## Processing speed - Letter Digit Substitution Test
+  # df$ZLDST60 <- (df$attention_test_ldst_60_correct - (48.27 + (df$Age_cent * -0.28) + (df$Sex_num * 0.81) +
+  #                                                       (df$Education_low * -4.53) + (df$Education_high * 1.12))) /
+  #   sd(df$attention_test_ldst_60_correct, na.rm = TRUE)
+  # df <- df %>%
+  #   dplyr::rename(Priority_speed_z = ZLDST60)
+  #
+  # ## Executive function -
+  # # Stroop III or STRINT? if STRINT, recalculation in order studies needed!
+  # # also, STRINT has 3 missings here; Willemijn says Stroop III
+  # df$ZSTR3ts <- (df$priority_executive_stroop_3_time - (82.601 + (df$Age_cent * 0.714) + (df$Age2 * 0.023) +
+  #                                                         (df$Sex_num * -4.470) + (df$Education_low * 13.285) +
+  #                                                         (df$Education_high * -3.873))) / (sd(df$priority_executive_stroop_3_time, na.rm = TRUE))
+  # #dat <- dat %>% dplyr::mutate(lnZSTR3ts = log(ZSTR3ts)) # cannot do that because of negative and zero values!
+  # df <- df %>%
+  #   dplyr::mutate(invZSTR3ts = ZSTR3ts * (-1))
+  # df <- df %>%
+  #   dplyr::rename(Priority_executive_z = invZSTR3ts)
+  #
+  # ## Language - Animal fluency
+  # df$ZFLUcor <- (df$priority_language_animal_fluency_60_correct - (24.777 + (df$Age_cent * -0.97) + (df$Education_low * 2.790) +
+  #                                                                    (df$Education_high * 1.586))) / sd(df$priority_language_animal_fluency_60_correct, na.rm = TRUE)
+  # df <- df %>%
+  #   dplyr::rename(Priority_language_z = ZFLUcor)
+  #
 
   ##### Endothelial dysfunction
   # because R seems to have problems with E-Selectin as name, I use an underscore
@@ -171,11 +181,16 @@ preprocessing <- function(df) {
   df$ZE_Selectin <- scale(df$E_Selectin)
   df$ZICAM <- scale(df$ICAM)
   df$ZVCAM <- scale(df$VCAM)
-  df$ZvWF <- scale(df$vwf)
 
+  df$ZvWF <- scale(df$vwf)
+  # vwf - only available for the MS
   df %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(EDcomp = mean(c(ZICAM, ZVCAM, ZE_Selectin, ZvWF))) -> df
+    dplyr::mutate(EDcomp = ifelse(
+      is.na(ZvWF),
+      mean(c(ZICAM, ZVCAM, ZE_Selectin)),
+      mean(c(ZICAM, ZVCAM, ZE_Selectin, ZvWF)))
+    ) -> df
 
   df$ZEDcomp <- (df$EDcomp - mean(df$EDcomp, na.rm = TRUE))/sd(df$EDcomp,
                                                                na.rm = TRUE)

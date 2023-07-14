@@ -23,6 +23,23 @@ analysis <- function(client, config=list()) {
         }
         vtg::log$info("Running `analysis` locally")
 
+        # Update the client organizations according to the ones selected
+        orgs <- list()
+        collaboration_org_ids = client$collaboration$organizations
+        selected_orgs <- list()
+        if ("org_ids" %in% names(config)) {
+            vtg::log$info("Setting up the organizations for the analysis")
+            client$collaboration$organizations <- list()
+            for (collaboration in collaboration_org_ids) {
+                if (collaboration$id %in% config[["org_ids"]]) {
+                    selected_orgs <- append(selected_orgs, list(collaboration))
+                }
+            }
+        }
+        if (length(selected_orgs) > 0) {
+            client$collaboration$organizations <- selected_orgs
+        }
+
         # Initialize the seed in case it isn't provided
         seed <- sample(1:10000, 1)
         if ("seed" %in% names(config)) {
