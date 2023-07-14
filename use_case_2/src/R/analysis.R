@@ -54,10 +54,10 @@ analysis <- function(client, config=list()) {
         responses <- client$call(
             "linearmodel"
         )
-        error_check = check_responses(responses)
-        if (!is.null(error_check)) {
-            return(error_check)
-        }
+        # error_check = check_responses(responses)
+        # if (!is.null(error_check)) {
+        #     return(error_check)
+        # }
         results <- responses
         return(results)
     }, error = function(e) {
