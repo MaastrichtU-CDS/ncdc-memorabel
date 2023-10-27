@@ -1,4 +1,4 @@
-analysis <- function(client, config=list()) {
+analysis <- function(client, model, config=list()) {
     vtg::log$info("Running UC2 analysis")
     analysis_result = tryCatch({
         pkg.name <- getPackageName()
@@ -32,6 +32,7 @@ analysis <- function(client, config=list()) {
             client$collaboration$organizations <- list()
             for (collaboration in collaboration_org_ids) {
                 if (collaboration$id %in% config[["org_ids"]]) {
+                    vtg::log$info("Organization '{collaboration$id}' included.")
                     selected_orgs <- append(selected_orgs, list(collaboration))
                 }
             }
@@ -50,9 +51,15 @@ analysis <- function(client, config=list()) {
         }
         set.seed(seed)
 
+        subcohort <- c()
+        if ("subcohort" %in% names(config)) {
+            subcohort <- config[["subcohort"]]
+        }
         # Run the linear models
         responses <- client$call(
-            "linearmodel"
+            "linearmodel",
+            cohort=subcohort,
+            model=model
         )
         # error_check = check_responses(responses)
         # if (!is.null(error_check)) {
