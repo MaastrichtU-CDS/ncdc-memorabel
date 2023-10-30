@@ -13,16 +13,21 @@ preprocessing <- function(df, local_std = TRUE) {
     included <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf) & (df$wlt_status == 1 | df$stroop_status == 1 |
                                                                      df$ldst_status == 1 | df$fluency_status == 1 |
                                                                      !is.na(df$priority_executive_stroop_3_time) |
-                                                                     !is.na(df$priority_memory_dr_ravlt))]))
-    #include_biomarkers <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf)]))
+                                                                       !is.na(df$priority_memory_dr_ravlt))]))
+    # include_biomarkers <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf)]))
   } else {
     included <- c()
-    excluded <- unique(df$row[!is.na(df$education_category_3) & !is.na(df$icam) & !is.na(df$vcam) & !is.na(df$e_selectin) &
-                               !is.na(df$attention_test_stroop_1_time) &
-                               !is.na(df$attention_test_stroop_2_time) &
-                               !(is.na(df$attention_test_sdst_60_correct) & is.na(df$attention_test_ldst_60_correct)) &
-                               !(is.na(df$priority_memory_im_pwlt) & is.na(df$priority_memory_im_15_word_list_correct)) &
-                               is.na(df$priority_executive_stroop_3_time)])
+    # !is.na(df$education_category_3) &
+    excluded <- unique(df$row[!is.na(df$icam) & (
+                               !is.na(df$attention_test_stroop_1_time) |
+                               !is.na(df$attention_test_stroop_2_time) |
+                               !is.na(df$attention_test_ldst_60_correct) |
+                               !is.na(df$priority_memory_im_pwlt) |
+                               !is.na(df$priority_memory_de_pwlt) |
+                               !is.na(df$priority_memory_im_15_word_list_correct) |
+                               !is.na(df$priority_memory_dr_15_word_list_correct) |
+                               !is.na(df$priority_memory_dr_15_word_list_correct) |
+                               !is.na(df$priority_language_category_fluency_60))])
   }
 
   # Selected participants
@@ -128,10 +133,15 @@ preprocessing <- function(df, local_std = TRUE) {
     dplyr::mutate(invZSTR2ts = ZSTR2ts * (-1))
 
   # Average for Attention composite score
+  # Stroop 2 not available in some cohorts
   df <- df %>%
-    dplyr::mutate(Priority_attention_z = ((invZSTR1ts + invZSTR2ts)/2))
-  df <- df %>%
-    dplyr::mutate(invZSTR1ts = ZSTR1ts * (-1))
+    dplyr::mutate(
+      Priority_attention_z = ifelse(
+        !is.na(invZSTR2ts),
+        ((invZSTR1ts + invZSTR2ts)/2),
+        invZSTR1ts
+      )
+    )
 
   # ## Episodic memory
   #
@@ -139,17 +149,39 @@ preprocessing <- function(df, local_std = TRUE) {
   # df$WLTscore3 <- (df$WLT1 + df$WLT2 + df$WLT3)
   vtg::log$info("priority memory")
   vtg::log$info(sum(is.na(df$priority_memory_im_ravlt)))
-  df$ZWLTscore3 <- (df$priority_memory_im_ravlt - (25.440 + (df$Age_cent * -0.150) + (df$Age2 * -0.0016) +
+  # Cognitive test that will be selected
+  df$priority_memory_selected <- ifelse(
+    is.na(df$priority_memory_im_ravlt),
+    ifelse(
+      is.na(df$priority_memory_im_pwlt),
+      df$priority_memory_im_15_word_list_correct,
+      df$priority_memory_im_pwlt
+    ),
+    df$priority_memory_im_ravlt
+  )
+  df$ZWLTscore3 <- (df$priority_memory_selected - (25.440 + (df$Age_cent * -0.150) + (df$Age2 * -0.0016) +
                                                      (df$sex_num * 2.217) + (df$Education_low * -1.699) +
-                                                     (df$Education_high * 1.467))) / sd(df$priority_memory_im_ravlt, na.rm = TRUE)
+                                                     (df$Education_high * 1.467))) / sd(df$priority_memory_selected, na.rm = TRUE)
+
   vtg::log$info(sum(is.na(df$ZWLTscore3)))
   df <- df %>%
     dplyr::rename(Priority_memory_im_z = ZWLTscore3)
   vtg::log$info(sum(is.na(df$Priority_memory_im_z)))
+
   ## Delayed memory/Long-term memory - 15 WLT --> OR retention score???
-  df$ZWLTRscore <- (df$priority_memory_dr_ravlt - (10.924 + (df$Age_cent * -0.073) + (df$Age2 * -0.0009) +
+  df$priority_memory_dr_selected <- ifelse(
+    is.na(df$priority_memory_dr_ravlt),
+    ifelse(
+      is.na(df$priority_memory_de_pwlt),
+      df$priority_memory_dr_15_word_list_correct,
+      df$priority_memory_de_pwlt
+    ),
+    df$priority_memory_dr_ravlt
+  )
+  df$ZWLTRscore <- (df$priority_memory_dr_selected - (10.924 + (df$Age_cent * -0.073) + (df$Age2 * -0.0009) +
                                                      (df$sex_num * 1.197) + (df$Education_low * -0.844) +
-                                                     (df$Education_high * 0.424))) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE)
+                                                     (df$Education_high * 0.424))) / sd(df$priority_memory_dr_selected, na.rm = TRUE)
+
   df <- df %>%
     dplyr::rename(Priority_memory_dr_z = ZWLTRscore)
 
@@ -174,8 +206,13 @@ preprocessing <- function(df, local_std = TRUE) {
     dplyr::rename(Priority_executive_z = invZSTR3ts)
   #
   # ## Language - Animal fluency
-  df$ZFLUcor <- (df$priority_language_animal_fluency_60_correct - (24.777 + (df$Age_cent * -0.97) + (df$Education_low * 2.790) +
-                                                                     (df$Education_high * 1.586))) / sd(df$priority_language_animal_fluency_60_correct, na.rm = TRUE)
+  df$priority_language_selected <- ifelse(
+    is.na(df$priority_language_animal_fluency_60_correct),
+    df$priority_language_category_fluency_60,
+    df$priority_language_animal_fluency_60_correct
+  )
+  df$ZFLUcor <- (df$priority_language_selected - (24.777 + (df$Age_cent * -0.97) + (df$Education_low * 2.790) +
+                                                                     (df$Education_high * 1.586))) / sd(df$priority_language_selected, na.rm = TRUE)
   df <- df %>%
     dplyr::rename(Priority_language_z = ZFLUcor)
 
@@ -199,7 +236,11 @@ preprocessing <- function(df, local_std = TRUE) {
     dplyr::rowwise() %>%
     dplyr::mutate(EDcomp = ifelse(
       is.na(ZvWF),
-      mean(c(ZICAM, ZVCAM, ZE_Selectin)),
+      ifelse(
+        is.na(ZE_Selectin),
+        mean(c(ZICAM, ZVCAM)),
+        mean(c(ZICAM, ZVCAM, ZE_Selectin))
+      ),
       mean(c(ZICAM, ZVCAM, ZE_Selectin, ZvWF)))
     ) -> df
 
