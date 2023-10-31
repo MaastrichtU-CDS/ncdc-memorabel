@@ -67,11 +67,11 @@ preprocessing <- function(df, local_std = TRUE) {
 
   ## Education - had to change Cogeduc to N_Education_3cat
   df$Education <- as.factor(df$education_category_3)
-  df$Education <- factor(df$Education, labels = c("Low", "Medium", "High"))
+  df$Education <- factor(df$Education, levels = c(0, 1, 2), labels = c("Low", "Medium", "High"))
 
   # Recode education for norm scores
-  df$Education_low <- ifelse(df$Education == "Low",1,0)
-  df$Education_high <- ifelse(df$Education == "High",1,0)
+  df$Education_low <- ifelse(df$Education == "Low", 1, 0)
+  df$Education_high <- ifelse(df$Education == "High", 1, 0)
 
   ## Hypertension
   df$hypertension <- as.factor(df$hypertension)

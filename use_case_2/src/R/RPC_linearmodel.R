@@ -58,7 +58,7 @@ RPC_linearmodel <- function(df, local_std = TRUE, cohort = c(), model = "memory"
 
     results <- list(
       # 1.49.0
-      "memory" = run_models(df, outcome=outcomes[[model]]),
+      "models" = run_models(df, outcome=outcomes[[model]]),
       "n" = nrow(df),
       "summary" = summary_stats(df),
       "db" = Sys.getenv("PGDATABASE")
