@@ -7,7 +7,7 @@ analysis <- function(client, model, config=list()) {
         image.name <- Sys.getenv("IMAGE_NAME")
         # To run a specific docker image, you must specify it here due
         # to a problem with the R version of vtg
-        image.name <- 'pmateus/usecase2:2.0.0'
+        image.name <- 'pmateus/usecase2:2.1.0'
 
         client$set.task.image(
             image.name,
