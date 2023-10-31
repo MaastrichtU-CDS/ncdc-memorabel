@@ -16,18 +16,18 @@ preprocessing <- function(df, local_std = TRUE) {
                                                                        !is.na(df$priority_memory_dr_ravlt))]))
     # include_biomarkers <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf)]))
   } else {
-    included <- c()
     # !is.na(df$education_category_3) &
-    excluded <- unique(df$row[!is.na(df$icam) & (
+    included <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vcam) & !is.na(df$e_selectin) & (
                                !is.na(df$attention_test_stroop_1_time) |
                                !is.na(df$attention_test_stroop_2_time) |
+                               !is.na(df$priority_executive_stroop_3_time) |
                                !is.na(df$attention_test_ldst_60_correct) |
                                !is.na(df$priority_memory_im_pwlt) |
                                !is.na(df$priority_memory_de_pwlt) |
                                !is.na(df$priority_memory_im_15_word_list_correct) |
                                !is.na(df$priority_memory_dr_15_word_list_correct) |
-                               !is.na(df$priority_memory_dr_15_word_list_correct) |
-                               !is.na(df$priority_language_category_fluency_60))])
+                               !is.na(df$priority_language_animal_fluency_60_correct) |
+                               !is.na(df$priority_language_category_fluency_60))]))
   }
 
   # Selected participants
