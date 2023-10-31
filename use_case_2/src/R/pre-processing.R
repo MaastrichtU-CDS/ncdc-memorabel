@@ -80,12 +80,17 @@ preprocessing <- function(df, local_std = TRUE) {
 
 
   ## Hypercholesterolemia/Dyslipidemia
-  df$hdl_ratio <- ifelse(is.na(df$hdl_ratio),(df$ldl + df$hdl) / df$hdl, df$hdl_ratio)
+  df$hdl_ratio <- ifelse(is.na(df$hdl_ratio), (df$ldl + df$hdl) / df$hdl, df$hdl_ratio)
 
   df$drugs_hypercholesterolemia <- as.factor(df$drugs_hypercholesterolemia)
 
   ## Diabetes mellitus type 2
   df$dm_2 <- as.factor(df$dm_2)
+  df$dm_type2 <- as.factor(ifelse(
+    is.na(df$dm_2),
+    df$dm,
+    df$dm_2
+  ))
 
   ## Smoking status
   df$smoking_behavior <- as.factor(df$smoking_behavior)
@@ -94,7 +99,19 @@ preprocessing <- function(df, local_std = TRUE) {
   df$alcohol <- as.factor(df$alcohol)
 
   ## Prior CVD
-  df$cardiovascular_disease <- as.factor(df$cardiovascular_disease)
+
+  # alternative if CVD not directly available:
+  df$myocardial_infarction <- as.factor(df$myocardial_infarction)
+  df$stroke <- as.factor(df$stroke)
+  df$cvd_alt <- df$myocardial_infarction | df$stroke
+
+  df$cardiovascular_disease <- as.factor(
+    ifelse(
+      is.na(df$cardiovascular_disease),
+      df$cvd_alt,
+      df$cardiovascular_disease
+    )
+  )
 
   ## Markers of LGI
   df$IL6_2016F_std <- scale(df$il6)
@@ -116,8 +133,8 @@ preprocessing <- function(df, local_std = TRUE) {
   ## Attention - Stroop I and Stroop II ODER CSTA and CSTB
 
   # Stroop I
-  df$STR1ts <- as.numeric(df$attention_test_stroop_1_time)
-  df$STR1ts <- ifelse(df$attention_test_stroop_2_time == "NA", NA, df$attention_test_stroop_1_time)
+  #df$STR1ts <- as.numeric(df$attention_test_stroop_1_time)
+  #df$STR1ts <- ifelse(df$attention_test_stroop_2_time == "NA", NA, df$attention_test_stroop_1_time)
 
   df$ZSTR1ts <- (df$attention_test_stroop_1_time - (41.517 + (df$Age_cent * 0.131) + (df$Age2 * 0.003) +
                                                       (df$Education_low * 3.595) + (df$Education_high * -1.507))) / (sd(df$attention_test_stroop_1_time, na.rm = TRUE))

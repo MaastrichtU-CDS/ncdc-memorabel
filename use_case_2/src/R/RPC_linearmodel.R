@@ -1,4 +1,4 @@
-RPC_linearmodel <- function(df, local_std = TRUE, cohort = c(), model = "memory") {
+RPC_linearmodel <- function(df, local_std = TRUE, cohort = c(), model = "memory", exclude=c()) {
   vtg::log$info("Starting: Linear models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -57,8 +57,7 @@ RPC_linearmodel <- function(df, local_std = TRUE, cohort = c(), model = "memory"
     )
 
     results <- list(
-      # 1.49.0
-      "models" = run_models(df, outcome=outcomes[[model]]),
+      "models" = run_models(df, outcome=outcomes[[model]], exclude=exclude),
       "n" = nrow(df),
       "summary" = summary_stats(df),
       "db" = Sys.getenv("PGDATABASE")

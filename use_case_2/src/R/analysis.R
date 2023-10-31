@@ -1,4 +1,4 @@
-analysis <- function(client, model, config=list()) {
+analysis <- function(client, model, config=list(), exclude=c()) {
     vtg::log$info("Running UC2 analysis")
     analysis_result = tryCatch({
         pkg.name <- getPackageName()
@@ -7,7 +7,7 @@ analysis <- function(client, model, config=list()) {
         image.name <- Sys.getenv("IMAGE_NAME")
         # To run a specific docker image, you must specify it here due
         # to a problem with the R version of vtg
-        image.name <- 'pmateus/usecase2:2.1.0'
+        image.name <- 'pmateus/usecase2:2.3.0'
 
         client$set.task.image(
             image.name,
@@ -59,7 +59,8 @@ analysis <- function(client, model, config=list()) {
         responses <- client$call(
             "linearmodel",
             cohort=subcohort,
-            model=model
+            model=model,
+            exclude=exclude
         )
         # error_check = check_responses(responses)
         # if (!is.null(error_check)) {
