@@ -36,6 +36,10 @@ preprocessing <- function(df, local_std = TRUE) {
   vtg::log$info("'{length(included)}' participants included in the analysis")
   df <- df[df$row %in% included,]
 
+  if (nrow(df) == 0) {
+    return(df)
+  }
+
   # Mean-center age to avoid multicollinearity
   if (sum(is.na(df$date_attention)) > 0) {
     warnings <- c(warnings, "Date attention not available for all cases")

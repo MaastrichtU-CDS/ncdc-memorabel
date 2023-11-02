@@ -44,6 +44,11 @@ RPC_linearmodel <- function(df, local_std = TRUE, cohort = c(), model = "memory"
     df <- preprocessing(df, local_std)
     #data <- preprocessing(df, local_std)
     #df <- data["data"]
+    if (nrow(df) == 0) {
+      return(list(
+        "error_message" = "Empty dataset: no participants selected"
+      ))
+    }
 
     # Sending all models results in an error:
     # 413 Request Entity Too Large
