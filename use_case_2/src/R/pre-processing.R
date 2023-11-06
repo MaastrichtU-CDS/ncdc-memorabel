@@ -103,12 +103,8 @@ preprocessing <- function(df, local_std = TRUE) {
   df$alcohol <- as.factor(df$alcohol)
 
   ## Prior CVD
-
   # alternative if CVD not directly available:
-  df$myocardial_infarction <- as.factor(df$myocardial_infarction)
-  df$stroke <- as.factor(df$stroke)
   df$cvd_alt <- df$myocardial_infarction | df$stroke
-
   df$cardiovascular_disease <- as.factor(
     ifelse(
       is.na(df$cardiovascular_disease),
@@ -168,8 +164,7 @@ preprocessing <- function(df, local_std = TRUE) {
   #
   # ## Immediate memory/Short-term memory - 15 WLT Trial 1-3
   # df$WLTscore3 <- (df$WLT1 + df$WLT2 + df$WLT3)
-  vtg::log$info("priority memory")
-  vtg::log$info(sum(is.na(df$priority_memory_im_ravlt)))
+
   # Cognitive test that will be selected
   df$priority_memory_selected <- ifelse(
     is.na(df$priority_memory_im_ravlt),
