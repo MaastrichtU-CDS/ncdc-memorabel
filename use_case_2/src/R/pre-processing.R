@@ -104,7 +104,15 @@ preprocessing <- function(df, local_std = TRUE) {
 
   ## Prior CVD
   # alternative if CVD not directly available:
-  df$cvd_alt <- df$myocardial_infarction | df$stroke
+  df$cvd_alt <- ifelse(
+    is.na(df$myocardial_infarction),
+    df$stroke,
+    ifelse(
+      is.na(df$stroke),
+      df$myocardial_infarction,
+      df$myocardial_infarction | df$stroke
+    )
+  )
   df$cardiovascular_disease <- as.factor(
     ifelse(
       is.na(df$cardiovascular_disease),

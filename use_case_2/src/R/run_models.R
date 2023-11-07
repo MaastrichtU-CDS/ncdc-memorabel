@@ -33,7 +33,7 @@ run_models <- function(df, outcome="Priority_attention_z", exclude=c()) {
     print("Model 2")
     variables <- c(variables, c("bmi", "hypertension", "drugs_hypertension",
                                 "hdl_ratio", "drugs_hypercholesterolemia",
-                                "cardiovascular_disease", "dm_2")
+                                "cardiovascular_disease", "dm_type2")
                   )
     res2 <- lm(formula_builder(outcome, setdiff(variables, exclude)), data = df)
     results[["m2"]] <- summary(res2)

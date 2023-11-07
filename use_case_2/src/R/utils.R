@@ -27,9 +27,11 @@ get_freq <- function(col) {
 
 summary_stats <- function(df) {
   model_variables <- c(
-    "ZEDcomp", "Age_cent", "sex", "Education_low", "Education_high", "bmi",
+    "ZEDcomp", "Age_cent", "Education_low", "Education_high", "bmi",
     "hypertension", "drugs_hypertension", "hdl_ratio",
-    "drugs_hypercholesterolemia", "cardiovascular_disease", "dm_2",
+    "drugs_hypercholesterolemia", "cardiovascular_disease",
+    "myocardial_infarction", "stroke", "dm_2", "dm", "dm_type2",
+    "hdl_ratio", "hdl", "ldl",
     "smoking_behavior", "alcohol", "depression", "Priority_memory_im_z",
     "Priority_memory_dr_z", "Priority_attention_z", "Priority_executive_z",
     "Priority_speed_z", "Priority_language_z"
