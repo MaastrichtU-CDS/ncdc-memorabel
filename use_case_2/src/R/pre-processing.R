@@ -1,4 +1,4 @@
-preprocessing <- function(df, local_std = TRUE) {
+preprocessing <- function(df, model, config) {
   # Identifying the participants that need to be excluded can be done by
   # checking if the variable value is NULL.
   warnings <- c()
@@ -13,8 +13,27 @@ preprocessing <- function(df, local_std = TRUE) {
     included <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf) & (df$wlt_status == 1 | df$stroop_status == 1 |
                                                                      df$ldst_status == 1 | df$fluency_status == 1 |
                                                                      !is.na(df$priority_executive_stroop_3_time) |
-                                                                       !is.na(df$priority_memory_dr_ravlt))]))
-    # include_biomarkers <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vwf)]))
+                                                                     !is.na(df$priority_memory_dr_ravlt))]))
+    # Filter the dataset based on the specific test
+    # Otherwise, it'll be excluded by the model (more degrees of freedom
+    # although the samples will be deleted due to missingness)
+    #
+    # Peformed this way to reproduce the results obtained in the central analysis.
+    #
+    # Specific for Maastricht since the status variables were used
+    # while in other cohorts it was only checked if the data was available
+    status_by_test = list(
+      "memory" = "wlt_status",
+      "memory_dr" = "wlt_status",
+      "attention" = "stroop_status",
+      "executive" = "stroop_status",
+      "processing_speed" = "ldst_status",
+      "language" = "fluency_status"
+    )
+    if ("model_only_ms" %in% names(config) & config[["model_only_ms"]] == TRUE) {
+      available_data <- c(df$row[df[[status_by_test[[model]]]] == 1])
+      included <- included[included %in% available_data]
+    }
   } else {
     # !is.na(df$education_category_3) &
     included <- unique(c(df$row[!is.na(df$icam) & !is.na(df$vcam) & !is.na(df$e_selectin) & (
@@ -89,12 +108,15 @@ preprocessing <- function(df, local_std = TRUE) {
   df$drugs_hypercholesterolemia <- as.factor(df$drugs_hypercholesterolemia)
 
   ## Diabetes mellitus type 2
-  df$dm_2 <- as.factor(df$dm_2)
-  df$dm_type2 <- as.factor(ifelse(
-    is.na(df$dm_2),
-    df$dm,
-    df$dm_2
-  ))
+  if ("dm_all" %in% names(config) & config[["dm_all"]] == TRUE) {
+    df$dm_type2 <- as.factor(ifelse(
+      is.na(df$dm_2),
+      df$dm,
+      df$dm_2
+    ))
+  } else {
+    df$dm_type2 <- as.factor(df$dm_2)
+  }
 
   ## Smoking status
   df$smoking_behavior <- as.factor(df$smoking_behavior)
@@ -250,12 +272,19 @@ preprocessing <- function(df, local_std = TRUE) {
   df <- df %>%
     dplyr::rename(VCAM = vcam)
 
+  if ("log_bio" %in% names(config) & config[["log_bio"]] == TRUE) {
+    vtg::log$info("Apply the logarithm to the endothelial biomarkers")
+    df$E_Selectin <- log(df$E_Selectin)
+    df$ICAM <- log(df$ICAM)
+    df$VCAM <- log(df$VCAM)
+    df$vwf <- log(df$vwf)
+  }
   df$ZE_Selectin <- scale(df$E_Selectin)
   df$ZICAM <- scale(df$ICAM)
   df$ZVCAM <- scale(df$VCAM)
-
   df$ZvWF <- scale(df$vwf)
   # vwf - only available for the MS
+  # Calculate score based on availability
   df %>%
     dplyr::rowwise() %>%
     dplyr::mutate(EDcomp = ifelse(
