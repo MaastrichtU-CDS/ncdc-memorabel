@@ -37,6 +37,7 @@ summary_stats <- function(df) {
     "Priority_speed_z", "Priority_language_z"
   )
   metrics = list(
+    "n" = nrow(df),
     "sex" = get_freq(df$sex),
     "age" = summary(df$age),
     "education" = get_freq(df$education_category_3)

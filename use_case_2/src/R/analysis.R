@@ -7,7 +7,7 @@ analysis <- function(client, model, config=list(), exclude=c()) {
         image.name <- Sys.getenv("IMAGE_NAME")
         # To run a specific docker image, you must specify it here due
         # to a problem with the R version of vtg
-        image.name <- 'pmateus/usecase2:2.4.0'
+        image.name <- 'pmateus/usecase2:2.6.1'
 
         client$set.task.image(
             image.name,
@@ -51,14 +51,10 @@ analysis <- function(client, model, config=list(), exclude=c()) {
         }
         set.seed(seed)
 
-        subcohort <- c()
-        if ("subcohort" %in% names(config)) {
-            subcohort <- config[["subcohort"]]
-        }
         # Run the linear models
         responses <- client$call(
             "linearmodel",
-            cohort=subcohort,
+            config=config,
             model=model,
             exclude=exclude
         )
