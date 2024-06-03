@@ -1,5 +1,5 @@
-RPC_linearmodel <- function(df, config, model = "memory", exclude=c()) {
-  vtg::log$info("Starting: Linear models")
+RPC_models <- function(df, config, model = "memory", exclude=c()) {
+  vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
       RPostgres::Postgres(),
@@ -61,13 +61,13 @@ RPC_linearmodel <- function(df, config, model = "memory", exclude=c()) {
 
     #Memory delayed recall name transformations
     priority_memory_dr_test <- NULL
-    if (c("priority_memory_dr_ravlt")) {
+    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
         df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) + \ 
         (df$age2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844) \
          + (df$education_high * 0.424))) / sd(df$priority_memory_dr, na.rm = TRUE)
-    } else if (c("priority_memory_dr_lm")) {
+    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0)) {
       df$priority_memory_dr <- df$priority_memory_dr_lm
       df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
     } else {
@@ -129,10 +129,6 @@ RPC_linearmodel <- function(df, config, model = "memory", exclude=c()) {
                           na.action = na.exclude, 
                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
-    outcomes = list(
-      "model_memory_dr" = RIRS_memory_dr,
-      "model_marginal_memory_dr" = marginal_memory_dr,
-    )
     results <- list(
       "model_memory_dr" = RIRS_memory_dr,
       "model_marginal_memory_dr" = marginal_memory_dr,
