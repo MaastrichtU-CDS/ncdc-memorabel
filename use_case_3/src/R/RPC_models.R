@@ -62,8 +62,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Pre-processing the data
     df <- preprocessing(df, model, config)
 
-    #Follow-up
-    df$date - df$plasma
+    #Follow-ups
+    df$visit_years <- difftime(df$plasma, df$date, units = "years") 
     
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
