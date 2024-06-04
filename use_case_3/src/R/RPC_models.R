@@ -59,7 +59,34 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     included <- unique(df$id[! df$id %in% excluded])
     df <- df[df$id %in% included,]
 
-    #Memory delayed recall name transformations
+    # Pre-processing the data
+    df <- preprocessing(df, model, config)
+
+    #Follow-up
+    df$date - df$plasma
+    
+    # Age of participant:
+    # current_year <- format(Sys.Date(), "%Y")
+    # Year of birth will always be available (mandatory in OMOP), age is not guarantee
+    df$age_rec <- transform(df, age_rec=ifelse(is.na(age), as.numeric(format(df$date, "%Y")) - df$birth_year, age))
+
+    #age^2
+    df$age2 <- df$age_rec ^ 2
+    
+    # Centering age:
+    df$age_cent <- df$age_rec - 50
+
+    # Sex
+    # df$sex <- recode_factor(df$sex, "male" = "1", "female" = "0")
+    df$sex <- as.factor(df$sex, levels = c("0", "1"), labels = c("male", "female"))
+
+    # Education levels 
+    df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
+    # dummy variables:
+    low_edu <- ifelse(df$education == '0', 1, 0)
+    high_edu <- ifelse(df$education == '2', 1, 0)
+
+    #Memory delayed recall z-transformations
     priority_memory_dr_test <- NULL
     if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
@@ -68,33 +95,13 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         (df$age2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844) \
          + (df$education_high * 0.424))) / sd(df$priority_memory_dr, na.rm = TRUE)
     } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0)) {
-      df$priority_memory_dr <- df$priority_memory_dr_lm
       df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
+      df$priority_memory_dr <- df$priority_memory_dr_lm
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found"))
       ))
     }
-
-    # Pre-processing the data
-    # df <- preprocessing(df, model, config)
-    # Age of participant:
-    # current_year <- format(Sys.Date(), "%Y")
-    # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$age_rec <- transform(df, age_rec=ifelse(is.na(age), as.numeric(format(df$date, "%Y")) - df$birth_year, age))
-    df$age2 <- df$age_rec ^ 2
-    # Centering age:
-    df$age_cent <- df$age_rec - 50
-
-    # Sex
-    # df$sex <- recode_factor(df$sex, "male" = "0", "female" = "1")
-    df$sex <- as.factor(df$sex, levels = c("0", "1"), labels = c("male", "female"))
-
-    # Education levels 
-    df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-    # dummy variables:
-    low_edu <- ifelse(df$education == '0', 1, 0)
-    high_edu <- ifelse(df$education == '2', 1, 0)
 
     summary_post <- summary_stats(
       df,
