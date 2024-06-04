@@ -56,7 +56,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     )
     
     # Selected participants
-    included <- unique(df$id[! df$id %in% excluded])
+    included <- df$id[! df$id %in% excluded]
     df <- df[df$id %in% included,]
 
     # Pre-processing the data
