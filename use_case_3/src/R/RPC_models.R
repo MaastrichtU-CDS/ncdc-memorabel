@@ -80,6 +80,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     
     # Centering age:
     df$age_cent <- df$age_rec - 50
+    df$age_cent2 <- df$age_cent^2
 
     # Sex
     # df$sex <- recode_factor(df$sex, "male" = "1", "female" = "0")
@@ -97,7 +98,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
         df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) + \ 
-        (df$age2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844) \
+        (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844) \
          + (df$education_high * 0.424))) / sd(df$priority_memory_dr, na.rm = TRUE)
     } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0)) {
       df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
