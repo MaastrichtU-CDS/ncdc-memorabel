@@ -62,8 +62,13 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Pre-processing the data
     df <- preprocessing(df, model, config)
 
-    #Follow-ups
-    df$visit_years <- difftime(df$plasma, df$date, units = "years") 
+    #Follow-ups (in years)
+    mutate(across(c(date, plasma), as.Date, format = "%m/%d?%Y"))
+    df$difference_time <- time_length(interval(as.Date(df$date), as.Date(df$plasma)), unit = "years")
+    #check that this logic checks out
+    ## 1. not multiple baselines for the same ID
+    ## 2. that the interval from 0 to the next FU is acceptable
+    df$fu_years <- ifelse(df$difference_time >= -1 | df$difference_time <= 1, 0, df$difference_time)
     
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
