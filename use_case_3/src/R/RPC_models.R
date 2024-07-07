@@ -130,7 +130,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                           weights = varIdent(form= ~1 | visit_years),
                           correlation = 'corSymm',
                           method = "ML", 
-                          na.action = na.exclude, 
+                          na.action = na.exclude,
+                          REML = TRUE,
                           control = list(opt="optim")) #may need to change this if model doesn't converge
     
     # Unstructured Marginal Modal Memory delayed recall
@@ -140,6 +141,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                           correlation = corSymm(form = ~1 | id),
                           method = "ML", 
                           na.action = na.exclude, 
+                          REML = TRUE,
                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
     results <- list(
