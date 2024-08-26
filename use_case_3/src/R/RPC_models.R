@@ -31,7 +31,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-    check_names <- c("age", "sex", "education_category_3","visit_years", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
+    check_names <- c("age", "sex", "education_category_3", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
     missing_variables <- c()
     for (name in check_names) {
       if (!name %in% colnames(df)) {
@@ -48,64 +48,94 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    excluded <- unique(
-      # df$id[is.na(df$birth_year) | is.na(df$sex) | !anyDuplicated(df$id, incomparable = FALSE, fromLast = FALSE)]
-      df$id[is.na(df$birth_year) | is.na(df$sex) | !(
-        duplicated(df$id, incomparable = FALSE, fromLast = FALSE) | duplicated(df$id, incomparable = FALSE, fromLast = TRUE)
-      )]
+    memory_dr_test_name <- NULL
+    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
+      memory_dr_test_name <- "priority_memory_dr_ravlt"
+    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
+      memory_dr_test_name <- "priority_memory_dr_lm"
+    } else {
+      return(list(
+        "error_message" = paste("Delayed recall test not found")
+      ))
+    }
+    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'")
+
+    df_plasma <- df[!is.na(df$p_tau),]
+    df_baseline <- df[!is.na(df$education_category_3),]
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,] %>%
+      dplyr::group_by(id, date) %>%
+      dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
+
+    df_grouped <- merge(
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3")],
+      y = df_plasma[c("id", "date_plasma", "p_tau")],
+      by = "id"
     )
-    
+    df <- merge(
+      x = df_grouped,
+      y = df_cogn_test[c("id", "date", memory_dr_test_name)],
+      by = "id",
+      all.x = T
+    )
+
+    excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
+      # df$id[is.na(df$birth_year) | is.na(df$sex) | !anyDuplicated(df$id, incomparable = FALSE, fromLast = FALSE)]
+
     # Selected participants
     included <- df$id[! df$id %in% excluded]
+    vtg::log$info("Number of rows in the dataset: '{nrow(df)}'")
+    vtg::log$info("Excluded '{length(excluded)}' participants")
+    vtg::log$info("'{length(included)}' participants included in the analysis")
+    print(sum(!is.na(df$priority_memory_dr_ravlt)))
     df <- df[df$id %in% included,]
+    vtg::log$info("Number of rows in the dataset after exclusion: '{nrow(df)}'")
 
     # Pre-processing the data
-    df <- preprocessing(df, model, config)
+    # df <- preprocessing(df, model, config)
 
     #Follow-ups (in years)
-    mutate(across(c(date, plasma), as.Date, format = "%m/%d?%Y"))
-    df$difference_time <- time_length(interval(as.Date(df$date), as.Date(df$plasma)), unit = "years")
+    # df %>% dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%m/%d?%Y"))
+    df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
     #check that this logic checks out
     ## 1. not multiple baselines for the same ID
     ## 2. that the interval from 0 to the next FU is acceptable
     df$fu_years <- ifelse(df$difference_time >= -1 | df$difference_time <= 1, 0, df$difference_time)
-    
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$age_rec <- transform(df, age_rec=ifelse(is.na(age), as.numeric(format(df$date, "%Y")) - df$birth_year, age))
-
+    df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
     #age^2
     df$age2 <- df$age_rec ^ 2
-    
+
     # Centering age:
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
 
     # Sex
-    # df$sex <- recode_factor(df$sex, "male" = "1", "female" = "0")
-    df$sex <- as.factor(df$sex, levels = c("0", "1"), labels = c("male", "female"))
+    df$sex_num <- as.numeric(df$sex) + 1
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
-    # Education levels 
+    # Education levels
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
     # dummy variables:
-    low_edu <- ifelse(df$education == '0', 1, 0)
-    high_edu <- ifelse(df$education == '2', 1, 0)
+    df$low_edu <- ifelse(df$education == 'low', 1, 0)
+    df$high_edu <- ifelse(df$education == 'high', 1, 0)
 
     #Memory delayed recall z-transformations
-    priority_memory_dr_test <- NULL
-    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
+    # if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
+    if (memory_dr_test_name == "priority_memory_dr_ravlt") {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
-        df$priority_memory_dr_ravlt - (10.924 + (df$age_rec * -0.073) + \ 
-        (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844) \
-         + (df$education_high * 0.424))) / sd(df$priority_memory_dr, na.rm = TRUE)
-    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0)) {
+        df$priority_memory_dr_ravlt - (10.924 + (df$age_rec * -0.073) +
+          (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$low_edu * -0.844)
+         + (df$high_edu * 0.424))) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE)
+    # } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
+    } else if (memory_dr_test_name == "priority_memory_dr_lm") {
       df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
       df$priority_memory_dr <- df$priority_memory_dr_lm
     } else {
       return(list(
-        "error_message" = paste("Delayed recall test not found"))
+        "error_message" = paste("Delayed recall test not found")
       ))
     }
 
@@ -122,30 +152,31 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-
     # Model testing (add model for every biomarker x cognitive measure)
-    RIRS_memory_dr <- lme(priority_memory_dr_z ~ visit_years + age_rec + sex + low_edu + high_edu + p_tau + p_tau * visit_years, 
-                          data = df, 
-                          random = ~ visit_years | id,
-                          weights = varIdent(form= ~1 | visit_years),
-                          correlation = 'corSymm',
-                          method = "ML", 
-                          na.action = na.exclude,
-                          REML = TRUE,
-                          control = list(opt="optim")) #may need to change this if model doesn't converge
-    
+    # RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ fu_years + age_rec + sex + low_edu + high_edu + p_tau + p_tau * fu_years,
+    #                       data = df,
+    #                       random = ~ fu_years | id,
+    #                       weights = nlme::varIdent(form= ~1 | fu_years),
+    #                       correlation = "corSymm",
+    #                       method = "ML",
+    #                       na.action = na.exclude,
+    #                       # Error: unused argument (REML = TRUE)
+    #                       # REML = TRUE,
+    #                       control = list(opt="optim")) #may need to change this if model doesn't converge
+
     # Unstructured Marginal Modal Memory delayed recall
-    marginal_memory_dr <- gls(priority_memory_dr_z ~ visit_years + age2 + sex + low_edu + high_edu + p_tau + p_tau * visit_years, 
+    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ fu_years + age2 + sex + low_edu + high_edu + p_tau + p_tau * fu_years,
                           data = df,
-                          weights = varIdent(form= ~1 | visit_years),
-                          correlation = corSymm(form = ~1 | id),
-                          method = "ML", 
-                          na.action = na.exclude, 
-                          REML = TRUE,
+                          weights = nlme::varIdent(form= ~1 | fu_years),
+                          correlation = nlme::corSymm(form = ~1 | id),
+                          method = "ML",
+                          na.action = na.exclude,
+                          # Error: unused argument (REML = TRUE)
+                          # REML = TRUE,
                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
     results <- list(
-      "model_memory_dr" = RIRS_memory_dr,
+      # "model_memory_dr" = RIRS_memory_dr,
       "model_marginal_memory_dr" = marginal_memory_dr,
       "n" = nrow(df),
       "summary" = summary_post,
