@@ -109,10 +109,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$birth_year <- lubridate::ymd(df$birth_year, truncated = 2L)
-    df$age_rec <- time_length(interval(as.Date(df$birth_year), as.Date(df$date)), unit = "years") #Check what happens with 01.01.year date - don't want round up/down errors
-    df$age_rec <- lapply(df$age_rec, floor)
-    df$age_rec <- as.numeric(df$age_rec)
+    df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
     
     #Age squared:
     df$age2 <- df$age_rec^2
