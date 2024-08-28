@@ -93,19 +93,29 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Pre-processing the data
     # df <- preprocessing(df, model, config)
 
-    #Follow-ups (in years)
-    # df %>% dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%m/%d?%Y"))
-    df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
-    #check that this logic checks out
-    ## 1. not multiple baselines for the same ID
-    ## 2. that the interval from 0 to the next FU is acceptable
-    df$fu_years <- ifelse(df$difference_time >= -1 | df$difference_time <= 1, 0, df$difference_time)
+    df %>%
+      mutate(across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
+    df$difference_time <- time_length(interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
+    print(df$difference_time)
+    df$baseline <- ifelse(df$difference_time >= -1 | df$difference_time <= 1, 0) 
+    baseline_df <- df %>%
+      filter(baseline == 0) %>%
+      select(id, date) %>%
+      rename(date_baseline = date)
+    df <- df %>%
+      left_join(baseline_df, by = "id") %>%
+      dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
+  
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
-    #age^2
-    df$age2 <- df$age_rec ^ 2
+    df$birth_year <- lubridate::ymd(df$birth_year, truncated = 2L)
+    df$age_rec <- time_length(interval(as.Date(df$birth_year), as.Date(df$date)), unit = "years") #Check what happens with 01.01.year date - don't want round up/down errors
+    df$age_rec <- lapply(df$age_rec, floor)
+    df$age_rec <- as.numeric(df$age_rec)
+    
+    #Age squared:
+    df$age2 <- df$age_rec^2
 
     # Centering age:
     df$age_cent <- df$age_rec - 50
@@ -116,11 +126,96 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
-    df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
+    df$education <- dplyr::recode_factor(df$education_years, "1" = "0", "2" = "0",
+                                   "3" = "0", "4" = "0", "5" = "1",
+                                   "6" = "1", "7" = "2", "8" = "2", "9" = "2")
+    df$education <- factor(df$education, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
+    summary(df$education)
     # dummy variables:
     df$low_edu <- ifelse(df$education == 'low', 1, 0)
     df$high_edu <- ifelse(df$education == 'high', 1, 0)
 
+    #Descriptive statistics
+    #Count of participants
+    n_distinct(df$id)
+    
+    #Count of women and men (0 = women, 1 = men)
+    df %>%
+      group_by(sex) %>%
+      summarise(
+        count_sex = n_distinct(id)
+      )
+    
+    #Average follow-up time with standard deviations and the median. 
+    df %>%
+      group_by(id) %>%
+      slice(which.max(days_since_baseline)) %>%
+      ungroup %>%
+      summarise(mean_FU_days = mean(days_since_baseline, na.rm = TRUE),
+                sd_FU_days = sd(days_since_baseline, na.rm = TRUE),
+                median_FU_days = median(days_since_baseline, na.rm = TRUE)
+                )
+    
+    #This makes a table with means and standard deviations for the following variables per days since baseline 
+    ##(this should become years (I think...))
+    ##Here we are missing all the NPA results  
+    df %>%
+      group_by(days_since_baseline) %>%
+      summarise(
+        nr_participants = n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+        )
+    
+    #same as above but here the table sorted by sex
+    df %>%
+      group_by(sex) %>%
+      summarise(
+        nr_participants = n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+      )
+    
+    #same as above but here the table sorted by days since baseline and sex
+    df %>%
+      group_by(days_since_baseline, sex) %>%
+      summarise(
+        nr_participants = n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+      )
+
+    #Z-score transformations
     #Memory delayed recall z-transformations
     # if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
     if (memory_dr_test_name == "priority_memory_dr_ravlt") {
