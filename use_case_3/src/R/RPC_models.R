@@ -250,10 +250,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     #                       random = ~ fu_years | id,
     #                       weights = nlme::varIdent(form= ~1 | fu_years),
     #                       correlation = "corSymm",
-    #                       method = "ML",
+    #                       method = "REML",
     #                       na.action = na.exclude,
-    #                       # Error: unused argument (REML = TRUE)
-    #                       # REML = TRUE,
     #                       control = list(opt="optim")) #may need to change this if model doesn't converge
 
     # Unstructured Marginal Modal Memory delayed recall
@@ -261,10 +259,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                           data = df,
                           weights = nlme::varIdent(form= ~1 | fu_years),
                           correlation = nlme::corSymm(form = ~1 | id),
-                          method = "ML",
+                          method = "REML",
                           na.action = na.exclude,
-                          # Error: unused argument (REML = TRUE)
-                          # REML = TRUE,
                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
     results <- list(
