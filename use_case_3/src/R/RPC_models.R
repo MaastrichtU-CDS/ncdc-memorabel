@@ -105,6 +105,9 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df <- df %>%
       left_join(baseline_df, by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
+    
+    df$years_since_baseline <- df$days_since_baseline/365.25
+    df$years_since_baseline <- as.integer(years_since_baseline, 0)
   
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
@@ -123,94 +126,94 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
-    df$education <- dplyr::recode_factor(df$education_years, "1" = "0", "2" = "0",
-                                   "3" = "0", "4" = "0", "5" = "1",
-                                   "6" = "1", "7" = "2", "8" = "2", "9" = "2")
     df$education <- factor(df$education, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-    summary(df$education)
+    
     # dummy variables:
-    df$low_edu <- ifelse(df$education == 'low', 1, 0)
-    df$high_edu <- ifelse(df$education == 'high', 1, 0)
+    df$education_low <- ifelse(df$education == 'low', 1, 0)
+    df$education_high <- ifelse(df$education == 'high', 1, 0)
 
     #Descriptive statistics
     #Count of participants
     n_distinct(df$id)
     
     #Count of women and men (0 = women, 1 = men)
-    df %>%
+    count_men_and_women_table <- df %>%
       group_by(sex) %>%
       summarise(
         count_sex = n_distinct(id)
       )
     
     #Average follow-up time with standard deviations and the median. 
-    df %>%
+    average_FU_time_table <- df %>%
       group_by(id) %>%
-      slice(which.max(days_since_baseline)) %>%
+      slice(which.max(years_since_baseline)) %>%
       ungroup %>%
-      summarise(mean_FU_days = mean(days_since_baseline, na.rm = TRUE),
-                sd_FU_days = sd(days_since_baseline, na.rm = TRUE),
-                median_FU_days = median(days_since_baseline, na.rm = TRUE)
-                )
+      summarise(
+        mean_FU_years = mean(years_since_baseline, na.rm = TRUE),
+            sd_FU_years = sd(years_since_baseline, na.rm = TRUE),
+            median_FU_years = median(years_since_baseline, na.rm = TRUE)
+        )
     
     #This makes a table with means and standard deviations for the following variables per days since baseline 
     ##(this should become years (I think...))
     ##Here we are missing all the NPA results  
-    df %>%
-      group_by(days_since_baseline) %>%
-      summarise(
-        nr_participants = n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        mean_edu_years = mean(education_years, na.rm = TRUE),
-        sd_edu_years = sd(education_years, na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-        )
+    descriptives_per_year_table <- df %>%
+    group_by(years_since_baseline) %>%
+    summarise(
+      nr_participants = n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      mean_edu_years = mean(education_years, na.rm = TRUE),
+      sd_edu_years = sd(education_years, na.rm = TRUE),
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+    )
     
     #same as above but here the table sorted by sex
-    df %>%
-      group_by(sex) %>%
-      summarise(
-        nr_participants = n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        mean_edu_years = mean(education_years, na.rm = TRUE),
-        sd_edu_years = sd(education_years, na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-      )
+    descriptives_by_sex_table <- df %>%
+    group_by(sex) %>%
+    summarise(
+      nr_participants = n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      mean_edu_years = mean(education_years, na.rm = TRUE),
+      sd_edu_years = sd(education_years, na.rm = TRUE),
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
+      sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE)
+    )
     
-    #same as above but here the table sorted by days since baseline and sex
-    df %>%
-      group_by(days_since_baseline, sex) %>%
-      summarise(
-        nr_participants = n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        mean_edu_years = mean(education_years, na.rm = TRUE),
-        sd_edu_years = sd(education_years, na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-      )
+    #same as above but here the table sorted by years since baseline and sex
+   descriptives_by_sex_and_FU_table <- df %>%
+    group_by(years_since_baseline, sex) %>%
+    summarise(
+      nr_participants = n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      mean_edu_years = mean(education_years, na.rm = TRUE),
+      sd_edu_years = sd(education_years, na.rm = TRUE),
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+    )
 
     #Z-score transformations
     #Memory delayed recall z-transformations
@@ -245,19 +248,19 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
     # Model testing (add model for every biomarker x cognitive measure)
-    # RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ fu_years + age_rec + sex + low_edu + high_edu + p_tau + p_tau * fu_years,
-    #                       data = df,
-    #                       random = ~ fu_years | id,
-    #                       weights = nlme::varIdent(form= ~1 | fu_years),
-    #                       correlation = "corSymm",
-    #                       method = "REML",
-    #                       na.action = na.exclude,
-    #                       control = list(opt="optim")) #may need to change this if model doesn't converge
+    #RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau*years_since_baseline, 
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | fu_years),
+                           correlation = corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
     # Unstructured Marginal Modal Memory delayed recall
-    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ fu_years + age2 + sex + low_edu + high_edu + p_tau + p_tau * fu_years,
+    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau*years_since_baseline,
                           data = df,
-                          weights = nlme::varIdent(form= ~1 | fu_years),
+                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
                           correlation = nlme::corSymm(form = ~1 | id),
                           method = "REML",
                           na.action = na.exclude,
@@ -266,6 +269,12 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     results <- list(
       # "model_memory_dr" = RIRS_memory_dr,
       "model_marginal_memory_dr" = marginal_memory_dr,
+      "average_FU_time_table" = average_FU_time_table,
+      "count_men_and_women_table" = count_men_and_women_table,
+      "count_id)" = count_id,
+      "descriptives_per_year_table" = descriptives_per_year_table,
+      "descriptives_by_sex_table" = descriptives_by_sex_table,
+      "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table
       "n" = nrow(df),
       "summary" = summary_post,
       "pre_summary" = pre_summary,
