@@ -125,7 +125,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     # Sex
     df$sex_num <- as.numeric(df$sex) + 1
-    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("female", "male"))
 
     # Education levels
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
@@ -140,6 +140,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # available. If not available, use amyloid_b_ratio_42_40 directly from
     # the database.
     df$amyloid_b_ratio_42_40 <- df$amyloid_b_42 / df$amyloid_b_40
+
+    df %>% dplyr::mutate_if(is.character, as.factor)
 
     #Descriptive statistics
     #Count of participants
