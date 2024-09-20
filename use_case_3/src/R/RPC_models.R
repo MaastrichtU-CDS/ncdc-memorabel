@@ -62,9 +62,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,] %>%
-      dplyr::group_by(id, date) %>%
-      dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
+      # dplyr::group_by(id, date) %>%
+      # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
+    # df_amyloid <- df[!is.na(df$amyloid_b_ratio_42_40),]
 
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
@@ -73,18 +74,25 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40")],
       by = "id"
     )
+    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df <- merge(
-      x = df_grouped,
-      y = df_cogn_test[c("id", "date", memory_dr_test_name)],
+      x = df_cogn_test[c("id", "date", memory_dr_test_name)],
+      y = df_grouped,
       by = "id",
       all.x = T
     )
+    # df <- merge(
+    #   x = df_grouped,
+    #   y = df_amyloid[c("id", "amyloid_b_ratio_42_40")],
+    #   by = "id",
+    #   all.x = T
+    # )
 
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
       # df$id[is.na(df$birth_year) | is.na(df$sex) | !anyDuplicated(df$id, incomparable = FALSE, fromLast = FALSE)]
 
     # Selected participants
-    included <- df$id[! df$id %in% excluded]
+    included <- unique(df$id[! df$id %in% excluded])
     vtg::log$info("Number of rows in the dataset: '{nrow(df)}'")
     vtg::log$info("Excluded '{length(excluded)}' participants")
     vtg::log$info("'{length(included)}' participants included in the analysis")
@@ -99,17 +107,18 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
 
-    df$baseline <- ifelse(df$difference_time >= -1 | df$difference_time <= 1, 0)
+    # Should it be the minimum difference or is it necessary to be within 1 year?
+    df$baseline <- df$difference_time >= -1 & df$difference_time <= 1
     baseline_df <- df %>%
-      dplyr::filter(baseline == 0) %>%
+      dplyr::filter(baseline == TRUE) %>%
       dplyr::select(id, date) %>%
       dplyr::rename(date_baseline = date)
+
     df <- df %>%
-      dplyr::left_join(baseline_df, by = "id") %>%
+      dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
 
-    df$years_since_baseline <- df$days_since_baseline/365.25
-    df$years_since_baseline <- as.integer(df$years_since_baseline, 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
@@ -125,7 +134,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     # Sex
     df$sex_num <- as.numeric(df$sex) + 1
-    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("female", "male"))
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
@@ -139,9 +148,14 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
     # available. If not available, use amyloid_b_ratio_42_40 directly from
     # the database.
-    df$amyloid_b_ratio_42_40 <- df$amyloid_b_42 / df$amyloid_b_40
+    df$amyloid_b_ratio_42_40 <- ifelse(
+      !(is.na(df$amyloid_b_42) & is.na(df$amyloid_b_40) & df$amyloid_b_40 != 0),
+      df$amyloid_b_42 / df$amyloid_b_40,
+      df$amyloid_b_ratio_42_40
+    )
 
-    df %>% dplyr::mutate_if(is.character, as.factor)
+    df$id <- as.factor(as.character(df$id))
+    # df %>% dplyr::mutate_if(is.character, as.factor)
 
     #Descriptive statistics
     #Count of participants
@@ -246,11 +260,14 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
+    df$education_low <- as.factor(df$education_low)
+    df$education_high <- as.factor(df$education_high)
+
     summary_post <- summary_stats(
       df,
       c(
         "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr",
-        "priority_memory_dr_z", "age_rec", "age_cent"
+        "priority_memory_dr_z", "age_rec", "age_cent", "years_since_baseline"
       )
     )
 
@@ -260,29 +277,30 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
     # Model testing (add model for every biomarker x cognitive measure)
-    # vtg::log$info("RIRS_memory_dr")
-    # RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = list(opt="optim")) #may need to change this if model doesn't converge
+    vtg::log$info("RIRS_memory_dr")
+    RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = list(opt="optim")) #may need to change this if model doesn't converge
 
     # Unstructured Marginal Modal Memory delayed recall
-    # vtg::log$info("marginal_memory_dr")
-    # marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                       data = df,
-    #                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                       correlation = nlme::corSymm(form = ~1 | id),
-    #                       method = "REML",
-    #                       na.action = na.exclude,
-    #                       control = list(opt="optim")) #may need to change this if model doesn't converge
+    vtg::log$info("marginal_memory_dr")
+    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                          data = df,
+                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                          correlation = nlme::corSymm(form = ~1 | id),
+                          method = "REML",
+                          na.action = na.exclude,
+                          control = list(opt="optim"), #may need to change this if model doesn't converge
+                          verbose=TRUE) # not printing any information
 
     results <- list(
-      # "model_memory_dr" = RIRS_memory_dr,
-      # "model_marginal_memory_dr" = marginal_memory_dr,
+      "model_memory_dr" = RIRS_memory_dr,
+      "model_marginal_memory_dr" = marginal_memory_dr,
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       # "count_id" = count_id,
