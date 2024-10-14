@@ -279,7 +279,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Model testing (add model for every biomarker x cognitive measure)
     vtg::log$info("RIRS_memory_dr")
      ##this is to fix the convergence issue we were having. An older optimization function that tends to behave better.
-    ctrl <- lmeControl(opt='optim')
+    ctrl <- nlme::lmeControl(opt='optim')
     RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
