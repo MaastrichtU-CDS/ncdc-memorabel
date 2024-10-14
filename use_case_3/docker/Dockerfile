@@ -2,7 +2,7 @@
 # Once pushed to a repository, images can be downloaded and executed by the
 # network hubs.
 # FROM custom-r-base
-FROM pmateus/r-base:1.1.0
+FROM pmateus/r-base:4.4.1
 
 # This is a placeholder that should be overloaded by invoking
 # docker build with '--build-arg PKG_NAME=...'
