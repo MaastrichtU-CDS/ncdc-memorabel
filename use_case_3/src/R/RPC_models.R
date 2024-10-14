@@ -280,7 +280,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     vtg::log$info("RIRS_memory_dr")
      ##this is to fix the convergence issue we were having. An older optimization function that tends to behave better.
     ctrl <- lmeControl(opt='optim')
-    RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -291,7 +291,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     # Unstructured Marginal Modal Memory delayed recall
     vtg::log$info("marginal_memory_dr")
-    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                           data = df,
                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
                           correlation = nlme::corSymm(form = ~1 | id),
