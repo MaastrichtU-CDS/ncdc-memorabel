@@ -16,7 +16,8 @@ Imports:
     broom,
     DBI,
     RPostgres,
-    nlme
+    nlme,
+    psych
 Remotes:
     pedro-cmat/vtg@f10b361409c4a2bb2ee0e929a55933bee941e5a0
 RoxygenNote: 7.0.0
