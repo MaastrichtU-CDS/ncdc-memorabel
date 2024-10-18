@@ -247,9 +247,9 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     if (memory_dr_test_name == "priority_memory_dr_ravlt") {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
-        df$priority_memory_dr_ravlt - (10.924 + (df$age_rec * -0.073) +
+        df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
-         + (df$education_high * 0.424))) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE)
+         + (df$education_high * 0.424))) / 2.496
     # } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
     } else if (memory_dr_test_name == "priority_memory_dr_lm") {
       df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
@@ -279,7 +279,6 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # Model testing (add model for every biomarker x cognitive measure)
     vtg::log$info("RIRS_memory_dr")
      ##this is to fix the convergence issue we were having. An older optimization function that tends to behave better.
-    ctrl <- nlme::lmeControl(opt='optim')
     RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -287,7 +286,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           control = ctrl)
+                           lmeControl(opt='nlminb'))
 
     # Unstructured Marginal Modal Memory delayed recall
     vtg::log$info("marginal_memory_dr")
