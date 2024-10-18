@@ -32,7 +32,7 @@ The federated algorithm (https://github.com/MaastrichtU-CDS/federated-brain-age)
 
 ### Use case 2
 
-Developing linear models to explore the association of plasma AD biomarkers with cognitive decline and progression to dementia.
+Developing linear models to explore the association of plasma AD biomarkers of endothelial dysfunction with cognition, cognitive decline, and incident dementia.
 This use case was initially performed by a researcher with direct access to the data (https://doi.org/10.1016/j.cccb.2024.100271).
 Here, we adapted the scripts for the federated infrastructure with the goal of reproducing the results.
 
