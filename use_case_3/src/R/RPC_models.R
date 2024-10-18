@@ -120,7 +120,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
-    df <- subset(df, 'years_since_baseline' >= 0)
+    df <- subset(df, years_since_baseline >= 0)
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
@@ -280,7 +280,6 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     }
     # Model testing (add model for every biomarker x cognitive measure)
     vtg::log$info("RIRS_memory_dr")
-     ##this is to fix the convergence issue we were having. An older optimization function that tends to behave better.
     RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -288,7 +287,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           lmeControl(opt='nlminb'))
+                           control = nlme::lmeControl(opt='optim'))
 
     # Unstructured Marginal Modal Memory delayed recall
     vtg::log$info("marginal_memory_dr")
@@ -301,9 +300,12 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                           control = list(opt="optim"), #may need to change this if model doesn't converge
                           verbose=TRUE) # not printing any information
 
+    model_info <- c("modelStruct", "dims", "contrasts", "coefficients", "fitted", "residuals", "numIter")
     results <- list(
-      "model_memory_dr" = RIRS_memory_dr,
-      "model_marginal_memory_dr" = marginal_memory_dr,
+      "model_memory_dr" = RIRS_memory_dr[model_info],
+      "model_memory_dr_summary" = summary(RIRS_memory_dr),
+      "model_marginal_memory_dr" = marginal_memory_dr[model_info],
+      "model_marginal_memory_dr_summary" = modelsummary::modelsummary(marginal_memory_dr),
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       # "count_id" = count_id,
