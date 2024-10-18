@@ -26,5 +26,16 @@ With this challenge in mind, this POC provides a docker wrapper acting as the br
 
 ### Use case 1
 
-Includes the tools for the different steps necessary to have the data and methods ready for use case 1.
-The federated algorithm makes use of the vantage6 cluster wrapper.
+For this use case, we trained a convolutional neural network to predict brain age across 3 cohorts using a federated infrastructure.
+In this repository, we included the tools for the different pre-processing steps necessary to have the data and methods ready for use case 1.
+The federated algorithm (https://github.com/MaastrichtU-CDS/federated-brain-age) makes use of the vantage6 cluster wrapper.
+
+### Use case 2
+
+Developing linear models to explore the association of plasma AD biomarkers with cognitive decline and progression to dementia.
+This use case was initially performed by a researcher with direct access to the data (https://doi.org/10.1016/j.cccb.2024.100271).
+Here, we adapted the scripts for the federated infrastructure with the goal of reproducing the results.
+
+### Use case 3
+
+Developing linear mixed models to evaluate the association between plasma biomarkers and cognitive decline across the NCDC cohorts.
