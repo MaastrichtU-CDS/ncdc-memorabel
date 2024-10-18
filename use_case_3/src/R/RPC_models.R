@@ -120,6 +120,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
+    df <- subset(df, 'years_since_baseline' >= 0)
+
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
