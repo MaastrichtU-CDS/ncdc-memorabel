@@ -1,4 +1,4 @@
-RPC_models <- function(df, config, model = "memory", exclude=c()) {
+RPC_model_comparison <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -14,7 +14,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     if ("subcohort" %in% names(config)) {
       cohort <- config[["subcohort"]]
     }
-    
+
     query <- 'SELECT * FROM ncdc'
     # To select a specific cohort in the organization
     if (!(is.na(cohort)) && length(cohort) > 0) {
@@ -38,13 +38,13 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         missing_variables <- c(name, missing_variables)
       }
     }
-    
+
     if (length(missing_variables) > 0) {
       return(list(
         "error_message" = paste("Missing the following variables: ", paste(missing_variables, collapse=", "))
       ))
     }
-    
+
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
@@ -59,14 +59,14 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
     vtg::log$info("Cognitive test available: '{memory_dr_test_name}'")
-    
+
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
     df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
     # dplyr::group_by(id, date) %>%
     # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
     # df_amyloid <- df[!is.na(df$amyloid_b_ratio_42_40),]
-    
+
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
@@ -87,10 +87,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     #   by = "id",
     #   all.x = T
     # )
-    
+
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
     # df$id[is.na(df$birth_year) | is.na(df$sex) | !anyDuplicated(df$id, incomparable = FALSE, fromLast = FALSE)]
-    
+
     # Selected participants
     included <- unique(df$id[! df$id %in% excluded])
     vtg::log$info("Number of rows in the dataset: '{nrow(df)}'")
@@ -99,52 +99,52 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     print(sum(!is.na(df$priority_memory_dr_ravlt)))
     df <- df[df$id %in% included,]
     vtg::log$info("Number of rows in the dataset after exclusion: '{nrow(df)}'")
-    
+
     # Pre-processing the data
     # df <- preprocessing(df, model, config)
-    
+
     df %>%
       dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
-    
+
     # Should it be the minimum difference or is it necessary to be within 1 year?
     df$baseline <- df$difference_time >= -1 & df$difference_time <= 1
     baseline_df <- df %>%
       dplyr::filter(baseline == TRUE) %>%
       dplyr::select(id, date) %>%
       dplyr::rename(date_baseline = date)
-    
+
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
-    
+
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
-    
+
     df <- subset(df, years_since_baseline >= 0)
-    
+
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
     df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
-    
+
     #Age squared:
     df$age2 <- df$age_rec^2
-    
+
     # Centering age:
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
-    
+
     # Sex
     df$sex_num <- as.numeric(df$sex) + 1
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
-    
+
     # Education levels
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-    
+
     # dummy variables:
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
-    
+
     # In the original dataset, this variable may not
     # be associated with the plasma data but only with the visit date
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
@@ -155,10 +155,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       df$amyloid_b_42 / df$amyloid_b_40,
       df$amyloid_b_ratio_42_40
     )
-    
+
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
-    
+
     #Z-score transformations
     #Memory delayed recall z-transformations
     # if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
@@ -177,10 +177,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = paste("Delayed recall test not found")
       ))
     }
-    
+
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
-    
+
     summary_post <- summary_stats(
       df,
       c(
@@ -188,7 +188,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         "priority_memory_dr_z", "age_rec", "age_cent", "years_since_baseline"
       )
     )
-    
+
     if (nrow(df) == 0) {
       return(list(
         "error_message" = "Empty dataset: no participants selected"
@@ -217,7 +217,7 @@ marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + ag
                                 control = list(opt="optim"), #may need to change this if model doesn't converge
                                 verbose=TRUE) # not printing any information
 
-LRTest_marginal_RIRS  <- lrtest(marginal_memory_dr, RIRS_memory_dr)
+LRTest_marginal_RIRS  <- lmtest::lrtest(marginal_memory_dr, RIRS_memory_dr)
 
 model_info <- c("modelStruct", "dims", "contrasts", "coefficients", "fitted", "residuals", "numIter")
 results <- list(
