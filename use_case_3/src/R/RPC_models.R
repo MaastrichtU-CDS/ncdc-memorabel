@@ -244,27 +244,95 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     )
 
     #Z-score transformations
+    #Z-score: Memory immediate recall
+    #used van der Elst for RAVLT
+    #used norm scores from ADC for logical memory
+    if (c("priority_memory_im_ravlt") %in% colnames(df)) {
+      df$priority_memory_im_ravlt_z <- 
+        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
+    } else { 
+    return(list(
+        "error_message" = paste("immediate recall test not found, no z-score transformation possible")
+      ))
+    }
+    
     #Memory delayed recall z-transformations
-    # if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
+    #used van der Elst for RAVLT
+    #used norm scores from ADC for logical memory
     if (memory_dr_test_name == "priority_memory_dr_ravlt") {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
         df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
          + (df$education_high * 0.424))) / 2.496
-    # } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
-    } else if (memory_dr_test_name == "priority_memory_dr_lm") {
-      df$priority_memory_dr_z <-  scale(df$priority_memory_dr_lm)
-      df$priority_memory_dr <- df$priority_memory_dr_lm
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
       ))
     }
 
+    #Z-score: language
+    #Van der Elst, et al. norms for animal fluency
+     if (c("priority_language_animal_fluency") %in% colnames(df)) {
+    df$priority_language_z <- 
+      (df$priority_language_animal_fluency - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
+    } else {
+      return(list(
+        "error_message" = paste("language test not found, no z-score transformation possible")
+      ))
+    }    
+
+  if (c("attention_test_stroop_1_time") | c("attention_test_stroop_2_time") %in% colnames(df)) {
+      if(c("attention_test_stroop_1") %in% colnames(df)) {
+        df$priority_attention_stroop_1_z <-
+          (df$attention_test_stroop_1_time - (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507)) / sd(df$attention_test_stroop_1, na.rm = TRUE))
+        df$priority_attention_stroop_1 <- df$attention_test_stroop_1_time
+      } else {
+        return(list(
+          "error_message" = paste("stroop 1 not found")
+        ))
+      }
+      if(c("attention_test_stroop_2_time") %in% colnames(df)) {
+        df$priority_attention_stroop_2_z <-
+          (df$attention_test_stroop_2_time - (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$education_low * 4.235) (df$education_high * -2.346)) / sd(df$attention_test_stroop_2, na.rm = TRUE))
+        df$priority_attention_stroop_2 <- df$attention_test_stroop_2_time
+      } else {
+        return(list(
+          "error_message" = paste("stroop 2 not found")
+        ))
+      }
+      if  (c("priority_attention_stroop_1_z") & c("priority_attention_stroop_2_z") %in% colnames(df)) {
+        df$priority_attention_z <- ((df$priority_attention_stroop_1_z + df$priority_attention_stroop_2_z) /2) #make sure that if a value is missing it doesn't just divide the 1 available by 2
+      } else {
+         return(list(
+          "error_message" = paste("either stroop 1 or stroop 2 is missing, no average was calculated")
+        ))
+      }
+    } else {
+      return(list(
+            "error_message" = paste("attention test not found, no z-score transformation possible")
+          ))
+    }
+
+    if (c('priority_executive_stroop_3_time') %in% colnames(df)) {#Van der Elst norm scores for stroop 3
+        df$priority_executive_z <-
+          (df$priority_executive_stroop_3_time - (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873)) / sd(df$priority_executive_stroop_3, na.rm = TRUE))
+        df$priority_executive <- df$priority_executive_stroop_3_time
+        
+        #stroop interference score
+        df$priority_executive_interf_stroop <- 
+          (df$priority_executive_stroop_3_time -((df$attention_test_stroop_1_time - df$attention_test_stroop_2_time) /2)) #What happens if stroop 1/2 is unavailable?
+        df$priority_executive_interf_stroop_z <- 
+          (df$priority_executive_interf - (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167)) / sd(df$priority_memory_dr_ravlt, na.rm = TRUE))
+      } else {
+        print("executive function test not found, no z-score transformation possible")
+      }
+    
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
 
+#Add MMSE to model too
+    
     summary_post <- summary_stats(
       df,
       c(
@@ -278,7 +346,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-    # Model testing (add model for every biomarker x cognitive measure)
+    # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     vtg::log$info("RIRS_memory_dr")
     RIRS_memory_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                            data = df,
@@ -289,23 +357,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
 
-    # Unstructured Marginal Modal Memory delayed recall
-    vtg::log$info("marginal_memory_dr")
-    marginal_memory_dr <- nlme::gls(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
-                          data = df,
-                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                          correlation = nlme::corSymm(form = ~1 | id),
-                          method = "REML",
-                          na.action = na.exclude,
-                          control = list(opt="optim"), #may need to change this if model doesn't converge
-                          verbose=TRUE) # not printing any information
-
     model_info <- c("modelStruct", "dims", "contrasts", "coefficients", "fitted", "residuals", "numIter")
     results <- list(
       "model_memory_dr" = RIRS_memory_dr[model_info],
       "model_memory_dr_summary" = summary(RIRS_memory_dr),
-      "model_marginal_memory_dr" = marginal_memory_dr[model_info],
-      "model_marginal_memory_dr_summary" = modelsummary::modelsummary(marginal_memory_dr),
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       # "count_id" = count_id,
