@@ -181,7 +181,12 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         sd_FU_years = sd(years_since_baseline, na.rm = TRUE),
         median_FU_years = median(years_since_baseline, na.rm = TRUE)
         )
-
+    
+    #descriptives of education
+    descriptives_education_table <- df %>%
+    dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
+    dplyr::summarise(count = n())
+    
     #This makes a table with means and standard deviations for the following variables per days since baseline
     ##(this should become years (I think...))
     ##Here we are missing all the NPA results
@@ -489,7 +494,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       df,
       c(
         "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr",
-        "priority_memory_dr_z", "age_rec", "age_cent", "years_since_baseline"
+        "priority_memory_dr_z", "age_rec", "age_cent", "years_since_baseline", 
+        "mmse", "priority_executive_stroop_interf_z", "priority_executive_stroop_3",
+        "priority_attention_stroop_average_z", "priority_attention_stroop_2_z", "priority_attention_stroop_1_z",
+        "priority_language_z", "memory_delayed_recall_z", "memory_immediate_recall_z
       )
     )
 
@@ -766,7 +774,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     model_info <- c("modelStruct", "dims", "contrasts", "coefficients", "fitted", "residuals", "numIter")
     results <- list(
       "model_memory_p_tau_im" = RIRS_memory_p_tau_im[model_info],
-      "model_memory_p_tau_im_summary" = summary(RIRS_memory_p_tau_im),
+      "model_memory_p_tau_im_" = summary(RIRS_memory_p_tau_im),
       "model_memory_gfap_im" = RIRS_memory_gfap_im[model_info],
       "model_memory_gfap_im_summary" = summary(RIRS_memory_gfap_im),
       "model_memory_nfl_im" = RIRS_memory_nfl_im[model_info],
@@ -824,6 +832,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       # "count_id" = count_id,
+      "descriptives_education_table" = descriptives_education_table
       "descriptives_per_year_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
