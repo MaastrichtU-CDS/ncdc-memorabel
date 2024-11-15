@@ -30,14 +30,31 @@ summary_stats <- function(df, model_variables=c()) {
     "n" = nrow(df),
     "sex" = get_freq(df$sex),
     "age" = summary(df$age),
-    "education" = get_freq(df$education_category_3)
+    "education" = get_freq(df$education_category_3),
+    "education_low" = get_freq(df$education_low),
+    "education_high" = get_freq(df$education_high)
   )
   for (variable in model_variables) {
     metrics[[variable]] <- list(
       "summary" = summary(df[[variable]]),
       "sd" = sd(df[[variable]]),
-      "na" = sum(is.na(df[[variable]]))
+      "na" = sum(is.na(df[[variable]])),
+      "min" = min(is.na(df[[variable]])),
+      "max" = min(is.na(df[[variable]])),
+      "inf" = sum(is.finite(df[[variable]]))
     )
   }
   return(metrics)
+}
+
+model_summary <- function(model) {
+  ms <- summary(model)
+  return(list(
+    "coefficients" = ms[["coefficients"]][["fixed"]],
+    "fixDF" = model[["fixDF"]],
+    "logLik" = model[["logLik"]],
+    "varFix" = model[["varFix"]],
+    "sigma" = model[["sigma"]],
+    "contrasts" = model[["contrasts"]]
+  ))
 }
