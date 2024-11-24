@@ -558,6 +558,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im <- tab_model(RIRS_memory_p_tau_im, p.val = "kr")
+    
     vtg::log$info("RIRS_memory_gfap_im")
     RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                            data = df,
@@ -567,6 +569,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im <- tab_model(RIRS_memory_gfap_im, p.val = "kr")
+    
     vtg::log$info("RIRS_memory_nfl_im")
     RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                            data = df,
@@ -576,6 +580,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im <- tab_model(RIRS_memory_nfl_im, p.val = "kr")
+    
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
     RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -585,6 +591,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im <- tab_model(RIRS_memory_amyloid_b_ratio_im, p.val = "kr")
 
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
@@ -596,6 +603,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr <- tab_model(RIRS_memory_p_tau_dr, p.val = "kr")
+    
     vtg::log$info("RIRS_memory_gfap_dr")
     RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                            data = df,
@@ -605,6 +614,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr <- tab_model(RIRS_memory_gfap_dr, p.val = "kr")
+
     vtg::log$info("RIRS_memory_nfl_dr")
     RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                            data = df,
@@ -614,6 +625,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr <- tab_model(RIRS_memory_nfl_dr, p.val = "kr")
+
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
     RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -623,6 +636,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr <- tab_model(RIRS_memory_amyloid_b_ratio_dr, p.val = "kr")
+
 
     #Language
     vtg::log$info("RIRS_language_p_tau")
@@ -634,6 +649,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau <- tab_model(RIRS_language_p_tau), p.val = "kr")
+
     vtg::log$info("RIRS_language_gfap")
     RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                            data = df,
@@ -643,6 +660,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap <- tab_model(RIRS_language_gfap), p.val = "kr")
+
     vtg::log$info("RIRS_language_nfl")
     RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                            data = df,
@@ -652,6 +671,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl <- tab_model(RIRS_language_nfl), p.val = "kr")
+    
     vtg::log$info("RIRS_language_amyloid_b_ratio")
     RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -661,6 +682,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio), p.val = "kr")
+    
     #Attention
     # vtg::log$info("RIRS_attention_stroop_average_p_tau")
     # RIRS_attention_stroop_average_p_tau <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
@@ -777,25 +800,39 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     print(names(RIRS_memory_p_tau_im))
     # model_summary can't extract from lme models
     results <- list(
-      "model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
-      "model_memory_gfap_im" = model_summary(RIRS_memory_gfap_im),
-      "model_memory_nfl_im" = model_summary(RIRS_memory_nfl_im),
-      "model_memory_amyloid_b_ratio_im" = model_summary(RIRS_memory_amyloid_b_ratio_im),
-      "model_memory_p_tau_dr" = model_summary(RIRS_memory_p_tau_dr),
-      "model_memory_gfap_dr" = model_summary(RIRS_memory_gfap_dr),
-      "model_memory_nfl_dr" = model_summary(RIRS_memory_nfl_dr),
-      "model_memory_amyloid_b_ratio_dr" = model_summary(RIRS_memory_amyloid_b_ratio_dr),
+      #"model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
+      #"model_memory_gfap_im" = model_summary(RIRS_memory_gfap_im),
+      #"model_memory_nfl_im" = model_summary(RIRS_memory_nfl_im),
+      #"model_memory_amyloid_b_ratio_im" = model_summary(RIRS_memory_amyloid_b_ratio_im),
+      #"model_memory_p_tau_dr" = model_summary(RIRS_memory_p_tau_dr),
+      #"model_memory_gfap_dr" = model_summary(RIRS_memory_gfap_dr),
+      #"model_memory_nfl_dr" = model_summary(RIRS_memory_nfl_dr),
+      #"model_memory_amyloid_b_ratio_dr" = model_summary(RIRS_memory_amyloid_b_ratio_dr),
+
+      "summary_memory_p_tau_im" = summary_memory_p_tau_im,
+      "summary_memory_gfap_im" = summary_memory_gfap_im,
+      "summary_memory_nfl_im" = summary_memory_nfl_im,
+      "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
+      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
+      "summary_memory_gfap_dr" = summary_memory_gfap_dr,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr,
+      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
 
       # "model_mmse_p_tau" = RIRS_mmse_p_tau[model_info],
       # "model_mmse_gfap" = RIRS_mmse_gfap[model_info],
       # "model_mmse_nfl" = RIRS_mmse_nfl_dr[model_info],
       # "model_mmse_amyloid_b_ratio" = RIRS_mmse_amyloid_b_ratio_dr[model_info],
 
-      "model_language_p_tau" = model_summary(RIRS_language_p_tau),
-      "model_language_gfap" = model_summary(RIRS_language_gfap),
-      "model_language_nfl" = model_summary(RIRS_language_nfl),
-      "model_language_amyloid_b_ratio" = model_summary(RIRS_language_amyloid_b_ratio),
+      #"model_language_p_tau" = model_summary(RIRS_language_p_tau),
+      #"model_language_gfap" = model_summary(RIRS_language_gfap),
+      #"model_language_nfl" = model_summary(RIRS_language_nfl),
+      #"model_language_amyloid_b_ratio" = model_summary(RIRS_language_amyloid_b_ratio),
 
+      "summary_language_p_tau" = summary_language_p_tau,
+      "summary_language_gfap" = summary_language_gfap,
+      "summary_language_nfl" = summary_language_nfl,
+      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
+      
       # "model_attention_stroop_average_p_tau" = RIRS_attention_stroop_average_p_tau[model_info],
       # "model_attention_stroop_average_gfap" = RIRS_attention_stroop_average_gfap[model_info],
       # "model_attention_stroop_average_nfl" = RIRS_attention_stroop_average_nfl[model_info],
