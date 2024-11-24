@@ -297,6 +297,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_mmse_p_tau <- tab_model(RIRS_mmse_p_tau, p.val = "kr")
+    
     vtg::log$info("RIRS_mmse_gfap")
     RIRS_mmse_gfap <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                            data = df,
@@ -306,6 +308,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
+    summary_mmse_gfap <- tab_model(RIRS_mmse_gfap, p.val = "kr")
+
     # vtg::log$info("RIRS_mmse_nfl")
     # RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
     #                        data = df,
@@ -327,8 +331,10 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
 
     # model_summary can't extract from lme models
     results <- list(
-      "model_mmse_p_tau" = model_summary(RIRS_mmse_p_tau),
-      "model_mmse_gfap" = model_summary(RIRS_mmse_gfap),
+      #"model_mmse_p_tau" = model_summary(RIRS_mmse_p_tau),
+      #"model_mmse_gfap" = model_summary(RIRS_mmse_gfap),
+      "summary_mmse_p_tau" = summary_mmse_p_tau,
+      "summary_mmse_gfap" = summary_mmse_gfap,
       # "model_mmse_nfl" = model_summary(RIRS_mmse_nfl_dr),
       # "model_mmse_amyloid_b_ratio" = model_summary(RIRS_mmse_amyloid_b_ratio_dr),
       "average_FU_time_table" = average_FU_time_table,
