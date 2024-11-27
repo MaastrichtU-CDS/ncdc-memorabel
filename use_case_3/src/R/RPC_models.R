@@ -62,8 +62,9 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
-    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
+    df_apoe <- df[!is.na(df$apoe_carrier),]
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id, & df$id %in% df_apoe$id]
+    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id, & df$id %in% df_apoe$id]
       # dplyr::group_by(id, date) %>%
       # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
     # df_amyloid <- df[!is.na(df$amyloid_b_ratio_42_40),]
@@ -71,7 +72,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "apoe_carrier")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
