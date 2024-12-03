@@ -58,13 +58,13 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = paste("Delayed recall test not found")
       ))
     }
-    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'")
+    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'......")
 
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id, & df$id %in% df_apoe$id]
-    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id, & df$id %in% df_apoe$id]
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
+    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
       # dplyr::group_by(id, date) %>%
       # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
     # df_amyloid <- df[!is.na(df$amyloid_b_ratio_42_40),]
@@ -72,11 +72,18 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "apoe_carrier")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
+    df_grouped <- merge(
+      x = df_apoe[c("id", "apoe_carrier")],
+      y = df_grouped,
+      by = "id",
+      all.x = T
+    )
     df <- merge(
       x = df_cogn_test[c("id", "date", memory_dr_test_name,
                          "priority_memory_im_ravlt", "attention_test_stroop_1_time",
@@ -86,15 +93,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       all.x = T
     )
 
-    # df <- merge(
-    #   x = df_grouped,
-    #   y = df_amyloid[c("id", "amyloid_b_ratio_42_40")],
-    #   by = "id",
-    #   all.x = T
-    # )
-
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
-      # df$id[is.na(df$birth_year) | is.na(df$sex) | !anyDuplicated(df$id, incomparable = FALSE, fromLast = FALSE)]
 
     # Selected participants
     included <- unique(df$id[! df$id %in% excluded])
@@ -103,9 +102,6 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     vtg::log$info("'{length(included)}' participants included in the analysis")
     df <- df[df$id %in% included,]
     vtg::log$info("Number of rows in the dataset after exclusion: '{nrow(df)}'")
-
-    # Pre-processing the data
-    # df <- preprocessing(df, model, config)
 
     df %>%
       dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
@@ -138,12 +134,15 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
 
-    # Sex
-    df$sex_num <- as.numeric(df$sex) + 1
+    # Sex - in the database 0 identifies men and 1 women
+    # For the models: women should be identified with 0 and men with 1
+    # This dataframe only contains patients with birth year and sex info
+    # available, no need to consider NAs
+    df$sex_num <- ifelse(df$sex == 0, 1, 0)
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
-    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
+    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
 
     # Education levels
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
@@ -212,8 +211,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
     #same as above but here the table sorted by sex
@@ -235,8 +233,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         sd_age = sd(age_rec, na.rm = TRUE),
         years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -256,8 +253,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       sd_edu_years = sd(education_years, na.rm = TRUE),
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
-      mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-      sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+      count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
     #Z-score transformations
@@ -425,8 +421,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         # sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
         # mean_mmse = mean(mmse_total, na.rm = TRUE),
         # sd_mmse = sd(mmse_total, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
     )
 
     #same as above but here the table sorted by sex
@@ -466,8 +461,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         # sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
         # mean_mmse = mean(mmse_total, na.rm = TRUE),
         # sd_mmse = sd(mmse_total, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
       )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -505,8 +499,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       # sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
       # mean_mmse = mean(mmse_total, na.rm = TRUE),
       # sd_mmse = sd(mmse_total, na.rm = TRUE),
-      mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-      sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+      count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
     )
 
 
@@ -574,8 +567,9 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_p_tau_im <- tab_model(RIRS_memory_p_tau_im, p.val = "kr")
-    
+    # summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im, p.val = "kr")
+    summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im)
+
     vtg::log$info("RIRS_memory_gfap_im")
     RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
@@ -585,8 +579,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_im <- tab_model(RIRS_memory_gfap_im, p.val = "kr")
-    
+    summary_memory_gfap_im <- sjPlot::tab_model(RIRS_memory_gfap_im)
+
     vtg::log$info("RIRS_memory_nfl_im")
     RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
@@ -596,8 +590,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_im <- tab_model(RIRS_memory_nfl_im, p.val = "kr")
-    
+    summary_memory_nfl_im <- sjPlot::tab_model(RIRS_memory_nfl_im)
+
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
     RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -607,7 +601,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_im <- tab_model(RIRS_memory_amyloid_b_ratio_im, p.val = "kr")
+    summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im)
 
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
@@ -619,8 +613,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_p_tau_dr <- tab_model(RIRS_memory_p_tau_dr, p.val = "kr")
-    
+    summary_memory_p_tau_dr <- sjPlot::tab_model(RIRS_memory_p_tau_dr)
+
     vtg::log$info("RIRS_memory_gfap_dr")
     RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
@@ -630,7 +624,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_dr <- tab_model(RIRS_memory_gfap_dr, p.val = "kr")
+    summary_memory_gfap_dr <- sjPlot::tab_model(RIRS_memory_gfap_dr)
 
     vtg::log$info("RIRS_memory_nfl_dr")
     RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
@@ -641,7 +635,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_dr <- tab_model(RIRS_memory_nfl_dr, p.val = "kr")
+    summary_memory_nfl_dr <- sjPlot::tab_model(RIRS_memory_nfl_dr)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
     RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
@@ -652,7 +646,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_dr <- tab_model(RIRS_memory_amyloid_b_ratio_dr, p.val = "kr")
+    summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr)
 
 
     #Language
@@ -665,7 +659,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_p_tau <- tab_model(RIRS_language_p_tau), p.val = "kr")
+    summary_language_p_tau <- sjPlot::tab_model(RIRS_language_p_tau)
 
     vtg::log$info("RIRS_language_gfap")
     RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
@@ -676,7 +670,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_gfap <- tab_model(RIRS_language_gfap), p.val = "kr")
+    summary_language_gfap <- sjPlot::tab_model(RIRS_language_gfap)
 
     vtg::log$info("RIRS_language_nfl")
     RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
@@ -687,8 +681,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_nfl <- tab_model(RIRS_language_nfl), p.val = "kr")
-    
+    summary_language_nfl <- sjPlot::tab_model(RIRS_language_nfl)
+
     vtg::log$info("RIRS_language_amyloid_b_ratio")
     RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -698,8 +692,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio), p.val = "kr")
-    
+    summary_language_amyloid_b_ratio <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio)
+
     #Attention
     # vtg::log$info("RIRS_attention_stroop_average_p_tau")
     # RIRS_attention_stroop_average_p_tau <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
@@ -848,7 +842,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       "summary_language_gfap" = summary_language_gfap,
       "summary_language_nfl" = summary_language_nfl,
       "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
-      
+
       # "model_attention_stroop_average_p_tau" = RIRS_attention_stroop_average_p_tau[model_info],
       # "model_attention_stroop_average_gfap" = RIRS_attention_stroop_average_gfap[model_info],
       # "model_attention_stroop_average_nfl" = RIRS_attention_stroop_average_nfl[model_info],
