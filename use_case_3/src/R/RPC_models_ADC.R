@@ -72,7 +72,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # to be available for the summarise function)
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
-      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
+      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40", "apoe_carrier")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
@@ -137,7 +137,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
 
-    # Sex
+    # Sex - THIS NEEDS TO BE FIXED
     df$sex_num <- as.numeric(df$sex) + 1
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
@@ -293,10 +293,21 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     #Van der Elst, et al. norms for animal fluency
      if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
     df$priority_language_z <-
-      (df$priority_language_animal_fluency - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
+      (df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
+      ))
+    }
+
+    #Z-score: processing speed 
+    #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
+    if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
+    df$priority_processing_speed_ldst_z <- 
+      (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
+  }  else {
+      return(list(
+        "error_message" = paste("processing speed test not found, no z-score transformation possible")
       ))
     }
 
@@ -412,6 +423,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
+        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -453,6 +466,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
+        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -492,6 +507,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+      mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
+      sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
       mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
       sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
       mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -698,6 +715,52 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio), p.val = "kr")
+
+    #processing speed
+    vtg::log$info("RIRS_processing_speed_p_tau")
+    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau, p.val = "kr")
+    
+    vtg::log$info("RIRS_processing_speed_gfap")
+    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap, p.val = "kr")
+    
+    vtg::log$info("RIRS_processing_speed_nfl")
+    RIRS_processing_speed_nfl <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl, p.val = "kr")
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
+    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio <- tab_model(RIRS_processing_speed_amyloid_b_ratio, p.val = "kr")
+
     
     #Attention
     vtg::log$info("RIRS_attention_stroop_average_p_tau")
@@ -833,7 +896,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
     summary_attention_stroop_interf_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_interf_amyloid_b_ratio), p.val = "kr")
-    
+
+
 
     print(names(RIRS_memory_p_tau_im))
     # model_summary can't extract from lme models
@@ -870,6 +934,11 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       "summary_language_gfap" = summary_language_gfap,
       "summary_language_nfl" = summary_language_nfl,
       "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
+
+      "summary_processing_speed_p_tau" = summary_processing_speed_p_tau,
+      "summary_processing_speed_gfap" = summary_processing_speed_gfap,
+      "summary_processing_speed_nfl" = summary_processing_speed_nfl,
+      "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
       
       # "model_attention_stroop_average_p_tau" = RIRS_attention_stroop_average_p_tau[model_info],
       # "model_attention_stroop_average_gfap" = RIRS_attention_stroop_average_gfap[model_info],
