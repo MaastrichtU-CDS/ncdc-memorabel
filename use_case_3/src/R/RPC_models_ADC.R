@@ -312,6 +312,19 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     }
 
     #Z-score: attention (here we have the TMT and the Stroop)
+    ##TMT-A z-scores calculated with NIP manual and excel sheet
+    ###education and sex coded differently
+    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { #Sex need to be fixed - women = 2, men = 1
+      df$age2_cent_tmt <- ((df$age_rec-60)^2)
+      df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
+      df$priority_attention_tmt_z <- 
+        ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
+    
+    #TMT shifting: NIP norms
+    ##education and sex coded differently
+    df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex)) - df$log10_tmt_b) / 0.12729)       
+    }
+    
     ##Stroop: Van der Elst norms
      if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
        if(c("attention_test_stroop_1") %in% colnames(df)) {
@@ -366,6 +379,13 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
      }
 
     #Z-score: executive functioning (Stroop and TMT)
+    #TMT b: NIP norms
+    ##education and sex coded differently
+    if (c("priority_executive_tmt_b_time") %in% colnames(df)) {#sex needs fixing
+      df$age2_cent_tmt <- ((df$age_rec-60)^2)
+      df$log10_tmt_b <- log10(df$attention_test_tmt_b_time)
+      df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex * -0.031)) - df$log10_tmt_b) / 0.14567)
+    
     #Stroop: van der Elst norms
        df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
