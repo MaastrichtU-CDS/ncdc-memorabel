@@ -315,6 +315,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently
     if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { #Sex need to be fixed - women = 2, men = 1
+      df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
+      new_variable <- replace(old_variable, old_variable == 0, 1) + (old_variable == 1)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_z <- 
@@ -322,7 +324,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     
     #TMT shifting: NIP norms
     ##education and sex coded differently
-    df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex)) - df$log10_tmt_b) / 0.12729)       
+    df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)       
     }
     
     ##Stroop: Van der Elst norms
@@ -382,9 +384,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     #TMT b: NIP norms
     ##education and sex coded differently
     if (c("priority_executive_tmt_b_time") %in% colnames(df)) {#sex needs fixing
+      df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$attention_test_tmt_b_time)
-      df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex * -0.031)) - df$log10_tmt_b) / 0.14567)
+      df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
     
     #Stroop: van der Elst norms
        df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
