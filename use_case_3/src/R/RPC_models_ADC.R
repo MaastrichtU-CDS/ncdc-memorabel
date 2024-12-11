@@ -137,7 +137,11 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
 
-    # Sex - THIS NEEDS TO BE FIXED
+    # Sex - in the database 0 identifies men and 1 women
+    # For the models: women should be identified with 0 and men with 1
+    # This dataframe only contains patients with birth year and sex info
+    # available, no need to consider NAs
+    df$sex_num <- ifelse(df$sex == 0, 1, 0)
     df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
@@ -303,7 +307,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: processing speed
     #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
-    df$priority_processing_speed_ldst_z <- 
+    df$priority_processing_speed_ldst_z <-
       (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
     }  else {
       return(list(
@@ -319,10 +323,10 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       new_variable <- replace(old_variable, old_variable == 0, 1) + (old_variable == 1)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
-      df$priority_attention_tmt_a_z <- 
+      df$priority_attention_tmt_a_z <-
         ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
     }
-    
+
     ##Stroop: Van der Elst norms
      if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
        if(c("attention_test_stroop_1") %in% colnames(df)) {
@@ -384,12 +388,12 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$attention_test_tmt_b_time)
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
-  
+
     #TMT shifting: NIP norms
     ##education and sex coded differently
-      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)       
+      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
     }
-      
+
     ##Stroop: van der Elst norms
        #df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
        #df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
@@ -743,7 +747,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim'))
 
     summary_language_nfl <- tab_model(RIRS_language_nfl)
-    
+
     vtg::log$info("RIRS_language_amyloid_b_ratio")
     RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -814,7 +818,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             control = nlme::lmeControl(opt='optim'))
 
     summary_attention_stroop_average_p_tau <- tab_model(RIRS_attention_stroop_average_p_tau)
-    
+
     vtg::log$info("RIRS_attention_stroop_average_gfap")
     RIRS_attention_stroop_average_gfap <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             data = df,
@@ -825,7 +829,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
     summary_attention_stroop_average_gfap <- tab_model(RIRS_attention_stroop_average_gfap)
-    
+
     vtg::log$info("RIRS_attention_stroop_average_nfl")
     RIRS_attention_stroop_average_nfl <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             data = df,
@@ -836,7 +840,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
     summary_attention_stroop_average_nfl <- tab_model(RIRS_attention_stroop_average_nfl)
-    
+
     vtg::log$info("RIRS_attention_stroop_average_amyloid_b_ratio")
     RIRS_attention_stroop_average_amyloid_b_ratio <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             data = df,
@@ -939,7 +943,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
     summary_priority_executive_tmt_b_time_amyloid_b_ratio <- tab_model(RIRS_priority_executive_tmt_b_time_amyloid_b_ratio)
-    
+
     #vtg::log$info("RIRS_executive_stroop_3_p_tau")
     #RIRS_executive_stroop_3_p_tau <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                             #data = df,
@@ -950,7 +954,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_3_p_tau <- tab_model(RIRS_attention_stroop_3_p_tau)
-    
+
     #vtg::log$info("RIRS_executive_stroop_3_gfap")
     #RIRS_executive_stroop_3_gfap <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             #data = df,
@@ -961,7 +965,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_3_gfap <- tab_model(RIRS_attention_stroop_3_gfap)
-    
+
     #vtg::log$info("RIRS_executive_stroop_3_nfl")
     #RIRS_executive_stroop_3_nfl <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             #data = df,
@@ -972,7 +976,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_3_nfl <- tab_model(RIRS_attention_stroop_3_nfl)
-    
+
     #vtg::log$info("RIRS_executive_stroop_3_amyloid_b_ratio")
     #RIRS_executive_stroop_3_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             #data = df,
@@ -995,7 +999,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_interf_p_tau <- tab_model(RIRS_attention_stroop_interf_p_tau)
-    
+
     #vtg::log$info("RIRS_executive_stroop_interf_gfap")
     #RIRS_executive_stroop_interf_gfap <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             #data = df,
@@ -1006,7 +1010,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_interf_gfap <- tab_model(RIRS_attention_stroop_interf_gfap)
-    
+
     #vtg::log$info("RIRS_executive_stroop_interf_nfl")
     #RIRS_executive_stroop_interf_nfl <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             #data = df,
@@ -1017,7 +1021,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             #na.action = na.exclude,
                             #control = nlme::lmeControl(opt='optim'))
     #summary_attention_stroop_interf_nfl <- tab_model(RIRS_attention_stroop_interf_nfl)
-    
+
     #vtg::log$info("RIRS_executive_stroop_interf_amyloid_b_ratio")
     #RIRS_executive_stroop_interf_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             #data = df,
@@ -1087,17 +1091,17 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
       "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
       "summary_attention_stroop_average_amyloid_b_ratio" = summary_attention_stroop_average_amyloid_b_ratio,
-      
+
       #"summary_attention_stroop_3_p_tau" = summary_attention_stroop_3_p_tau,
       #"summary_attention_stroop_3_gfap" = summary_attention_stroop_3_gfap,
       #"summary_attention_stroop_3_nfl" = summary_attention_stroop_3_nfl,
       #"summary_attention_stroop_3_amyloid_b_ratio" = summary_attention_stroop_3_amyloid_b_ratio,
-      
+
       #"summary_attention_stroop_interf_p_tau" = summary_attention_stroop_interf_p_tau,
       #"summary_attention_stroop_interf_gfap" = summary_attention_stroop_interf_gfap,
       #"summary_attention_stroop_interf_nfl" = summary_attention_stroop_interf_nfl,
       #"summary_attention_stroop_interf_amyloid_b_ratio" = summary_attention_stroop_interf_amyloid_b_ratio,
-      
+
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,

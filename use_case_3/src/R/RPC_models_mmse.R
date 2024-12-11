@@ -109,6 +109,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
+    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
