@@ -139,7 +139,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("female", "male"))
 
     # Apoe
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
