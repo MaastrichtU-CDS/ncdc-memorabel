@@ -1,4 +1,4 @@
-RPC_models <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -300,10 +300,10 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
-    #Z-score: processing speed 
+    #Z-score: processing speed
     #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
-    df$priority_processing_speed_ldst_z <- 
+    df$priority_processing_speed_ldst_z <-
       (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
   }  else {
       return(list(
@@ -331,7 +331,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
              "error_message" = paste("stroop 1 not found")
            ))
          }
-    
+
        if(c("attention_test_stroop_2_time") %in% colnames(df)) {
          df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$education_low * 4.235) (df$education_high * -2.346))
          df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
@@ -349,7 +349,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
              "error_message" = paste("stroop 2 not found")
            ))
          }
-    
+
        #make sure that if a value is missing it doesn't just divide the 1 available by 2
        if  (c("priority_attention_stroop_1_z") & c("priority_attention_stroop_2_z") %in% colnames(df)) {
          df$priority_attention_stroop_average_z <- ((df$priority_attention_stroop_1_z + df$priority_attention_stroop_2_z) /2)
@@ -358,7 +358,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
            "error_message" = paste("either stroop 1 or stroop 2 is missing, no average was calculated")
          ))
        }
-    
+
      } else {
        return(list(
              "error_message" = paste("attention test not found, no z-score transformation possible")
@@ -591,7 +591,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_memory_p_tau_im <- tab_model(RIRS_memory_p_tau_im, p.val = "kr")
-    
+
     vtg::log$info("RIRS_memory_gfap_im")
     RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
@@ -602,7 +602,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_memory_gfap_im <- tab_model(RIRS_memory_gfap_im, p.val = "kr")
-    
+
     vtg::log$info("RIRS_memory_nfl_im")
     RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
@@ -613,7 +613,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_memory_nfl_im <- tab_model(RIRS_memory_nfl_im, p.val = "kr")
-    
+
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
     RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -636,7 +636,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_memory_p_tau_dr <- tab_model(RIRS_memory_p_tau_dr, p.val = "kr")
-    
+
     vtg::log$info("RIRS_memory_gfap_dr")
     RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
@@ -681,7 +681,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_p_tau <- tab_model(RIRS_language_p_tau), p.val = "kr")
+    summary_language_p_tau <- tab_model(RIRS_language_p_tau, p.val = "kr")
 
     vtg::log$info("RIRS_language_gfap")
     RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
@@ -692,7 +692,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_gfap <- tab_model(RIRS_language_gfap), p.val = "kr")
+    summary_language_gfap <- tab_model(RIRS_language_gfap, p.val = "kr")
 
     vtg::log$info("RIRS_language_nfl")
     RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
@@ -703,8 +703,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_nfl <- tab_model(RIRS_language_nfl), p.val = "kr")
-    
+    summary_language_nfl <- tab_model(RIRS_language_nfl, p.val = "kr")
+
     vtg::log$info("RIRS_language_amyloid_b_ratio")
     RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -714,7 +714,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio), p.val = "kr")
+    summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio, p.val = "kr")
 
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
@@ -727,7 +727,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau, p.val = "kr")
-    
+
     vtg::log$info("RIRS_processing_speed_gfap")
     RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
@@ -738,7 +738,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap, p.val = "kr")
-    
+
     vtg::log$info("RIRS_processing_speed_nfl")
     RIRS_processing_speed_nfl <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
@@ -749,7 +749,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
     summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl, p.val = "kr")
-    
+
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
     RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
@@ -761,7 +761,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim'))
     summary_processing_speed_amyloid_b_ratio <- tab_model(RIRS_processing_speed_amyloid_b_ratio, p.val = "kr")
 
-    
+
     #Attention
     vtg::log$info("RIRS_attention_stroop_average_p_tau")
     RIRS_attention_stroop_average_p_tau <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
@@ -772,8 +772,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_average_p_tau <- tab_model(RIRS_attention_stroop_average_p_tau), p.val = "kr")
-    
+    summary_attention_stroop_average_p_tau <- tab_model(RIRS_attention_stroop_average_p_tau, p.val = "kr")
+
     vtg::log$info("RIRS_attention_stroop_average_gfap")
     RIRS_attention_stroop_average_gfap <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             data = df,
@@ -783,8 +783,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_average_gfap <- tab_model(RIRS_attention_stroop_average_gfap), p.val = "kr")
-    
+    summary_attention_stroop_average_gfap <- tab_model(RIRS_attention_stroop_average_gfap, p.val = "kr")
+
     vtg::log$info("RIRS_attention_stroop_average_nfl")
     RIRS_attention_stroop_average_nfl <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             data = df,
@@ -794,8 +794,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_average_nfl <- tab_model(RIRS_attention_stroop_average_nfl), p.val = "kr")
-    
+    summary_attention_stroop_average_nfl <- tab_model(RIRS_attention_stroop_average_nfl, p.val = "kr")
+
     vtg::log$info("RIRS_attention_stroop_average_amyloid_b_ratio")
     RIRS_attention_stroop_average_amyloid_b_ratio <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             data = df,
@@ -805,8 +805,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_average_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_average_amyloid_b_ratio), p.val = "kr")
-    
+    summary_attention_stroop_average_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_average_amyloid_b_ratio, p.val = "kr")
+
     #Executive function
     vtg::log$info("RIRS_executive_stroop_3_p_tau")
     RIRS_executive_stroop_3_p_tau <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
@@ -817,8 +817,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_3_p_tau <- tab_model(RIRS_attention_stroop_3_p_tau), p.val = "kr")
-    
+    summary_attention_stroop_3_p_tau <- tab_model(RIRS_attention_stroop_3_p_tau, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_3_gfap")
     RIRS_executive_stroop_3_gfap <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             data = df,
@@ -828,8 +828,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_3_gfap <- tab_model(RIRS_attention_stroop_3_gfap), p.val = "kr")
-    
+    summary_attention_stroop_3_gfap <- tab_model(RIRS_attention_stroop_3_gfap, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_3_nfl")
     RIRS_executive_stroop_3_nfl <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             data = df,
@@ -839,8 +839,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_3_nfl <- tab_model(RIRS_attention_stroop_3_nfl), p.val = "kr")
-    
+    summary_attention_stroop_3_nfl <- tab_model(RIRS_attention_stroop_3_nfl, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_3_amyloid_b_ratio")
     RIRS_executive_stroop_3_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             data = df,
@@ -850,7 +850,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_3_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_3_amyloid_b_ratio), p.val = "kr")
+    summary_attention_stroop_3_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_3_amyloid_b_ratio, p.val = "kr")
 
     #Executive function (Interference)
     vtg::log$info("RIRS_executive_stroop_interf_p_tau")
@@ -862,8 +862,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_interf_p_tau <- tab_model(RIRS_attention_stroop_interf_p_tau), p.val = "kr")
-    
+    summary_attention_stroop_interf_p_tau <- tab_model(RIRS_attention_stroop_interf_p_tau, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_interf_gfap")
     RIRS_executive_stroop_interf_gfap <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                             data = df,
@@ -873,8 +873,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_interf_gfap <- tab_model(RIRS_attention_stroop_interf_gfap), p.val = "kr")
-    
+    summary_attention_stroop_interf_gfap <- tab_model(RIRS_attention_stroop_interf_gfap, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_interf_nfl")
     RIRS_executive_stroop_interf_nfl <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                             data = df,
@@ -884,8 +884,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_interf_nfl <- tab_model(RIRS_attention_stroop_interf_nfl), p.val = "kr")
-    
+    summary_attention_stroop_interf_nfl <- tab_model(RIRS_attention_stroop_interf_nfl, p.val = "kr")
+
     vtg::log$info("RIRS_executive_stroop_interf_amyloid_b_ratio")
     RIRS_executive_stroop_interf_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_cent + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                             data = df,
@@ -895,7 +895,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim'))
-    summary_attention_stroop_interf_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_interf_amyloid_b_ratio), p.val = "kr")
+    summary_attention_stroop_interf_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_interf_amyloid_b_ratio, p.val = "kr")
 
 
 
@@ -939,7 +939,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       "summary_processing_speed_gfap" = summary_processing_speed_gfap,
       "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
-      
+
       # "model_attention_stroop_average_p_tau" = RIRS_attention_stroop_average_p_tau[model_info],
       # "model_attention_stroop_average_gfap" = RIRS_attention_stroop_average_gfap[model_info],
       # "model_attention_stroop_average_nfl" = RIRS_attention_stroop_average_nfl[model_info],
@@ -957,17 +957,17 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
       "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
       "summary_attention_stroop_average_amyloid_b_ratio" = summary_attention_stroop_average_amyloid_b_ratio,
-      
+
       "summary_attention_stroop_3_p_tau" = summary_attention_stroop_3_p_tau,
       "summary_attention_stroop_3_gfap" = summary_attention_stroop_3_gfap,
       "summary_attention_stroop_3_nfl" = summary_attention_stroop_3_nfl,
       "summary_attention_stroop_3_amyloid_b_ratio" = summary_attention_stroop_3_amyloid_b_ratio,
-      
+
       "summary_attention_stroop_interf_p_tau" = summary_attention_stroop_interf_p_tau,
       "summary_attention_stroop_interf_gfap" = summary_attention_stroop_interf_gfap,
       "summary_attention_stroop_interf_nfl" = summary_attention_stroop_interf_nfl,
       "summary_attention_stroop_interf_amyloid_b_ratio" = summary_attention_stroop_interf_amyloid_b_ratio,
-      
+
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,

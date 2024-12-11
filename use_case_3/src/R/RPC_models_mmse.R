@@ -47,7 +47,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
 
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
+    # df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
     df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
 
     df_grouped <- merge(
@@ -104,8 +104,11 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
 
-    # Sex
-    df$sex_num <- as.numeric(df$sex) + 1
+    # Sex - in the database 0 identifies men and 1 women
+    # For the models: women should be identified with 0 and men with 1
+    # This dataframe only contains patients with birth year and sex info
+    # available, no need to consider NAs
+    df$sex_num <- ifelse(df$sex == 0, 1, 0)
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
@@ -121,11 +124,12 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     # available. If not available, use amyloid_b_ratio_42_40 directly from
     # the database.
     # )
-    df$amyloid_b_ratio_42_40 <- ifelse(
-      !(is.na(df$amyloid_b_42) & is.na(df$amyloid_b_40) & df$amyloid_b_40 != 0),
-      df$amyloid_b_42 / df$amyloid_b_40,
-      df$amyloid_b_ratio_42_40
-    )
+    # df$amyloid_b_ratio_42_40 <- ifelse(
+    #   !(is.na(df$amyloid_b_42) | is.na(df$amyloid_b_40) | df$amyloid_b_40 == 0),
+    #   df$amyloid_b_42 / df$amyloid_b_40,
+    #   df$amyloid_b_ratio_42_40
+    # )
+    df$amyloid_b_ratio_42_40 <- df$amyloid_b_42/df$amyloid_b_40
 
     df$id <- as.factor(as.character(df$id))
 
@@ -297,8 +301,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_mmse_p_tau <- tab_model(RIRS_mmse_p_tau, p.val = "kr")
-    
+    summary_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau)
+
     vtg::log$info("RIRS_mmse_gfap")
     RIRS_mmse_gfap <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                            data = df,
@@ -308,35 +312,39 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            method = "REML",
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim'))
-    summary_mmse_gfap <- tab_model(RIRS_mmse_gfap, p.val = "kr")
+    summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap)
 
-    # vtg::log$info("RIRS_mmse_nfl")
-    # RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim'))
-    # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim'))
+    vtg::log$info("RIRS_mmse_nfl")
+    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           # control = nlme::lmeControl(opt='optim'))
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
+
+  vtg::log$info("RIRS_mmse_amyloid_b_ratio")
+  RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                         data = df,
+                         random = ~ years_since_baseline | id,
+                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                         correlation = nlme::corSymm(form = ~1 | id),
+                         method = "REML",
+                         na.action = na.exclude,
+                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+  summary_mmse_amyloid_b_ratio <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio)
 
     # model_summary can't extract from lme models
     results <- list(
-      #"model_mmse_p_tau" = model_summary(RIRS_mmse_p_tau),
-      #"model_mmse_gfap" = model_summary(RIRS_mmse_gfap),
+      # "model_mmse_p_tau" = model_summary(RIRS_mmse_p_tau),
+      # "model_mmse_gfap" = model_summary(RIRS_mmse_gfap),
       "summary_mmse_p_tau" = summary_mmse_p_tau,
       "summary_mmse_gfap" = summary_mmse_gfap,
-      # "model_mmse_nfl" = model_summary(RIRS_mmse_nfl_dr),
-      # "model_mmse_amyloid_b_ratio" = model_summary(RIRS_mmse_amyloid_b_ratio_dr),
+      "summary_mmse_nfl" = summary_mmse_nfl,
+      "summary_mmse_amyloid_b_ratio" = summary_mmse_amyloid_b_ratio,
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
