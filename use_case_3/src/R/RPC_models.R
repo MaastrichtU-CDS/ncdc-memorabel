@@ -139,7 +139,8 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("female", "male"))
+    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
@@ -353,7 +354,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     #Z-score: executive functioning
     #van der Elst norms
-      # df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+      # df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
       # df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
       #   if (df$priority_executive_stroop_3_pred_score <= 79.988) {
       #     df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/13.963)
@@ -367,7 +368,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     #Z-score: executive functioning - interference
     #stroop interference score, van der Elst norms
-      # df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
+      # df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
       # df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$attention_test_stroop_1 - df$attention_test_stroop_2)/2))
       # if (df$priority_executive_interf_stroop_pred_score <= 34.845) {
       #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/11.037)
