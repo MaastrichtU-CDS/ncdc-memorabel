@@ -138,7 +138,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     df$age_cent2 <- df$age_cent^2
 
     # Sex - THIS NEEDS TO BE FIXED
-    df$sex_num <- as.numeric(df$sex) + 1
+    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
@@ -304,7 +304,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
     #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
     df$priority_processing_speed_ldst_z <- 
-      (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
+      (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
   }  else {
       return(list(
         "error_message" = paste("processing speed test not found, no z-score transformation possible")
@@ -321,10 +321,6 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_a_z <- 
         ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
-    
-    #TMT shifting: NIP norms
-    ##education and sex coded differently
-    df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)       
     }
     
     ##Stroop: Van der Elst norms
@@ -388,7 +384,12 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$attention_test_tmt_b_time)
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
-    
+  
+    #TMT shifting: NIP norms
+    ##education and sex coded differently
+      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)       
+    }
+      
     ##Stroop: van der Elst norms
        #df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
        #df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
@@ -404,7 +405,7 @@ RPC_models <- function(df, config, model = "memory", exclude=c()) {
 
     ##Z-score: executive functioning - interference
     ##stroop interference score, van der Elst norms
-       #df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
+       #df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
        #df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$attention_test_stroop_1 - df$attention_test_stroop_2)/2))
        #if (df$priority_executive_interf_stroop_pred_score <= 34.845) {
            #df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/11.037)
