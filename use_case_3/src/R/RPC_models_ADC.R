@@ -317,10 +317,9 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
 
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
-    ###education and sex coded differently
-    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { #Sex need to be fixed - women = 2, men = 1
+    ###education and sex coded differently women = 2, men = 1
+    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { 
       df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
-      new_variable <- replace(old_variable, old_variable == 0, 1) + (old_variable == 1)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_a_z <-
@@ -395,7 +394,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     }
 
     ##Stroop: van der Elst norms
-       #df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+       #df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
        #df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
          #if (df$priority_executive_stroop_3_pred_score <= 79.988) {
            #df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/13.963)
