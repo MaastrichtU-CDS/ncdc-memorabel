@@ -316,7 +316,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap)
 
   #   vtg::log$info("RIRS_mmse_nfl")
-  #   RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+  #   RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
   #                          data = df,
   #                          random = ~ years_since_baseline | id,
   #                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -328,7 +328,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
   #   summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
 
   # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-  # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_cent + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+  # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
   #                        data = df,
   #                        random = ~ years_since_baseline | id,
   #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
