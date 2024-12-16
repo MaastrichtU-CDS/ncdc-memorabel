@@ -109,7 +109,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
+    # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
@@ -125,13 +125,11 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     # available. If not available, use amyloid_b_ratio_42_40 directly from
     # the database.
     # )
-    # df$amyloid_b_ratio_42_40 <- ifelse(
-    #   !(is.na(df$amyloid_b_42) | is.na(df$amyloid_b_40) | df$amyloid_b_40 == 0),
-    #   df$amyloid_b_42 / df$amyloid_b_40,
-    #   df$amyloid_b_ratio_42_40
-    # )
-    df$amyloid_b_ratio_42_40 <- df$amyloid_b_42/df$amyloid_b_40
-
+    df$amyloid_b_ratio_42_40 <- ifelse(
+      is.na(df$amyloid_b_42) | is.na(df$amyloid_b_40) | df$amyloid_b_40 == 0,
+      df$amyloid_b_ratio_42_40,
+      df$amyloid_b_42 / df$amyloid_b_40
+    )
     df$id <- as.factor(as.character(df$id))
 
     #Count of women and men (0 = women, 1 = men)
@@ -155,6 +153,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #descriptives of education
     descriptives_education_table <- df %>%
       dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(count = dplyr::n())
 
     #This makes a table with means and standard deviations for the following variables per days since baseline
@@ -162,6 +161,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     ##Here we are missing all the NPA results
     descriptives_per_year_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -181,6 +181,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by sex
     descriptives_by_sex_table <- df %>%
       dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -202,6 +203,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by years since baseline and sex
     descriptives_by_sex_and_FU_table <- df %>%
       dplyr::group_by(years_since_baseline, sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -224,6 +226,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #This makes a table with means and standard deviations for the following variables per days since baseline
     descriptives_per_year_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -245,6 +248,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by sex
     descriptives_by_sex_NPA_table <- df %>%
       dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -268,6 +272,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by years since baseline and sex
     descriptives_by_sex_and_FU_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline, sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -315,17 +320,17 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim'))
     summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap)
 
-  #   vtg::log$info("RIRS_mmse_nfl")
-  #   RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
-  #                          data = df,
-  #                          random = ~ years_since_baseline | id,
-  #                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-  #                          correlation = nlme::corSymm(form = ~1 | id),
-  #                          method = "REML",
-  #                          na.action = na.exclude,
-  #                          # control = nlme::lmeControl(opt='optim'))
-  #                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-  #   summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
+    vtg::log$info("RIRS_mmse_nfl")
+    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           # control = nlme::lmeControl(opt='optim'))
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
 
   # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
   # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
@@ -335,17 +340,16 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
   #                        correlation = nlme::corSymm(form = ~1 | id),
   #                        method = "REML",
   #                        na.action = na.exclude,
+  #                        # model doesn't converge with the default options
   #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
   # summary_mmse_amyloid_b_ratio <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio)
 
     # model_summary can't extract from lme models
     results <- list(
-      # "model_mmse_p_tau" = model_summary(RIRS_mmse_p_tau),
-      # "model_mmse_gfap" = model_summary(RIRS_mmse_gfap),
       "summary_mmse_p_tau" = summary_mmse_p_tau,
       "summary_mmse_gfap" = summary_mmse_gfap,
       "summary_mmse_nfl" = summary_mmse_nfl,
-      "summary_mmse_amyloid_b_ratio" = summary_mmse_amyloid_b_ratio,
+      # "summary_mmse_amyloid_b_ratio" = summary_mmse_amyloid_b_ratio,
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
@@ -353,7 +357,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
-      # "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
+      "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
       "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
