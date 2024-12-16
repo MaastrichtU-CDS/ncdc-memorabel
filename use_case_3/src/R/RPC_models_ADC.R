@@ -61,7 +61,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     vtg::log$info("Cognitive test available: '{memory_dr_test_name}'")
 
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$education_category_3),]
+    df_baseline <- df[!is.na(df$education_category_3) | !is.na(df$education_category_verhage),]
     df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
     df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
       # dplyr::group_by(id, date) %>%
@@ -71,7 +71,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category_verhage")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40", "apoe_carrier")],
       by = "id"
     )
@@ -142,13 +142,18 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
+    # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels
+    df$education_category_3 <- ifelse(
+      is.na(df$education_category_3),
+      dplyr::recode(df$education_category_verhage, "1"=0, "2"=1, "3"=1, "4"=1, "5"=1, "6"=1, "7"=2),
+      df$education_category_3
+    )
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:
@@ -194,6 +199,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #descriptives of education
     descriptives_education_table <- df %>%
     dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
+    dplyr::filter(dplyr::n_distinct(id) > 2) %>%
     dplyr::summarise(count = dplyr::n())
 
     #This makes a table with means and standard deviations for the following variables per days since baseline
@@ -201,6 +207,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     ##Here we are missing all the NPA results
     descriptives_per_year_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -222,6 +229,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by sex
     descriptives_by_sex_table <- df %>%
       dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -245,6 +253,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by years since baseline and sex
    descriptives_by_sex_and_FU_table <- df %>%
      dplyr::group_by(years_since_baseline, sex) %>%
+     dplyr::filter(dplyr::n_distinct(id) > 2) %>%
      dplyr::summarise(
       nr_participants = dplyr::n_distinct(id),
       mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -318,7 +327,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
-    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { 
+    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) {
       df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
@@ -430,6 +439,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
 #This makes a table with means and standard deviations for the following variables per days since baseline
     descriptives_per_year_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -475,6 +485,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by sex
     descriptives_by_sex_NPA_table <- df %>%
       dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -522,6 +533,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by years since baseline and sex
    descriptives_by_sex_and_FU_NPA_table <- df %>%
      dplyr::group_by(years_since_baseline, sex) %>%
+     dplyr::filter(dplyr::n_distinct(id) > 2) %>%
      dplyr::summarise(
       nr_participants = dplyr::n_distinct(id),
       mean_p_tau = mean(p_tau, na.rm = TRUE),

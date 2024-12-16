@@ -46,12 +46,13 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     }
 
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$education_category_3),]
+    df_baseline <- df[!is.na(df$education_category_3) | !is.na(df$education_category_verhage),]
+
     # df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
     df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
 
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category_verhage")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -63,7 +64,6 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
       by = "id",
       all.x = T,
     )
-
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Selected participants
@@ -113,8 +113,12 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
+    df$education_category_3 <- ifelse(
+      is.na(df$education_category_3),
+      dplyr::recode(df$education_category_verhage, "1"=0, "2"=1, "3"=1, "4"=1, "5"=1, "6"=1, "7"=2),
+      df$education_category_3
+    )
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-
     # dummy variables:
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
@@ -306,7 +310,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
+                           # control = nlme::lmeControl(opt='optim'),
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau)
 
     vtg::log$info("RIRS_mmse_gfap")
@@ -317,7 +322,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap)
 
     vtg::log$info("RIRS_mmse_nfl")
