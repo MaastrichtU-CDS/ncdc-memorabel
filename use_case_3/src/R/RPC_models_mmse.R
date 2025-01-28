@@ -136,6 +136,9 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     )
     df$id <- as.factor(as.character(df$id))
 
+    #log transformation for amyloid ratio
+    log_amyloid_b_ratio_42_40 <- log(amyloid_b_ratio_42_40)
+
     #Count of women and men (0 = women, 1 = men)
     count_men_and_women_table <- df %>%
       dplyr::group_by(sex) %>%
@@ -337,17 +340,17 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
 
-  # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-  # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-  #                        data = df,
-  #                        random = ~ years_since_baseline | id,
-  #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-  #                        correlation = nlme::corSymm(form = ~1 | id),
-  #                        method = "REML",
-  #                        na.action = na.exclude,
-  #                        # model doesn't converge with the default options
-  #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-  # summary_mmse_amyloid_b_ratio <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio)
+   vtg::log$info("RIRS_mmse_amyloid_b_ratio")
+   RIRS_mmse_amyloid_b_ratio_log <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
+                          data = df,
+                          random = ~ years_since_baseline | id,
+                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                          correlation = nlme::corSymm(form = ~1 | id),
+                          method = "REML",
+                          na.action = na.exclude,
+                          # model doesn't converge with the default options
+                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+   summary_mmse_amyloid_b_ratio_log <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log)
 
     # model_summary can't extract from lme models
     results <- list(
