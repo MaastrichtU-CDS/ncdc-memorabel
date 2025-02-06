@@ -143,7 +143,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
+    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
@@ -319,7 +319,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
-    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { 
+    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) {
       df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
@@ -988,7 +988,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             control = nlme::lmeControl(opt='optim'))
     summary_attention_stroop_3_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_3_amyloid_b_ratio)
 
-    Executive function (Interference)
+    # Executive function (Interference)
     vtg::log$info("RIRS_executive_stroop_interf_p_tau")
     RIRS_executive_stroop_interf_p_tau <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                             data = df,
@@ -1125,3 +1125,4 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
   })
 return(result)
 }
+

@@ -1,5 +1,4 @@
-
-RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -50,10 +49,8 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     memory_dr_test_name <- NULL
-    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_ravlt"
-    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_lm"
+    if (sum(!is.na(df$priority_memory_dr_cerad)) > 0) {
+      memory_dr_test_name <- "priority_memory_dr_cerad"
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
@@ -143,7 +140,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male")
+    df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
@@ -298,7 +295,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Van der Elst, et al. norms for animal fluency
      if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
     df$priority_language_z <-
-      (df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
+      ((df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -309,7 +306,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
     df$priority_processing_speed_ldst_z <-
-      (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
+      ((df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12))) / 5.63)
     }  else {
       return(list(
         "error_message" = paste("processing speed test not found, no z-score transformation possible")
@@ -319,7 +316,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
-    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) { 
+    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) {
       df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
@@ -988,7 +985,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             control = nlme::lmeControl(opt='optim'))
     summary_attention_stroop_3_amyloid_b_ratio <- tab_model(RIRS_attention_stroop_3_amyloid_b_ratio)
 
-    Executive function (Interference)
+    # Executive function (Interference)
     vtg::log$info("RIRS_executive_stroop_interf_p_tau")
     RIRS_executive_stroop_interf_p_tau <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                             data = df,
@@ -1036,15 +1033,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     print(names(RIRS_memory_p_tau_im))
     # model_summary can't extract from lme models
     results <- list(
-      #"model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
-      #"model_memory_gfap_im" = model_summary(RIRS_memory_gfap_im),
-      #"model_memory_nfl_im" = model_summary(RIRS_memory_nfl_im),
-      #"model_memory_amyloid_b_ratio_im" = model_summary(RIRS_memory_amyloid_b_ratio_im),
-      #"model_memory_p_tau_dr" = model_summary(RIRS_memory_p_tau_dr),
-      #"model_memory_gfap_dr" = model_summary(RIRS_memory_gfap_dr),
-      #"model_memory_nfl_dr" = model_summary(RIRS_memory_nfl_dr),
-      #"model_memory_amyloid_b_ratio_dr" = model_summary(RIRS_memory_amyloid_b_ratio_dr),
-
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
@@ -1053,16 +1041,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
       "summary_memory_nfl_dr" = summary_memory_nfl_dr,
       "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
-
-      # "model_mmse_p_tau" = RIRS_mmse_p_tau[model_info],
-      # "model_mmse_gfap" = RIRS_mmse_gfap[model_info],
-      # "model_mmse_nfl" = RIRS_mmse_nfl_dr[model_info],
-      # "model_mmse_amyloid_b_ratio" = RIRS_mmse_amyloid_b_ratio_dr[model_info],
-
-      #"model_language_p_tau" = model_summary(RIRS_language_p_tau),
-      #"model_language_gfap" = model_summary(RIRS_language_gfap),
-      #"model_language_nfl" = model_summary(RIRS_language_nfl),
-      #"model_language_amyloid_b_ratio" = model_summary(RIRS_language_amyloid_b_ratio),
 
       "summary_language_p_tau" = summary_language_p_tau,
       "summary_language_gfap" = summary_language_gfap,
@@ -1073,19 +1051,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_processing_speed_gfap" = summary_processing_speed_gfap,
       "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
-
-      # "model_attention_stroop_average_p_tau" = RIRS_attention_stroop_average_p_tau[model_info],
-      # "model_attention_stroop_average_gfap" = RIRS_attention_stroop_average_gfap[model_info],
-      # "model_attention_stroop_average_nfl" = RIRS_attention_stroop_average_nfl[model_info],
-      # "model_attention_stroop_average_amyloid_b_ratio" = RIRS_attention_stroop_average_amyloid_b_ratio_dr[model_info],
-      # "model_executive_stroop_3_p_tau" = RIRS_executive_stroop_3_p_tau[model_info],
-      # "model_executive_stroop_3_gfap" = RIRS_executive_stroop_3_gfap[model_info],
-      # "model_executive_stroop_3_nfl" = RIRS_executive_stroop_3_nfl_dr[model_info],
-      # "model_executive_stroop_3_amyloid_b_ratio" = RIRS_executive_stroop_3_amyloid_b_ratio_dr[model_info],
-      # "model_executive_stroop_interf_p_tau" = RIRS_executive_stroop_interf_p_tau[model_info],
-      # "model_executive_stroop_interf_gfap" = RIRS_executive_stroop_interf_gfap[model_info],
-      # "model_executive_stroop_interf_nfl" = RIRS_executive_stroop_interf_nfl_dr[model_info],
-      # "model_executive_stroop_interf_amyloid_b_ratio" = RIRS_executive_stroop_interf_amyloid_b_ratio_dr[model_info],
 
       "summary_attention_stroop_average_p_tau" = summary_attention_stroop_average_p_tau,
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,

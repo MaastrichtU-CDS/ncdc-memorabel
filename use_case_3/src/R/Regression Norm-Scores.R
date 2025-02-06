@@ -3,8 +3,8 @@ library(haven)
 library(tidyverse)
 #library(plyr)
 library(ggplot2)
-library(gtsummary)  
-library(flextable)
+# library(gtsummary)
+# library(flextable)
 library(modelsummary)
 library(broom)
 # Postgres DB
@@ -28,30 +28,30 @@ RPC_mixed_models <- function(df) {
     df <- RPostgres::dbGetQuery(con, 'SELECT * FROM records')
 
   # Inclusion and exclusion - creating a dataframe for use ------------------
-    
+
     df <- RPostgres::dbGetQuery(con, 'SELECT * FROM records') %>% #I'm assuming this is the name of the dataframe from where we are retrieving the data, otherwise we need to change this
   dplyr::select(id,
-                sex, 
+                sex,
                 birth_year,
                 education_category_3,
                 priority_memory_im_lm,
                 priority_memory_dr_lm,
                 priority_attention_test_tmt_a_time,
                 priority_executive_tmt_b_time,
-                scd_diagnosis, 
+                scd_diagnosis,
                 normal_cognition_diagnosis,
                 date) %>%  # Selecting all the variables needed
-  dplyr::filter(!is.na(education_category_3) 
-                & !is.na(sex) 
-                & !is.na(birth_year) 
+  dplyr::filter(!is.na(education_category_3)
+                & !is.na(sex)
+                & !is.na(birth_year)
                 & !is.na(priority_memory_im_lm)
                 & !is.na(priority_memory_dr_lm)
                 & !is.na(priority_attention_test_tmt_a_time)
                 & !is.na(priority_executive_tmt_b_time)) %>%  # Remove rows with missing values for any of the columns
   dplyr::filter(scd_diagnosis == "yes" | normal_cognition_diagnosis == "yes") %>% #excludes everyone who isn't either healthy or has scd
-  group_by(id) %>%                               
+  group_by(id) %>%
   slice_min(order_by = date) %>% #selects the earliest date available per participant
-  
+
 # Validation of available columns
 check_names <- c("birth_year", "sex", "education_category_3","date", "scd_diagnosis", "normal_cognition_diagnosis", "priority_attention_test_tmt_a_time","priority_executive_tmt_b_time")
 missing_variables <- c()
@@ -77,7 +77,7 @@ df$sex <- dplyr::recode_factor(df$sex, "male" = 1, "female" = 0)
 df$tmt_interference <- (df$priority_executive_tmt_b_time - df$priority_attention_test_tmt_a_time)
 
 # Descriptive statistics --------------------------------------------------
-##Descriptives delayed recall logical memory task, immediate recall logical memory task, and TMT A & TMT B 
+##Descriptives delayed recall logical memory task, immediate recall logical memory task, and TMT A & TMT B
 descriptives_by_sex_table <- df %>%
   group_by(sex) %>%
   summarise(
@@ -207,11 +207,11 @@ model_tmt_interference <- lm(df$interference ~ age + sex + education_low + educa
 df$ZPRED_im_lm <- predict(model_im_lm) #predicted z-score
 df$ZRESID_im_lm <- resid(model_im_lm) #residuals of the model
 
-##Homoscedasticity 
+##Homoscedasticity
 ###Scatterplot of residuals - immediate recall logical memory
-scatter_res_im_lm <- plot(df$ZPRED_im_lm, df$ZRESID_im_lm, 
-                          xlab = "Predicted Mean Test Score", 
-                          ylab = "Residuals", 
+scatter_res_im_lm <- plot(df$ZPRED_im_lm, df$ZRESID_im_lm,
+                          xlab = "Predicted Mean Test Score",
+                          ylab = "Residuals",
                           main = "Scatterplot of immediate recall logical memory",
                           pch = 19,  # point type
                           col = ifelse(df$sex == 1, "blue", "red"))
@@ -230,11 +230,11 @@ print(z_pred_resid_descriptives_im_lm)
 df$ZPRED_dr_lm <- predict(model_dr_lm) #predicted z-score
 df$ZRESID_dr_lm <- resid(model_dr_lm) #residuals of the model
 
-##Homoscedasticity 
+##Homoscedasticity
 ###Scatterplot of residuals - delayed recall logical memory
-scatter_res_dr_lm <- plot(df$ZPRED_dr_lm, df$ZRESID_dr_lm, 
-                          xlab = "Predicted Mean Test Score", 
-                          ylab = "Residuals", 
+scatter_res_dr_lm <- plot(df$ZPRED_dr_lm, df$ZRESID_dr_lm,
+                          xlab = "Predicted Mean Test Score",
+                          ylab = "Residuals",
                           main = "Scatterplot of delayed recall logical memory",
                           pch = 19,  # point type
                           col = ifelse(df$sex == 1, "blue", "red"))
@@ -251,13 +251,13 @@ print(z_pred_resid_descriptives_dr_lm)
 
 #TMT A
 df$ZPRED_tmt_a <- predict(model_tmt_a) #predicted z-score
-df$ZRESID_tmt_a <- resid(model_tmt_a) #residuals of the 
+df$ZRESID_tmt_a <- resid(model_tmt_a) #residuals of the
 
-##Homoscedasticity 
+##Homoscedasticity
 ###Scatterplot of residuals - TMT A
-scatter_res_tmt_a <- plot(df$ZPRED_tmt_a, df$ZRESID_tmt_a, 
-                          xlab = "Predicted Mean Test Score", 
-                          ylab = "Residuals", 
+scatter_res_tmt_a <- plot(df$ZPRED_tmt_a, df$ZRESID_tmt_a,
+                          xlab = "Predicted Mean Test Score",
+                          ylab = "Residuals",
                           main = "Scatterplot of TMT A",
                           pch = 19,  # point type
                           col = ifelse(df$sex == 1, "blue", "red"))
@@ -276,11 +276,11 @@ print(z_pred_resid_descriptives_tmt_a)
 df$ZPRED_tmt_b <- predict(model_tmt_b) #predicted z-score
 df$ZRESID_tmt_b <- resid(model_tmt_b) #residuals of the model
 
-##Homoscedasticity 
+##Homoscedasticity
 ###Scatterplot of residuals - TMT B
-scatter_res_tmt_b <- plot(df$ZPRED_tmt_b, df$ZRESID_tmt_b, 
-                          xlab = "Predicted Mean Test Score", 
-                          ylab = "Residuals", 
+scatter_res_tmt_b <- plot(df$ZPRED_tmt_b, df$ZRESID_tmt_b,
+                          xlab = "Predicted Mean Test Score",
+                          ylab = "Residuals",
                           main = "Scatterplot of TMT B",
                           pch = 19,  # point type
                           col = ifelse(df$sex == 1, "blue", "red"))
@@ -299,11 +299,11 @@ print(z_pred_resid_descriptives_tmt_b)
 df$ZPRED_interference <- predict(model_tmt_interference) #predicted z-score
 df$ZRESID_interference <- resid(model_tmt_interference) #residuals of the model
 
-##Homoscedasticity 
+##Homoscedasticity
 ###Scatterplot of residuals - TMT Interference
-scatter_res_tmt_interference <- plot(df$ZPRED_tmt_interference, df$ZRESID_tmt_interference, 
-                          xlab = "Predicted Mean Test Score", 
-                          ylab = "Residuals", 
+scatter_res_tmt_interference <- plot(df$ZPRED_tmt_interference, df$ZRESID_tmt_interference,
+                          xlab = "Predicted Mean Test Score",
+                          ylab = "Residuals",
                           main = "Scatterplot of TMT interference score",
                           pch = 19,  # point type
                           col = ifelse(df$sex == 1, "blue", "red"))
@@ -325,7 +325,7 @@ print(z_pred_resid_descriptives_tmt_interference)
 
 # The output --------------------------------------------------------------
 results <- list(
-  "descriptives_by_sex" = descriptives_by_sex_table, 
+  "descriptives_by_sex" = descriptives_by_sex_table,
   "descriptives_by_edu" = descriptives_by_edu_table,
   "descriptives_by_sex_and_edu" = descriptives_by_sex_and_edu_table,
   "descriptives_by_diagnosis" = descriptives_by_diagnosis_table,
@@ -348,7 +348,7 @@ results <- list(
   "qqnorm_im_lm" = qqnorm_im_lm,
   "qq_line_im_lm" = qq_line_im_lm,
   "z_pred_resid_descriptives_im_lm" = z_pred_resid_descriptives_im_lm,
-  "scatter_res_dr_lm" = scatter_res_dr_lm, 
+  "scatter_res_dr_lm" = scatter_res_dr_lm,
   "histo_dr_lm" = histo_dr_lm,
   "qqnorm_dr_lm" = qqnorm_dr_lm,
   "qq_line_dr_lm" = qq_line_dr_lm,
@@ -367,7 +367,7 @@ results <- list(
   "histo_tmt_interference" = histo_tmt_interference,
   "qqnorm_tmt_interference" = qqnorm_tmt_interference,
   "qq_line_tmt_interference" = qq_line_tmt_interference,
-  "z_pred_resid_descriptives_tmt_interference" = z_pred_resid_descriptives_tmt_interference
+  "z_pred_resid_descriptives_tmt_interference" = z_pred_resid_descriptives_tmt_interference,
   "n" = nrow(df),
   "summary" = summary_post,
   "pre_summary" = pre_summary,

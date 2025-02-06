@@ -137,7 +137,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     df$id <- as.factor(as.character(df$id))
 
     #log transformation for amyloid ratio
-    log_amyloid_b_ratio_42_40 <- log(amyloid_b_ratio_42_40)
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     #Count of women and men (0 = women, 1 = men)
     count_men_and_women_table <- df %>%
@@ -357,7 +357,7 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
       "summary_mmse_p_tau" = summary_mmse_p_tau,
       "summary_mmse_gfap" = summary_mmse_gfap,
       "summary_mmse_nfl" = summary_mmse_nfl,
-      # "summary_mmse_amyloid_b_ratio" = summary_mmse_amyloid_b_ratio,
+      "summary_mmse_amyloid_b_ratio_log" = summary_mmse_amyloid_b_ratio_log,
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
