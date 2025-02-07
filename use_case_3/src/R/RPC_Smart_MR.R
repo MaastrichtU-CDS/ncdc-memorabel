@@ -32,7 +32,7 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-    check_names <- c("age", "sex", "education_category_3", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt", "apoe_carrier")
+    check_names <- c("age", "sex", "education_category_3", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_15_word_list_correct", "apoe_carrier")
     missing_variables <- c()
     for (name in check_names) {
       if (!name %in% colnames(df)) {
@@ -50,8 +50,8 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     memory_dr_test_name <- NULL
-    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_ravlt"
+    if (sum(!is.na(df$priority_memory_dr_15_word_list_correct)) > 0) {
+      memory_dr_test_name <- "priority_memory_dr_15_word_list_correct"
     } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
       memory_dr_test_name <- "priority_memory_dr_lm"
     } else {
@@ -79,8 +79,8 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df <- merge(
       x = df_cogn_test[c("id", "date", memory_dr_test_name,
-                         "priority_memory_im_ravlt", "attention_test_stroop_1_time",
-                         "attention_test_stroop_2_time", "priority_language_animal_fluency_60_correct","priority_attention_test_tmt_a_time", "priority_executive_test_tmt_b_time", "attention_test_ldst_60_correct")],
+                         "priority_memory_im_15_word_list_correct", "attention_test_stroop_1_time",
+                         "attention_test_stroop_2_time", "priority_language_animal_fluency_120_correct","priority_attention_test_tmt_a_time", "priority_executive_test_tmt_b_time", "attention_test_ldst_60_correct")],
       y = df_grouped,
       by = "id",
       all.x = T
@@ -166,6 +166,9 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
+
+    #animal fluency 120 sec to 60 sec
+    df$priority_language_animal_fluency_60_correct  <- df$priority_language_animal_fluency_120_correct/2
 
     #Descriptive statistics
     #Count of participants
@@ -269,9 +272,9 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: Memory immediate recall
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (c("priority_memory_im_ravlt") %in% colnames(df)) {
+    if (c("priority_memory_im_15_word_list_correct") %in% colnames(df)) {
       df$priority_memory_im_z <-
-        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
+        ((df$priority_memory_im_15_word_list_correct - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
     } else {
     return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
@@ -281,10 +284,10 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (memory_dr_test_name == "priority_memory_dr_ravlt") {
-      df$priority_memory_dr <- df$priority_memory_dr_ravlt
+    if (memory_dr_test_name == "priority_memory_dr_15_word_list_correct") {
+      df$priority_memory_dr <- df$priority_memory_dr_15_word_list_correct
       df$priority_memory_dr_z <- (
-        df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
+        df$priority_memory_dr_15_word_list_correct - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
          + (df$education_high * 0.424))) / 2.496
     } else {
@@ -295,10 +298,10 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
 
     #Z-score: language
    print("Animal Fluency")
-   print(sum(is.na(df["priority_language_animal_fluency_60_correct"])))
+   print(sum(is.na(df["priority_language_animal_fluency_120_correct	"])))
     #Van der Elst, et al. norms for animal fluency
-     if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
-    df$priority_language_z <-
+     if (c("priority_language_animal_fluency_120_correct	") %in% colnames(df)) {
+       df$priority_language_z <-
       (df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
     } else {
       return(list(
