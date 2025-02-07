@@ -303,15 +303,8 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     }
 
     #Z-score: processing speed
-    #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
-    if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
-    df$priority_processing_speed_ldst_z <-
-      ((df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12))) / 5.63)
-    }  else {
-      return(list(
-        "error_message" = paste("processing speed test not found, no z-score transformation possible")
-      ))
-    }
+    #SDTS; WILL NEED TO ADD CALCULATION (BASED ON WAIS-4 NORMS, IF 120 SEC) - IT IS 90 SEC
+
 
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
