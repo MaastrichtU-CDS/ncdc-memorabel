@@ -1,5 +1,5 @@
 
-RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_Maastricht <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
