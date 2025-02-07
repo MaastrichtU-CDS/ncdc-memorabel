@@ -151,7 +151,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # Education levels
     df$education_category_3 <- ifelse(
       is.na(df$education_category_3),
-      dplyr::recode(df$education_category_verhage, "1"=0, "2"=1, "3"=1, "4"=1, "5"=1, "6"=1, "7"=2),
+      dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
       df$education_category_3
     )
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
