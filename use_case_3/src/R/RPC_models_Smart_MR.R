@@ -72,15 +72,14 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category_verhage")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40", "apoe_carrier")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", memory_dr_test_name,
-                         "priority_memory_im_15_word_list_correct", "attention_test_stroop_1_time",
-                         "attention_test_stroop_2_time", "priority_language_animal_fluency_120_correct","priority_attention_test_tmt_a_time", "priority_executive_test_tmt_b_time", "attention_test_ldst_60_correct")],
+      x = df_cogn_test[c("id", "date", "priority_memory_dr_15_word_list_correct	",
+                         "priority_memory_im_15_word_list_correct", "priority_language_animal_fluency_120_correct", "attention_test_sdst_120_correct")],
       y = df_grouped,
       by = "id",
       all.x = T
