@@ -72,7 +72,7 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category")],
+      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years", "education_category_verhage")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40", "apoe_carrier")],
       by = "id"
     )
