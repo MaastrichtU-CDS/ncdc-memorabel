@@ -77,7 +77,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     df <- merge(
       x = df_cogn_test[c("id", "date", memory_dr_test_name,
                          "priority_memory_im_ravlt", "attention_test_stroop_1_time",
-                         "attention_test_stroop_2_time", "priority_language_animal_fluency_60_correct","priority_attention_test_tmt_a_time", "priority_executive_test_tmt_b_time", "attention_test_ldst_60_correct", "priority_executive_stroop_3_time")],
+                         "attention_test_stroop_2_time", "priority_language_animal_fluency_60_correct","priority_attention_test_tmt_a_time", "priority_executive_test_tmt_b_time", "attention_test_sdst_60_ts", "priority_executive_stroop_3_time")],
       y = df_grouped,
       by = "id",
       all.x = T
@@ -303,7 +303,20 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     }
 
     #Z-score: processing speed
-    #SDTS; WILL NEED TO ADD CALCULATION (BASED ON WAIS-4 NORMS, IF 120 SEC) - IT IS 90 SEC
+    #SDST; Burggraaf et al (2016) norms 
+    ##education is coded in years for this formula.. this needs to be fixed
+    ##sex is coded male=0, female=1
+    else if (c("attention_test_sdst_60_ts") %in% colnames(df)) {
+      df$age_cent_sdst <- df$age_rec-46
+      df$age_cent_sdst2 <- df$age_cent_sdst^2
+      df$priority_processing_speed_sdst_z <-
+        ((df$attention_test_sdst_90_correct - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex * -0.470) + (df$edu_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_90_correct
+    }
+  
+  else  {
+    print("No measure for processing speed found, no z-score transformation possible")
+  }
 
 
     #Z-score: attention (here we have the TMT and the Stroop)
