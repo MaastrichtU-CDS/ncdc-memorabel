@@ -284,7 +284,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     #SDST; Burggraaf et al (2016) norms 
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
-    else if (c("attention_test_sdst_90_correct") %in% colnames(df)) {
+    else if (c("attention_test_sdst_60_correct") %in% colnames(df)) {
       df$sex_sdst <- ifelse(df$sex == 1, 0, 1)
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
