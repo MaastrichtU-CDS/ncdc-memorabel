@@ -289,8 +289,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
       df$priority_processing_speed_sdst_z <-
-        ((df$attention_test_sdst_90_correct - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$edu_years))) / 2.777)
-      df$priority_processing_speed_sdst <-  df$attention_test_sdst_90_correct
+        ((df$attention_test_sdst_60_correct - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60_correct
     }
     else  {
       print("No measure for processing speed found, no z-score transformation possible")
