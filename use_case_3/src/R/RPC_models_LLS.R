@@ -148,11 +148,6 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels
-    df$education_category_3 <- ifelse(
-      is.na(df$education_category_3),
-      dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
-      df$education_category_3
-    )
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:
@@ -286,14 +281,19 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     }
 
     #Z-score: processing speed
-    #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
-    if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
-    df$priority_processing_speed_ldst_z <-
-      (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12)) / 5.63)
-    }  else {
-      return(list(
-        "error_message" = paste("processing speed test not found, no z-score transformation possible")
-      ))
+    #SDST; Burggraaf et al (2016) norms 
+    ##education is coded in years for this formula.. this needs to be fixed
+    ##sex is coded male=0, female=1
+    else if (c("attention_test_sdst_90_correct") %in% colnames(df)) {
+      df$sex_sdst <- ifelse(df$sex == 1, 0, 1)
+      df$age_cent_sdst <- df$age_rec-46
+      df$age_cent_sdst2 <- df$age_cent_sdst^2
+      df$priority_processing_speed_sdst_z <-
+        ((df$attention_test_sdst_90_correct - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$edu_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_90_correct
+    }
+    else  {
+      print("No measure for processing speed found, no z-score transformation possible")
     }
 
     ##Stroop: Van der Elst norms
@@ -403,8 +403,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
         sd_age = sd(age_rec, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
+        mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -443,8 +443,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
+        mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -485,8 +485,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
       sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-      mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-      sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
+      mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
       mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
       sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
       mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -609,7 +609,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
 
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
-    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+    RIRS_processing_speed_p_tau <- nlme::lme(df$priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -620,7 +620,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_gfap")
-    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+    RIRS_processing_speed_gfap <- nlme::lme(df$priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -631,7 +631,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_nfl")
-    RIRS_processing_speed_nfl <- nlme::lme(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+    RIRS_processing_speed_nfl <- nlme::lme(df$priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -642,7 +642,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
-    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(df$priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
