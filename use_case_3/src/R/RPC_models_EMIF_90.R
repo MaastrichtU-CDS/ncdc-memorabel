@@ -146,11 +146,14 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels
-
-        
+    df$education_category_3 <- ifelse(
+      is.na(df$education_category_3),
+      dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
+      df$education_category_3
+    )
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
-    # dummy variables:
+    # dummy variables education:
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
 
