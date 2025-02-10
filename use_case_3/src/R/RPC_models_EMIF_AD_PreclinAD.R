@@ -615,7 +615,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     #                        na.action = na.exclude,
     #                        control = nlme::lmeControl(opt='optim'))
     # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
     #                        data = df,
     #                        random = ~ years_since_baseline | id,
     #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -846,7 +846,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     summary_attention_stroop_average_nfl <- tab_model(RIRS_attention_stroop_average_nfl)
 
     vtg::log$info("RIRS_attention_stroop_average_amyloid_b_ratio")
-    RIRS_attention_stroop_average_amyloid_b_ratio <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    RIRS_attention_stroop_average_amyloid_b_ratio <- nlme::lme(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -891,7 +891,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     summary_attention_tmt_a_nfl <- tab_model(RIRS_attention_tmt_a_nfl)
 
     vtg::log$info("RIRS_attention_tmt_a_amyloid_b_ratio")
-    RIRS_attention_tmt_a_amyloid_b_ratio <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    RIRS_attention_tmt_a_amyloid_b_ratio <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -938,7 +938,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     summary_priority_executive_tmt_b_time_nfl <- tab_model(RIRS_priority_executive_tmt_b_time_nfl)
 
     vtg::log$info("RIRS_priority_executive_tmt_b_time_amyloid_b_ratio")
-    RIRS_priority_executive_tmt_b_time_amyloid_b_ratio <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    RIRS_priority_executive_tmt_b_time_amyloid_b_ratio <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -982,7 +982,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     summary_attention_stroop_3_nfl <- tab_model(RIRS_attention_stroop_3_nfl)
 
     vtg::log$info("RIRS_executive_stroop_3_amyloid_b_ratio")
-    RIRS_executive_stroop_3_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    RIRS_executive_stroop_3_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1027,7 +1027,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     summary_attention_stroop_interf_nfl <- tab_model(RIRS_attention_stroop_interf_nfl)
 
     vtg::log$info("RIRS_executive_stroop_interf_amyloid_b_ratio")
-    RIRS_executive_stroop_interf_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    RIRS_executive_stroop_interf_amyloid_b_ratio <- nlme::lme(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
