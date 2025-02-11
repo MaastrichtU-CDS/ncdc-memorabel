@@ -147,6 +147,8 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
+    ##change apoe_carrier from 3 options (1 or 2 alleles) to either positive or negative
+    df$apoe_carrier <- ifelse(df$apoe_carrier == 0, 0, 1)
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels
