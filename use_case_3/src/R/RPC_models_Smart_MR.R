@@ -146,6 +146,8 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
+    ##change the categorical variable with 3 categories (0/1/2) to 2 (just 0/1)
+    df$apoe_carrier <- ifelse(df$apoe_carrier == 0, 0, 1)
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # dummy variables:
