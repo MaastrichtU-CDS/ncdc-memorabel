@@ -627,195 +627,1073 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     #                        method = "REML",
     #                        na.action = na.exclude,
     #                        control = nlme::lmeControl(opt='optim'))
-
+#STANDARD MODELS
     #Immediate recall
     vtg::log$info("RIRS_memory_p_tau_im")
-    RIRS_memory_p_tau_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_p_tau_im <- tab_model(RIRS_memory_p_tau_im, p.val = "kr")
-
+    RIRS_memory_p_tau_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                      + age_rec + sex + education_low + education_high + 
+                                        apoe_carrier + p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                      data = df,
+                                      random = ~ years_since_baseline | id,
+                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                      correlation = nlme::corSymm(form = ~1 | id),
+                                      method = "REML",
+                                      na.action = na.exclude,
+                                      control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im, p.val = "kr")
+    summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im)
+    
     vtg::log$info("RIRS_memory_gfap_im")
-    RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_im <- tab_model(RIRS_memory_gfap_im, p.val = "kr")
-
+    RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+                                     + age_rec + sex + education_low + education_high + 
+                                       apoe_carrier + gfap + gfap * years_since_baseline + sex * gfap,
+                                     data = df,
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im <- sjPlot::tab_model(RIRS_memory_gfap_im)
+    
     vtg::log$info("RIRS_memory_nfl_im")
-    RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_im <- tab_model(RIRS_memory_nfl_im, p.val = "kr")
-
+    RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                    + age_rec + sex + education_low + education_high + 
+                                      apoe_carrier + nfl + nfl * years_since_baseline + sex * nfl,
+                                    data = df,
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im <- sjPlot::tab_model(RIRS_memory_nfl_im)
+    
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
-    RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_im <- tab_model(RIRS_memory_amyloid_b_ratio_im, p.val = "kr")
-
+    RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                                + age_rec + sex + education_low + education_high + 
+                                                  apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + sex * amyloid_b_ratio_42_40,
+                                                data = df,
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im)
+    
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
-    RIRS_memory_p_tau_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_p_tau_dr <- tab_model(RIRS_memory_p_tau_dr, p.val = "kr")
-
+    RIRS_memory_p_tau_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                      + age_rec + sex + education_low + education_high + 
+                                        apoe_carrier + p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                      data = df,
+                                      random = ~ years_since_baseline | id,
+                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                      correlation = nlme::corSymm(form = ~1 | id),
+                                      method = "REML",
+                                      na.action = na.exclude,
+                                      control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr <- sjPlot::tab_model(RIRS_memory_p_tau_dr)
+    
     vtg::log$info("RIRS_memory_gfap_dr")
-    RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_dr <- tab_model(RIRS_memory_gfap_dr, p.val = "kr")
-
+    RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                     + age_rec + sex + education_low + education_high + 
+                                       apoe_carrier + gfap + gfap * years_since_baseline + sex * gfap,
+                                     data = df,
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr <- sjPlot::tab_model(RIRS_memory_gfap_dr)
+    
     vtg::log$info("RIRS_memory_nfl_dr")
-    RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_dr <- tab_model(RIRS_memory_nfl_dr, p.val = "kr")
-
+    RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                    + age_rec + sex + education_low + education_high + 
+                                      apoe_carrier + nfl + nfl * years_since_baseline + sex * nfl,
+                                    data = df,
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr <- sjPlot::tab_model(RIRS_memory_nfl_dr)
+    
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
-    RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_dr <- tab_model(RIRS_memory_amyloid_b_ratio_dr, p.val = "kr")
-
+    RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                                + age_rec + sex + education_low + education_high + 
+                                                  apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + sex * amyloid_b_ratio_42_40,
+                                                data = df,
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr)
 
     #Language
     vtg::log$info("RIRS_language_p_tau")
-    RIRS_language_p_tau <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-
-    summary_language_p_tau <- tab_model(RIRS_language_p_tau)
-
+    RIRS_language_p_tau <- nlme::lme(priority_language_z ~ years_since_baseline
+                                     + age_rec + sex + education_low + education_high + 
+                                       apoe_carrier + p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                     data = df,
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau <- sjPlot::tab_model(RIRS_language_p_tau)
+    
     vtg::log$info("RIRS_language_gfap")
-    RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-
-    summary_language_gfap <- tab_model(RIRS_language_gfap)
-
+    RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline 
+                                    + age_rec + sex + education_low + education_high + 
+                                      apoe_carrier + gfap + gfap * years_since_baseline + sex * gfap,
+                                    data = df,
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap <- sjPlot::tab_model(RIRS_language_gfap)
+    
     vtg::log$info("RIRS_language_nfl")
-    RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-
-    summary_language_nfl <- tab_model(RIRS_language_nfl)
-
+    RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline
+                                   + age_rec + sex + education_low + education_high + 
+                                     apoe_carrier + nfl + nfl * years_since_baseline + sex * nfl,
+                                   data = df,
+                                   random = ~ years_since_baseline | id,
+                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                   correlation = nlme::corSymm(form = ~1 | id),
+                                   method = "REML",
+                                   na.action = na.exclude,
+                                   control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl <- sjPlot::tab_model(RIRS_language_nfl)
+    
     vtg::log$info("RIRS_language_amyloid_b_ratio")
-    RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-
-    summary_language_amyloid_b_ratio <- tab_model(RIRS_language_amyloid_b_ratio)
+    RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline
+                                               + age_rec + sex + education_low + education_high + 
+                                                 apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + sex * amyloid_b_ratio_42_40,
+                                               data = df,
+                                               random = ~ years_since_baseline | id,
+                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                               correlation = nlme::corSymm(form = ~1 | id),
+                                               method = "REML",
+                                               na.action = na.exclude,
+                                               control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio)
 
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
-    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau, p.val = "kr")
-
-    vtg::log$info("RIRS_processing_speed_gfap")
-    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap, p.val = "kr")
-
-    vtg::log$info("RIRS_processing_speed_nfl")
-    RIRS_processing_speed_nfl <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl, p.val = "kr")
-
-    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
-    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-                           data = df,
-                           random = ~ years_since_baseline | id,
-                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                           correlation = nlme::corSymm(form = ~1 | id),
-                           method = "REML",
-                           na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim'))
-    summary_processing_speed_amyloid_b_ratio <- tab_model(RIRS_processing_speed_amyloid_b_ratio, p.val = "kr")
+    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                             + age_rec + sex + education_low + education_high 
+                                             + apoe_carrier + p_tau + p_tau * years_since_baseline + p_tau * sex,
+                                             data = df,
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau)
     
+    vtg::log$info("RIRS_processing_speed_gfap")
+    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                            + age_rec + sex + education_low + education_high 
+                                            + apoe_carrier + gfap + gfap * years_since_baseline + gfap * sex,
+                                            data = df,
+                                            random = ~ years_since_baseline | id,
+                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                            correlation = nlme::corSymm(form = ~1 | id),
+                                            method = "REML",
+                                            na.action = na.exclude,
+                                            control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap)
+    
+    vtg::log$info("RIRS_processing_speed_nfl")
+    RIRS_processing_speed_nfl <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                           + age_rec + sex + education_low + education_high 
+                                           + apoe_carrier + nfl + nfl * years_since_baseline + nfl * sex,
+                                           data = df,
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl)
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
+    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                       + age_rec + sex + education_low + education_high 
+                                                       + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                       data = df,
+                                                       random = ~ years_since_baseline | id,
+                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                       method = "REML",
+                                                       na.action = na.exclude,
+                                                       control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio <- tab_model(RIRS_processing_speed_amyloid_b_ratio)
+
+    #MODELS STRATIFIED FOR SEX
+    #Immediate recall
+    vtg::log$info("RIRS_memory_p_tau_im_male")
+    RIRS_memory_p_tau_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                      + age_rec + education_low + education_high + 
+                                        apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                      data = subset(df, sex == 0),
+                                      random = ~ years_since_baseline | id,
+                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                      correlation = nlme::corSymm(form = ~1 | id),
+                                      method = "REML",
+                                      na.action = na.exclude,
+                                      control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im_male <- sjPlot::tab_model(RIRS_memory_p_tau_im_male)
+                              
+    vtg::log$info("RIRS_memory_p_tau_im_female")
+    RIRS_memory_p_tau_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                           + age_rec + education_low + education_high + 
+                                             apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                           data = subset(df, sex == 1),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im_female <- sjPlot::tab_model(RIRS_memory_p_tau_im_female)
+    
+    vtg::log$info("RIRS_memory_gfap_im_male")
+    RIRS_memory_gfap_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+                                     + age_rec + education_low + education_high + 
+                                       apoe_carrier + gfap + gfap * years_since_baseline,
+                                     data = subset(df, sex == 0),
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im_male <- sjPlot::tab_model(RIRS_memory_gfap_im_male)
+    
+    vtg::log$info("RIRS_memory_gfap_im_female")
+    RIRS_memory_gfap_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+                                          + age_rec + education_low + education_high + 
+                                            apoe_carrier + gfap + gfap * years_since_baseline,
+                                          data = subset(df, sex == 1),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im_female <- sjPlot::tab_model(RIRS_memory_gfap_im_female)
+    
+    
+    vtg::log$info("RIRS_memory_nfl_im_male")
+    RIRS_memory_nfl_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                    + age_rec + education_low + education_high + 
+                                      apoe_carrier + nfl + nfl * years_since_baseline,
+                                    data = subset(df, sex == 0),
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im_male <- sjPlot::tab_model(RIRS_memory_nfl_im_male)
+    
+    vtg::log$info("RIRS_memory_nfl_im_female")
+    RIRS_memory_nfl_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                         + age_rec + education_low + education_high + 
+                                           apoe_carrier + nfl + nfl * years_since_baseline,
+                                         data = subset(df, sex == 1),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im_female <- sjPlot::tab_model(RIRS_memory_nfl_im_female)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_male")
+    RIRS_memory_amyloid_b_ratio_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                                + age_rec + education_low + education_high + 
+                                                  apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                data = subset(df, sex == 0),
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_male)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_female")
+    RIRS_memory_amyloid_b_ratio_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                                     + age_rec + education_low + education_high + 
+                                                       apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                     data = subset(df, sex == 1),
+                                                     random = ~ years_since_baseline | id,
+                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                     correlation = nlme::corSymm(form = ~1 | id),
+                                                     method = "REML",
+                                                     na.action = na.exclude,
+                                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_female)
+    
+    #Delayed recall
+    vtg::log$info("RIRS_memory_p_tau_dr_male")
+    RIRS_memory_p_tau_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                      + age_rec + education_low + education_high + 
+                                        apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                      data = subset(df, sex == 0),
+                                      random = ~ years_since_baseline | id,
+                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                      correlation = nlme::corSymm(form = ~1 | id),
+                                      method = "REML",
+                                      na.action = na.exclude,
+                                      control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr_male <- sjPlot::tab_model(RIRS_memory_p_tau_dr_male)
+    
+    vtg::log$info("RIRS_memory_p_tau_dr_female")
+    RIRS_memory_p_tau_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                           + age_rec + education_low + education_high + 
+                                             apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                           data = subset(df, sex == 1),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr_female <- sjPlot::tab_model(RIRS_memory_p_tau_dr_female)
+    
+    vtg::log$info("RIRS_memory_gfap_dr_male")
+    RIRS_memory_gfap_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                     + age_rec + education_low + education_high + 
+                                       apoe_carrier + gfap + gfap * years_since_baseline,
+                                     data = subset(df, sex == 0),
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr_male <- sjPlot::tab_model(RIRS_memory_gfap_dr_male)
+    
+    vtg::log$info("RIRS_memory_gfap_dr_female")
+    RIRS_memory_gfap_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                          + age_rec + education_low + education_high + 
+                                            apoe_carrier + gfap + gfap * years_since_baseline,
+                                          data = subset(df, sex == 1),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr_female <- sjPlot::tab_model(RIRS_memory_gfap_dr_female)
+    
+    vtg::log$info("RIRS_memory_nfl_dr_male")
+    RIRS_memory_nfl_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                    + age_rec + education_low + education_high + 
+                                      apoe_carrier + nfl + nfl * years_since_baseline,
+                                    data = subset(df, sex == 0),
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr_male <- sjPlot::tab_model(RIRS_memory_nfl_dr_male)
+    
+    vtg::log$info("RIRS_memory_nfl_dr_female")
+    RIRS_memory_nfl_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                         + age_rec + education_low + education_high + 
+                                           apoe_carrier + nfl + nfl * years_since_baseline,
+                                         data = subset(df, sex == 1),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr_female <- sjPlot::tab_model(RIRS_memory_nfl_dr_female)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_male")
+    RIRS_memory_amyloid_b_ratio_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                                + age_rec + education_low + education_high + 
+                                                  apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                data = subset(df, sex == 0),
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_male)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_female")
+    RIRS_memory_amyloid_b_ratio_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                                     + age_rec + education_low + education_high + 
+                                                       apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                     data = subset(df, sex == 1),
+                                                     random = ~ years_since_baseline | id,
+                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                     correlation = nlme::corSymm(form = ~1 | id),
+                                                     method = "REML",
+                                                     na.action = na.exclude,
+                                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_female)
+    
+    
+    #Language
+    vtg::log$info("RIRS_language_p_tau_male")
+    RIRS_language_p_tau_male <- nlme::lme(priority_language_z ~ years_since_baseline
+                                     + age_rec + education_low + education_high + 
+                                       apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                     data = subset(df, sex == 0),
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau_male <- sjPlot::tab_model(RIRS_language_p_tau_male)
+    
+    vtg::log$info("RIRS_language_p_tau_female")
+    RIRS_language_p_tau_female <- nlme::lme(priority_language_z ~ years_since_baseline
+                                          + age_rec + education_low + education_high + 
+                                            apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                          data = subset(df, sex == 1),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female)
+    
+    vtg::log$info("RIRS_language_gfap_male")
+    RIRS_language_gfap_male <- nlme::lme(priority_language_z ~ years_since_baseline 
+                                    + age_rec + education_low + education_high + 
+                                      apoe_carrier + gfap + gfap * years_since_baseline,
+                                    data = subset(df, sex == 0),
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap_male <- sjPlot::tab_model(RIRS_language_gfap_male)
+  
+    vtg::log$info("RIRS_language_gfap_female")
+    RIRS_language_gfap_female <- nlme::lme(priority_language_z ~ years_since_baseline 
+                                         + age_rec + education_low + education_high + 
+                                           apoe_carrier + gfap + gfap * years_since_baseline,
+                                         data = subset(df, sex == 1),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female)
+    
+    vtg::log$info("RIRS_language_nfl_male")
+    RIRS_language_nfl_male <- nlme::lme(priority_language_z ~ years_since_baseline
+                                   + age_rec + education_low + education_high + 
+                                     apoe_carrier + nfl + nfl * years_since_baseline,
+                                   data = subset(df, sex == 0),
+                                   random = ~ years_since_baseline | id,
+                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                   correlation = nlme::corSymm(form = ~1 | id),
+                                   method = "REML",
+                                   na.action = na.exclude,
+                                   control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl_male <- sjPlot::tab_model(RIRS_language_nfl_male)
+    
+    vtg::log$info("RIRS_language_nfl_female")
+    RIRS_language_nfl_female <- nlme::lme(priority_language_z ~ years_since_baseline
+                                        + age_rec + education_low + education_high + 
+                                          apoe_carrier + nfl + nfl * years_since_baseline,
+                                        data = subset(df, sex == 1),
+                                        random = ~ years_since_baseline | id,
+                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                        correlation = nlme::corSymm(form = ~1 | id),
+                                        method = "REML",
+                                        na.action = na.exclude,
+                                        control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female)
+    
+    vtg::log$info("RIRS_language_amyloid_b_ratio_male")
+    RIRS_language_amyloid_b_ratio_male <- nlme::lme(priority_language_z ~ years_since_baseline
+                                               + age_rec + education_low + education_high + 
+                                                 apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                               data = subset(df, sex == 0),
+                                               random = ~ years_since_baseline | id,
+                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                               correlation = nlme::corSymm(form = ~1 | id),
+                                               method = "REML",
+                                               na.action = na.exclude,
+                                               control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male)
+    
+    vtg::log$info("RIRS_language_amyloid_b_ratio_female")
+    RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline
+                                                    + age_rec + education_low + education_high + 
+                                                      apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                    data = subset(df, sex == 1),
+                                                    random = ~ years_since_baseline | id,
+                                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                    correlation = nlme::corSymm(form = ~1 | id),
+                                                    method = "REML",
+                                                    na.action = na.exclude,
+                                                    control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
+
+    #processing speed
+    vtg::log$info("RIRS_processing_speed_p_tau_male")
+    RIRS_processing_speed_p_tau_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                             + age_rec + education_low + education_high 
+                                             + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                             data = data = subset(df, sex == 0),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau_male <- tab_model(RIRS_processing_speed_p_tau_male)
+    
+    vtg::log$info("RIRS_processing_speed_p_tau_female")
+    RIRS_processing_speed_p_tau_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                  + age_rec + education_low + education_high 
+                                                  + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                                  data = data = subset(df, sex == 1),
+                                                  random = ~ years_since_baseline | id,
+                                                  weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                  correlation = nlme::corSymm(form = ~1 | id),
+                                                  method = "REML",
+                                                  na.action = na.exclude,
+                                                  control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau_female <- tab_model(RIRS_processing_speed_p_tau_female)
+    
+    vtg::log$info("RIRS_processing_speed_gfap_male")
+    RIRS_processing_speed_gfap_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                            + age_rec + education_low + education_high 
+                                            + apoe_carrier + gfap + gfap * years_since_baseline,
+                                            data = data = subset(df, sex == 0),
+                                            random = ~ years_since_baseline | id,
+                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                            correlation = nlme::corSymm(form = ~1 | id),
+                                            method = "REML",
+                                            na.action = na.exclude,
+                                            control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap_male <- tab_model(RIRS_processing_speed_gfap_male)
+    
+    vtg::log$info("RIRS_processing_speed_gfap_female")
+    RIRS_processing_speed_gfap_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                 + age_rec + education_low + education_high 
+                                                 + apoe_carrier + gfap + gfap * years_since_baseline,
+                                                 data = data = subset(df, sex == 1),
+                                                 random = ~ years_since_baseline | id,
+                                                 weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                 correlation = nlme::corSymm(form = ~1 | id),
+                                                 method = "REML",
+                                                 na.action = na.exclude,
+                                                 control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap_female <- tab_model(RIRS_processing_speed_gfap_female)
+    
+    vtg::log$info("RIRS_processing_speed_nfl_male")
+    RIRS_processing_speed_nfl_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                           + age_rec + education_low + education_high 
+                                           + apoe_carrier + nfl + nfl * years_since_baseline,
+                                           data = data = subset(df, sex == 0),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl_male <- tab_model(RIRS_processing_speed_nfl_male)
+    
+    vtg::log$info("RIRS_processing_speed_nfl_female")
+    RIRS_processing_speed_nfl_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                + age_rec + education_low + education_high 
+                                                + apoe_carrier + nfl + nfl * years_since_baseline,
+                                                data = data = subset(df, sex == 1),
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl_female <- tab_model(RIRS_processing_speed_fenfl_male)
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_male")
+    RIRS_processing_speed_amyloid_b_ratio_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                       + age_rec + education_low + education_high 
+                                                       + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                       data = data = subset(df, sex == 0),
+                                                       random = ~ years_since_baseline | id,
+                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                       method = "REML",
+                                                       na.action = na.exclude,
+                                                       control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio_male <- tab_model(RIRS_processing_speed_amyloid_b_ratio_male)
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_female")
+    RIRS_processing_speed_amyloid_b_ratio_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline 
+                                                            + age_rec + education_low + education_high 
+                                                            + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                            data = data = subset(df, sex == 1),
+                                                            random = ~ years_since_baseline | id,
+                                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                            correlation = nlme::corSymm(form = ~1 | id),
+                                                            method = "REML",
+                                                            na.action = na.exclude,
+                                                            control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio_female <- tab_model(RIRS_processing_speed_amyloid_b_ratio_female)
+
+    #MODELS STRATIFIED BY APOE STATUS
+    #Immediate recall
+    vtg::log$info("RIRS_memory_p_tau_im_apoe_neg")
+    RIRS_memory_p_tau_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                           + age_rec + sex + education_low + education_high + 
+                                              p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                           data = subset(df, apoe_carrier == 0),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_p_tau_im_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_p_tau_im_apoe_pos")
+    RIRS_memory_p_tau_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                             + age_rec + sex + education_low + education_high + 
+                                                p_tau + p_tau * years_since_baseline  + sex * p_tau,
+                                             data = subset(df, apoe_carrier == 1),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_p_tau_im_apoe_pos)
+    
+    vtg::log$info("RIRS_memory_gfap_im_apoe_neg")
+    RIRS_memory_gfap_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+                                          + age_rec + sex + education_low + education_high + 
+                                             gfap + gfap * years_since_baseline + sex * gfap,
+                                          data = subset(df, apoe_carrier == 0),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_gfap_im_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_gfap_im_apoe_pos")
+    RIRS_memory_gfap_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+                                          + age_rec + sex + education_low + education_high + 
+                                             gfap + gfap * years_since_baseline + sex * gfap,
+                                          data = subset(df, apoe_carrier == 1),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_gfap_im_apoe_pos)
+    
+    
+    vtg::log$info("RIRS_memory_nfl_im_apoe_neg")
+    RIRS_memory_nfl_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                         + age_rec + sex + education_low + education_high + 
+                                            nfl + nfl * years_since_baseline + nfl * sex,
+                                         data = subset(df, apoe_carrier == 0),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_nfl_im_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_nfl_im_apoe_pos")
+    RIRS_memory_nfl_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                           + age_rec + sex + education_low + education_high + 
+                                              nfl + nfl * years_since_baseline + nfl * sex,
+                                           data = subset(df, apoe_carrier == 1),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_nfl_im_apoe_pos)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_neg")
+    RIRS_memory_amyloid_b_ratio_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                                     + age_rec + sex + education_low + education_high + 
+                                                        amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                     data = subset(df, apoe_carrier == 0),
+                                                     random = ~ years_since_baseline | id,
+                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                     correlation = nlme::corSymm(form = ~1 | id),
+                                                     method = "REML",
+                                                     na.action = na.exclude,
+                                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_pos")
+    RIRS_memory_amyloid_b_ratio_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline 
+                                                       + age_rec + sex + education_low + education_high + 
+                                                          amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                       data = subset(df, apoe_carrier == 1),
+                                                       random = ~ years_since_baseline | id,
+                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                       method = "REML",
+                                                       na.action = na.exclude,
+                                                       control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_apoe_pos)
+    
+    #Delayed recall
+    vtg::log$info("RIRS_memory_p_tau_dr_apoe_neg")
+    RIRS_memory_p_tau_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                           + age_rec + sex + education_low + education_high + 
+                                              p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                           data = subset(df, apoe_carrier == 0),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_p_tau_dr_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_p_tau_dr_apoe_pos")
+    RIRS_memory_p_tau_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                             + age_rec + sex + education_low + education_high + 
+                                                p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                             data = subset(df, apoe_carrier == 1),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim'))
+    summary_memory_p_tau_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_p_tau_dr_apoe_pos)
+    
+    vtg::log$info("RIRS_memory_gfap_dr_apoe_neg")
+    RIRS_memory_gfap_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                          + age_rec + sex + education_low + education_high + 
+                                             gfap + gfap * years_since_baseline + sex * gfap,
+                                          data = subset(df, apoe_carrier == 0),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_gfap_dr_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_gfap_dr_apoe_pos")
+    RIRS_memory_gfap_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                            + age_rec + sex + education_low + education_high + 
+                                               gfap + gfap * years_since_baseline + sex * gfap,
+                                            data = subset(df, apoe_carrier == 1),
+                                            random = ~ years_since_baseline | id,
+                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                            correlation = nlme::corSymm(form = ~1 | id),
+                                            method = "REML",
+                                            na.action = na.exclude,
+                                            control = nlme::lmeControl(opt='optim'))
+    summary_memory_gfap_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_gfap_dr_apoe_pos)
+    
+    vtg::log$info("RIRS_memory_nfl_dr_apoe_neg")
+    RIRS_memory_nfl_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                         + age_rec + sex + education_low + education_high + 
+                                            nfl + nfl * years_since_baseline + nfl * sex,
+                                         data = subset(df, apoe_carrier == 0),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_nfl_dr_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_nfl_dr_apoe_pos")
+    RIRS_memory_nfl_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline 
+                                           + age_rec + sex + education_low + education_high + 
+                                              nfl + nfl * years_since_baseline + nfl * sex,
+                                           data = subset(df, apoe_carrier == 1),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_memory_nfl_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_nfl_dr_apoe_pos)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_neg")
+    RIRS_memory_amyloid_b_ratio_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                                     + age_rec + sex + education_low + education_high + 
+                                                        amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                     data = subset(df, apoe_carrier == 0),
+                                                     random = ~ years_since_baseline | id,
+                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                     correlation = nlme::corSymm(form = ~1 | id),
+                                                     method = "REML",
+                                                     na.action = na.exclude,
+                                                     control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_apoe_neg)
+    
+    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_pos")
+    RIRS_memory_amyloid_b_ratio_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+                                                       + age_rec + sex + education_low + education_high + 
+                                                          amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                       data = subset(df, apoe_carrier == 1),
+                                                       random = ~ years_since_baseline | id,
+                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                       method = "REML",
+                                                       na.action = na.exclude,
+                                                       control = nlme::lmeControl(opt='optim'))
+    summary_memory_amyloid_b_ratio_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_apoe_pos)
+  
+    #Language
+    vtg::log$info("RIRS_language_p_tau_apoe_neg")
+    RIRS_language_p_tau_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+                                          + age_rec + sex + education_low + education_high + 
+                                             p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                          data = subset(df, apoe_carrier == 0),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_language_p_tau_apoe_neg)
+    
+    vtg::log$info("RIRS_language_p_tau_apoe_pos")
+    RIRS_language_p_tau_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+                                            + age_rec + sex + education_low + education_high + 
+                                               p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                            data = subset(df, apoe_carrier == 1),
+                                            random = ~ years_since_baseline | id,
+                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                            correlation = nlme::corSymm(form = ~1 | id),
+                                            method = "REML",
+                                            na.action = na.exclude,
+                                            control = nlme::lmeControl(opt='optim'))
+    summary_language_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_language_p_tau_apoe_pos)
+    
+    vtg::log$info("RIRS_language_gfap_apoe_neg")
+    RIRS_language_gfap_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline 
+                                         + age_rec + sex + education_low + education_high + 
+                                            gfap + gfap * years_since_baseline + sex * gfap,
+                                         data = subset(df, apoe_carrier == 0),
+                                         random = ~ years_since_baseline | id,
+                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                         correlation = nlme::corSymm(form = ~1 | id),
+                                         method = "REML",
+                                         na.action = na.exclude,
+                                         control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap_apoe_neg <- sjPlot::tab_model(RIRS_language_gfap_apoe_neg)
+    
+    vtg::log$info("RIRS_language_gfap_apoe_pos")
+    RIRS_language_gfap_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline 
+                                           + age_rec + sex + education_low + education_high + 
+                                              gfap + gfap * years_since_baseline + sex * gfap,
+                                           data = subset(df, apoe_carrier == 1),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim'))
+    summary_language_gfap_apoe_pos <- sjPlot::tab_model(RIRS_language_gfap_apoe_pos)
+    
+    vtg::log$info("RIRS_language_nfl_apoe_neg")
+    RIRS_language_nfl_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+                                        + age_rec + sex + education_low + education_high + 
+                                           nfl + nfl * years_since_baseline + nfl * sex,
+                                        data = subset(df, apoe_carrier == 0),
+                                        random = ~ years_since_baseline | id,
+                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                        correlation = nlme::corSymm(form = ~1 | id),
+                                        method = "REML",
+                                        na.action = na.exclude,
+                                        control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl_apoe_neg <- sjPlot::tab_model(RIRS_language_nfl_apoe_neg)
+    
+    vtg::log$info("RIRS_language_nfl_apoe_pos")
+    RIRS_language_nfl_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+                                          + age_rec + sex + education_low + education_high + 
+                                             nfl + nfl * years_since_baseline + nfl * sex,
+                                          data = subset(df, apoe_carrier == 1),
+                                          random = ~ years_since_baseline | id,
+                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                          correlation = nlme::corSymm(form = ~1 | id),
+                                          method = "REML",
+                                          na.action = na.exclude,
+                                          control = nlme::lmeControl(opt='optim'))
+    summary_language_nfl_apoe_pos <- sjPlot::tab_model(RIRS_language_nfl_apoe_pos)
+    
+    vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_neg")
+    RIRS_language_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+                                                    + age_rec + sex + education_low + education_high + 
+                                                       amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                    data = subset(df, apoe_carrier == 0),
+                                                    random = ~ years_since_baseline | id,
+                                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                    correlation = nlme::corSymm(form = ~1 | id),
+                                                    method = "REML",
+                                                    na.action = na.exclude,
+                                                    control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_neg)
+    
+    vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_pos")
+    RIRS_language_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+                                                      + age_rec + sex + education_low + education_high + 
+                                                         amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                      data = subset(df, apoe_carrier == 1),
+                                                      random = ~ years_since_baseline | id,
+                                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                      correlation = nlme::corSymm(form = ~1 | id),
+                                                      method = "REML",
+                                                      na.action = na.exclude,
+                                                      control = nlme::lmeControl(opt='optim'))
+    summary_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_pos)
+    
+    #Processing speed
+    vtg::log$info("RIRS_processing_speed_p_tau_apoe_neg")
+    RIRS_processing_speed_p_tau_apoe_neg <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                             + age_rec + sex + education_low + education_high + 
+                                                               p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                                             data = subset(df, apoe_carrier == 0),
+                                                             random = ~ years_since_baseline | id,
+                                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                             correlation = nlme::corSymm(form = ~1 | id),
+                                                             method = "REML",
+                                                             na.action = na.exclude,
+                                                             control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_neg)
+    
+    vtg::log$info("RIRS_processing_speed_p_tau_apoe_pos")
+    RIRS_processing_speed_p_tau_apoe_pos <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                             + age_rec + sex + education_low + education_high + 
+                                                               p_tau + p_tau * years_since_baseline + sex * p_tau,
+                                                             data = subset(df, apoe_carrier == 1),
+                                                             random = ~ years_since_baseline | id,
+                                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                             correlation = nlme::corSymm(form = ~1 | id),
+                                                             method = "REML",
+                                                             na.action = na.exclude,
+                                                             control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_pos)
+    
+    
+    vtg::log$info("RIRS_processing_speed_gfap_apoe_neg")
+    RIRS_processing_speed_gfap_apoe_neg <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                            + age_rec + sex + education_low + education_high + 
+                                                              gfap + gfap * years_since_baseline + sex * gfap,
+                                                            data = subset(df, apoe_carrier == 0),
+                                                            random = ~ years_since_baseline | id,
+                                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                            correlation = nlme::corSymm(form = ~1 | id),
+                                                            method = "REML",
+                                                            na.action = na.exclude,
+                                                            control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_neg)
+    
+    vtg::log$info("RIRS_processing_speed_gfap_apoe_pos")
+    RIRS_processing_speed_gfap_apoe_pos <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                            + age_rec + sex + education_low + education_high + 
+                                                              gfap + gfap * years_since_baseline + sex * gfap,
+                                                            data = subset(df, apoe_carrier == 1),
+                                                            random = ~ years_since_baseline | id,
+                                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                            correlation = nlme::corSymm(form = ~1 | id),
+                                                            method = "REML",
+                                                            na.action = na.exclude,
+                                                            control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_gfap_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_pos)
+    
+    
+    vtg::log$info("RIRS_processing_speed_nfl_apoe_neg")
+    RIRS_processing_speed_nfl_apoe_neg <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                           + age_rec + sex + education_low + education_high + 
+                                                             nfl + nfl * years_since_baseline + nfl * sex,
+                                                           data = subset(df, apoe_carrier == 0),
+                                                           random = ~ years_since_baseline | id,
+                                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                           correlation = nlme::corSymm(form = ~1 | id),
+                                                           method = "REML",
+                                                           na.action = na.exclude,
+                                                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_neg)
+    
+    vtg::log$info("RIRS_processing_speed_nfl_apoe_pos")
+    RIRS_processing_speed_nfl_apoe_pos <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                           + age_rec + sex + education_low + education_high + 
+                                                             nfl + nfl * years_since_baseline + nfl * sex,
+                                                           data = subset(df, apoe_carrier == 1),
+                                                           random = ~ years_since_baseline | id,
+                                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                           correlation = nlme::corSymm(form = ~1 | id),
+                                                           method = "REML",
+                                                           na.action = na.exclude,
+                                                           control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_nfl_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_pos)
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_neg")
+    RIRS_processing_speed_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                                       + age_rec + sex + education_low + education_high + 
+                                                                         amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                                       data = subset(df, apoe_carrier == 0),
+                                                                       random = ~ years_since_baseline | id,
+                                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                                       method = "REML",
+                                                                       na.action = na.exclude,
+                                                                       control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_neg)
+    
+    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_pos")
+    RIRS_processing_speed_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_processing_speed_z ~ years_since_baseline
+                                                                       + age_rec + sex + education_low + education_high + 
+                                                                         amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline + amyloid_b_ratio_42_40 * sex,
+                                                                       data = subset(df, apoe_carrier == 1),
+                                                                       random = ~ years_since_baseline | id,
+                                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                                       correlation = nlme::corSymm(form = ~1 | id),
+                                                                       method = "REML",
+                                                                       na.action = na.exclude,
+                                                                       control = nlme::lmeControl(opt='optim'))
+    summary_processing_speed_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_pos)
+    
+    
+                              
     print(names(RIRS_memory_p_tau_im))
     # model_summary can't extract from lme models
     results <- list(
+      #STANDARD MODELS
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
@@ -824,17 +1702,81 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
       "summary_memory_nfl_dr" = summary_memory_nfl_dr,
       "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
-
       "summary_language_p_tau" = summary_language_p_tau,
       "summary_language_gfap" = summary_language_gfap,
       "summary_language_nfl" = summary_language_nfl,
       "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
-
       "summary_processing_speed_p_tau" = summary_processing_speed_p_tau,
       "summary_processing_speed_gfap" = summary_processing_speed_gfap,
       "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
-
+      #STRATIFIED BY SEX
+      "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
+      "summary_memory_gfap_im_male" = summary_memory_gfap_im_male,
+      "summary_memory_nfl_im_male" = summary_memory_nfl_im_male,
+      "summary_memory_amyloid_b_ratio_im_male" = summary_memory_amyloid_b_ratio_im_male,
+      "summary_memory_p_tau_im_female" = summary_memory_p_tau_im_female,
+      "summary_memory_gfap_im_female" = summary_memory_gfap_im_female,
+      "summary_memory_nfl_im_female" = summary_memory_nfl_im_female,
+      "summary_memory_amyloid_b_ratio_im_female" = summary_memory_amyloid_b_ratio_im_female,
+      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr_male,
+      "summary_memory_gfap_dr" = summary_memory_gfap_dr_male,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr_male,
+      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr_male,
+      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr_female,
+      "summary_memory_gfap_dr" = summary_memory_gfap_dr_female,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr_female,
+      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr_female,
+      "summary_language_p_tau" = summary_language_p_tau_male,
+      "summary_language_gfap" = summary_language_gfap_male,
+      "summary_language_nfl" = summary_language_nfl_male,
+      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio_male,
+      "summary_language_p_tau" = summary_language_p_tau_female,
+      "summary_language_gfap" = summary_language_gfap_female,
+      "summary_language_nfl" = summary_language_nfl_female,
+      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio_female,
+      "summary_processing_speed_p_tau" = processing_speed_p_tau_male,
+      "summary_processing_speed_gfap" = processing_speed_gfap_male,
+      "summary_processing_speed_nfl" = processing_speed_nfl_male,
+      "summary_processing_speed_amyloid_b_ratio" = processing_speed_amyloid_b_ratio_male,
+      "summary_processing_speed_p_tau" = processing_speed_p_tau_female,
+      "summary_processing_speed_gfap" = processing_speed_gfap_female,
+      "summary_processing_speed_nfl" = processing_speed_nfl_female,
+      "summary_processing_speed_amyloid_b_ratio" = processing_speed_amyloid_b_ratio_female,
+      #STRATIFIED BY APOE
+      "summary_memory_p_tau_im_apoe_neg" = summary_memory_p_tau_im_apoe_neg,
+      "summary_memory_gfap_im_apoe_neg" = summary_memory_gfap_im_apoe_neg,
+      "summary_memory_nfl_im_apoe_neg" = summary_memory_nfl_im_apoe_neg,
+      "summary_memory_amyloid_b_ratio_im_apoe_neg" = summary_memory_amyloid_b_ratio_im_apoe_neg,
+      "summary_memory_p_tau_im_apoe_pos" = summary_memory_p_tau_im_apoe_pos,
+      "summary_memory_gfap_im_apoe_pos" = summary_memory_gfap_im_apoe_pos,
+      "summary_memory_nfl_im_apoe_pos" = summary_memory_nfl_im_apoe_pos,
+      "summary_memory_amyloid_b_ratio_im_apoe_pos" = summary_memory_amyloid_b_ratio_im_apoe_pos,
+      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr_apoe_neg,
+      "summary_memory_gfap_dr" = summary_memory_gfap_dr_apoe_neg,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr_apoe_neg,
+      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr_apoe_neg,
+      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr_apoe_pos,
+      "summary_memory_gfap_dr" = summary_memory_gfap_dr_apoe_pos,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr_apoe_pos,
+      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr_apoe_pos,
+      "summary_language_p_tau" = summary_language_p_tau_apoe_neg,
+      "summary_language_gfap" = summary_language_gfap_apoe_neg,
+      "summary_language_nfl" = summary_language_nfl_apoe_neg,
+      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio_apoe_neg,
+      "summary_language_p_tau" = summary_language_p_tau_apoe_pos,
+      "summary_language_gfap" = summary_language_gfap_apoe_pos,
+      "summary_language_nfl" = summary_language_nfl_apoe_pos,
+      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio_apoe_pos,
+      "summary_processing_speed_p_tau" = processing_speed_p_tau_apoe_n,
+      "summary_processing_speed_gfap" = processing_speed_gfap_apoe_n,
+      "summary_processing_speed_nfl" = processing_speed_nfl_apoe_n,
+      "summary_processing_speed_amyloid_b_ratio" = processing_speed_amyloid_b_ratio_apoe_n,
+      "summary_processing_speed_p_tau" = processing_speed_p_tau_apoe_pos,
+      "summary_processing_speed_gfap" = processing_speed_gfap_apoe_pos,
+      "summary_processing_speed_nfl" = processing_speed_nfl_apoe_pos,
+      "summary_processing_speed_amyloid_b_ratio" = processing_speed_amyloid_b_ratio_apoe_pos,
+      
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
