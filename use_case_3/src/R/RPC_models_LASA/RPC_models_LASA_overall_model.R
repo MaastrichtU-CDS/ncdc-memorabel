@@ -1,6 +1,6 @@
 #This is the overall models or most general models.
 ##without interactions and without apoe
-RPC_models <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
