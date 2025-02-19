@@ -58,13 +58,14 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-
+    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df <- merge(
-      x = df_mmse[c("id", "date", "date_mmse", "mmse_total")],
+      x = df_mmse[c("id", "date", "date_mmse", "mmse_total","apoe_carrier")],
       y = df_grouped,
       by = "id",
       all.x = T,
     )
+   
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Selected participants
