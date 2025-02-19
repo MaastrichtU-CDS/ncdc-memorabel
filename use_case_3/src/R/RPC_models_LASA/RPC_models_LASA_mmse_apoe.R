@@ -113,6 +113,9 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
     # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
+    # Apoe
+    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
+
     # Education levels
     df$education_category_3 <- ifelse(
       is.na(df$education_category_3),
