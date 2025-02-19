@@ -433,7 +433,7 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))    summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))  
     summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w)
     
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
@@ -444,10 +444,99 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
                            correlation = nlme::corSymm(form = ~1 | id),
                            method = "REML",
                            na.action = na.exclude,
-                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))    summary_mmse_amyloid_b_ratio <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio)
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
        summary_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w)
 
     #models stratified for apoe
+    ##man = 0, female = 1
+    vtg::log$info("RIRS_mmse_p_tau_male")
+    RIRS_mmse_p_tau_male <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                 data = subset(df, sex == 0),
+                                 random = ~ years_since_baseline | id,
+                                 weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                 correlation = nlme::corSymm(form = ~1 | id),
+                                 method = "REML",
+                                 na.action = na.exclude,
+                                 control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_p_tau_male <- sjPlot::tab_model(RIRS_mmmse_p_tau_male)
+
+    vtg::log$info("RIRS_mmse_p_tau_female")    
+    RIRS_mmse_p_tau_female <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                      data = subset(df, sex == 1),
+                                      random = ~ years_since_baseline | id,
+                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                      correlation = nlme::corSymm(form = ~1 | id),
+                                      method = "REML",
+                                      na.action = na.exclude,
+                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_p_tau_female <- sjPlot::tab_model(RIRS_mmmse_p_tau_female)
+    
+    vtg::log$info("RIRS_mmse_gfap_male")
+    RIRS_mmse_gfap_male <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
+                                data = subset(df, sex == 0),
+                                random = ~ years_since_baseline | id,
+                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                correlation = nlme::corSymm(form = ~1 | id),
+                                method = "REML",
+                                na.action = na.exclude,
+                                control = nlme::lmeControl(opt='optim'))
+    summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmmse_gfap_male)
+
+    vtg::log$info("RIRS_mmse_gfap_female")    
+    RIRS_mmse_gfap_female <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high+ gfap + gfap * years_since_baseline,
+                                     data = subset(df, sex == 1),
+                                     random = ~ years_since_baseline | id,
+                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                     correlation = nlme::corSymm(form = ~1 | id),
+                                     method = "REML",
+                                     na.action = na.exclude,
+                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmmse_gfap_female)
+    
+    vtg::log$info("RIRS_mmse_nfl_male")
+    RIRS_mmse_nfl_male <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+                               data = subset(df, sex == 0),
+                               random = ~ years_since_baseline | id,
+                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                               correlation = nlme::corSymm(form = ~1 | id),
+                               method = "REML",
+                               na.action = na.exclude,
+                               control = nlme::lmeControl(opt='optim'))
+    summary_mmse_nfl_male <- sjPlot::tab_model(RIRS_mmmse_nfl_male)
+
+    vtg::log$info("RIRS_mmse_nfl_female")
+    RIRS_mmse_nfl_female <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+                                    data = subset(df, sex == 1),
+                                    random = ~ years_since_baseline | id,
+                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                    correlation = nlme::corSymm(form = ~1 | id),
+                                    method = "REML",
+                                    na.action = na.exclude,
+                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_nfl_female <- sjPlot::tab_model(RIRS_mmmse_nfl_female)
+    
+    vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_male")
+    RIRS_mmse_amyloid_b_ratio_male <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
+                                           data = subset(df, sex == 0),
+                                           random = ~ years_since_baseline | id,
+                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                           correlation = nlme::corSymm(form = ~1 | id),
+                                           method = "REML",
+                                           na.action = na.exclude,
+                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_amyloid_b_ratio_log_male <- sjPlot::tab_model(RIRS_mmmse_amyloid_b_ratio_log_male)
+    
+    vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_female")
+    RIRS_mmse_amyloid_b_ratio_log_female <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
+                                                data = subset(df, sex == 1),
+                                                random = ~ years_since_baseline | id,
+                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                method = "REML",
+                                                na.action = na.exclude,
+                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_amyloid_b_ratio_log_female <- sjPlot::tab_model(RIRS_mmmse_amyloid_b_ratio_log_female)
+    
 
     
     # model_summary can't extract from lme models
@@ -462,8 +551,20 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       "summary_mmse_nfl_3w" = summary_mmse_nfl_3w,
       "summary_mmse_amyloid_b_ratio_log_3w" = summary_mmse_amyloid_b_ratio_log_3w,
 
-      
-      
+      "summary_mmse_p_tau_2w" = summary_mmse_p_tau_2w,
+      "summary_mmse_gfap_2w" = summary_mmse_gfap_2w,
+      "summary_mmse_nfl_2w" = summary_mmse_nfl_2w,
+      "summary_mmse_amyloid_b_ratio_log_2w" = summary_mmse_amyloid_b_ratio_log_2w,
+
+      "summary_mmse_p_tau_male" = summary_mmse_p_tau_male,
+      "summary_mmse_gfap_male" = summary_mmse_gfap_male,
+      "summary_mmse_nfl_male" = summary_mmse_nfl_male,
+      "summary_mmse_amyloid_b_ratio_log_male" = summary_mmse_amyloid_b_ratio_log_male,
+      "summary_mmse_p_tau_female" = summary_mmse_p_tau_female,
+      "summary_mmse_gfap_female" = summary_mmse_gfap_female,
+      "summary_mmse_nfl_female" = summary_mmse_nfl_female,
+      "summary_mmse_amyloid_b_ratio_log_female" = summary_mmse_amyloid_b_ratio_log_female,
+
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
