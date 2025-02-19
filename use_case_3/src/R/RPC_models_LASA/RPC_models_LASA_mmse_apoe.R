@@ -183,7 +183,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         mean_edu_years = mean(education_years, na.rm = TRUE),
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE)
+        sd_age = sd(age_rec, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     #same as above but here the table sorted by sex
@@ -205,7 +206,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
         years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
-        sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE)
+        sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -225,7 +227,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         mean_edu_years = mean(education_years, na.rm = TRUE),
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE)
+        sd_age = sd(age_rec, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     df$education_low <- as.factor(df$education_low)
@@ -250,7 +253,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     #same as above but here the table sorted by sex
@@ -274,7 +278,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -296,7 +301,8 @@ RPC_models_mmse <- function(df, config, model = "memory", exclude=c()) {
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     if (nrow(df) == 0) {
