@@ -1,6 +1,6 @@
 
 
-RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
