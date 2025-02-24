@@ -254,7 +254,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-
         ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
-      df$priority_memory_im_ravlt <- pmax(pmin(df$priority_memory_im_ravlt, 5), -5)
+      df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
     return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
@@ -269,7 +269,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
       df$priority_memory_dr_z <- ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
          + (df$education_high * 0.424))) / 2.496)
-      df$priority_memory_dr_ravlt <- pmax(pmin(df$priority_memory_dr_ravlt, 5), -5)
+      df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
