@@ -270,6 +270,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-
         ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
+      df$priority_memory_im_z <- pmax(pmin(priority_memory_im_z, 5), -5)
     } else {
     return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
@@ -281,10 +282,11 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     #used norm scores from ADC for logical memory
     if (memory_dr_test_name == "priority_memory_dr_ravlt") {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
-      df$priority_memory_dr_z <- (
-        df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
+      df$priority_memory_dr_z <- ((
+        ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
-         + (df$education_high * 0.424))) / 2.496
+         + (df$education_high * 0.424))) / 2.496)
+      df$priority_memory_dr_z <- pmax(pmin(priority_memory_dr_z, 5), -5)
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
@@ -298,6 +300,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
      if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
     df$priority_language_z <-
       ((df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
+      df$priority_language_z <- pmax(pmin(priority_language_z, 5), -5) 
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
