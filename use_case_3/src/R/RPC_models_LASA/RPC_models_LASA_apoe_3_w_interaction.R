@@ -268,7 +268,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-
-        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + 
+        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) +
                                          (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
@@ -282,7 +282,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
     #used norm scores from ADC for logical memory
     if (memory_dr_test_name == "priority_memory_dr_ravlt") {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
-      df$priority_memory_dr_z <- (
+      df$priority_memory_dr_z <-
         ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
           (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
          + (df$education_high * 0.424))) / 2.496)
@@ -409,12 +409,12 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-    
+
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("RIRS_memory_p_tau_im")
-    RIRS_memory_p_tau_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline 
-                                      + apoe_carrier * p_tau + apoe_carrier * years_since_baseline 
+    RIRS_memory_p_tau_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline
+                                      + apoe_carrier * p_tau + apoe_carrier * years_since_baseline
                                       + p_tau * years_since_baseline + apoe_carrier * p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -428,7 +428,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_im")
     RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline
-                                     + apoe_carrier * gfap + apoe_carrier * years_since_baseline 
+                                     + apoe_carrier * gfap + apoe_carrier * years_since_baseline
                                      + gfap * years_since_baseline + apoe_carrier * gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -441,7 +441,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_im")
     RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline
-                                    + apoe_carrier * nfl + apoe_carrier * years_since_baseline 
+                                    + apoe_carrier * nfl + apoe_carrier * years_since_baseline
                                     + nfl * years_since_baseline + apoe_carrier * nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -454,8 +454,8 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
     RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline
-                                    + apoe_carrier * amyloid_b_ratio + apoe_carrier * years_since_baseline 
-                                    + amyloid_b_ratio * years_since_baseline + apoe_carrier * amyloid_b_ratio * years_since_baseline,
+                                    + apoe_carrier * amyloid_b_ratio_42_40 + apoe_carrier * years_since_baseline
+                                    + amyloid_b_ratio_42_40 * years_since_baseline + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -468,7 +468,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
     RIRS_memory_p_tau_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline
-                                      + apoe_carrier * p_tau + apoe_carrier * years_since_baseline 
+                                      + apoe_carrier * p_tau + apoe_carrier * years_since_baseline
                                       + p_tau * years_since_baseline + apoe_carrier * p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -481,7 +481,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_dr")
     RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline
-                                     + apoe_carrier * gfap + apoe_carrier * years_since_baseline 
+                                     + apoe_carrier * gfap + apoe_carrier * years_since_baseline
                                      + gfap * years_since_baseline + apoe_carrier * gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -494,7 +494,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_dr")
     RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline
-                                    + apoe_carrier * nfl + apoe_carrier * years_since_baseline 
+                                    + apoe_carrier * nfl + apoe_carrier * years_since_baseline
                                     + nfl * years_since_baseline + apoe_carrier * nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -507,8 +507,8 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
     RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline
-                                    + apoe_carrier * amyloid_b_ratio + apoe_carrier * years_since_baseline 
-                                    + amyloid_b_ratio * years_since_baseline + apoe_carrier * amyloid_b_ratio * years_since_baseline,
+                                    + apoe_carrier * amyloid_b_ratio_42_40 + apoe_carrier * years_since_baseline
+                                    + amyloid_b_ratio_42_40 * years_since_baseline + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -522,7 +522,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
     #Language
     vtg::log$info("RIRS_language_p_tau")
     RIRS_language_p_tau <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline
-                                     + apoe_carrier * p_tau + apoe_carrier * years_since_baseline 
+                                     + apoe_carrier * p_tau + apoe_carrier * years_since_baseline
                                      + p_tau * years_since_baseline + apoe_carrier * p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -535,7 +535,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_gfap")
     RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline
-                                    + apoe_carrier * gfap + apoe_carrier * years_since_baseline 
+                                    + apoe_carrier * gfap + apoe_carrier * years_since_baseline
                                     + gfap * years_since_baseline + apoe_carrier * gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -548,7 +548,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_nfl")
     RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline
-                                   + apoe_carrier * nfl + apoe_carrier * years_since_baseline 
+                                   + apoe_carrier * nfl + apoe_carrier * years_since_baseline
                                    + nfl * years_since_baseline + apoe_carrier * nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
@@ -561,8 +561,8 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_amyloid_b_ratio")
     RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline
-                                    + apoe_carrier * amyloid_b_ratio + apoe_carrier * years_since_baseline 
-                                    + amyloid_b_ratio * years_since_baseline + apoe_carrier * amyloid_b_ratio * years_since_baseline,
+                                    + apoe_carrier * amyloid_b_ratio_42_40 + apoe_carrier * years_since_baseline
+                                    + amyloid_b_ratio_42_40 * years_since_baseline + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -580,7 +580,7 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
       "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
-      
+
       "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
       "summary_memory_nfl_dr" = summary_memory_nfl_dr,
