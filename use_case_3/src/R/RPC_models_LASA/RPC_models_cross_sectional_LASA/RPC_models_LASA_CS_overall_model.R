@@ -396,50 +396,50 @@ RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c(
     CS_memory_p_tau_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
                                       na.action = na.exclude
-    summary_memory_p_tau_im <- sjPlot::tab_model(CS_memory_p_tau_im)
+    summary_CS_memory_p_tau_im <- sjPlot::tab_model(CS_memory_p_tau_im)
 
     vtg::log$info("CS_memory_gfap_im")
     CS_memory_gfap_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude
-    summary_memory_gfap_im <- sjPlot::tab_model(CS_memory_gfap_im)
+    summary_CS_memory_gfap_im <- sjPlot::tab_model(CS_memory_gfap_im)
 
     vtg::log$info("CS_memory_nfl_im")
     CS_memory_nfl_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
                                     na.action = na.exclude
-    summary_memory_nfl_im <- sjPlot::tab_model(CS_memory_nfl_im)
+    summary_CS_memory_nfl_im <- sjPlot::tab_model(CS_memory_nfl_im)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im")
     CS_memory_amyloid_b_ratio_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude
-    summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im)
+    summary_CS_memory_amyloid_b_ratio_im <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr")
     CS_memory_p_tau_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
                                       na.action = na.exclude
-    summary_memory_p_tau_dr <- sjPlot::tab_model(CS_memory_p_tau_dr)
+    summary_CS_memory_p_tau_dr <- sjPlot::tab_model(CS_memory_p_tau_dr)
 
     vtg::log$info("CS_memory_gfap_dr")
     CS_memory_gfap_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude
-    summary_memory_gfap_dr <- sjPlot::tab_model(CS_memory_gfap_dr)
+    summary_CS_memory_gfap_dr <- sjPlot::tab_model(CS_memory_gfap_dr)
 
     vtg::log$info("CS_memory_nfl_dr")
     CS_memory_nfl_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
                                     na.action = na.exclude
-    summary_memory_nfl_dr <- sjPlot::tab_model(CS_memory_nfl_dr)
+    summary_CS_memory_nfl_dr <- sjPlot::tab_model(CS_memory_nfl_dr)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr")
     CS_memory_amyloid_b_ratio_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude
-    summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr)
+    summary_CS_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr)
 
 
     #Language
@@ -447,43 +447,43 @@ RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c(
     CS_language_p_tau <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
                                      data = df,
                                      na.action = na.exclude
-    summary_language_p_tau <- sjPlot::tab_model(CS_language_p_tau)
+    summary_CS_language_p_tau <- sjPlot::tab_model(CS_language_p_tau)
 
     vtg::log$info("CS_language_gfap")
     CS_language_gfap <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
                                     data = df,
                                     na.action = na.exclude
-    summary_language_gfap <- sjPlot::tab_model(CS_language_gfap)
+    summary_CS_language_gfap <- sjPlot::tab_model(CS_language_gfap)
 
     vtg::log$info("CS_language_nfl")
     CS_language_nfl <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
                                    data = df,
                                    na.action = na.exclude
-    summary_language_nfl <- sjPlot::tab_model(CS_language_nfl)
+    summary_CS_language_nfl <- sjPlot::tab_model(CS_language_nfl)
 
     vtg::log$info("CS_language_amyloid_b_ratio")
     CS_language_amyloid_b_ratio <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                data = df,
                                                na.action = na.exclude
-    summary_language_amyloid_b_ratio <- sjPlot::tab_model(CS_language_amyloid_b_ratio)
+    summary_CS_language_amyloid_b_ratio <- sjPlot::tab_model(CS_language_amyloid_b_ratio)
 
 
     print(names(CS_memory_p_tau_im))
     results <- list(
-      "summary_memory_p_tau_im" = summary_memory_p_tau_im,
-      "summary_memory_gfap_im" = summary_memory_gfap_im,
-      "summary_memory_nfl_im" = summary_memory_nfl_im,
-      "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
+      "summary_CS_memory_p_tau_im" = summary_memory_p_tau_im,
+      "summary_CS_memory_gfap_im" = summary_memory_gfap_im,
+      "summary_CS_memory_nfl_im" = summary_memory_nfl_im,
+      "summary_CS_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
 
-      "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
-      "summary_memory_gfap_dr" = summary_memory_gfap_dr,
-      "summary_memory_nfl_dr" = summary_memory_nfl_dr,
-      "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
+      "summary_CS_memory_p_tau_dr" = summary_memory_p_tau_dr,
+      "summary_CS_memory_gfap_dr" = summary_memory_gfap_dr,
+      "summary_CS_memory_nfl_dr" = summary_memory_nfl_dr,
+      "summary_CS_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
 
-      "summary_language_p_tau" = summary_language_p_tau,
-      "summary_language_gfap" = summary_language_gfap,
-      "summary_language_nfl" = summary_language_nfl,
-      "summary_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
+      "summary_CS_language_p_tau" = summary_language_p_tau,
+      "summary_CS_language_gfap" = summary_language_gfap,
+      "summary_CS_language_nfl" = summary_language_nfl,
+      "summary_CS_language_amyloid_b_ratio" = summary_language_amyloid_b_ratio,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
