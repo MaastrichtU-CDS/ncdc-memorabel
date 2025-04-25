@@ -401,313 +401,179 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
     vtg::log$info("CS_memory_p_tau_im_male")
     CS_memory_p_tau_im_male <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                            data = subset(df, sex_num == 0),
-                                           random = ~ | id,
-                                           weights = nlme::varIdent(form= ~1 |),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
                                            na.action = na.exclude
-    summary_memory_p_tau_im_male <- sjPlot::tab_model(CS_memory_p_tau_im_male)
+    summary_CS_memory_p_tau_im_male <- sjPlot::tab_model(CS_memory_p_tau_im_male)
 
     vtg::log$info("CS_memory_p_tau_im_female")
     CS_memory_p_tau_im_female <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                              data = subset(df, sex_num == 1),
-                                             random = ~ | id,
-                                             weights = nlme::varIdent(form= ~1 |),
-                                             correlation = nlme::corSymm(form = ~1 | id),
-                                             method = "REML",
                                              na.action = na.exclude
-    summary_memory_p_tau_im_female <- sjPlot::tab_model(CS_memory_p_tau_im_female)
+    summary_CS_memory_p_tau_im_female <- sjPlot::tab_model(CS_memory_p_tau_im_female)
 
     vtg::log$info("CS_memory_gfap_im_male")
     CS_memory_gfap_im_male <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                           data = subset(df, sex_num == 0),
-                                          random = ~ | id,
-                                          weights = nlme::varIdent(form= ~1 |),
-                                          correlation = nlme::corSymm(form = ~1 | id),
-                                          method = "REML",
                                           na.action = na.exclude
-    summary_memory_gfap_im_male <- sjPlot::tab_model(CS_memory_gfap_im_male)
+    summary_CS_memory_gfap_im_male <- sjPlot::tab_model(CS_memory_gfap_im_male)
 
     vtg::log$info("CS_memory_gfap_im_female")
     CS_memory_gfap_im_female <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                             data = subset(df, sex_num == 1),
-                                            random = ~ | id,
-                                            weights = nlme::varIdent(form= ~1 |),
-                                            correlation = nlme::corSymm(form = ~1 | id),
-                                            method = "REML",
                                             na.action = na.exclude
-    summary_memory_gfap_im_female <- sjPlot::tab_model(CS_memory_gfap_im_female)
+    summary_CS_memory_gfap_im_female <- sjPlot::tab_model(CS_memory_gfap_im_female)
 
 
     vtg::log$info("CS_memory_nfl_im_male")
     CS_memory_nfl_im_male <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + nfl,
                                          data = subset(df, sex_num == 0),
-                                         random = ~ | id,
-                                         weights = nlme::varIdent(form= ~1 |),
-                                         correlation = nlme::corSymm(form = ~1 | id),
-                                         method = "REML",
                                          na.action = na.exclude
-    summary_memory_nfl_im_male <- sjPlot::tab_model(CS_memory_nfl_im_male)
+    summary_CS_memory_nfl_im_male <- sjPlot::tab_model(CS_memory_nfl_im_male)
 
     vtg::log$info("CS_memory_nfl_im_female")
     CS_memory_nfl_im_female <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + nfl,
                                            data = subset(df, sex_num == 1),
-                                           random = ~ | id,
-                                           weights = nlme::varIdent(form= ~1 |),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
                                            na.action = na.exclude
-    summary_memory_nfl_im_female <- sjPlot::tab_model(CS_memory_nfl_im_female)
+    summary_CS_memory_nfl_im_female <- sjPlot::tab_model(CS_memory_nfl_im_female)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_male")
     CS_memory_amyloid_b_ratio_im_male <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                      data = subset(df, sex_num == 0),
-                                                     random = ~ | id,
-                                                     weights = nlme::varIdent(form= ~1 |),
-                                                     correlation = nlme::corSymm(form = ~1 | id),
-                                                     method = "REML",
                                                      na.action = na.exclude
-    summary_memory_amyloid_b_ratio_im_male <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_male)
+    summary_CS_memory_amyloid_b_ratio_im_male <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_male)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_female")
     CS_memory_amyloid_b_ratio_im_female <- lm(priority_memory_im_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                        data = subset(df, sex_num == 1),
-                                                       random = ~ | id,
-                                                       weights = nlme::varIdent(form= ~1 |),
-                                                       correlation = nlme::corSymm(form = ~1 | id),
-                                                       method = "REML",
                                                        na.action = na.exclude
-    summary_memory_amyloid_b_ratio_im_female <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_female)
+    summary_CS_memory_amyloid_b_ratio_im_female <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_female)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr_male")
     CS_memory_p_tau_dr_male <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                            data = subset(df, sex_num == 0),
-                                           random = ~ | id,
-                                           weights = nlme::varIdent(form= ~1 |),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
                                            na.action = na.exclude
     summary_memory_p_tau_dr_male <- sjPlot::tab_model(CS_memory_p_tau_dr_male)
 
     vtg::log$info("CS_memory_p_tau_dr_female")
-    CS_memory_p_tau_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high +
-                                               apoe_carrier + p_tau,
+    CS_memory_p_tau_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                              data = subset(df, sex_num == 1),
-                                             random = ~ | id,
-                                             weights = nlme::varIdent(form= ~1 |),
-                                             correlation = nlme::corSymm(form = ~1 | id),
-                                             method = "REML",
                                              na.action = na.exclude
-    summary_memory_p_tau_dr_female <- sjPlot::tab_model(CS_memory_p_tau_dr_female)
+    summary_CS_memory_p_tau_dr_female <- sjPlot::tab_model(CS_memory_p_tau_dr_female)
 
     vtg::log$info("CS_memory_gfap_dr_male")
-    CS_memory_gfap_dr_male <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high +
-                                            apoe_carrier + gfap,
+    CS_memory_gfap_dr_male <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                           data = subset(df, sex_num == 0),
-                                          random = ~ | id,
-                                          weights = nlme::varIdent(form= ~1 |),
-                                          correlation = nlme::corSymm(form = ~1 | id),
-                                          method = "REML",
                                           na.action = na.exclude
-    summary_memory_gfap_dr_male <- sjPlot::tab_model(CS_memory_gfap_dr_male)
+    summary_CS_memory_gfap_dr_male <- sjPlot::tab_model(CS_memory_gfap_dr_male)
 
     vtg::log$info("CS_memory_gfap_dr_female")
-    CS_memory_gfap_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high +
-                                              apoe_carrier + gfap,
+    CS_memory_gfap_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                             data = subset(df, sex_num == 1),
-                                            random = ~ | id,
-                                            weights = nlme::varIdent(form= ~1 |),
-                                            correlation = nlme::corSymm(form = ~1 | id),
-                                            method = "REML",
                                             na.action = na.exclude
-    summary_memory_gfap_dr_female <- sjPlot::tab_model(CS_memory_gfap_dr_female)
+    summary_CS_memory_gfap_dr_female <- sjPlot::tab_model(CS_memory_gfap_dr_female)
 
     vtg::log$info("CS_memory_nfl_dr_male")
-    CS_memory_nfl_dr_male <- lm(priority_memory_dr_z ~
-                                         + age_rec + education_low + education_high +
-                                           apoe_carrier + nfl,
+    CS_memory_nfl_dr_male <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + nfl,
                                          data = subset(df, sex_num == 0),
-                                         random = ~ | id,
-                                         weights = nlme::varIdent(form= ~1 |),
-                                         correlation = nlme::corSymm(form = ~1 | id),
-                                         method = "REML",
-                                         na.action = na.exclude,
-                                         
-    summary_memory_nfl_dr_male <- sjPlot::tab_model(CS_memory_nfl_dr_male)
+                                         na.action = na.exclude
+    summary_CS_memory_nfl_dr_male <- sjPlot::tab_model(CS_memory_nfl_dr_male)
 
     vtg::log$info("CS_memory_nfl_dr_female")
-    CS_memory_nfl_dr_female <- lm(priority_memory_dr_z ~
-                                           + age_rec + education_low + education_high +
-                                             apoe_carrier + nfl,
+    CS_memory_nfl_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + nfl,
                                            data = subset(df, sex_num == 1),
-                                           random = ~ | id,
-                                           weights = nlme::varIdent(form= ~1 |),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
-                                           na.action = na.exclude,
-                                           
-    summary_memory_nfl_dr_female <- sjPlot::tab_model(CS_memory_nfl_dr_female)
+                                           na.action = na.exclude
+    summary_CS_memory_nfl_dr_female <- sjPlot::tab_model(CS_memory_nfl_dr_female)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_male")
-    CS_memory_amyloid_b_ratio_dr_male <- lm(priority_memory_dr_z ~
-                                                     + age_rec + education_low + education_high +
-                                                       apoe_carrier + amyloid_b_ratio_42_40,
+    CS_memory_amyloid_b_ratio_dr_male <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                      data = subset(df, sex_num == 0),
-                                                     random = ~ | id,
-                                                     weights = nlme::varIdent(form= ~1 |),
-                                                     correlation = nlme::corSymm(form = ~1 | id),
-                                                     method = "REML",
-                                                     na.action = na.exclude,
-                                                     
-    summary_memory_amyloid_b_ratio_dr_male <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_male)
+                                                     na.action = na.exclude
+    summary_CS_memory_amyloid_b_ratio_dr_male <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_male)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_female")
-    CS_memory_amyloid_b_ratio_dr_female <- lm(priority_memory_dr_z ~
-                                                       + age_rec + education_low + education_high +
-                                                         apoe_carrier + amyloid_b_ratio_42_40,
+    CS_memory_amyloid_b_ratio_dr_female <- lm(priority_memory_dr_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                        data = subset(df, sex_num == 1),
-                                                       random = ~ | id,
-                                                       weights = nlme::varIdent(form= ~1 |),
-                                                       correlation = nlme::corSymm(form = ~1 | id),
-                                                       method = "REML",
-                                                       na.action = na.exclude,
-                                                       
-    summary_memory_amyloid_b_ratio_dr_female <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_female)
+                                                       na.action = na.exclude
+    summary_CS_memory_amyloid_b_ratio_dr_female <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_female)
 
 
     #Language
     vtg::log$info("CS_language_p_tau_male")
-    CS_language_p_tau_male <- lm(priority_language_z ~
-                                          + age_rec + education_low + education_high +
-                                            apoe_carrier + p_tau,
+    CS_language_p_tau_male <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                           data = subset(df, sex_num == 0),
-                                          random = ~ | id,
-                                          weights = nlme::varIdent(form= ~1 |),
-                                          correlation = nlme::corSymm(form = ~1 | id),
-                                          method = "REML",
-                                          na.action = na.exclude,
-                                          control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_male <- sjPlot::tab_model(CS_language_p_tau_male)
+                                          na.action = na.exclude
+    summary_CS_language_p_tau_male <- sjPlot::tab_model(CS_language_p_tau_male)
 
     vtg::log$info("CS_language_p_tau_female")
-    CS_language_p_tau_female <- lm(priority_language_z ~
-                                            + age_rec + education_low + education_high +
-                                              apoe_carrier + p_tau,
+    CS_language_p_tau_female <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + p_tau,
                                             data = subset(df, sex_num == 1),
-                                            random = ~ | id,
-                                            weights = nlme::varIdent(form= ~1 |),
-                                            correlation = nlme::corSymm(form = ~1 | id),
-                                            method = "REML",
-                                            na.action = na.exclude,
-                                            
-    summary_language_p_tau_female <- sjPlot::tab_model(CS_language_p_tau_female)
+                                            na.action = na.exclude
+    summary_CS_language_p_tau_female <- sjPlot::tab_model(CS_language_p_tau_female)
 
     vtg::log$info("CS_language_gfap_male")
-    CS_language_gfap_male <- lm(priority_language_z ~
-                                         + age_rec + education_low + education_high +
-                                           apoe_carrier + gfap,
+    CS_language_gfap_male <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                          data = subset(df, sex_num == 0),
-                                         random = ~ | id,
-                                         weights = nlme::varIdent(form= ~1 |),
-                                         correlation = nlme::corSymm(form = ~1 | id),
-                                         method = "REML",
-                                         na.action = na.exclude,
-                                         control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_male <- sjPlot::tab_model(CS_language_gfap_male)
+                                         na.action = na.exclude
+    summary_CS_language_gfap_male <- sjPlot::tab_model(CS_language_gfap_male)
 
     vtg::log$info("CS_language_gfap_female")
-    CS_language_gfap_female <- lm(priority_language_z ~
-                                           + age_rec + education_low + education_high +
-                                             apoe_carrier + gfap,
+    CS_language_gfap_female <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + gfap,
                                            data = subset(df, sex_num == 1),
-                                           random = ~ | id,
-                                           weights = nlme::varIdent(form= ~1 |),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
-                                           na.action = na.exclude,
-                                           
-    summary_language_gfap_female <- sjPlot::tab_model(CS_language_gfap_female)
+                                           na.action = na.exclude
+    summary_CS_language_gfap_female <- sjPlot::tab_model(CS_language_gfap_female)
 
     vtg::log$info("CS_language_nfl_male")
-    CS_language_nfl_male <- lm(priority_language_z ~
-                                        + age_rec + education_low + education_high +
+    CS_language_nfl_male <- lm(priority_language_z ~  age_rec + education_low + education_high +
                                           apoe_carrier + nfl,
                                         data = subset(df, sex_num == 0),
-                                        random = ~ | id,
-                                        weights = nlme::varIdent(form= ~1 |),
-                                        correlation = nlme::corSymm(form = ~1 | id),
-                                        method = "REML",
-                                        na.action = na.exclude,
-                                        control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_male <- sjPlot::tab_model(CS_language_nfl_male)
+                                        na.action = na.exclude
+    summary_CS_language_nfl_male <- sjPlot::tab_model(CS_language_nfl_male)
 
     vtg::log$info("CS_language_nfl_female")
-    CS_language_nfl_female <- lm(priority_language_z ~
-                                          + age_rec + education_low + education_high +
-                                            apoe_carrier + nfl,
+    CS_language_nfl_female <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + nfl,
                                           data = subset(df, sex_num == 1),
-                                          random = ~ | id,
-                                          weights = nlme::varIdent(form= ~1 |),
-                                          correlation = nlme::corSymm(form = ~1 | id),
-                                          method = "REML",
-                                          na.action = na.exclude,
-                                          
-    summary_language_nfl_female <- sjPlot::tab_model(CS_language_nfl_female)
+                                          na.action = na.exclude
+    summary_CS_language_nfl_female <- sjPlot::tab_model(CS_language_nfl_female)
 
     vtg::log$info("CS_language_amyloid_b_ratio_male")
-    CS_language_amyloid_b_ratio_male <- lm(priority_language_z ~
-                                                    + age_rec + education_low + education_high +
-                                                      apoe_carrier + amyloid_b_ratio_42_40,
+    CS_language_amyloid_b_ratio_male <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                     data = subset(df, sex_num == 0),
-                                                    random = ~ | id,
-                                                    weights = nlme::varIdent(form= ~1 |),
-                                                    correlation = nlme::corSymm(form = ~1 | id),
-                                                    method = "REML",
-                                                    na.action = na.exclude,
-                                                    control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(CS_language_amyloid_b_ratio_male)
+                                                    na.action = na.exclude
+    summary_CS_language_amyloid_b_ratio_male <- sjPlot::tab_model(CS_language_amyloid_b_ratio_male)
 
     vtg::log$info("CS_language_amyloid_b_ratio_female")
-    CS_language_amyloid_b_ratio_female <- lm(priority_language_z ~
-                                                      + age_rec + education_low + education_high +
-                                                        apoe_carrier + amyloid_b_ratio_42_40,
+    CS_language_amyloid_b_ratio_female <- lm(priority_language_z ~ age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40,
                                                       data = subset(df, sex_num == 1),
-                                                      random = ~ | id,
-                                                      weights = nlme::varIdent(form= ~1 |),
-                                                      correlation = nlme::corSymm(form = ~1 | id),
-                                                      method = "REML",
-                                                      na.action = na.exclude,
-                                                      
-    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(CS_language_amyloid_b_ratio_female)
+                                                      na.action = na.exclude
+    summary_CS_language_amyloid_b_ratio_female <- sjPlot::tab_model(CS_language_amyloid_b_ratio_female)
 
     results <- list(
-      "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
-      "summary_memory_gfap_im_male" = summary_memory_gfap_im_male,
-      "summary_memory_nfl_im_male" = summary_memory_nfl_im_male,
-      "summary_memory_amyloid_b_ratio_im_male" = summary_memory_amyloid_b_ratio_im_male,
-      "summary_memory_p_tau_im_female" = summary_memory_p_tau_im_female,
-      "summary_memory_gfap_im_female" = summary_memory_gfap_im_female,
-      "summary_memory_nfl_im_female" = summary_memory_nfl_im_female,
-      "summary_memory_amyloid_b_ratio_im_female" = summary_memory_amyloid_b_ratio_im_female,
+      "summary_CS_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
+      "summary_CS_memory_gfap_im_male" = summary_memory_gfap_im_male,
+      "summary_CS_memory_nfl_im_male" = summary_memory_nfl_im_male,
+      "summary_CS_memory_amyloid_b_ratio_im_male" = summary_memory_amyloid_b_ratio_im_male,
+      "summary_CS_memory_p_tau_im_female" = summary_memory_p_tau_im_female,
+      "summary_CS_memory_gfap_im_female" = summary_memory_gfap_im_female,
+      "summary_CS_memory_nfl_im_female" = summary_memory_nfl_im_female,
+      "summary_CS_memory_amyloid_b_ratio_im_female" = summary_memory_amyloid_b_ratio_im_female,
 
-      "summary_memory_p_tau_dr_male" = summary_memory_p_tau_dr_male,
-      "summary_memory_gfap_dr_male" = summary_memory_gfap_dr_male,
-      "summary_memory_nfl_dr_male" = summary_memory_nfl_dr_male,
-      "summary_memory_amyloid_b_ratio_dr_male" = summary_memory_amyloid_b_ratio_dr_male,
-      "summary_memory_p_tau_dr_female" = summary_memory_p_tau_dr_female,
-      "summary_memory_gfap_dr_female" = summary_memory_gfap_dr_female,
-      "summary_memory_nfl_dr_female" = summary_memory_nfl_dr_female,
-      "summary_memory_amyloid_b_ratio_dr_female" = summary_memory_amyloid_b_ratio_dr_female,
+      "summary_CS_memory_p_tau_dr_male" = summary_memory_p_tau_dr_male,
+      "summary_CS_memory_gfap_dr_male" = summary_memory_gfap_dr_male,
+      "summary_CS_memory_nfl_dr_male" = summary_memory_nfl_dr_male,
+      "summary_CS_memory_amyloid_b_ratio_dr_male" = summary_memory_amyloid_b_ratio_dr_male,
+      "summary_CS_memory_p_tau_dr_female" = summary_memory_p_tau_dr_female,
+      "summary_CS_memory_gfap_dr_female" = summary_memory_gfap_dr_female,
+      "summary_CS_memory_nfl_dr_female" = summary_memory_nfl_dr_female,
+      "summary_CS_memory_amyloid_b_ratio_dr_female" = summary_memory_amyloid_b_ratio_dr_female,
 
-      "summary_language_p_tau_male" = summary_language_p_tau_male,
-      "summary_language_gfap_male" = summary_language_gfap_male,
-      "summary_language_nfl_male" = summary_language_nfl_male,
-      "summary_language_amyloid_b_ratio_male" = summary_language_amyloid_b_ratio_male,
-      "summary_language_p_tau_female" = summary_language_p_tau_female,
-      "summary_language_gfap_female" = summary_language_gfap_female,
-      "summary_language_nfl_female" = summary_language_nfl_female,
-      "summary_language_amyloid_b_ratio_female" = summary_language_amyloid_b_ratio_female,
+      "summary_CS_language_p_tau_male" = summary_language_p_tau_male,
+      "summary_CS_language_gfap_male" = summary_language_gfap_male,
+      "summary_CS_language_nfl_male" = summary_language_nfl_male,
+      "summary_CS_language_amyloid_b_ratio_male" = summary_language_amyloid_b_ratio_male,
+      "summary_CS_language_p_tau_female" = summary_language_p_tau_female,
+      "summary_CS_language_gfap_female" = summary_language_gfap_female,
+      "summary_CS_language_nfl_female" = summary_language_nfl_female,
+      "summary_CS_language_amyloid_b_ratio_female" = summary_language_amyloid_b_ratio_female,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
