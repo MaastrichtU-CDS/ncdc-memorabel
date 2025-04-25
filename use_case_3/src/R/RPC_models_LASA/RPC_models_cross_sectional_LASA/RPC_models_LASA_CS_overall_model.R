@@ -1,7 +1,7 @@
 
 #This is the overall models or most general models.
 ##without interactions and without apoe
-RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -390,146 +390,85 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-    # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
+    # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
-    vtg::log$info("RIRS_memory_p_tau_im")
-    RIRS_memory_p_tau_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    vtg::log$info("CS_memory_p_tau_im")
+    CS_memory_p_tau_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
-                                      random = ~ years_since_baseline | id,
-                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                      correlation = nlme::corSymm(form = ~1 | id),
-                                      method = "REML",
-                                      na.action = na.exclude,
-                                      control = nlme::lmeControl(opt='optim'))
-    # summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im, p.val = "kr")
-    summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im)
+                                      na.action = na.exclude
+    summary_memory_p_tau_im <- sjPlot::tab_model(CS_memory_p_tau_im)
 
-    vtg::log$info("RIRS_memory_gfap_im")
-    RIRS_memory_gfap_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    vtg::log$info("CS_memory_gfap_im")
+    CS_memory_gfap_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
-                                     random = ~ years_since_baseline | id,
-                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                     correlation = nlme::corSymm(form = ~1 | id),
-                                     method = "REML",
-                                     na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_im <- sjPlot::tab_model(RIRS_memory_gfap_im)
+                                     na.action = na.exclude
+    summary_memory_gfap_im <- sjPlot::tab_model(CS_memory_gfap_im)
 
-    vtg::log$info("RIRS_memory_nfl_im")
-    RIRS_memory_nfl_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    vtg::log$info("CS_memory_nfl_im")
+    CS_memory_nfl_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
-                                    random = ~ years_since_baseline | id,
-                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                    correlation = nlme::corSymm(form = ~1 | id),
-                                    method = "REML",
-                                    na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_im <- sjPlot::tab_model(RIRS_memory_nfl_im)
+                                    na.action = na.exclude
+    summary_memory_nfl_im <- sjPlot::tab_model(CS_memory_nfl_im)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
-    RIRS_memory_amyloid_b_ratio_im <- nlme::lme(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    vtg::log$info("CS_memory_amyloid_b_ratio_im")
+    CS_memory_amyloid_b_ratio_im <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
-                                                random = ~ years_since_baseline | id,
-                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                                correlation = nlme::corSymm(form = ~1 | id),
-                                                method = "REML",
-                                                na.action = na.exclude,
-                                                control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im)
+                                                na.action = na.exclude
+    summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im)
 
     #Delayed recall
-    vtg::log$info("RIRS_memory_p_tau_dr")
-    RIRS_memory_p_tau_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    vtg::log$info("CS_memory_p_tau_dr")
+    CS_memory_p_tau_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
-                                      random = ~ years_since_baseline | id,
-                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                      correlation = nlme::corSymm(form = ~1 | id),
-                                      method = "REML",
-                                      na.action = na.exclude,
-                                      control = nlme::lmeControl(opt='optim'))
-    summary_memory_p_tau_dr <- sjPlot::tab_model(RIRS_memory_p_tau_dr)
+                                      na.action = na.exclude
+    summary_memory_p_tau_dr <- sjPlot::tab_model(CS_memory_p_tau_dr)
 
-    vtg::log$info("RIRS_memory_gfap_dr")
-    RIRS_memory_gfap_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    vtg::log$info("CS_memory_gfap_dr")
+    CS_memory_gfap_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
-                                     random = ~ years_since_baseline | id,
-                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                     correlation = nlme::corSymm(form = ~1 | id),
-                                     method = "REML",
-                                     na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
-    summary_memory_gfap_dr <- sjPlot::tab_model(RIRS_memory_gfap_dr)
+                                     na.action = na.exclude
+    summary_memory_gfap_dr <- sjPlot::tab_model(CS_memory_gfap_dr)
 
-    vtg::log$info("RIRS_memory_nfl_dr")
-    RIRS_memory_nfl_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    vtg::log$info("CS_memory_nfl_dr")
+    CS_memory_nfl_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
-                                    random = ~ years_since_baseline | id,
-                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                    correlation = nlme::corSymm(form = ~1 | id),
-                                    method = "REML",
-                                    na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
-    summary_memory_nfl_dr <- sjPlot::tab_model(RIRS_memory_nfl_dr)
+                                    na.action = na.exclude
+    summary_memory_nfl_dr <- sjPlot::tab_model(CS_memory_nfl_dr)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
-    RIRS_memory_amyloid_b_ratio_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    vtg::log$info("CS_memory_amyloid_b_ratio_dr")
+    CS_memory_amyloid_b_ratio_dr <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
-                                                random = ~ years_since_baseline | id,
-                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                                correlation = nlme::corSymm(form = ~1 | id),
-                                                method = "REML",
-                                                na.action = na.exclude,
-                                                control = nlme::lmeControl(opt='optim'))
-    summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr)
+                                                na.action = na.exclude
+    summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr)
 
 
     #Language
-    vtg::log$info("RIRS_language_p_tau")
-    RIRS_language_p_tau <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    vtg::log$info("CS_language_p_tau")
+    CS_language_p_tau <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
                                      data = df,
-                                     random = ~ years_since_baseline | id,
-                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                     correlation = nlme::corSymm(form = ~1 | id),
-                                     method = "REML",
-                                     na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
-    summary_language_p_tau <- sjPlot::tab_model(RIRS_language_p_tau)
+                                     na.action = na.exclude
+    summary_language_p_tau <- sjPlot::tab_model(CS_language_p_tau)
 
-    vtg::log$info("RIRS_language_gfap")
-    RIRS_language_gfap <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    vtg::log$info("CS_language_gfap")
+    CS_language_gfap <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
                                     data = df,
-                                    random = ~ years_since_baseline | id,
-                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                    correlation = nlme::corSymm(form = ~1 | id),
-                                    method = "REML",
-                                    na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
-    summary_language_gfap <- sjPlot::tab_model(RIRS_language_gfap)
+                                    na.action = na.exclude
+    summary_language_gfap <- sjPlot::tab_model(CS_language_gfap)
 
-    vtg::log$info("RIRS_language_nfl")
-    RIRS_language_nfl <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    vtg::log$info("CS_language_nfl")
+    CS_language_nfl <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
                                    data = df,
-                                   random = ~ years_since_baseline | id,
-                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                   correlation = nlme::corSymm(form = ~1 | id),
-                                   method = "REML",
-                                   na.action = na.exclude,
-                                   control = nlme::lmeControl(opt='optim'))
-    summary_language_nfl <- sjPlot::tab_model(RIRS_language_nfl)
+                                   na.action = na.exclude
+    summary_language_nfl <- sjPlot::tab_model(CS_language_nfl)
 
-    vtg::log$info("RIRS_language_amyloid_b_ratio")
-    RIRS_language_amyloid_b_ratio <- nlme::lme(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    vtg::log$info("CS_language_amyloid_b_ratio")
+    CS_language_amyloid_b_ratio <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                data = df,
-                                               random = ~ years_since_baseline | id,
-                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                               correlation = nlme::corSymm(form = ~1 | id),
-                                               method = "REML",
-                                               na.action = na.exclude,
-                                               control = nlme::lmeControl(opt='optim'))
-    summary_language_amyloid_b_ratio <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio)
+                                               na.action = na.exclude
+    summary_language_amyloid_b_ratio <- sjPlot::tab_model(CS_language_amyloid_b_ratio)
 
 
-    print(names(RIRS_memory_p_tau_im))
+    print(names(CS_memory_p_tau_im))
     results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
