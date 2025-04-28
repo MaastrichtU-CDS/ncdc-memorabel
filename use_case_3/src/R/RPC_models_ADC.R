@@ -127,7 +127,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(lubridate::interval(as.Date(date), as.Date(date_baseline)) <= 0)
+      dplyr::filter(days_since_baseline >= 0)
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
