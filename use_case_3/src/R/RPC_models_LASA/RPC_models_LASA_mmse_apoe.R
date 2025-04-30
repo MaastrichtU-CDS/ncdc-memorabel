@@ -344,7 +344,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     #2-way interactions for apoe
     vtg::log$info("RIRS_mmse_p_tau_2w")
     RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline
-                                    + apoe_carrier * p_tau + p_tau * years_since_baseline,
+                                    + apoe_carrier * p_tau,
                                     data = df,
                                     random = ~ years_since_baseline | id,
                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -357,7 +357,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
 
     vtg::log$info("RIRS_mmse_gfap_2w")
     RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline
-                                   + apoe_carrier * gfap + gfap * years_since_baseline,
+                                   + apoe_carrier * gfap,
                                    data = df,
                                    random = ~ years_since_baseline | id,
                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -369,7 +369,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
 
     vtg::log$info("RIRS_mmse_nfl_2w")
     RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline
-                                  + apoe_carrier * nfl + nfl * years_since_baseline,
+                                  + apoe_carrier * nfl,
                                   data = df,
                                   random = ~ years_since_baseline | id,
                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -381,7 +381,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
     RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline
-                                                  + apoe_carrier * log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
+                                                  + apoe_carrier * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   random = ~ years_since_baseline | id,
                                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -456,7 +456,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     summary_mmse_nfl_apoe_pos <- sjPlot::tab_model(RIRS_mmmse_nfl_apoe_pos)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    RIRS_mmse_amyloid_b_ratio_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    RIRS_mmse_amyloid_b_ratio_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
                                                     data = subset(df, apoe_carrier == "no"),
                                                     random = ~ years_since_baseline | id,
                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -467,7 +467,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     summary_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_mmmse_amyloid_b_ratio_apoe_neg)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    RIRS_mmse_amyloid_b_ratio_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    RIRS_mmse_amyloid_b_ratio_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
                                                     data = subset(df, apoe_carrier == "yes"),
                                                     random = ~ years_since_baseline | id,
                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
