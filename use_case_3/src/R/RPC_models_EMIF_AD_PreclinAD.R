@@ -55,13 +55,13 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "mmse_total")],
+      x = df_baseline[c("id", "age", "sex", "birth_year")],
       y = df_baseline_education[c("id", "education_category_verhage", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years", "mmse_total")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -73,7 +73,8 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       by = "id"
       # all.x = T
     )
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]),]
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) | !is.na(df[["mmse_total"]]) | !is.na(df[["priority_executive_stroop_3_time"]])
+      | !is.na(df[["priority_memory_dr_15_word_list_correct"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
     df <- merge(
       x = df_cogn_test[c("id", "date", "priority_memory_im_cerad", "priority_memory_im_vat_a",
       "priority_memory_im_vat_b", "priority_memory_im_rrf", "priority_memory_im_15_word_list_correct",
@@ -82,7 +83,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "priority_executive_stroop_3_time", "priority_executive_stroop_3_errors", "priority_executive_wais_3_b",
       "priority_executive_wais_3_f", "priority_language_animal_fluency_60_correct", "priority_language_animal_fluency_120_correct",
       "priority_language_letter_fluency_60", "priority_language_verbal_fluency_60", "attention_test_sdst_60_correct",
-      "attention_test_tmt_a_time", "attention_test_stroop_1_time", "attention_test_stroop_2_time")],
+      "attention_test_tmt_a_time", "attention_test_stroop_1_time", "attention_test_stroop_2_time", "mmse_total")],
       y = df_grouped,
       by = "id"
       # all.x = T

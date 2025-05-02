@@ -55,13 +55,13 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "mmse_total")],
+      x = df_baseline[c("id", "age", "sex", "birth_year")],
       y = df_baseline_education[c("id", "education_category_verhage", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years", "mmse_total")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -75,7 +75,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     )
     df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
       | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
-      | !is.na(df[["priority_memory_dr_cerad"]]),]
+      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
       x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_tmt_a_errors",
         "attention_test_sdst_90_ts", "date_memory", "priority_memory_im_cerad", "priority_memory_im_vat_a",
@@ -84,7 +84,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
         "priority_executive_wais_3_b_span", "priority_executive_wais_3_f", "priority_executive_wais_3_f_span", "date_language",
         "priority_language_animal_fluency_60_correct", "priority_language_animal_fluency_60_errors", "priority_language_animal_fluency_60_ts",
         "priority_language_animal_fluency_120_correct", "priority_language_animal_fluency_120_errors", "priority_language_animal_fluency_120_ts",
-        "priority_language_letter_fluency_60", "dexterity_clock_drawing")],
+        "priority_language_letter_fluency_60", "dexterity_clock_drawing", "mmse_total")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -456,42 +456,42 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
 
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     # MMSE
-    # vtg::log$info("RIRS_mmse_p_tau")
-    # RIRS_mmse_p_tau <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # vtg::log$info("RIRS_mmse_gfap")
-    # RIRS_mmse_gfap <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # vtg::log$info("RIRS_mmse_nfl")
-    # RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    # RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                        data = df,
-    #                        random = ~ years_since_baseline | id,
-    #                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                        correlation = nlme::corSymm(form = ~1 | id),
-    #                        method = "REML",
-    #                        na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    vtg::log$info("RIRS_mmse_p_tau")
+    RIRS_mmse_p_tau <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    vtg::log$info("RIRS_mmse_gfap")
+    RIRS_mmse_gfap <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    vtg::log$info("RIRS_mmse_nfl")
+    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    vtg::log$info("RIRS_mmse_amyloid_b_ratio")
+    RIRS_mmse_amyloid_b_ratio <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                           data = df,
+                           random = ~ years_since_baseline | id,
+                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                           correlation = nlme::corSymm(form = ~1 | id),
+                           method = "REML",
+                           na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     #Language
     vtg::log$info("RIRS_language_p_tau")
