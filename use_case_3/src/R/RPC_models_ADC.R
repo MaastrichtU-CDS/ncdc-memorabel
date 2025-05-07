@@ -251,7 +251,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
-        years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
+        mean_years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
@@ -506,7 +506,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
-        years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
+        mean_years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
         mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
         sd_memory_immediate_recall_z = sd(priority_memory_im_z, na.rm = TRUE),
@@ -1047,7 +1047,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
-      # "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
+      "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
       "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
