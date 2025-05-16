@@ -1,3 +1,6 @@
+#Overall models
+#No apoe necessary
+
 RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
@@ -31,7 +34,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-    check_names <- c("age", "sex", "education_category_verhage", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt", "apoe_carrier")
+    check_names <- c("age", "sex", "education_category_verhage", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
     missing_variables <- c()
     for (name in check_names) {
       if (!name %in% colnames(df)) {
@@ -52,7 +55,6 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]
-    df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
@@ -65,14 +67,14 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
-    df_grouped <- merge(
-      x = df_grouped,
-      y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
+    #df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    #df_apoe <- df_apoe[! duplicated(df_apoe$id),]
+    #df_grouped <- merge(
+      #x = df_grouped,
+      #y = df_apoe[c("id", "apoe_carrier")],
+      #by = "id"
       # all.x = T
-    )
+    #)
     df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
       | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
       | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["mmse_total"]]),]
@@ -698,7 +700,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_priority_executive_shift_tmt_z_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio)
 
-    # model_summary can't extract from lme models
+    #model_summary can't extract from lme models
     results <- list(
       "summary_language_p_tau" = summary_language_p_tau,
       "summary_language_gfap" = summary_language_gfap,
