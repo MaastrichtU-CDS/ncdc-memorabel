@@ -967,6 +967,53 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_priority_executive_tmt_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_tmt_amyloid_b_ratio)
+    
+    #Interference score
+    vtg::log$info("RIRS_priority_executive_shift_tmt_z_p_tau")
+    RIRS_priority_executive_shift_tmt_z_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    summary_priority_executive_shift_tmt_z_p_tau <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_p_tau)
+
+    vtg::log$info("RIRS_priority_executive_shift_tmt_z_gfap")
+    RIRS_priority_executive_shift_tmt_z_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_priority_executive_shift_tmt_z_gfap <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_gfap)
+
+    vtg::log$info("RIRS_priority_executive_shift_tmt_z_nfl")
+    RIRS_priority_executive_shift_tmt_z_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    summary_priority_executive_shift_tmt_z_nfl <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_nfl)
+
+    vtg::log$info("RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio")
+    RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_priority_executive_shift_tmt_z_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio)
 
     results <- list(
       #"model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
@@ -1011,6 +1058,11 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_executive_tmt_gfap" = summary_executive_tmt_gfap,
       "summary_executive_tmt_nfl" = summary_executive_tmt_nfl,
       "summary_executive_tmt_amyloid_b_ratio" = summary_executive_tmt_amyloid_b_ratio,
+      
+      "summary_priority_executive_shift_tmt_z_p_tau" = summary_priority_executive_shift_tmt_z_p_tau,
+      "summary_priority_executive_shift_tmt_z_gfap" = summary_priority_executive_shift_tmt_z_gfap,
+      "summary_priority_executive_shift_tmt_z_nfl" = summary_priority_executive_shift_tmt_z_nfl,
+      "summary_priority_executive_shift_tmt_z_amyloid_b_ratio" = summary_priority_executive_shift_tmt_z_amyloid_b_ratio,
 
       # "summary_processing_speed_p_tau" = summary_processing_speed_p_tau,
       # "summary_processing_speed_gfap" = summary_processing_speed_gfap,
