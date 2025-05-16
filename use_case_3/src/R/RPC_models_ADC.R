@@ -923,50 +923,50 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     summary_attention_tmt_a_amyloid_b_ratio <- sjPlot::tab_model(RIRS_attention_tmt_a_amyloid_b_ratio)
 
     # Executive function
-    # Missing the TMT B pre-processing to calculate priority_priority_executive_tmt_b_time_z
-    # vtg::log$info("RIRS_priority_executive_tmt_b_time_p_tau")
-    # RIRS_priority_executive_tmt_b_time_p_tau <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_priority_executive_tmt_b_time_p_tau <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_p_tau)
-    #
-    # vtg::log$info("RIRS_priority_executive_tmt_b_time_gfap")
-    # RIRS_priority_executive_tmt_b_time_gfap <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_priority_executive_tmt_b_time_gfap <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_gfap)
-    #
-    # vtg::log$info("RIRS_priority_executive_tmt_b_time_nfl")
-    # RIRS_priority_executive_tmt_b_time_nfl <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_priority_executive_tmt_b_time_nfl <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_nfl)
-    #
-    # vtg::log$info("RIRS_priority_executive_tmt_b_time_amyloid_b_ratio")
-    # RIRS_priority_executive_tmt_b_time_amyloid_b_ratio <- nlme::lme(priority_priority_executive_tmt_b_time_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_priority_executive_tmt_b_time_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_amyloid_b_ratio)
+     Missing the TMT B pre-processing to calculate priority_priority_executive_tmt_z
+    vtg::log$info("RIRS_priority_executive_tmt_p_tau")
+    RIRS_priority_executive_tmt_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                             data = df,
+                             random = ~ years_since_baseline | id,
+                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                             correlation = nlme::corSymm(form = ~1 | id),
+                             method = "REML",
+                             na.action = na.exclude,
+                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+     summary_priority_executive_tmt_p_tau <- sjPlot::tab_model(RIRS_priority_executive_tmt_p_tau)
+    
+     vtg::log$info("RIRS_priority_executive_tmt_b_gfap")
+     RIRS_priority_executive_tmt_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                             data = df,
+                             random = ~ years_since_baseline | id,
+                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                             correlation = nlme::corSymm(form = ~1 | id),
+                             method = "REML",
+                             na.action = na.exclude,
+                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+     summary_priority_executive_tmt_gfap <- sjPlot::tab_model(RIRS_priority_executive_tmt_gfap)
+    
+     vtg::log$info("RIRS_priority_executive_tmt_nfl")
+     RIRS_priority_executive_tmt_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                             data = df,
+                             random = ~ years_since_baseline | id,
+                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                             correlation = nlme::corSymm(form = ~1 | id),
+                             method = "REML",
+                             na.action = na.exclude,
+                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+     summary_priority_executive_tmt_nfl <- sjPlot::tab_model(RIRS_priority_executive_tmt_nfl)
+    
+     vtg::log$info("RIRS_priority_executive_tmt_amyloid_b_ratio")
+     RIRS_priority_executive_tmt_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+                             data = df,
+                             random = ~ years_since_baseline | id,
+                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                             correlation = nlme::corSymm(form = ~1 | id),
+                             method = "REML",
+                             na.action = na.exclude,
+                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+     summary_priority_executive_tmt_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_tmt_amyloid_b_ratio)
 
     results <- list(
       #"model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
@@ -1006,6 +1006,11 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_attention_tmt_a_gfap" = summary_attention_tmt_a_gfap,
       "summary_attention_tmt_a_nfl" = summary_attention_tmt_a_nfl,
       "summary_attention_tmt_a_amyloid_b_ratio" = summary_attention_tmt_a_amyloid_b_ratio,
+
+      "summary_executive_tmt_p_tau" = summary_executive_tmt_p_tau,
+      "summary_executive_tmt_gfap" = summary_executive_tmt_gfap,
+      "summary_executive_tmt_nfl" = summary_executive_tmt_nfl,
+      "summary_executive_tmt_amyloid_b_ratio" = summary_executive_tmt_amyloid_b_ratio,
 
       # "summary_processing_speed_p_tau" = summary_processing_speed_p_tau,
       # "summary_processing_speed_gfap" = summary_processing_speed_gfap,
