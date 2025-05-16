@@ -402,51 +402,6 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
                                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_amyloid_b_ratio_log_3w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_3w)
 
-    #2 way interaction models for sex
-    vtg::log$info("RIRS_mmse_p_tau_2w")
-    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline + sex * p_tau,
-                                    data = df,
-                                    random = ~ years_since_baseline | id,
-                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                    correlation = nlme::corSymm(form = ~1 | id),
-                                    method = "REML",
-                                    na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w)
-
-    vtg::log$info("RIRS_mmse_gfap_2w")
-    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline + sex * gfap,
-                                   data = df,
-                                   random = ~ years_since_baseline | id,
-                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                   correlation = nlme::corSymm(form = ~1 | id),
-                                   method = "REML",
-                                   na.action = na.exclude,
-                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w)
-
-    vtg::log$info("RIRS_mmse_nfl_2w")
-    RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline + sex * nfl,
-                                  data = df,
-                                  random = ~ years_since_baseline | id,
-                                  weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                  correlation = nlme::corSymm(form = ~1 | id),
-                                  method = "REML",
-                                  na.action = na.exclude,
-                                  control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w)
-
-    vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
-    RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline + sex * log_amyloid_b_ratio_42_40,
-                                                  data = df,
-                                                  random = ~ years_since_baseline | id,
-                                                  weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                                  correlation = nlme::corSymm(form = ~1 | id),
-                                                  method = "REML",
-                                                  na.action = na.exclude,
-                                                  control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w)
-
     #models stratified for apoe
     ##man = 0, female = 1
     vtg::log$info("RIRS_mmse_p_tau_male")
@@ -550,11 +505,6 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       "summary_mmse_gfap_3w" = summary_mmse_gfap_3w,
       "summary_mmse_nfl_3w" = summary_mmse_nfl_3w,
       "summary_mmse_amyloid_b_ratio_log_3w" = summary_mmse_amyloid_b_ratio_log_3w,
-
-      "summary_mmse_p_tau_2w" = summary_mmse_p_tau_2w,
-      "summary_mmse_gfap_2w" = summary_mmse_gfap_2w,
-      "summary_mmse_nfl_2w" = summary_mmse_nfl_2w,
-      "summary_mmse_amyloid_b_ratio_log_2w" = summary_mmse_amyloid_b_ratio_log_2w,
 
       "summary_mmse_p_tau_male" = summary_mmse_p_tau_male,
       "summary_mmse_gfap_male" = summary_mmse_gfap_male,
