@@ -535,7 +535,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
 
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
-    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + p_tau 
+    RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
                                              + p_tau * years_since_baseline
                                              + apoe_carrier * p_tau 
                                              + apoe_carrier * years_since_baseline
@@ -550,7 +550,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_processing_speed_p_tau <- sjPlot::tab_model(RIRS_processing_speed_p_tau)
 
     vtg::log$info("RIRS_processing_speed_gfap")
-    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + gfap 
+    RIRS_processing_speed_gfap <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap 
                                      + apoe_carrier * years_since_baseline
@@ -580,7 +580,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_processing_speed_nfl <- sjPlot::tab_model(RIRS_processing_speed_nfl)
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
-    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + amyloid_b_ratio_42_40 
+    RIRS_processing_speed_amyloid_b_ratio <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40 
                                                 + apoe_carrier * years_since_baseline
@@ -596,7 +596,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
 
     #Attention
     vtg::log$info("RIRS_attention_tmt_a_p_tau")
-    RIRS_attention_tmt_a_p_tau <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + p_tau 
+    RIRS_attention_tmt_a_p_tau <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
                                             + p_tau * years_since_baseline
                                             + apoe_carrier * p_tau 
                                             + apoe_carrier * years_since_baseline
@@ -611,7 +611,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_attention_tmt_a_p_tau <- sjPlot::tab_model(RIRS_attention_tmt_a_p_tau)
 
     vtg::log$info("RIRS_attention_tmt_a_gfap")
-    RIRS_attention_tmt_a_gfap <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + gfap 
+    RIRS_attention_tmt_a_gfap <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap 
                                      + apoe_carrier * years_since_baseline
@@ -626,7 +626,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_attention_tmt_a_gfap <- sjPlot::tab_model(RIRS_attention_tmt_a_gfap)
 
     vtg::log$info("RIRS_attention_tmt_a_nfl")
-    RIRS_attention_tmt_a_nfl <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + nfl 
+    RIRS_attention_tmt_a_nfl <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl 
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl 
                                     + apoe_carrier * years_since_baseline
@@ -641,7 +641,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_attention_tmt_a_nfl <- sjPlot::tab_model(RIRS_attention_tmt_a_nfl)
 
     vtg::log$info("RIRS_attention_tmt_a_amyloid_b_ratio")
-    RIRS_attention_tmt_a_amyloid_b_ratio <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + amyloid_b_ratio_42_40 
+    RIRS_attention_tmt_a_amyloid_b_ratio <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40 
                                                 + apoe_carrier * years_since_baseline
@@ -657,7 +657,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
 
     #Executive function
     vtg::log$info("RIRS_priority_executive_tmt_b_time_p_tau")
-    RIRS_priority_executive_tmt_b_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + p_tau 
+    RIRS_priority_executive_tmt_b_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
                                         + p_tau * years_since_baseline
                                         + apoe_carrier * p_tau 
                                         + apoe_carrier * years_since_baseline
@@ -673,7 +673,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_tmt_b_p_tau <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_p_tau)
 
     vtg::log$info("RIRS_priority_executive_tmt_b_time_gfap")
-    RIRS_priority_executive_tmt_b_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + gfap 
+    RIRS_priority_executive_tmt_b_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap 
                                      + apoe_carrier * years_since_baseline
@@ -688,7 +688,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_tmt_b_gfap <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_gfap)
 
     vtg::log$info("RIRS_priority_executive_tmt_b_time_nfl")
-    RIRS_priority_executive_tmt_b_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + nfl 
+    RIRS_priority_executive_tmt_b_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl 
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl 
                                     + apoe_carrier * years_since_baseline
@@ -704,7 +704,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_tmt_b_nfl <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_time_nfl)
 
     vtg::log$info("RIRS_priority_executive_tmt_b_time_amyloid_b_ratio")
-    RIRS_priority_executive_tmt_b_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + amyloid_b_ratio_42_40 
+    RIRS_priority_executive_tmt_b_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40 
                                                 + apoe_carrier * years_since_baseline
@@ -720,7 +720,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
 
     #Interference score
     vtg::log$info("RIRS_priority_executive_shift_tmt_z_p_tau")
-    RIRS_priority_executive_shift_tmt_z_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + p_tau 
+    RIRS_priority_executive_shift_tmt_z_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
                                       + p_tau * years_since_baseline
                                       + apoe_carrier * p_tau 
                                       + apoe_carrier * years_since_baseline
@@ -735,7 +735,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_shift_tmt_z_p_tau <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_p_tau)
 
     vtg::log$info("RIRS_priority_executive_shift_tmt_z_gfap")
-    RIRS_priority_executive_shift_tmt_z_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + gfap 
+    RIRS_priority_executive_shift_tmt_z_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap 
                                      + apoe_carrier * years_since_baseline
@@ -750,7 +750,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_shift_tmt_z_gfap <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_gfap)
 
     vtg::log$info("RIRS_priority_executive_shift_tmt_z_nfl")
-    RIRS_priority_executive_shift_tmt_z_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + nfl 
+    RIRS_priority_executive_shift_tmt_z_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl 
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl 
                                     + apoe_carrier * years_since_baseline
@@ -765,7 +765,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_shift_tmt_z_nfl <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_nfl)
 
     vtg::log$info("RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio")
-    RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + apoe_carrier + amyloid_b_ratio_42_40 
+    RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40 
                                                 + apoe_carrier * years_since_baseline
