@@ -123,6 +123,16 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     df <- subset(df, years_since_baseline >= 0)
 
+    #Create variable for number of follow-ups
+    df <- df %>%
+      dplyr::arrange(id, years_since_baseline) %>%
+      dplyr::group_by(id) %>%
+      dplyr::mutate(num_prior_visit = row_number()-1) %>%
+      dplyr::ungroup()
+
+    #Take the square root of the number of follow-ups
+    df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
+
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
@@ -411,7 +421,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
     #Immediate recall
     vtg::log$info("RIRS_memory_p_tau_im_apoe_neg")
     RIRS_memory_p_tau_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                               + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "no"),
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -423,7 +433,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_p_tau_im_apoe_pos")
     RIRS_memory_p_tau_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                               + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -435,7 +445,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_im_apoe_neg")
     RIRS_memory_gfap_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -447,7 +457,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_im_apoe_pos")
     RIRS_memory_gfap_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -460,7 +470,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_im_apoe_neg")
     RIRS_memory_nfl_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -472,7 +482,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_im_apoe_pos")
     RIRS_memory_nfl_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -484,7 +494,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_neg")
     RIRS_memory_amyloid_b_ratio_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                                         + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -496,7 +506,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_pos")
     RIRS_memory_amyloid_b_ratio_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
-                                                         + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -509,7 +519,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr_apoe_neg")
     RIRS_memory_p_tau_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                               + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "no"),
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -521,7 +531,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_p_tau_dr_apoe_pos")
     RIRS_memory_p_tau_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                               + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -533,7 +543,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_dr_apoe_neg")
     RIRS_memory_gfap_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -545,7 +555,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_gfap_dr_apoe_pos")
     RIRS_memory_gfap_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -557,7 +567,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_dr_apoe_neg")
     RIRS_memory_nfl_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -569,7 +579,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_nfl_dr_apoe_pos")
     RIRS_memory_nfl_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -581,7 +591,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_neg")
     RIRS_memory_amyloid_b_ratio_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                                         + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -593,7 +603,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_pos")
     RIRS_memory_amyloid_b_ratio_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
-                                                         + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -607,7 +617,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
     #Language
     vtg::log$info("RIRS_language_p_tau_apoe_neg")
     RIRS_language_p_tau_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -619,7 +629,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_p_tau_apoe_pos")
     RIRS_language_p_tau_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
-                                              + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -631,7 +641,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_gfap_apoe_neg")
     RIRS_language_gfap_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -643,7 +653,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_gfap_apoe_pos")
     RIRS_language_gfap_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
-                                             + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -655,7 +665,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_nfl_apoe_neg")
     RIRS_language_nfl_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
-                                            + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                            + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                             data = subset(df, apoe_carrier == "no"),
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -667,7 +677,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_nfl_apoe_pos")
     RIRS_language_nfl_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
-                                            + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+                                            + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                             data = subset(df, apoe_carrier == "yes"),
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -679,7 +689,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_neg")
     RIRS_language_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
-                                                        + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
                                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -691,7 +701,7 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_pos")
     RIRS_language_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
-                                                        + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "yes"),
                                                         random = ~ years_since_baseline | id,
                                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
