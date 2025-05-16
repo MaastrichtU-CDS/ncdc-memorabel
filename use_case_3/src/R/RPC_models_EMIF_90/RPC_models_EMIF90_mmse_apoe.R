@@ -73,9 +73,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       by = "id"
       # all.x = T
     )
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
-      | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
-      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["mmse_total"]]),]
+    df_cogn_test <- df[!is.na(df[["mmse_total"]]),]
     df <- merge(
       x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_tmt_a_errors",
         "attention_test_sdst_90_ts", "date_memory", "priority_memory_im_cerad", "priority_memory_im_vat_a",
@@ -90,7 +88,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       # all.x = T
     )
     # attention_test_sdst_60_correct should be attention_test_sdst_60_ts but there was an error in the DB
-    df$attention_test_sdst_60_ts <- df$attention_test_sdst_60_correct
+    #df$attention_test_sdst_60_ts <- df$attention_test_sdst_60_correct
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Missing data
@@ -291,66 +289,6 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     )
 
 
-    #Van der Elst, et al. norms for animal fluency
-     if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
-    df$priority_language_z <-
-      ((df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
-       df$priority_language_z <- pmax(pmin(df$priority_language_z, 5), -5)
-    } else {
-      return(list(
-        "error_message" = paste("language test not found, no z-score transformation possible")
-      ))
-    }
-
-    #Z-score: processing speed
-    #SDST; Burggraaf et al (2016) norms
-    ##education is coded in years for this formula.. this needs to be fixed
-    ##sex is coded male=0, female=1
-    if (c("attention_test_sdst_90_ts") %in% colnames(df)) {
-      df$attention_test_sdst_60 <- df$attention_test_sdst_90_ts * (2/3)
-      df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
-      df$age_cent_sdst <- df$age_rec-46
-      df$age_cent_sdst2 <- df$age_cent_sdst^2
-      df$priority_processing_speed_sdst_z <-
-        ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
-      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60
-      df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
-    }
-    else  {
-      return(list(
-        "error_message" = paste("No measure for processing speed found, no z-score transformation possible")
-      ))
-    }
-
-
-    #Z-score: attention (here we have the TMT and the Stroop)
-    ##TMT-A z-scores calculated with NIP manual and excel sheet
-    ###education and sex coded differently women = 2, men = 1
-    if (c("attention_test_tmt_a_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
-      df$age2_cent_tmt <- ((df$age_rec-60)^2)
-      df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
-      df$priority_attention_tmt_a_z <-
-        ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
-      df$priority_attention_tmt_a_z <- pmax(pmin(df$priority_attention_tmt_a_z, 5), -5)
-    }
-
-    #Z-score: executive functioning (Stroop and TMT)
-    #TMT b: NIP norms
-    ##education and sex coded differently
-    if (c("priority_executive_tmt_b_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
-      df$age2_cent_tmt <- ((df$age_rec-60)^2)
-      df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
-      df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
-      df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
-
-    #TMT shifting: NIP norms
-    ##education and sex coded differently
-      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
-      df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
-    }
-
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
 
@@ -372,14 +310,14 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
         sd_edu_years = sd(education_years, na.rm = TRUE),
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
-        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
-        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        #mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+        #sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        #mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+        #sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+        #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        #sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
@@ -405,14 +343,14 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
         sd_age = sd(age_rec, na.rm = TRUE),
         years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
-        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
-        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        #mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+        #sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        #mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+        #sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+        #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        #sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
@@ -436,14 +374,14 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       sd_edu_years = sd(education_years, na.rm = TRUE),
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
-      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-      sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-      sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
-      mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-      sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-      mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-      sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+      #mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      #sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+      #mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      #sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+      ##sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+      #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+      #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse = sd(mmse_total, na.rm = TRUE),
       count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
@@ -469,3 +407,5 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       dplyr::group_by(years_since_baseline) %>%
       dplyr::filter(dplyr::n_distinct(id) > 30)
     print(table(df$years_since_baseline))
+
+    
