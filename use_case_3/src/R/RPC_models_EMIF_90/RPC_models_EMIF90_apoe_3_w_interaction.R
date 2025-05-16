@@ -131,3 +131,341 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
+        
+    #Create variable for number of follow-ups
+    df <- df %>%
+      dplyr::arrange(id, years_since_baseline) %>%
+      dplyr::group_by(id) %>%
+      dplyr::mutate(num_prior_visit = row_number()-1) %>%
+      dplyr::ungroup()
+
+    #Take the square root of the number of follow-ups
+    df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
+
+
+    # Age of participant:
+    # current_year <- format(Sys.Date(), "%Y")
+    # Year of birth will always be available (mandatory in OMOP), age is not guarantee
+    df$age_rec <- as.numeric(format(df$date, "%Y")) - df$birth_year
+
+    #Age squared:
+    df$age2 <- df$age_rec^2
+
+    # Centering age:
+    df$age_cent <- df$age_rec - 50
+    df$age_cent2 <- df$age_cent^2
+
+    # Sex - in the database 0 identifies men and 1 women
+    # For the models: women should be identified with 0 and men with 1
+    # This dataframe only contains patients with birth year and sex info
+    # available, no need to consider NAs
+    df$sex_num <- ifelse(df$sex == 0, 1, 0)
+    # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
+    df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
+
+    # Apoe
+    # df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
+    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
+
+    # Education levels
+    # df$education_category_3 <- ifelse(
+    #   is.na(df$education_category_3),
+    #   dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
+    #   df$education_category_3
+    # )
+    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
+    df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
+
+    # dummy variables:
+    df$education_low <- ifelse(df$education == 'low', 1, 0)
+    df$education_high <- ifelse(df$education == 'high', 1, 0)
+
+    # In the original dataset, this variable may not
+    # be associated with the plasma data but only with the visit date
+    # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
+    # available. If not available, use amyloid_b_ratio_42_40 directly from
+    # the database.
+   df$amyloid_b_ratio_42_40 <- ifelse(
+      is.na(df$amyloid_b_42) | is.na(df$amyloid_b_40) | df$amyloid_b_40 == 0,
+      df$amyloid_b_ratio_42_40,
+      df$amyloid_b_42 / df$amyloid_b_40
+    )
+    df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+
+    df$id <- as.factor(as.character(df$id))
+    # df %>% dplyr::mutate_if(is.character, as.factor)
+
+    #Descriptive statistics
+    #Count of participants
+    dplyr::n_distinct(df$id)
+
+    #Count of women and men (0 = women, 1 = men)
+    count_men_and_women_table <- df %>%
+      dplyr::group_by(sex) %>%
+      dplyr::summarise(
+        count_sex = dplyr::n_distinct(id)
+      )
+
+    #Average follow-up time with standard deviations and the median.
+    average_FU_time_table <- df %>%
+      dplyr::group_by(id) %>%
+      dplyr::slice(which.max(years_since_baseline)) %>%
+      dplyr::ungroup() %>%
+      dplyr::summarise(
+        mean_FU_years = mean(years_since_baseline, na.rm = TRUE),
+        sd_FU_years = sd(years_since_baseline, na.rm = TRUE),
+        median_FU_years = median(years_since_baseline, na.rm = TRUE)
+        )
+
+    #descriptives of education
+    descriptives_education_table <- df %>%
+    dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
+    dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+    dplyr::summarise(count = dplyr::n())
+
+    #This makes a table with means and standard deviations for the following variables per days since baseline
+    ##(this should become years (I think...))
+    ##Here we are missing all the NPA results
+    descriptives_per_year_table <- df %>%
+      dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+      dplyr::summarise(
+        nr_participants = dplyr::n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
+
+    #same as above but here the table sorted by sex
+    descriptives_by_sex_table <- df %>%
+      dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+      dplyr::summarise(
+        nr_participants = dplyr::n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+        years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
+        sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
+
+    #same as above but here the table sorted by years since baseline and sex
+   descriptives_by_sex_and_FU_table <- df %>%
+     dplyr::group_by(years_since_baseline, sex) %>%
+     dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+     dplyr::summarise(
+      nr_participants = dplyr::n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      mean_edu_years = mean(education_years, na.rm = TRUE),
+      sd_edu_years = sd(education_years, na.rm = TRUE),
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
+
+
+    #Van der Elst, et al. norms for animal fluency
+     if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
+    df$priority_language_z <-
+      ((df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
+       df$priority_language_z <- pmax(pmin(df$priority_language_z, 5), -5)
+    } else {
+      return(list(
+        "error_message" = paste("language test not found, no z-score transformation possible")
+      ))
+    }
+
+    #Z-score: processing speed
+    #SDST; Burggraaf et al (2016) norms
+    ##education is coded in years for this formula.. this needs to be fixed
+    ##sex is coded male=0, female=1
+    if (c("attention_test_sdst_90_ts") %in% colnames(df)) {
+      df$attention_test_sdst_60 <- df$attention_test_sdst_90_ts * (2/3)
+      df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
+      df$age_cent_sdst <- df$age_rec-46
+      df$age_cent_sdst2 <- df$age_cent_sdst^2
+      df$priority_processing_speed_sdst_z <-
+        ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60
+      df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
+    }
+    else  {
+      return(list(
+        "error_message" = paste("No measure for processing speed found, no z-score transformation possible")
+      ))
+    }
+
+
+    #Z-score: attention (here we have the TMT and the Stroop)
+    ##TMT-A z-scores calculated with NIP manual and excel sheet
+    ###education and sex coded differently women = 2, men = 1
+    if (c("attention_test_tmt_a_time") %in% colnames(df)) {
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$age2_cent_tmt <- ((df$age_rec-60)^2)
+      df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
+      df$priority_attention_tmt_a_z <-
+        ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
+      df$priority_attention_tmt_a_z <- pmax(pmin(df$priority_attention_tmt_a_z, 5), -5)
+    }
+
+    #Z-score: executive functioning (Stroop and TMT)
+    #TMT b: NIP norms
+    ##education and sex coded differently
+    if (c("priority_executive_tmt_b_time") %in% colnames(df)) {
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$age2_cent_tmt <- ((df$age_rec-60)^2)
+      df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
+      df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
+      df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
+
+    #TMT shifting: NIP norms
+    ##education and sex coded differently
+      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
+      df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
+    }
+
+    df$education_low <- as.factor(df$education_low)
+    df$education_high <- as.factor(df$education_high)
+
+#This makes a table with means and standard deviations for the following variables per days since baseline
+    descriptives_per_year_NPA_table <- df %>%
+      dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+      dplyr::summarise(
+        nr_participants = dplyr::n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_mmse = mean(mmse_total, na.rm = TRUE),
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
+    )
+
+    #same as above but here the table sorted by sex
+    descriptives_by_sex_NPA_table <- df %>%
+      dplyr::group_by(sex) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+      dplyr::summarise(
+        nr_participants = dplyr::n_distinct(id),
+        mean_p_tau = mean(p_tau, na.rm = TRUE),
+        sd_p_tau = sd(p_tau, na.rm = TRUE),
+        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+        mean_gfap = mean(gfap, na.rm = TRUE),
+        sd_gfap = sd(gfap, na.rm = TRUE),
+        mean_nfl = mean(nfl, na.rm = TRUE),
+        sd_nfl = sd(nfl, na.rm = TRUE),
+        mean_edu_years = mean(education_years, na.rm = TRUE),
+        sd_edu_years = sd(education_years, na.rm = TRUE),
+        mean_age = mean(age_rec, na.rm = TRUE),
+        sd_age = sd(age_rec, na.rm = TRUE),
+        years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
+        sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
+        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_mmse = mean(mmse_total, na.rm = TRUE),
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
+        count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
+      )
+
+    #same as above but here the table sorted by years since baseline and sex
+   descriptives_by_sex_and_FU_NPA_table <- df %>%
+     dplyr::group_by(years_since_baseline, sex) %>%
+     dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+     dplyr::summarise(
+      nr_participants = dplyr::n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      mean_edu_years = mean(education_years, na.rm = TRUE),
+      sd_edu_years = sd(education_years, na.rm = TRUE),
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+      sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+      mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+      sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+      mean_mmse = mean(mmse_total, na.rm = TRUE),
+      sd_mmse = sd(mmse_total, na.rm = TRUE),
+      count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
+    )
+
+
+    summary_post <- summary_stats(
+      df,
+      c(
+        "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "age_rec", "age_cent", "years_since_baseline", "mmse_total"
+      )
+    )
+
+    if (nrow(df) == 0) {
+      return(list(
+        "error_message" = "Empty dataset: no participants selected"
+      ))
+    }
+
+    # Filter visit years with few patients
+    print(table(df$years_since_baseline))
+    df <- df %>%
+      dplyr::group_by(years_since_baseline) %>%
+      dplyr::filter(dplyr::n_distinct(id) > 30)
+    print(table(df$years_since_baseline))
