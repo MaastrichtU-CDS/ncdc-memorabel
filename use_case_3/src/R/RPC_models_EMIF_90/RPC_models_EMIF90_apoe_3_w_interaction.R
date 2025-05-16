@@ -128,7 +128,8 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
 
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    #df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
 
     df <- subset(df, years_since_baseline >= 0)
         
