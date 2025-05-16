@@ -65,9 +65,8 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$education_category_3),]
-    df_apoe <- df[!is.na(df$apoe_carrier),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
-    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
+    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
+    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
 
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
@@ -76,14 +75,14 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
-    df_grouped <- merge(
-      x = df_apoe[c("id", "apoe_carrier")],
-      y = df_grouped,
-      by = "id",
-      all.x = T
-    )
+    #df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    #df_apoe <- df_apoe[! duplicated(df_apoe$id),]
+    #df_grouped <- merge(
+      #x = df_apoe[c("id", "apoe_carrier")],
+      #y = df_grouped,
+      #by = "id",
+      #all.x = T
+    #)
     df <- merge(
       x = df_cogn_test[c("id", "date", memory_dr_test_name,
                          "priority_memory_im_ravlt", "attention_test_stroop_1_time",
@@ -409,7 +408,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
     #Immediate recall
     vtg::log$info("RIRS_memory_p_tau_im_male")
     RIRS_memory_p_tau_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                           + age_rec + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                           + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                            data = subset(df, sex_num == 0),
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -421,7 +420,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_p_tau_im_female")
     RIRS_memory_p_tau_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                             + age_rec + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                             + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                              data = subset(df, sex_num == 1),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -433,7 +432,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_gfap_im_male")
     RIRS_memory_gfap_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                          + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                          + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                           data = subset(df, sex_num == 0),
                                           random = ~ years_since_baseline | id,
                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -445,7 +444,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_gfap_im_female")
     RIRS_memory_gfap_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                            + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                            + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                             data = subset(df, sex_num == 1),
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -458,7 +457,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_nfl_im_male")
     RIRS_memory_nfl_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                         + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                         + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                          data = subset(df, sex_num == 0),
                                          random = ~ years_since_baseline | id,
                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -470,7 +469,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_nfl_im_female")
     RIRS_memory_nfl_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                           + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                           + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                            data = subset(df, sex_num == 1),
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -482,7 +481,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_male")
     RIRS_memory_amyloid_b_ratio_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                                     + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                     + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                      data = subset(df, sex_num == 0),
                                                      random = ~ years_since_baseline | id,
                                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -494,7 +493,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_female")
     RIRS_memory_amyloid_b_ratio_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
-                                                       + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                       + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                        data = subset(df, sex_num == 1),
                                                        random = ~ years_since_baseline | id,
                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -508,7 +507,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
     vtg::log$info("RIRS_memory_p_tau_dr_male")
     RIRS_memory_p_tau_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
                                            + age_rec + education_low + education_high +
-                                             apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                             p_tau + p_tau * years_since_baseline,
                                            data = subset(df, sex_num == 0),
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -521,7 +520,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
     vtg::log$info("RIRS_memory_p_tau_dr_female")
     RIRS_memory_p_tau_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
                                              + age_rec + education_low + education_high +
-                                               apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                               p_tau + p_tau * years_since_baseline,
                                              data = subset(df, sex_num == 1),
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -533,7 +532,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_gfap_dr_male")
     RIRS_memory_gfap_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                          + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                          + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                           data = subset(df, sex_num == 0),
                                           random = ~ years_since_baseline | id,
                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -545,7 +544,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_gfap_dr_female")
     RIRS_memory_gfap_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                            + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                            + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                             data = subset(df, sex_num == 1),
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -557,7 +556,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_nfl_dr_male")
     RIRS_memory_nfl_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                         + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                         + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                          data = subset(df, sex_num == 0),
                                          random = ~ years_since_baseline | id,
                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -569,7 +568,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_nfl_dr_female")
     RIRS_memory_nfl_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                           + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                           + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                            data = subset(df, sex_num == 1),
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -581,7 +580,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_male")
     RIRS_memory_amyloid_b_ratio_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                                     + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                     + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                      data = subset(df, sex_num == 0),
                                                      random = ~ years_since_baseline | id,
                                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -593,7 +592,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_female")
     RIRS_memory_amyloid_b_ratio_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                                       + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                       + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                        data = subset(df, sex_num == 1),
                                                        random = ~ years_since_baseline | id,
                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -607,7 +606,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
     #Language
     vtg::log$info("RIRS_language_p_tau_male")
     RIRS_language_p_tau_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                          + age_rec + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                          + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                           data = subset(df, sex_num == 0),
                                           random = ~ years_since_baseline | id,
                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -619,7 +618,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_p_tau_female")
     RIRS_language_p_tau_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                            + age_rec + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+                                            + age_rec + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                             data = subset(df, sex_num == 1),
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -631,7 +630,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_gfap_male")
     RIRS_language_gfap_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                         + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                         + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                          data = subset(df, sex_num == 0),
                                          random = ~ years_since_baseline | id,
                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -643,7 +642,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_gfap_female")
     RIRS_language_gfap_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                           + age_rec + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+                                           + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
                                            data = subset(df, sex_num == 1),
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -655,7 +654,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_nfl_male")
     RIRS_language_nfl_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                        + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                        + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                         data = subset(df, sex_num == 0),
                                         random = ~ years_since_baseline | id,
                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -667,7 +666,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_nfl_female")
     RIRS_language_nfl_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                          + age_rec + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+                                          + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
                                           data = subset(df, sex_num == 1),
                                           random = ~ years_since_baseline | id,
                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -679,7 +678,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_male")
     RIRS_language_amyloid_b_ratio_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                                    + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                    + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                     data = subset(df, sex_num == 0),
                                                     random = ~ years_since_baseline | id,
                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -691,7 +690,7 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_female")
     RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                                      + age_rec + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                      + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                       data = subset(df, sex_num == 1),
                                                       random = ~ years_since_baseline | id,
                                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
