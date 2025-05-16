@@ -119,7 +119,8 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
 
-    df$ <- as.integer(df$days_since_baseline/365.25, 0)
+    #df$ <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
 
     df <- subset(df,  >= 0)
 
