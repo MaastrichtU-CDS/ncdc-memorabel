@@ -50,40 +50,52 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- NULL
-    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_ravlt"
-    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_lm"
-    } else {
-      return(list(
-        "error_message" = paste("Delayed recall test not found")
-      ))
-    }
-    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'......")
-
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$education_category_3),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
-    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id,]
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
+    df_baseline_education <- df[!is.na(df$education_category_3),]
+    df_apoe <- df[!is.na(df$apoe_carrier),]
+    df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
+
+    df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
+    # dplyr::group_by(id, date) %>%
+    # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
+    # df_amyloid <- df[!is.na(df$amyloid_b_ratio_42_40),]
 
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
+    df_grouped <- merge(
+      x = df_baseline[c("id", "age", "sex", "birth_year")],
+      y = df_baseline_education[c("id", "education_category_3", "education_years")],
+      by = "id"
+    )
+    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    df_grouped <- merge(
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
+      by = "id"
+    )
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    df <- merge(
-      x = df_cogn_test[c("id", "date", memory_dr_test_name,
-                         "priority_memory_im_ravlt", "attention_test_stroop_1_time",
-                         "attention_test_stroop_2_time", "priority_language_animal_fluency_60_correct")],
-      y = df_grouped,
-      by = "id",
-      all.x = T
+    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
+    df_grouped <- merge(
+      x = df_grouped,
+      y = df_apoe[c("id", "apoe_carrier")],
+      by = "id"
+      # all.x = T
     )
-
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+      !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
+    df <- merge(
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+            "priority_language_animal_fluency_60_correct")],
+          y = df_grouped,
+          by = "id"
+          # all.x = T
+    )
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Selected participants
@@ -99,18 +111,21 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
 
     # Should it be the minimum difference or is it necessary to be within 1 year?
-    df$baseline <- df$difference_time >= -1 & df$difference_time <= 1
-    baseline_df <- df %>%
+    df_baseline <- df %>%
+      dplyr::group_by(id) %>%
+      dplyr::slice(which.min(abs(difference_time)))
+    df_baseline$baseline <- df_baseline$difference_time >= -1 & df_baseline$difference_time <= 1
+
+    baseline_df <- df_baseline %>%
       dplyr::filter(baseline == TRUE) %>%
       dplyr::select(id, date) %>%
       dplyr::rename(date_baseline = date)
 
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
-      dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
-
-    #df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
-    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
+      dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
+      dplyr::filter(days_since_baseline >= 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -118,7 +133,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df <- df %>%
       dplyr::arrange(id, years_since_baseline) %>%
       dplyr::group_by(id) %>%
-      dplyr::mutate(num_prior_visit = row_number()-1) %>%
+      dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
     #Take the square root of the number of follow-ups
@@ -410,7 +425,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                       correlation = nlme::corSymm(form = ~1 | id),
                                       method = "REML",
                                       na.action = na.exclude,
-                                      control = nlme::lmeControl(opt='optim'))
+                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im, p.val = "kr")
     summary_memory_p_tau_im <- sjPlot::tab_model(RIRS_memory_p_tau_im)
 
@@ -422,7 +437,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
                                      na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
+                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_gfap_im <- sjPlot::tab_model(RIRS_memory_gfap_im)
 
     vtg::log$info("RIRS_memory_nfl_im")
@@ -433,7 +448,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                     correlation = nlme::corSymm(form = ~1 | id),
                                     method = "REML",
                                     na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
+                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_nfl_im <- sjPlot::tab_model(RIRS_memory_nfl_im)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
@@ -444,7 +459,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                                 correlation = nlme::corSymm(form = ~1 | id),
                                                 method = "REML",
                                                 na.action = na.exclude,
-                                                control = nlme::lmeControl(opt='optim'))
+                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_amyloid_b_ratio_im <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im)
 
     #Delayed recall
@@ -456,7 +471,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                       correlation = nlme::corSymm(form = ~1 | id),
                                       method = "REML",
                                       na.action = na.exclude,
-                                      control = nlme::lmeControl(opt='optim'))
+                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_p_tau_dr <- sjPlot::tab_model(RIRS_memory_p_tau_dr)
 
     vtg::log$info("RIRS_memory_gfap_dr")
@@ -467,7 +482,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
                                      na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
+                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_gfap_dr <- sjPlot::tab_model(RIRS_memory_gfap_dr)
 
     vtg::log$info("RIRS_memory_nfl_dr")
@@ -478,7 +493,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                     correlation = nlme::corSymm(form = ~1 | id),
                                     method = "REML",
                                     na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
+                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_nfl_dr <- sjPlot::tab_model(RIRS_memory_nfl_dr)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
@@ -489,7 +504,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                                 correlation = nlme::corSymm(form = ~1 | id),
                                                 method = "REML",
                                                 na.action = na.exclude,
-                                                control = nlme::lmeControl(opt='optim'))
+                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_memory_amyloid_b_ratio_dr <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr)
 
 
@@ -502,7 +517,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
                                      na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
+                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_p_tau <- sjPlot::tab_model(RIRS_language_p_tau)
 
     vtg::log$info("RIRS_language_gfap")
@@ -513,7 +528,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                     correlation = nlme::corSymm(form = ~1 | id),
                                     method = "REML",
                                     na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
+                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_gfap <- sjPlot::tab_model(RIRS_language_gfap)
 
     vtg::log$info("RIRS_language_nfl")
@@ -524,7 +539,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                    correlation = nlme::corSymm(form = ~1 | id),
                                    method = "REML",
                                    na.action = na.exclude,
-                                   control = nlme::lmeControl(opt='optim'))
+                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_nfl <- sjPlot::tab_model(RIRS_language_nfl)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio")
@@ -535,7 +550,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                                                correlation = nlme::corSymm(form = ~1 | id),
                                                method = "REML",
                                                na.action = na.exclude,
-                                               control = nlme::lmeControl(opt='optim'))
+                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_amyloid_b_ratio <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio)
 
 
