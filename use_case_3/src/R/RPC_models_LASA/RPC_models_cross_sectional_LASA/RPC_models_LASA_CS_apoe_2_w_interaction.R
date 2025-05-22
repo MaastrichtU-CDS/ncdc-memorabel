@@ -27,7 +27,8 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
       )
     }
     df <- RPostgres::dbGetQuery(con, query)
-    pre_summary <- summary_CS_stats(df)
+    # summary_CS_stats - not defined in any file?
+    # pre_summary <- summary_CS_stats(df)
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
@@ -48,22 +49,12 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- NULL
-    if (sum(!is.na(df$priority_memory_dr_ravlt)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_ravlt"
-    } else if (sum(!is.na(df$priority_memory_dr_lm)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_lm"
-    } else {
-      return(list(
-        "error_message" = paste("Delayed recall test not found")
-      ))
-    }
-    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'......")
-
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$education_category_3),]
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
+    df_baseline_education <- df[!is.na(df$education_category_3),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
+    df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
+
     df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
     # dplyr::group_by(id, date) %>%
     # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
@@ -72,6 +63,17 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     # education_years - not available in most cohort (included here for now
     # to be available for the summarise function)
     df_grouped <- merge(
+      x = df_baseline[c("id", "age", "sex", "birth_year")],
+      y = df_baseline_education[c("id", "education_category_3", "education_years")],
+      by = "id"
+    )
+    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    df_grouped <- merge(
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
+      by = "id"
+    )
+    df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
@@ -79,20 +81,20 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
-      x = df_apoe[c("id", "apoe_carrier")],
-      y = df_grouped,
-      by = "id",
-      all.x = T
+      x = df_grouped,
+      y = df_apoe[c("id", "apoe_carrier")],
+      by = "id"
+      # all.x = T
     )
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+      !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", memory_dr_test_name,
-                         "priority_memory_im_ravlt", "attention_test_stroop_1_time",
-                         "attention_test_stroop_2_time", "priority_language_animal_fluency_60_correct")],
-      y = df_grouped,
-      by = "id",
-      all.x = T
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+            "priority_language_animal_fluency_60_correct")],
+          y = df_grouped,
+          by = "id"
+          # all.x = T
     )
-
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Selected participants
@@ -108,18 +110,21 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
 
     # Should it be the minimum difference or is it necessary to be within 1 year?
-    df$baseline <- df$difference_time >= -1 & df$difference_time <= 1
-    baseline_df <- df %>%
+    df_baseline <- df %>%
+      dplyr::group_by(id) %>%
+      dplyr::slice(which.min(abs(difference_time)))
+    df_baseline$baseline <- df_baseline$difference_time >= -1 & df_baseline$difference_time <= 1
+
+    baseline_df <- df_baseline %>%
       dplyr::filter(baseline == TRUE) %>%
       dplyr::select(id, date) %>%
       dplyr::rename(date_baseline = date)
 
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
-      dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days")))
-
-    #df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
-    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
+      dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
+      dplyr::filter(days_since_baseline >= 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -279,7 +284,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (memory_dr_test_name == "priority_memory_dr_ravlt") {
+    if (c("priority_memory_dr_ravlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <-
         ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
@@ -414,82 +419,81 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     vtg::log$info("CS_memory_p_tau_im_2w")
     CS_memory_p_tau_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                       data = df,
-                                      na.action = na.exclude
+                                      na.action = na.exclude)
     summary_CS_memory_p_tau_im_2w <- sjPlot::tab_model(CS_memory_p_tau_im_2w)
 
     vtg::log$info("CS_memory_gfap_im_2w")
     CS_memory_gfap_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
                                      data = df,
-                                     na.action = na.exclude
+                                     na.action = na.exclude)
     summary_CS_memory_gfap_im_2w <- sjPlot::tab_model(CS_memory_gfap_im_2w)
 
     vtg::log$info("CS_memory_nfl_im_2w")
     CS_memory_nfl_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                     data = df,
-                                    na.action = na.exclude
+                                    na.action = na.exclude)
     summary_CS_memory_nfl_im_2w <- sjPlot::tab_model(CS_memory_nfl_im_2w)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_2w")
     CS_memory_amyloid_b_ratio_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                                                 data = df,
-                                                na.action = na.exclude
+                                                na.action = na.exclude)
     summary_CS_memory_amyloid_b_ratio_im_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_2w)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr_2w")
     CS_memory_p_tau_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                       data = df,
-                                      na.action = na.exclude
+                                      na.action = na.exclude)
     summary_CS_memory_p_tau_dr_2w <- sjPlot::tab_model(CS_memory_p_tau_dr_2w)
 
     vtg::log$info("CS_memory_gfap_dr_2w")
     CS_memory_gfap_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap
                                      + apoe_carrier * gfap,
                                      data = df,
-                                     na.action = na.exclude
+                                     na.action = na.exclude)
     summary_CS_memory_gfap_dr_2w <- sjPlot::tab_model(CS_memory_gfap_dr_2w)
 
     vtg::log$info("CS_memory_nfl_dr_2w")
     CS_memory_nfl_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                     data = df,
-                                    na.action = na.exclude
+                                    na.action = na.exclude)
     summary_CS_memory_nfl_dr_2w <- sjPlot::tab_model(CS_memory_nfl_dr_2w)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_2w")
     CS_memory_amyloid_b_ratio_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                                                 data = df,
-                                                na.action = na.exclude
+                                                na.action = na.exclude)
     summary_CS_memory_amyloid_b_ratio_dr_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_2w)
 
     #Language
     vtg::log$info("CS_language_p_tau_2w")
     CS_language_p_tau_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                      data = df,
-                                     na.action = na.exclude
+                                     na.action = na.exclude)
     summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w)
 
     vtg::log$info("CS_language_gfap_2w")
     CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
                                     data = df,
-                                    na.action = na.exclude
+                                    na.action = na.exclude)
     summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w)
 
     vtg::log$info("CS_language_nfl_2w")
     CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                    data = df,
-                                   na.action = na.exclude
+                                   na.action = na.exclude)
     summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w)
 
     vtg::log$info("CS_language_amyloid_b_ratio_2w")
     CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                + apoe_carrier * amyloid_b_ratio_42_40,
                                                data = df,
-                                               na.action = na.exclude
+                                               na.action = na.exclude)
     summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w)
 
-    print(names(CS_memory_p_tau_im))
     # model_summary can't extract from lme models
     results <- list(
 
