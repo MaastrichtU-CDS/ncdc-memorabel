@@ -1,4 +1,3 @@
-
 RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
@@ -56,7 +55,6 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
 
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
     df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_apoe$id,]
     # dplyr::group_by(id, date) %>%
     # dplyr::filter(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma)) == min(abs(difftime(date, df_plasma[df_plasma$id == id,]$date_plasma))))
@@ -75,11 +73,6 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
-      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
-      by = "id"
-    )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
@@ -89,10 +82,10 @@ RPC_models_apoe_3_w_interaction <- function(df, config, model = "memory", exclud
       all.x = T
     )
     df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
-      !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
+      !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
           x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
-            "priority_language_animal_fluency_60_correct")],
+            "priority_language_animal_fluency_60_correct", "mmse_total")],
           y = df_grouped,
           by = "id"
           # all.x = T

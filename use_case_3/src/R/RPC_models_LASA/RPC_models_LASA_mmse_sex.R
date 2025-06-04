@@ -70,11 +70,6 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
-      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
-      by = "id"
-    )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
@@ -152,7 +147,6 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
-    # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
 

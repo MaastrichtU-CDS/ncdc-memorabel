@@ -84,10 +84,10 @@ RPC_models_stratified_sex <- function(df, config, model = "memory", exclude=c())
       all.x = T
     )
     df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
-      !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
+      !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
           x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
-            "priority_language_animal_fluency_60_correct")],
+            "priority_language_animal_fluency_60_correct", "mmse_total")],
           y = df_grouped,
           by = "id"
           # all.x = T

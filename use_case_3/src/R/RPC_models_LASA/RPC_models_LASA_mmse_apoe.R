@@ -73,11 +73,6 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
-      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
-      by = "id"
-    )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
@@ -105,8 +100,6 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     df <- df[df$id %in% included,]
     vtg::log$info("Number of rows in the dataset after exclusion: '{nrow(df)}'")
 
-    # Pre-processing the data
-    # df <- preprocessing(df, model, config)
     df %>%
       dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
@@ -144,8 +137,10 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
     df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
+    
     #Age squared:
     df$age2 <- df$age_rec^2
+    
     # Centering age:
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
@@ -173,13 +168,14 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
     # available. If not available, use amyloid_b_ratio_42_40 directly from
     # the database.
-    # )
     df$amyloid_b_ratio_42_40 <- ifelse(
       is.na(df$amyloid_b_42) | is.na(df$amyloid_b_40) | df$amyloid_b_40 == 0,
       df$amyloid_b_ratio_42_40,
       df$amyloid_b_42 / df$amyloid_b_40
     )
+  
     df$id <- as.factor(as.character(df$id))
+
 
     #log transformation for amyloid ratio
     df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
