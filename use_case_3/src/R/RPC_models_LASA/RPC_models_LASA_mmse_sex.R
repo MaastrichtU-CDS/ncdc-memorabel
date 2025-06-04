@@ -80,13 +80,13 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-      # all.x = T
+      by = "id",
+      all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
             "priority_language_animal_fluency_60_correct", "mmse_total")],
           y = df_grouped,
           by = "id"
@@ -123,7 +123,7 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -476,15 +476,15 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
     summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male)
 
     # vtg::log$info("RIRS_mmse_gfap_female")
-    # RIRS_mmse_gfap_female <- nlme::lme(mmse_total ~ years_since_baseline + sqrt_prior_visit + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                    data = subset(df, sex_num == 1),
-    #                                    random = ~ years_since_baseline | id,
-    #                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                    correlation = nlme::corSymm(form = ~1 | id),
-    #                                    method = "REML",
-    #                                    na.action = na.exclude,
-    #                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmse_gfap_female)
+    RIRS_mmse_gfap_female <- nlme::lme(mmse_total ~ years_since_baseline + sqrt_prior_visit + age_rec + education_low + education_high + gfap + gfap * years_since_baseline,
+                                       data = subset(df, sex_num == 1),
+                                       random = ~ years_since_baseline | id,
+                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                       correlation = nlme::corSymm(form = ~1 | id),
+                                       method = "REML",
+                                       na.action = na.exclude,
+                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmse_gfap_female)
 
     vtg::log$info("RIRS_mmse_nfl_male")
     RIRS_mmse_nfl_male <- nlme::lme(mmse_total ~ years_since_baseline + sqrt_prior_visit + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,

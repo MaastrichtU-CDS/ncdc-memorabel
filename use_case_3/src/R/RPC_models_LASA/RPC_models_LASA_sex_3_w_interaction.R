@@ -82,13 +82,13 @@ RPC_models_sex_3_w_interaction <- function(df, config, model = "memory", exclude
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-      # all.x = T
+      by = "id",
+      all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
             "priority_language_animal_fluency_60_correct")],
           y = df_grouped,
           by = "id"
@@ -123,7 +123,7 @@ RPC_models_sex_3_w_interaction <- function(df, config, model = "memory", exclude
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
     df <- subset(df, years_since_baseline >= 0)
 
     #Create variable for number of follow-ups
@@ -275,7 +275,7 @@ RPC_models_sex_3_w_interaction <- function(df, config, model = "memory", exclude
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
-      df$priority_memory_im_z <- 
+      df$priority_memory_im_z <-
       ((df$priority_memory_im_ravlt - (25.440 + (df$age_cent * -0.150) + (df$age_cent2 * -0.0016) + (df$sex_num * -2.217) + (df$education_low * -1.699) + (df$education_high * 1.467))) / 4.739)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {

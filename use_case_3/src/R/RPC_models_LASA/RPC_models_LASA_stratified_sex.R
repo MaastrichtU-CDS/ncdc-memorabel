@@ -82,13 +82,13 @@ df_plasma <- df[!is.na(df$p_tau),]
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-      # all.x = T
+      by = "id",
+      all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
             "priority_language_animal_fluency_60_correct")],
           y = df_grouped,
           by = "id"
@@ -123,7 +123,7 @@ df_plasma <- df[!is.na(df$p_tau),]
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
     df <- subset(df, years_since_baseline >= 0)
 
     #Create variable for number of follow-ups

@@ -83,13 +83,13 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-      # all.x = T
+      by = "id",
+      all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
             "priority_language_animal_fluency_60_correct", "mmse_total")],
           y = df_grouped,
           by = "id"
@@ -126,7 +126,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -358,10 +358,10 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #3-way interactions for apoe
     vtg::log$info("RIRS_mmse_p_tau_3w")
-    RIRS_mmse_p_tau_3w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
+    RIRS_mmse_p_tau_3w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                     + p_tau * years_since_baseline
-                                    + apoe_carrier * p_tau 
-                                    + apoe_carrier * years_since_baseline 
+                                    + apoe_carrier * p_tau
+                                    + apoe_carrier * years_since_baseline
                                     + apoe_carrier * p_tau * years_since_baseline,
                                     data = df,
                                     random = ~ years_since_baseline | id,
@@ -374,10 +374,10 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     summary_mmse_p_tau_3w <- sjPlot::tab_model(RIRS_mmse_p_tau_3w)
 
     vtg::log$info("RIRS_mmse_gfap_3w")
-    RIRS_mmse_gfap_3w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
+    RIRS_mmse_gfap_3w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
                                    + gfap * years_since_baseline
-                                   + apoe_carrier * gfap 
-                                   + apoe_carrier * years_since_baseline 
+                                   + apoe_carrier * gfap
+                                   + apoe_carrier * years_since_baseline
                                    + apoe_carrier * gfap * years_since_baseline,
                                    data = df,
                                    random = ~ years_since_baseline | id,
@@ -390,7 +390,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
 
     #2-way interactions for apoe
     vtg::log$info("RIRS_mmse_p_tau_2w")
-    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
+    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                     + p_tau * years_since_baseline
                                     + apoe_carrier * p_tau,
                                     data = df,

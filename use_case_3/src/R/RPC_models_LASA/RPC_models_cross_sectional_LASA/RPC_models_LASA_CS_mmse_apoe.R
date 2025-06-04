@@ -57,23 +57,18 @@ df_plasma <- df[!is.na(df$p_tau),]
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
-      y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
-      by = "id"
-    )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-      # all.x = T
+      by = "id",
+      all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) | 
+    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt", 
+          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
             "priority_language_animal_fluency_60_correct", "mmse_total")],
           y = df_grouped,
           by = "id"
@@ -109,7 +104,7 @@ df_plasma <- df[!is.na(df$p_tau),]
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
     df <- subset(df, years_since_baseline >= 0)
 
     # Age of participant:
@@ -347,7 +342,7 @@ df_plasma <- df[!is.na(df$p_tau),]
     summary_CS_mmse_nfl_2w <- sjPlot::tab_model(CS_mmse_nfl_2w)
 
     vtg::log$info("CS_mmse_amyloid_b_ratio_2w")
-    CS_mmse_amyloid_b_ratio_log_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40 
+    CS_mmse_amyloid_b_ratio_log_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40
                                                   + apoe_carrier * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   na.action = na.exclude)
