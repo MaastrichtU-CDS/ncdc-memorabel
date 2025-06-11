@@ -5,9 +5,8 @@ analysis <- function(client, model, config=list(), exclude=c()) {
         # sd <- names(Sys.getenv())
         # vtg::log$info(paste(sd, collapse=" - "))
         image.name <- Sys.getenv("IMAGE_NAME")
-        # To run a specific docker image, you must specify it here due
-        # to a problem with the R version of vtg
-        image.name <- 'pmateus/usecase3:0.1.0'
+
+        image.name <- 'pmateus/usecase3:1.0.0'
 
         client$set.task.image(
             image.name,
@@ -52,16 +51,29 @@ analysis <- function(client, model, config=list(), exclude=c()) {
         set.seed(seed)
 
         # Run the linear models
-        responses <- client$call(
-            "models",
+        # Single script
+        # responses <- client$call(
+        #     "models_mmse_apoe",
+        #     config=config,
+        #     model=model,
+        #     exclude=exclude
+        # )
+        #
+        # Multiple scripts
+        responses <- list()
+        models_to_run <- c("models_LASA_stratified_apoe", "models_mmse_apoe", "models_apoe_2_w_interaction",
+                           "models_sex_3_w_interaction", "models_stratified_sex", "models_overall_model",
+                           "models_mmse_sex", "models_apoe_3_w_interaction")
+        # models_to_run <- c("models_apoe_2_w_interaction", "models_mmse_apoe", "models_LASA_stratified_apoe",
+        #                   "models_CS_overall_model", "models_stratified_sex", "models_sex_2_w_interaction")
+        for (model_id in models_to_run) {
+          responses[model_id] <- client$call(
+            model_id,
             config=config,
             model=model,
             exclude=exclude
-        )
-        # error_check = check_responses(responses)
-        # if (!is.null(error_check)) {
-        #     return(error_check)
-        # }
+          )
+        }
         results <- responses
         return(results)
     }, error = function(e) {
