@@ -78,11 +78,9 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       by = "id",
       all.x = T
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
-      !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
+    df_cogn_test <- df[!is.na(df[["mmse_total"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
-            "priority_language_animal_fluency_60_correct", "mmse_total")],
+          x = df_cogn_test[c("id", "date", "mmse_total")],
           y = df_grouped,
           by = "id"
           # all.x = T
@@ -118,7 +116,7 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -543,7 +541,7 @@ RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
       "summary_mmse_nfl_male" = summary_mmse_nfl_male,
       "summary_mmse_amyloid_b_ratio_log_male" = summary_mmse_amyloid_b_ratio_log_male,
       "summary_mmse_p_tau_female" = summary_mmse_p_tau_female,
-      # "summary_mmse_gfap_female" = summary_mmse_gfap_female,
+      "summary_mmse_gfap_female" = summary_mmse_gfap_female,
       "summary_mmse_nfl_female" = summary_mmse_nfl_female,
       "summary_mmse_amyloid_b_ratio_log_female" = summary_mmse_amyloid_b_ratio_log_female,
 

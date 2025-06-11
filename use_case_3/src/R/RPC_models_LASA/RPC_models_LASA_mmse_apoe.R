@@ -78,14 +78,11 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id",
-      all.x = T
+      by = "id"
     )
-    df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
-      !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
+    df_cogn_test <- df[!is.na(df[["mmse_total"]]),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
-            "priority_language_animal_fluency_60_correct", "mmse_total")],
+          x = df_cogn_test[c("id", "date", "mmse_total")],
           y = df_grouped,
           by = "id"
           # all.x = T
@@ -119,7 +116,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -137,10 +134,10 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
     df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
-    
+
     #Age squared:
     df$age2 <- df$age_rec^2
-    
+
     # Centering age:
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
@@ -173,7 +170,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
       df$amyloid_b_ratio_42_40,
       df$amyloid_b_42 / df$amyloid_b_40
     )
-  
+
     df$id <- as.factor(as.character(df$id))
 
 
@@ -437,6 +434,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
 
     # Apoe stratified models
     ##APOE4_carrier no = F, APOE4_carrier yes = T
+    vtg::log$info("RIRS_mmse_p_tau_apoe_neg")
     RIRS_mmse_p_tau_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                           data = subset(df, apoe_carrier == "no"),
                                           random = ~ years_since_baseline | id,
@@ -447,6 +445,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_mmse_p_tau_apoe_neg)
 
+    vtg::log$info("RIRS_mmse_p_tau_apoe_pos")
     RIRS_mmse_p_tau_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                           data = subset(df, apoe_carrier == "yes"),
                                           random = ~ years_since_baseline | id,

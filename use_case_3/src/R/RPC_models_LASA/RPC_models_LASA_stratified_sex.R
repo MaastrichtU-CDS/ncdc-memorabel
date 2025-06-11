@@ -118,7 +118,7 @@ df_plasma <- df[!is.na(df$p_tau),]
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
     df <- subset(df, years_since_baseline >= 0)
 
     #Create variable for number of follow-ups
@@ -688,17 +688,17 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male)
 
-    # vtg::log$info("RIRS_language_amyloid_b_ratio_female")
-    # RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-    #                                                   + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                                                   data = subset(df, sex_num == 1),
-    #                                                   random = ~ years_since_baseline | id,
-    #                                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                                   correlation = nlme::corSymm(form = ~1 | id),
-    #                                                   method = "REML",
-    #                                                   na.action = na.exclude,
-    #                                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
+    vtg::log$info("RIRS_language_amyloid_b_ratio_female")
+    RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
+                                                      + age_rec + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                      data = subset(df, sex_num == 1),
+                                                      random = ~ years_since_baseline | id,
+                                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                      correlation = nlme::corSymm(form = ~1 | id),
+                                                      method = "REML",
+                                                      na.action = na.exclude,
+                                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
 
     results <- list(
       "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
@@ -726,7 +726,7 @@ df_plasma <- df[!is.na(df$p_tau),]
       "summary_language_p_tau_female" = summary_language_p_tau_female,
       "summary_language_gfap_female" = summary_language_gfap_female,
       "summary_language_nfl_female" = summary_language_nfl_female,
-      # "summary_language_amyloid_b_ratio_female" = summary_language_amyloid_b_ratio_female,
+      "summary_language_amyloid_b_ratio_female" = summary_language_amyloid_b_ratio_female,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,

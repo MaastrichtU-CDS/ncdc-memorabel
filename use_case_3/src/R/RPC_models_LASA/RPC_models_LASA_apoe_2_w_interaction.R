@@ -77,8 +77,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     df_grouped <- merge(
       x = df_grouped,
       y = df_apoe[c("id", "apoe_carrier")],
-      by = "id",
-      all.x = T
+      by = "id"
     )
     df_cogn_test <- df[!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
       !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]]),]
@@ -118,7 +117,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
-    df$years_since_baseline <- as.numeric(df$days_since_baseline/365.25, 0)
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -288,7 +287,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (memory_dr_test_name == "priority_memory_dr_ravlt") {
+    if (c("priority_memory_dr_ravlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <-
         ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
