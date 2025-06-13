@@ -102,7 +102,12 @@ df_plasma <- df[!is.na(df$p_tau),]
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
+
+    #This filters the dataset to include only rows where the years_since_baseline variable is greater than or equal to 0.
     df <- subset(df, years_since_baseline >= 0)
+
+    #Here we only select the baseline visit for the cross-sectional data. All follow-up moments should be excluded.
+    df <- subset(years_since_baseline), time == 0)
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
