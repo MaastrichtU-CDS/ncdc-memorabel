@@ -121,11 +121,7 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
    #This filters the dataset to include only rows where the years_since_baseline variable is greater than or equal to 0.
-    df <- subset(df, years_since_baseline >= 0)
-
-    #Here we only select the baseline visit for the cross-sectional data. All follow-up moments should be excluded.
-    df <- subset(years_since_baseline), time == 0)
-
+    df <- subset(df, years_since_baseline == 0)
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
@@ -469,31 +465,31 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
                                                 na.action = na.exclude)
     summary_CS_memory_amyloid_b_ratio_dr_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_2w)
 
-    #Language
-    vtg::log$info("CS_language_p_tau_2w")
-    CS_language_p_tau_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
-                                     data = df,
-                                     na.action = na.exclude)
-    summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w)
-
-    vtg::log$info("CS_language_gfap_2w")
-    CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
-                                    data = df,
-                                    na.action = na.exclude)
-    summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w)
-
-    vtg::log$info("CS_language_nfl_2w")
-    CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
-                                   data = df,
-                                   na.action = na.exclude)
-    summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w)
-
-    vtg::log$info("CS_language_amyloid_b_ratio_2w")
-    CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
-                                               + apoe_carrier * amyloid_b_ratio_42_40,
-                                               data = df,
-                                               na.action = na.exclude)
-    summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w)
+    # #Language
+    # vtg::log$info("CS_language_p_tau_2w")
+    # CS_language_p_tau_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
+    #                                  data = df,
+    #                                  na.action = na.exclude)
+    # summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w)
+    #
+    # vtg::log$info("CS_language_gfap_2w")
+    # CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
+    #                                 data = df,
+    #                                 na.action = na.exclude)
+    # summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w)
+    #
+    # vtg::log$info("CS_language_nfl_2w")
+    # CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
+    #                                data = df,
+    #                                na.action = na.exclude)
+    # summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w)
+    #
+    # vtg::log$info("CS_language_amyloid_b_ratio_2w")
+    # CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+    #                                            + apoe_carrier * amyloid_b_ratio_42_40,
+    #                                            data = df,
+    #                                            na.action = na.exclude)
+    # summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w)
 
     # model_summary can't extract from lme models
     results <- list(
@@ -508,10 +504,10 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
       "summary_CS_memory_nfl_dr_2w" = summary_CS_memory_nfl_dr_2w,
       "summary_CS_memory_amyloid_b_ratio_dr_2w" = summary_CS_memory_amyloid_b_ratio_dr_2w,
 
-      "summary_CS_language_p_tau_2w" = summary_CS_language_p_tau_2w,
-      "summary_CS_language_gfap_2w" = summary_CS_language_gfap_2w,
-      "summary_CS_language_nfl_2w" = summary_CS_language_nfl_2w,
-      "summary_CS_language_amyloid_b_ratio_2w" = summary_CS_language_amyloid_b_ratio_2w,
+      # "summary_CS_language_p_tau_2w" = summary_CS_language_p_tau_2w,
+      # "summary_CS_language_gfap_2w" = summary_CS_language_gfap_2w,
+      # "summary_CS_language_nfl_2w" = summary_CS_language_nfl_2w,
+      # "summary_CS_language_amyloid_b_ratio_2w" = summary_CS_language_amyloid_b_ratio_2w,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,

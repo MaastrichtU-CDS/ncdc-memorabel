@@ -33,7 +33,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-df_plasma <- df[!is.na(df$p_tau),]
+    df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_3),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
@@ -64,12 +64,14 @@ df_plasma <- df[!is.na(df$p_tau),]
       y = df_apoe[c("id", "apoe_carrier")],
       by = "id"
     )
-    df_cogn_test <- df[!is.na(df[["mmse_total"]]),]
+    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["priority_memory_im_ravlt"]]) | !is.na(df[["priority_memory_dr_ravlt"]]) |
+                         !is.na(df[["priority_language_animal_fluency_60_correct"]]) | !is.na(df[["mmse_total"]])),]
     df <- merge(
-          x = df_cogn_test[c("id", "date", "mmse_total")],
-          y = df_grouped,
-          by = "id"
-          # all.x = T
+      x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
+                         "priority_language_animal_fluency_60_correct", "mmse_total")],
+      y = df_grouped,
+      by = "id"
+      # all.x = T
     )
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
@@ -100,14 +102,11 @@ df_plasma <- df[!is.na(df$p_tau),]
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(days_since_baseline >= 0)
+      dplyr::filter(days_since_baseline >= -365.25)
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     #This filters the dataset to include only rows where the years_since_baseline variable is greater than or equal to 0.
-    df <- subset(df, years_since_baseline >= 0)
-
-    #Here we only select the baseline visit for the cross-sectional data. All follow-up moments should be excluded.
-    df <- subset(years_since_baseline), time == 0)
+    df <- subset(df, years_since_baseline == 0)
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
