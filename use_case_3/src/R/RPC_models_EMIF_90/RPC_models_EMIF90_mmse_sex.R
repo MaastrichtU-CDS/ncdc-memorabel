@@ -1,7 +1,4 @@
-#Sex models
-#No apoe necessary
-
-RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -53,7 +50,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     memory_dr_test_name <- "priority_memory_dr_cerad"
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
@@ -67,23 +64,20 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    #df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    #df_apoe <- df_apoe[! duplicated(df_apoe$id),]
-    #df_grouped <- merge(
-      #x = df_grouped,
-      #y = df_apoe[c("id", "apoe_carrier")],
-      #by = "id"
-      # all.x = T
-    #)
-    df_cogn_test <- df[!is.na(df[["mmse_total"]]),]
+    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
+      | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
+      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["priority_executive_tmt_b_time"]]) | !is.na(df[["mmse_total"]])),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", "mmse_total")],
+      x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_sdst_90_ts",
+        "priority_memory_im_cerad", "dexterity_clock_drawing", "priority_language_animal_fluency_60_correct",
+        "mmse_total", "priority_memory_dr_cerad", "priority_executive_tmt_b_time")],
       y = df_grouped,
       by = "id"
       # all.x = T
     )
     # attention_test_sdst_60_correct should be attention_test_sdst_60_ts but there was an error in the DB
-    #df$attention_test_sdst_60_ts <- df$attention_test_sdst_60_correct
+    df$attention_test_sdst_60_ts <- df$attention_test_sdst_60_correct
     excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
 
     # Missing data
@@ -121,8 +115,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
 
-    #df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
-    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
 
@@ -130,7 +123,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     df <- df %>%
       dplyr::arrange(id, years_since_baseline) %>%
       dplyr::group_by(id) %>%
-      dplyr::mutate(num_prior_visit = row_number()-1) %>%
+      dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
     #Take the square root of the number of follow-ups
@@ -139,9 +132,11 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$age_rec <- ifelse(is.na(df$age), as.numeric(format(df$date, "%Y")) - df$birth_year, df$age)
+    df$age_rec <- as.numeric(format(df$date, "%Y")) - df$birth_year
+
     #Age squared:
     df$age2 <- df$age_rec^2
+
     # Centering age:
     df$age_cent <- df$age_rec - 50
     df$age_cent2 <- df$age_cent^2
@@ -155,12 +150,14 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Education levels
-    df$education_category_3 <- ifelse(
-      is.na(df$education_category_3),
-      dplyr::recode(df$education_category_verhage, "1"=0, "2"=1, "3"=1, "4"=1, "5"=1, "6"=1, "7"=2),
-      df$education_category_3
-    )
+    # df$education_category_3 <- ifelse(
+    #   is.na(df$education_category_3),
+    #   dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
+    #   df$education_category_3
+    # )
+    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
+
     # dummy variables:
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
@@ -176,6 +173,8 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       df$amyloid_b_ratio_42_40,
       df$amyloid_b_42 / df$amyloid_b_40
     )
+    df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+
     df$id <- as.factor(as.character(df$id))
 
     #log transformation for amyloid ratio
@@ -396,7 +395,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                correlation = nlme::corSymm(form = ~1 | id),
                                method = "REML",
                                na.action = na.exclude,
-                               # control = nlme::lmeControl(opt='optim'))
+                               # control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl)
 
@@ -493,7 +492,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
                                      na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
+                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male)
 
     vtg::log$info("RIRS_mmse_gfap_female")
@@ -515,7 +514,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                     correlation = nlme::corSymm(form = ~1 | id),
                                     method = "REML",
                                     na.action = na.exclude,
-                                    control = nlme::lmeControl(opt='optim'))
+                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_nfl_male <- sjPlot::tab_model(RIRS_mmse_nfl_male)
 
     vtg::log$info("RIRS_mmse_nfl_female")

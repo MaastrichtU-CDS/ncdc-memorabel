@@ -1,7 +1,4 @@
-#Sex models
-#No apoe necessary
-
-RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -53,7 +50,8 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     memory_dr_test_name <- "priority_memory_dr_cerad"
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
+    df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
@@ -67,26 +65,20 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
-    #df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    #df_apoe <- df_apoe[! duplicated(df_apoe$id),]
-    #df_grouped <- merge(
-      #x = df_grouped,
-      #y = df_apoe[c("id", "apoe_carrier")],
-      #by = "id"
-      # all.x = T
-    #)
-    df_cogn_test <- df[!is.na(df[[memory_dr_test_name]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
+    df_grouped <- df_grouped[! duplicated(df_grouped$id),]
+    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
+    df_grouped <- merge(
+      x = df_grouped,
+      y = df_apoe[c("id", "apoe_carrier")],
+      by = "id"
+    )
+    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
       | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
-      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["mmse_total"]]),]
+      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["priority_executive_tmt_b_time"]]) | !is.na(df[["mmse_total"]])),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_tmt_a_errors",
-        "attention_test_sdst_90_ts", "date_memory", "priority_memory_im_cerad", "priority_memory_im_vat_a",
-        "priority_memory_im_vat_b", "priority_memory_im_rrf", "priority_memory_dr_cerad", "priority_memory_dr_rrf_short",
-        "date_executive", "priority_executive_tmt_b_time", "priority_executive_tmt_b_errors", "priority_executive_wais_3_b",
-        "priority_executive_wais_3_b_span", "priority_executive_wais_3_f", "priority_executive_wais_3_f_span", "date_language",
-        "priority_language_animal_fluency_60_correct", "priority_language_animal_fluency_60_errors", "priority_language_animal_fluency_60_ts",
-        "priority_language_animal_fluency_120_correct", "priority_language_animal_fluency_120_errors", "priority_language_animal_fluency_120_ts",
-        "priority_language_letter_fluency_60", "dexterity_clock_drawing", "mmse_total")],
+      x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_sdst_90_ts",
+        "priority_memory_im_cerad", "dexterity_clock_drawing", "priority_language_animal_fluency_60_correct",
+        "mmse_total", "priority_memory_dr_cerad", "priority_executive_tmt_b_time")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -130,21 +122,19 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
       dplyr::filter(days_since_baseline >= 0)
 
-    #df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
-    df$years_since_baseline <- as.numeric(floor(df$days_since_baseline / 365.25))
+    df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
-    
+
     #Create variable for number of follow-ups
     df <- df %>%
       dplyr::arrange(id, years_since_baseline) %>%
       dplyr::group_by(id) %>%
-      dplyr::mutate(num_prior_visit = row_number()-1) %>%
+      dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
     #Take the square root of the number of follow-ups
     df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
-
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
@@ -194,13 +184,9 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
-    # df %>% dplyr::mutate_if(is.character, as.factor)
-
-    #Descriptive statistics
-    #Count of participants
-    dplyr::n_distinct(df$id)
 
     #Count of women and men (0 = women, 1 = men)
     count_men_and_women_table <- df %>%
@@ -296,7 +282,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
       #sd_edu_years = sd(education_years, na.rm = TRUE),
       high_edu = sum(education == "high"),
       medium_edu = sum(education == "medium"),
-     low_edu = sum(education == "low"),        
+     low_edu = sum(education == "low"),
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
@@ -387,7 +373,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
         #sd_edu_years = sd(education_years, na.rm = TRUE),
         high_edu = sum(education == "high"),
         medium_edu = sum(education == "medium"),
-        low_edu = sum(education == "low"),        
+        low_edu = sum(education == "low"),
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
@@ -514,7 +500,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female)
 
     vtg::log$info("RIRS_language_gfap_male")
@@ -538,7 +524,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                            correlation = nlme::corSymm(form = ~1 | id),
                                            method = "REML",
                                            na.action = na.exclude,
-                                           control = nlme::lmeControl(opt='optim'))
+                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female)
 
     vtg::log$info("RIRS_language_nfl_male")
@@ -562,7 +548,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                           correlation = nlme::corSymm(form = ~1 | id),
                                           method = "REML",
                                           na.action = na.exclude,
-                                          control = nlme::lmeControl(opt='optim'))
+                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_male")
@@ -586,7 +572,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                       correlation = nlme::corSymm(form = ~1 | id),
                                                       method = "REML",
                                                       na.action = na.exclude,
-                                                      control = nlme::lmeControl(opt='optim'))
+                                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
 
 
@@ -624,7 +610,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_gfap_apoe_male <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_male)
 
     vtg::log$info("RIRS_processing_speed_gfap_apoe_female")
@@ -636,7 +622,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_gfap_apoe_female <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_female)
 
     vtg::log$info("RIRS_processing_speed_nfl_apoe_male")
@@ -648,7 +634,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_nfl_apoe_male <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_male)
 
     vtg::log$info("RIRS_processing_speed_nfl_apoe_female")
@@ -660,7 +646,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_nfl_apoe_female <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_female)
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_male")
@@ -672,7 +658,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_amyloid_b_ratio_apoe_male <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_male)
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_female")
@@ -684,7 +670,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_processing_speed_amyloid_b_ratio_apoe_female <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_female)
 
     #Attention
@@ -721,7 +707,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_gfap_apoe_male <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_male)
 
     vtg::log$info("RIRS_attention_tmt_gfap_apoe_female")
@@ -733,7 +719,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_gfap_apoe_female <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_female)
 
     vtg::log$info("RIRS_attention_tmt_nfl_apoe_male")
@@ -745,7 +731,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_nfl_apoe_male <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_male)
 
     vtg::log$info("RIRS_attention_tmt_nfl_apoe_female")
@@ -757,7 +743,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_nfl_apoe_female <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_female)
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_male")
@@ -769,7 +755,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_amyloid_b_ratio_apoe_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_male)
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_female")
@@ -781,7 +767,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_attention_tmt_amyloid_b_ratio_apoe_female <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_female)
 
     #Executive function
@@ -818,7 +804,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_gfap_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_gfap_apoe_female")
@@ -830,7 +816,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_gfap_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_female)
 
     vtg::log$info("RIRS_executive_tmt_nfl_apoe_male")
@@ -842,7 +828,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_nfl_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_nfl_apoe_female")
@@ -854,7 +840,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_nfl_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_female)
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_male")
@@ -866,7 +852,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_amyloid_b_ratio_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_female")
@@ -878,7 +864,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_amyloid_b_ratio_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_female)
 
     #Interference score
@@ -915,7 +901,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_gfap_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_shift_gfap_apoe_female")
@@ -927,7 +913,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                              correlation = nlme::corSymm(form = ~1 | id),
                                              method = "REML",
                                              na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim'))
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_gfap_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_female)
 
     vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_male")
@@ -939,7 +925,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_nfl_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_female")
@@ -951,7 +937,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                             correlation = nlme::corSymm(form = ~1 | id),
                                             method = "REML",
                                             na.action = na.exclude,
-                                            control = nlme::lmeControl(opt='optim'))
+                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_nfl_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_female)
 
     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_male")
@@ -963,7 +949,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_amyloid_b_ratio_apoe_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_male)
 
     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_female")
@@ -975,7 +961,7 @@ RPC_models_EMIF_90 <- function(df, config, model = "memory", exclude=c()) {
                                                         correlation = nlme::corSymm(form = ~1 | id),
                                                         method = "REML",
                                                         na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim'))
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_tmt_shift_amyloid_b_ratio_apoe_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_female)
 
     # model_summary can't extract from lme models
