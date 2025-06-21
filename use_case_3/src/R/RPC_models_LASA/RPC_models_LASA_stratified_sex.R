@@ -416,7 +416,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_im_male <- sjPlot::tab_model(RIRS_memory_p_tau_im_male)
+    summary_memory_p_tau_im_male <- sjPlot::tab_model(RIRS_memory_p_tau_im_male, digits = 10)
 
     vtg::log$info("RIRS_memory_p_tau_im_female")
     RIRS_memory_p_tau_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -428,7 +428,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_im_female <- sjPlot::tab_model(RIRS_memory_p_tau_im_female)
+    summary_memory_p_tau_im_female <- sjPlot::tab_model(RIRS_memory_p_tau_im_female, digits = 10)
 
     vtg::log$info("RIRS_memory_gfap_im_male")
     RIRS_memory_gfap_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -440,7 +440,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_im_male <- sjPlot::tab_model(RIRS_memory_gfap_im_male)
+    summary_memory_gfap_im_male <- sjPlot::tab_model(RIRS_memory_gfap_im_male, digits = 10)
 
     vtg::log$info("RIRS_memory_gfap_im_female")
     RIRS_memory_gfap_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -452,7 +452,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_im_female <- sjPlot::tab_model(RIRS_memory_gfap_im_female)
+    summary_memory_gfap_im_female <- sjPlot::tab_model(RIRS_memory_gfap_im_female, digits = 10)
 
 
     vtg::log$info("RIRS_memory_nfl_im_male")
@@ -465,7 +465,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_nfl_im_male <- sjPlot::tab_model(RIRS_memory_nfl_im_male)
+    summary_memory_nfl_im_male <- sjPlot::tab_model(RIRS_memory_nfl_im_male, digits = 10)
 
     vtg::log$info("RIRS_memory_nfl_im_female")
     RIRS_memory_nfl_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -477,7 +477,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_nfl_im_female <- sjPlot::tab_model(RIRS_memory_nfl_im_female)
+    summary_memory_nfl_im_female <- sjPlot::tab_model(RIRS_memory_nfl_im_female, digits = 10)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_male")
     RIRS_memory_amyloid_b_ratio_im_male <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -489,7 +489,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                      method = "REML",
                                                      na.action = na.exclude,
                                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_im_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_male)
+    summary_memory_amyloid_b_ratio_im_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_male, digits = 10)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im_female")
     RIRS_memory_amyloid_b_ratio_im_female <- nlme::lme(priority_memory_im_z ~ years_since_baseline + sqrt_prior_visit
@@ -501,7 +501,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                        method = "REML",
                                                        na.action = na.exclude,
                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_im_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_female)
+    summary_memory_amyloid_b_ratio_im_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_female, digits = 10)
 
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr_male")
@@ -515,7 +515,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_dr_male <- sjPlot::tab_model(RIRS_memory_p_tau_dr_male)
+    summary_memory_p_tau_dr_male <- sjPlot::tab_model(RIRS_memory_p_tau_dr_male, digits = 10)
 
     vtg::log$info("RIRS_memory_p_tau_dr_female")
     RIRS_memory_p_tau_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -528,7 +528,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_dr_female <- sjPlot::tab_model(RIRS_memory_p_tau_dr_female)
+    summary_memory_p_tau_dr_female <- sjPlot::tab_model(RIRS_memory_p_tau_dr_female, digits = 10)
 
     vtg::log$info("RIRS_memory_gfap_dr_male")
     RIRS_memory_gfap_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -540,7 +540,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_dr_male <- sjPlot::tab_model(RIRS_memory_gfap_dr_male)
+    summary_memory_gfap_dr_male <- sjPlot::tab_model(RIRS_memory_gfap_dr_male, digits = 10)
 
     vtg::log$info("RIRS_memory_gfap_dr_female")
     RIRS_memory_gfap_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -552,7 +552,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_dr_female <- sjPlot::tab_model(RIRS_memory_gfap_dr_female)
+    summary_memory_gfap_dr_female <- sjPlot::tab_model(RIRS_memory_gfap_dr_female, digits = 10)
 
     vtg::log$info("RIRS_memory_nfl_dr_male")
     RIRS_memory_nfl_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -564,7 +564,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_nfl_dr_male <- sjPlot::tab_model(RIRS_memory_nfl_dr_male)
+    summary_memory_nfl_dr_male <- sjPlot::tab_model(RIRS_memory_nfl_dr_male, digits = 10)
 
     vtg::log$info("RIRS_memory_nfl_dr_female")
     RIRS_memory_nfl_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -576,7 +576,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_nfl_dr_female <- sjPlot::tab_model(RIRS_memory_nfl_dr_female)
+    summary_memory_nfl_dr_female <- sjPlot::tab_model(RIRS_memory_nfl_dr_female, digits = 10)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_male")
     RIRS_memory_amyloid_b_ratio_dr_male <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -588,7 +588,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                      method = "REML",
                                                      na.action = na.exclude,
                                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_dr_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_male)
+    summary_memory_amyloid_b_ratio_dr_male <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_male, digits = 10)
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_female")
     RIRS_memory_amyloid_b_ratio_dr_female <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -600,7 +600,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                        method = "REML",
                                                        na.action = na.exclude,
                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_dr_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_female)
+    summary_memory_amyloid_b_ratio_dr_female <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_female, digits = 10)
 
 
     #Language
@@ -614,7 +614,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_male <- sjPlot::tab_model(RIRS_language_p_tau_male)
+    summary_language_p_tau_male <- sjPlot::tab_model(RIRS_language_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_language_p_tau_female")
     RIRS_language_p_tau_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -626,7 +626,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female)
+    summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_male")
     RIRS_language_gfap_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -638,7 +638,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_male <- sjPlot::tab_model(RIRS_language_gfap_male)
+    summary_language_gfap_male <- sjPlot::tab_model(RIRS_language_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_female")
     RIRS_language_gfap_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -650,7 +650,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female)
+    summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_language_nfl_male")
     RIRS_language_nfl_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -662,7 +662,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                         method = "REML",
                                         na.action = na.exclude,
                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_male <- sjPlot::tab_model(RIRS_language_nfl_male)
+    summary_language_nfl_male <- sjPlot::tab_model(RIRS_language_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_language_nfl_female")
     RIRS_language_nfl_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -674,7 +674,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female)
+    summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_male")
     RIRS_language_amyloid_b_ratio_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -686,7 +686,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                     method = "REML",
                                                     na.action = na.exclude,
                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male)
+    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_female")
     RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -698,7 +698,7 @@ df_plasma <- df[!is.na(df$p_tau),]
                                                       method = "REML",
                                                       na.action = na.exclude,
                                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
+    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female, digits = 10)
 
     results <- list(
       "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
