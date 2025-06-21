@@ -366,7 +366,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                     na.action = na.exclude,
                                     # control = nlme::lmeControl(opt='optim'),
                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_p_tau_3w <- sjPlot::tab_model(RIRS_mmse_p_tau_3w)
+    summary_mmse_p_tau_3w <- sjPlot::tab_model(RIRS_mmse_p_tau_3w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_3w")
     RIRS_mmse_gfap_3w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
@@ -381,7 +381,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                    method = "REML",
                                    na.action = na.exclude,
                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_gfap_3w <- sjPlot::tab_model(RIRS_mmse_gfap_3w)
+    summary_mmse_gfap_3w <- sjPlot::tab_model(RIRS_mmse_gfap_3w, digits = 10)
 
     #2-way interactions for apoe
     vtg::log$info("RIRS_mmse_p_tau_2w")
@@ -396,7 +396,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                     na.action = na.exclude,
                                     # control = nlme::lmeControl(opt='optim'),
                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w)
+    summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_2w")
     RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline
@@ -408,7 +408,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                    method = "REML",
                                    na.action = na.exclude,
                                    control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w)
+    summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_2w")
     RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline
@@ -420,7 +420,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                   method = "REML",
                                   na.action = na.exclude,
                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w)
+    summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
     RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline
@@ -432,7 +432,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                                   method = "REML",
                                                   na.action = na.exclude,
                                                   control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w)
+    summary_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w, digits = 10)
 
     # Apoe stratified models
     ##APOE4_carrier no = F, APOE4_carrier yes = T
@@ -445,7 +445,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_mmse_p_tau_apoe_neg)
+    summary_mmse_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_mmse_p_tau_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_mmse_p_tau_apoe_pos")
     RIRS_mmse_p_tau_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
@@ -456,7 +456,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_mmse_p_tau_apoe_pos)
+    summary_mmse_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_mmse_p_tau_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap")
     RIRS_mmse_gfap_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
@@ -467,7 +467,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_gfap_apoe_neg <- sjPlot::tab_model(RIRS_mmse_gfap_apoe_neg)
+    summary_mmse_gfap_apoe_neg <- sjPlot::tab_model(RIRS_mmse_gfap_apoe_neg, digits = 10)
 
     RIRS_mmse_gfap_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                          data = subset(df, apoe_carrier == "yes"),
@@ -477,7 +477,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_gfap_apoe_pos <- sjPlot::tab_model(RIRS_mmse_gfap_apoe_pos)
+    summary_mmse_gfap_apoe_pos <- sjPlot::tab_model(RIRS_mmse_gfap_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl")
     RIRS_mmse_nfl_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -488,7 +488,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                         method = "REML",
                                         na.action = na.exclude,
                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_nfl_apoe_neg <- sjPlot::tab_model(RIRS_mmse_nfl_apoe_neg)
+    summary_mmse_nfl_apoe_neg <- sjPlot::tab_model(RIRS_mmse_nfl_apoe_neg, digits = 10)
 
     RIRS_mmse_nfl_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                         data = subset(df, apoe_carrier == "yes"),
@@ -498,7 +498,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                         method = "REML",
                                         na.action = na.exclude,
                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_nfl_apoe_pos <- sjPlot::tab_model(RIRS_mmse_nfl_apoe_pos)
+    summary_mmse_nfl_apoe_pos <- sjPlot::tab_model(RIRS_mmse_nfl_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
     RIRS_mmse_amyloid_b_ratio_apoe_neg <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
@@ -509,7 +509,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                                     method = "REML",
                                                     na.action = na.exclude,
                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_apoe_neg)
+    summary_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
     RIRS_mmse_amyloid_b_ratio_apoe_pos <- nlme::lme(mmse_total ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + log_amyloid_b_ratio_42_40 + log_amyloid_b_ratio_42_40 * years_since_baseline,
@@ -520,7 +520,7 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
                                                     method = "REML",
                                                     na.action = na.exclude,
                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_mmse_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_apoe_pos)
+    summary_mmse_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_apoe_pos, digits = 10)
 
 
     # model_summary can't extract from lme models
