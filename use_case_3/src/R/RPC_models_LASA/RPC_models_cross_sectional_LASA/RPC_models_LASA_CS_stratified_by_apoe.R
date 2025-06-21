@@ -431,99 +431,99 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
     CS_memory_p_tau_im_apoe_neg <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
                                                data = subset(df, apoe_carrier == "no"),
                                                na.action = na.exclude)
-    summary_CS_memory_p_tau_im_apoe_neg <- sjPlot::tab_model(CS_memory_p_tau_im_apoe_neg)
+    summary_CS_memory_p_tau_im_apoe_neg <- sjPlot::tab_model(CS_memory_p_tau_im_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_p_tau_im_apoe_pos")
     CS_memory_p_tau_im_apoe_pos <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
                                                data = subset(df, apoe_carrier == "yes"),
                                                na.action = na.exclude)
-    summary_CS_memory_p_tau_im_apoe_pos <- sjPlot::tab_model(CS_memory_p_tau_im_apoe_pos)
+    summary_CS_memory_p_tau_im_apoe_pos <- sjPlot::tab_model(CS_memory_p_tau_im_apoe_pos, digits = 10)
 
     vtg::log$info("CS_memory_gfap_im_apoe_neg")
     CS_memory_gfap_im_apoe_neg <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
                                               data = subset(df, apoe_carrier == "no"),
                                               na.action = na.exclude)
-    summary_CS_memory_gfap_im_apoe_neg <- sjPlot::tab_model(CS_memory_gfap_im_apoe_neg)
+    summary_CS_memory_gfap_im_apoe_neg <- sjPlot::tab_model(CS_memory_gfap_im_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_gfap_im_apoe_pos")
     CS_memory_gfap_im_apoe_pos <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
                                               data = subset(df, apoe_carrier == "yes"),
                                               na.action = na.exclude)
-    summary_CS_memory_gfap_im_apoe_pos <- sjPlot::tab_model(CS_memory_gfap_im_apoe_pos)
+    summary_CS_memory_gfap_im_apoe_pos <- sjPlot::tab_model(CS_memory_gfap_im_apoe_pos, digits = 10)
 
 
     vtg::log$info("CS_memory_nfl_im_apoe_neg")
     CS_memory_nfl_im_apoe_neg <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
                                              data = subset(df, apoe_carrier == "no"),
                                              na.action = na.exclude)
-    summary_CS_memory_nfl_im_apoe_neg <- sjPlot::tab_model(CS_memory_nfl_im_apoe_neg)
+    summary_CS_memory_nfl_im_apoe_neg <- sjPlot::tab_model(CS_memory_nfl_im_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_nfl_im_apoe_pos")
     CS_memory_nfl_im_apoe_pos <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
                                              data = subset(df, apoe_carrier == "yes"),
                                              na.action = na.exclude)
-    summary_CS_memory_nfl_im_apoe_pos <- sjPlot::tab_model(CS_memory_nfl_im_apoe_pos)
+    summary_CS_memory_nfl_im_apoe_pos <- sjPlot::tab_model(CS_memory_nfl_im_apoe_pos, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_apoe_neg")
     CS_memory_amyloid_b_ratio_im_apoe_neg <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_im_apoe_neg <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_apoe_neg)
+    summary_CS_memory_amyloid_b_ratio_im_apoe_neg <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_apoe_pos")
     CS_memory_amyloid_b_ratio_im_apoe_pos <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_im_apoe_pos <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_apoe_pos)
+    summary_CS_memory_amyloid_b_ratio_im_apoe_pos <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_apoe_pos, digits = 10)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr_apoe_neg")
     CS_memory_p_tau_dr_apoe_neg <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
                                                data = subset(df, apoe_carrier == "no"),
                                                na.action = na.exclude)
-    summary_CS_memory_p_tau_dr_apoe_neg <- sjPlot::tab_model(CS_memory_p_tau_dr_apoe_neg)
+    summary_CS_memory_p_tau_dr_apoe_neg <- sjPlot::tab_model(CS_memory_p_tau_dr_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_p_tau_dr_apoe_pos")
     CS_memory_p_tau_dr_apoe_pos <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
                                                data = subset(df, apoe_carrier == "yes"),
                                                na.action = na.exclude)
-    summary_CS_memory_p_tau_dr_apoe_pos <- sjPlot::tab_model(CS_memory_p_tau_dr_apoe_pos)
+    summary_CS_memory_p_tau_dr_apoe_pos <- sjPlot::tab_model(CS_memory_p_tau_dr_apoe_pos, digits = 10)
 
     vtg::log$info("CS_memory_gfap_dr_apoe_neg")
     CS_memory_gfap_dr_apoe_neg <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
                                               data = subset(df, apoe_carrier == "no"),
                                               na.action = na.exclude)
-    summary_CS_memory_gfap_dr_apoe_neg <- sjPlot::tab_model(CS_memory_gfap_dr_apoe_neg)
+    summary_CS_memory_gfap_dr_apoe_neg <- sjPlot::tab_model(CS_memory_gfap_dr_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_gfap_dr_apoe_pos")
     CS_memory_gfap_dr_apoe_pos <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
                                               data = subset(df, apoe_carrier == "yes"),
                                               na.action = na.exclude)
-    summary_CS_memory_gfap_dr_apoe_pos <- sjPlot::tab_model(CS_memory_gfap_dr_apoe_pos)
+    summary_CS_memory_gfap_dr_apoe_pos <- sjPlot::tab_model(CS_memory_gfap_dr_apoe_pos, digits = 10)
 
     vtg::log$info("CS_memory_nfl_dr_apoe_neg")
     CS_memory_nfl_dr_apoe_neg <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
                                              data = subset(df, apoe_carrier == "no"),
                                              na.action = na.exclude)
-    summary_CS_memory_nfl_dr_apoe_neg <- sjPlot::tab_model(CS_memory_nfl_dr_apoe_neg)
+    summary_CS_memory_nfl_dr_apoe_neg <- sjPlot::tab_model(CS_memory_nfl_dr_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_nfl_dr_apoe_pos")
     CS_memory_nfl_dr_apoe_pos <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
                                              data = subset(df, apoe_carrier == "yes"),
                                              na.action = na.exclude)
-    summary_CS_memory_nfl_dr_apoe_pos <- sjPlot::tab_model(CS_memory_nfl_dr_apoe_pos)
+    summary_CS_memory_nfl_dr_apoe_pos <- sjPlot::tab_model(CS_memory_nfl_dr_apoe_pos, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_apoe_neg")
     CS_memory_amyloid_b_ratio_dr_apoe_neg <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_dr_apoe_neg <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_apoe_neg)
+    summary_CS_memory_amyloid_b_ratio_dr_apoe_neg <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_apoe_neg, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_apoe_pos")
     CS_memory_amyloid_b_ratio_dr_apoe_pos <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_dr_apoe_pos <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_apoe_pos)
+    summary_CS_memory_amyloid_b_ratio_dr_apoe_pos <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_apoe_pos, digits = 10)
 
 
     # #Language
@@ -531,49 +531,49 @@ RPC_models_LASA_stratified_apoe <- function(df, config, model = "memory", exclud
     # CS_language_p_tau_apoe_neg <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
     #                                           data = subset(df, apoe_carrier == "no"),
     #                                           na.action = na.exclude)
-    # summary_CS_language_p_tau_apoe_neg <- sjPlot::tab_model(CS_language_p_tau_apoe_neg)
+    # summary_CS_language_p_tau_apoe_neg <- sjPlot::tab_model(CS_language_p_tau_apoe_neg, digits = 10)
     #
     # vtg::log$info("CS_language_p_tau_apoe_pos")
     # CS_language_p_tau_apoe_pos <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
     #                                           data = subset(df, apoe_carrier == "yes"),
     #                                           na.action = na.exclude)
-    # summary_CS_language_p_tau_apoe_pos <- sjPlot::tab_model(CS_language_p_tau_apoe_pos)
+    # summary_CS_language_p_tau_apoe_pos <- sjPlot::tab_model(CS_language_p_tau_apoe_pos, digits = 10)
     #
     # vtg::log$info("CS_language_gfap_apoe_neg")
     # CS_language_gfap_apoe_neg <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
     #                                          data = subset(df, apoe_carrier == "no"),
     #                                          na.action = na.exclude)
-    # summary_CS_language_gfap_apoe_neg <- sjPlot::tab_model(CS_language_gfap_apoe_neg)
+    # summary_CS_language_gfap_apoe_neg <- sjPlot::tab_model(CS_language_gfap_apoe_neg, digits = 10)
     #
     # vtg::log$info("CS_language_gfap_apoe_pos")
     # CS_language_gfap_apoe_pos <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          na.action = na.exclude)
-    # summary_CS_language_gfap_apoe_pos <- sjPlot::tab_model(CS_language_gfap_apoe_pos)
+    # summary_CS_language_gfap_apoe_pos <- sjPlot::tab_model(CS_language_gfap_apoe_pos, digits = 10)
     #
     # vtg::log$info("CS_language_nfl_apoe_neg")
     # CS_language_nfl_apoe_neg <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         na.action = na.exclude)
-    # summary_CS_language_nfl_apoe_neg <- sjPlot::tab_model(CS_language_nfl_apoe_neg)
+    # summary_CS_language_nfl_apoe_neg <- sjPlot::tab_model(CS_language_nfl_apoe_neg, digits = 10)
     #
     # vtg::log$info("CS_language_nfl_apoe_pos")
     # CS_language_nfl_apoe_pos <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
     #                                         data = subset(df, apoe_carrier == "yes"),
     #                                         na.action = na.exclude)
-    # summary_CS_language_nfl_apoe_pos <- sjPlot::tab_model(CS_language_nfl_apoe_pos)
+    # summary_CS_language_nfl_apoe_pos <- sjPlot::tab_model(CS_language_nfl_apoe_pos, digits = 10)
     #
     # vtg::log$info("CS_language_amyloid_b_ratio_apoe_neg")
     # CS_language_amyloid_b_ratio_apoe_neg <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
     #                                                     data = subset(df, apoe_carrier == "no"),
     #                                                     na.action = na.exclude)
-    # summary_CS_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(CS_language_amyloid_b_ratio_apoe_neg)
+    # summary_CS_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(CS_language_amyloid_b_ratio_apoe_neg, digits = 10)
     #
     # vtg::log$info("CS_language_amyloid_b_ratio_apoe_pos")
     # CS_language_amyloid_b_ratio_apoe_pos <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
     #                                                     data = subset(df, apoe_carrier == "yes"),
     #                                                     na.action = na.exclude)
-    # summary_CS_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(CS_language_amyloid_b_ratio_apoe_pos)
+    # summary_CS_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(CS_language_amyloid_b_ratio_apoe_pos, digits = 10)
 
     results <- list(
       "summary_CS_memory_p_tau_im_apoe_neg" = summary_CS_memory_p_tau_im_apoe_neg,
