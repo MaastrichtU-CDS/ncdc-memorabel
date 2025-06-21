@@ -346,72 +346,72 @@ RPC_models_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
     CS_mmse_p_tau_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                     data = df,
                                     na.action = na.exclude)
-    summary_CS_mmse_p_tau_2w <- sjPlot::tab_model(CS_mmse_p_tau_2w)
+    summary_CS_mmse_p_tau_2w <- sjPlot::tab_model(CS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("CS_mmse_gfap_2w")
     CS_mmse_gfap_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
                                    data = df,
                                    na.action = na.exclude)
-    summary_CS_mmse_gfap_2w <- sjPlot::tab_model(CS_mmse_gfap_2w)
+    summary_CS_mmse_gfap_2w <- sjPlot::tab_model(CS_mmse_gfap_2w, digits = 10)
 
     vtg::log$info("CS_mmse_nfl_2w")
     CS_mmse_nfl_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                   data = df,
                                   na.action = na.exclude)
-    summary_CS_mmse_nfl_2w <- sjPlot::tab_model(CS_mmse_nfl_2w)
+    summary_CS_mmse_nfl_2w <- sjPlot::tab_model(CS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("CS_mmse_amyloid_b_ratio_2w")
     CS_mmse_amyloid_b_ratio_log_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40
                                                   + apoe_carrier * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_log_2w)
+    summary_CS_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_log_2w, digits = 10)
 
     # Apoe stratified models
     ##APOE4_carrier no = F, APOE4_carrier yes = T
     CS_mmse_p_tau_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
                                           data = subset(df, apoe_carrier == "no"),
                                           na.action = na.exclude)
-    summary_CS_mmse_p_tau_apoe_neg <- sjPlot::tab_model(CS_mmse_p_tau_apoe_neg)
+    summary_CS_mmse_p_tau_apoe_neg <- sjPlot::tab_model(CS_mmse_p_tau_apoe_neg, digits = 10)
 
     CS_mmse_p_tau_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
                                           data = subset(df, apoe_carrier == "yes"),
                                           na.action = na.exclude)
-    summary_CS_mmse_p_tau_apoe_pos <- sjPlot::tab_model(CS_mmse_p_tau_apoe_pos)
+    summary_CS_mmse_p_tau_apoe_pos <- sjPlot::tab_model(CS_mmse_p_tau_apoe_pos, digits = 10)
 
     vtg::log$info("CS_mmse_gfap")
     CS_mmse_gfap_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
                                          data = subset(df, apoe_carrier == "no"),
                                          na.action = na.exclude)
-    summary_CS_mmse_gfap_apoe_neg <- sjPlot::tab_model(CS_mmse_gfap_apoe_neg)
+    summary_CS_mmse_gfap_apoe_neg <- sjPlot::tab_model(CS_mmse_gfap_apoe_neg, digits = 10)
 
     CS_mmse_gfap_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
                                          data = subset(df, apoe_carrier == "yes"),
                                          na.action = na.exclude)
-    summary_CS_mmse_gfap_apoe_pos <- sjPlot::tab_model(CS_mmse_gfap_apoe_pos)
+    summary_CS_mmse_gfap_apoe_pos <- sjPlot::tab_model(CS_mmse_gfap_apoe_pos, digits = 10)
 
     vtg::log$info("CS_mmse_nfl")
     CS_mmse_nfl_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
                                         data = subset(df, apoe_carrier == "no"),
                                         na.action = na.exclude)
-    summary_CS_mmse_nfl_apoe_neg <- sjPlot::tab_model(CS_mmse_nfl_apoe_neg)
+    summary_CS_mmse_nfl_apoe_neg <- sjPlot::tab_model(CS_mmse_nfl_apoe_neg, digits = 10)
 
     CS_mmse_nfl_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
                                         data = subset(df, apoe_carrier == "yes"),
                                         na.action = na.exclude)
-    summary_CS_mmse_nfl_apoe_pos <- sjPlot::tab_model(CS_mmse_nfl_apoe_pos)
+    summary_CS_mmse_nfl_apoe_pos <- sjPlot::tab_model(CS_mmse_nfl_apoe_pos, digits = 10)
 
     vtg::log$info("CS_mmse_amyloid_b_ratio")
     CS_mmse_amyloid_b_ratio_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                     data = subset(df, apoe_carrier == "no"),
                                                     na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_neg)
+    summary_CS_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_neg, digits = 10)
 
     vtg::log$info("CS_mmse_amyloid_b_ratio")
     CS_mmse_amyloid_b_ratio_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                     data = subset(df, apoe_carrier == "yes"),
                                                     na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_pos)
+    summary_CS_mmse_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_pos, digits = 10)
 
 
     # model_summary can't extract from lme models
