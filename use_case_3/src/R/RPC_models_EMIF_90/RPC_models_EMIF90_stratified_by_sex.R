@@ -1,4 +1,4 @@
-RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -51,7 +51,6 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
     memory_dr_test_name <- "priority_memory_dr_cerad"
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
-    df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
@@ -66,12 +65,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
-    df_apoe <- df_apoe[! duplicated(df_apoe$id),]
-    df_grouped <- merge(
-      x = df_grouped,
-      y = df_apoe[c("id", "apoe_carrier")],
-      by = "id"
-    )
+
     df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
       | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
       | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["priority_executive_tmt_b_time"]]) | !is.na(df[["mmse_total"]])),]
