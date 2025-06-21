@@ -417,79 +417,79 @@ RPC_models_apoe_2_w_interaction <- function(df, config, model = "memory", exclud
     CS_memory_p_tau_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                       data = df,
                                       na.action = na.exclude)
-    summary_CS_memory_p_tau_im_2w <- sjPlot::tab_model(CS_memory_p_tau_im_2w)
+    summary_CS_memory_p_tau_im_2w <- sjPlot::tab_model(CS_memory_p_tau_im_2w, digits = 10)
 
     vtg::log$info("CS_memory_gfap_im_2w")
     CS_memory_gfap_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
                                      data = df,
                                      na.action = na.exclude)
-    summary_CS_memory_gfap_im_2w <- sjPlot::tab_model(CS_memory_gfap_im_2w)
+    summary_CS_memory_gfap_im_2w <- sjPlot::tab_model(CS_memory_gfap_im_2w, digits = 10)
 
     vtg::log$info("CS_memory_nfl_im_2w")
     CS_memory_nfl_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                     data = df,
                                     na.action = na.exclude)
-    summary_CS_memory_nfl_im_2w <- sjPlot::tab_model(CS_memory_nfl_im_2w)
+    summary_CS_memory_nfl_im_2w <- sjPlot::tab_model(CS_memory_nfl_im_2w, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im_2w")
     CS_memory_amyloid_b_ratio_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_im_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_2w)
+    summary_CS_memory_amyloid_b_ratio_im_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_2w, digits = 10)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr_2w")
     CS_memory_p_tau_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
                                       data = df,
                                       na.action = na.exclude)
-    summary_CS_memory_p_tau_dr_2w <- sjPlot::tab_model(CS_memory_p_tau_dr_2w)
+    summary_CS_memory_p_tau_dr_2w <- sjPlot::tab_model(CS_memory_p_tau_dr_2w, digits = 10)
 
     vtg::log$info("CS_memory_gfap_dr_2w")
     CS_memory_gfap_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap
                                      + apoe_carrier * gfap,
                                      data = df,
                                      na.action = na.exclude)
-    summary_CS_memory_gfap_dr_2w <- sjPlot::tab_model(CS_memory_gfap_dr_2w)
+    summary_CS_memory_gfap_dr_2w <- sjPlot::tab_model(CS_memory_gfap_dr_2w, digits = 10)
 
     vtg::log$info("CS_memory_nfl_dr_2w")
     CS_memory_nfl_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
                                     data = df,
                                     na.action = na.exclude)
-    summary_CS_memory_nfl_dr_2w <- sjPlot::tab_model(CS_memory_nfl_dr_2w)
+    summary_CS_memory_nfl_dr_2w <- sjPlot::tab_model(CS_memory_nfl_dr_2w, digits = 10)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr_2w")
     CS_memory_amyloid_b_ratio_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
-    summary_CS_memory_amyloid_b_ratio_dr_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_2w)
+    summary_CS_memory_amyloid_b_ratio_dr_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_2w, digits = 10)
 
     # #Language
     # vtg::log$info("CS_language_p_tau_2w")
     # CS_language_p_tau_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
     #                                  data = df,
     #                                  na.action = na.exclude)
-    # summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w)
+    # summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w, digits = 10)
     #
     # vtg::log$info("CS_language_gfap_2w")
     # CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
     #                                 data = df,
     #                                 na.action = na.exclude)
-    # summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w)
+    # summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w, digits = 10)
     #
     # vtg::log$info("CS_language_nfl_2w")
     # CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
     #                                data = df,
     #                                na.action = na.exclude)
-    # summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w)
+    # summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w, digits = 10)
     #
     # vtg::log$info("CS_language_amyloid_b_ratio_2w")
     # CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
     #                                            + apoe_carrier * amyloid_b_ratio_42_40,
     #                                            data = df,
     #                                            na.action = na.exclude)
-    # summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w)
+    # summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w, digits = 10)
 
     # model_summary can't extract from lme models
     results <- list(
