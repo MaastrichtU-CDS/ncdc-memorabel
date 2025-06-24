@@ -1,4 +1,4 @@
-RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -147,6 +147,7 @@ RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory",
     # This dataframe only contains patients with birth year and sex info
     # available, no need to consider NAs
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
+    df$sex_numr <- ifelse(df$sex == 0, 1, 0)
     # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
@@ -341,9 +342,9 @@ RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory",
 
     #TMT shifting: NIP norms
     ##education and sex coded differently
-      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
-      df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
-    df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
+      df$priority_executive_tmt_shift_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
+      df$priority_executive_tmt_shift_z <- pmax(pmin(df$priority_executive_tmt_shift_z, 5), -5)
+    df$priority_executive_tmt_shift_z <- -df$priority_executive_tmt_shift_z
     }
 
     df$education_low <- as.factor(df$education_low)
@@ -668,17 +669,18 @@ RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory",
     summary_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_female)
 
     #Attention
-    vtg::log$info("RIRS_attention_tmt_p_tau_male")
-    RIRS_attention_tmt_p_tau_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
-                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-                                              data = subset(df, sex_numr == "0"),
-                                              random = ~ years_since_baseline | id,
-                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                              correlation = nlme::corSymm(form = ~1 | id),
-                                              method = "REML",
-                                              na.action = na.exclude,
-                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_p_tau_male <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_male)
+    # vtg::log$info("RIRS_attention_tmt_p_tau_male")
+    # RIRS_attention_tmt_p_tau_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    #                                           data = subset(df, sex_numr == "0"),
+    #                                           random = ~ years_since_baseline | id,
+    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                           correlation = nlme::corSymm(form = ~1 | id),
+    #                                           method = "REML",
+    #                                           na.action = na.exclude,
+    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_attention_tmt_p_tau_male <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_male)
+    summary_attention_tmt_p_tau_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_p_tau_female")
     RIRS_attention_tmt_p_tau_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -741,19 +743,20 @@ RPC_models_EMIF_90_sex_3_w_interaction <- function(df, config, model = "memory",
     summary_attention_tmt_nfl_female <- sjPlot::tab_model(RIRS_attention_tmt_nfl_female)
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_male")
-    RIRS_attention_tmt_amyloid_b_ratio_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
-                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-                                                        data = subset(df, sex_numr == "0"),
-                                                        random = ~ years_since_baseline | id,
-                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                                        correlation = nlme::corSymm(form = ~1 | id),
-                                                        method = "REML",
-                                                        na.action = na.exclude,
-                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_male)
+    # RIRS_attention_tmt_amyloid_b_ratio_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    #                                                     + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    #                                                     data = subset(df, sex_numr == "0"),
+    #                                                     random = ~ years_since_baseline | id,
+    #                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                                     correlation = nlme::corSymm(form = ~1 | id),
+    #                                                     method = "REML",
+    #                                                     na.action = na.exclude,
+    #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_male)
+    summary_attention_tmt_amyloid_b_ratio_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_female")
-    RIRS_attention_tmt_amyloid_b_ratio_female <- nlme::lme(priority_executive_tmt_a_z ~ years_since_baseline
+    RIRS_attention_tmt_amyloid_b_ratio_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
                                                         + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, sex_numr == "1"),
                                                         random = ~ years_since_baseline | id,
