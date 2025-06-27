@@ -1,6 +1,4 @@
-#This is the overall models or most general models.
-##without interactions and without apoe
-RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -33,7 +31,7 @@ RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c(
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-    check_names <- c("age", "sex", "education_category_3", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
+    check_names <- c("age", "sex", "education_category_verhage", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
     missing_variables <- c()
     for (name in check_names) {
       if (!name %in% colnames(df)) {
@@ -47,7 +45,7 @@ RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c(
       ))
     }
 
-       # Identifying the participants that need to be excluded
+    # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     memory_dr_test_name <- "priority_memory_dr_cerad"
@@ -487,6 +485,7 @@ RPC_models_CS_overall_model <- function(df, config, model = "memory", exclude=c(
       dplyr::group_by(years_since_baseline) %>%
       dplyr::filter(dplyr::n_distinct(id) > 30)
     print(table(df$years_since_baseline))
+
 
     # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
