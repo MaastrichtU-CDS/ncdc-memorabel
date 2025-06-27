@@ -1,5 +1,4 @@
-
-RPC_models_sex_2_w_interaction <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -32,7 +31,7 @@ RPC_models_sex_2_w_interaction <- function(df, config, model = "memory", exclude
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
-    check_names <- c("age", "sex", "education_category_3", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
+    check_names <- c("age", "sex", "education_category_verhage", "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr_ravlt")
     missing_variables <- c()
     for (name in check_names) {
       if (!name %in% colnames(df)) {
