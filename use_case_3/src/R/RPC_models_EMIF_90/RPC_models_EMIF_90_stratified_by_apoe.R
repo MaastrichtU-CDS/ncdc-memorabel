@@ -498,7 +498,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_language_p_tau_apoe_neg)
+    summary_language_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_language_p_tau_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_language_p_tau_apoe_pos")
     RIRS_language_p_tau_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -510,7 +510,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_language_p_tau_apoe_pos)
+    summary_language_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_language_p_tau_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_apoe_neg")
     RIRS_language_gfap_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -522,7 +522,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_apoe_neg <- sjPlot::tab_model(RIRS_language_gfap_apoe_neg)
+    summary_language_gfap_apoe_neg <- sjPlot::tab_model(RIRS_language_gfap_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_apoe_pos")
     RIRS_language_gfap_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -534,7 +534,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_apoe_pos <- sjPlot::tab_model(RIRS_language_gfap_apoe_pos)
+    summary_language_gfap_apoe_pos <- sjPlot::tab_model(RIRS_language_gfap_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_language_nfl_apoe_neg")
     RIRS_language_nfl_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -546,7 +546,7 @@
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_apoe_neg <- sjPlot::tab_model(RIRS_language_nfl_apoe_neg)
+    summary_language_nfl_apoe_neg <- sjPlot::tab_model(RIRS_language_nfl_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_language_nfl_apoe_pos")
     # RIRS_language_nfl_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -558,7 +558,7 @@
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_nfl_apoe_pos <- sjPlot::tab_model(RIRS_language_nfl_apoe_pos)
+    # summary_language_nfl_apoe_pos <- sjPlot::tab_model(RIRS_language_nfl_apoe_pos, digits = 10)
     summary_language_nfl_apoe_pos <- NULL
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_neg")
@@ -571,7 +571,7 @@
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_neg)
+    summary_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_pos")
     RIRS_language_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
@@ -583,7 +583,7 @@
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_pos)
+    summary_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Processing speed
     vtg::log$info("RIRS_processing_speed_p_tau_apoe_neg")
@@ -596,7 +596,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_neg)
+    summary_processing_speed_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_processing_speed_p_tau_apoe_pos")
     # RIRS_processing_speed_p_tau_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -608,7 +608,7 @@
     #                                           method = "REML",
     #                                           na.action = na.exclude,
     #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_processing_speed_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_pos)
+    # summary_processing_speed_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_pos, digits = 10)
     summary_processing_speed_p_tau_apoe_pos <- NULL
 
     vtg::log$info("RIRS_processing_speed_gfap_apoe_neg")
@@ -621,7 +621,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_neg)
+    summary_processing_speed_gfap_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_gfap_apoe_pos")
     RIRS_processing_speed_gfap_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -633,7 +633,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_pos)
+    summary_processing_speed_gfap_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_nfl_apoe_neg")
     RIRS_processing_speed_nfl_apoe_neg <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -645,7 +645,7 @@
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_nfl_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_neg)
+    summary_processing_speed_nfl_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_processing_speed_nfl_apoe_pos")
     # RIRS_processing_speed_nfl_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -657,7 +657,7 @@
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_processing_speed_nfl_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_pos)
+    # summary_processing_speed_nfl_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_pos, digits = 10)
     summary_processing_speed_nfl_apoe_pos <- NULL
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_neg")
@@ -670,7 +670,7 @@
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_neg)
+    summary_processing_speed_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_pos")
     # RIRS_processing_speed_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -682,7 +682,7 @@
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_processing_speed_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_pos)
+    # summary_processing_speed_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_pos, digits = 10)
     summary_processing_speed_amyloid_b_ratio_apoe_pos <- NULL
 
     #Attention
@@ -696,7 +696,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_neg)
+    summary_attention_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_attention_tmt_p_tau_apoe_pos")
     # RIRS_attention_tmt_p_tau_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -708,7 +708,7 @@
     #                                           method = "REML",
     #                                           na.action = na.exclude,
     #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_pos)
+    # summary_attention_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_pos, digits = 10)
     summary_attention_tmt_p_tau_apoe_pos <- NULL
 
     vtg::log$info("RIRS_attention_tmt_gfap_apoe_neg")
@@ -721,7 +721,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_neg)
+    summary_attention_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_attention_tmt_gfap_apoe_pos")
     # RIRS_attention_tmt_gfap_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -733,7 +733,7 @@
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_pos)
+    # summary_attention_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_pos, digits = 10)
     summary_attention_tmt_gfap_apoe_pos <- NULL
 
     vtg::log$info("RIRS_attention_tmt_nfl_apoe_neg")
@@ -746,7 +746,7 @@
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_neg)
+    summary_attention_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_attention_tmt_nfl_apoe_pos")
     # RIRS_attention_tmt_nfl_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -758,7 +758,7 @@
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_pos)
+    # summary_attention_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_pos, digits = 10)
     summary_attention_tmt_nfl_apoe_pos <- NULL
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_neg")
@@ -771,7 +771,7 @@
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_neg)
+    summary_attention_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_pos")
     # RIRS_attention_tmt_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_tmt_a_z ~ years_since_baseline
@@ -783,7 +783,7 @@
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_pos)
+    # summary_attention_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
     summary_attention_tmt_amyloid_b_ratio_apoe_pos <- NULL
 
     #Executive function
@@ -797,7 +797,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_neg)
+    summary_executive_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_p_tau_apoe_pos")
     RIRS_executive_tmt_p_tau_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -809,7 +809,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_pos)
+    summary_executive_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_gfap_apoe_neg")
     RIRS_executive_tmt_gfap_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -821,7 +821,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_neg)
+    summary_executive_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_gfap_apoe_pos")
     RIRS_executive_tmt_gfap_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -833,7 +833,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_pos)
+    summary_executive_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_pos, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_nfl_apoe_neg")
     RIRS_executive_tmt_nfl_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -845,7 +845,7 @@
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_neg)
+    summary_executive_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_executive_tmt_nfl_apoe_pos")
     # RIRS_executive_tmt_nfl_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -857,7 +857,7 @@
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_pos)
+    # summary_executive_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_pos, digits = 10)
     summary_executive_tmt_nfl_apoe_pos <- NULL
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_neg")
@@ -870,7 +870,7 @@
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_neg)
+    summary_executive_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_pos")
     # RIRS_executive_tmt_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -882,7 +882,7 @@
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_pos)
+    # summary_executive_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
     summary_executive_tmt_amyloid_b_ratio_apoe_pos <- NULL
 
     #Interference score
@@ -896,7 +896,7 @@
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_neg)
+    summary_executive_tmt_shift_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_executive_tmt_shift_p_tau_apoe_pos")
     # RIRS_executive_tmt_shift_p_tau_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
@@ -908,7 +908,7 @@
     #                                           method = "REML",
     #                                           na.action = na.exclude,
     #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_pos)
+    # summary_executive_tmt_shift_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_pos, digits = 10)
     summary_executive_tmt_shift_p_tau_apoe_pos <- NULL
 
     vtg::log$info("RIRS_executive_tmt_shift_gfap_apoe_neg")
@@ -921,7 +921,7 @@
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_neg)
+    summary_executive_tmt_shift_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_executive_tmt_shift_gfap_apoe_pos")
     # RIRS_executive_tmt_shift_gfap_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
@@ -933,7 +933,7 @@
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_pos)
+    # summary_executive_tmt_shift_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_pos, digits = 10)
     summary_executive_tmt_shift_gfap_apoe_pos <- NULL
 
     vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_neg")
@@ -946,7 +946,7 @@
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_neg)
+    summary_executive_tmt_shift_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_neg, digits = 10)
 
     # vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_pos")
     # RIRS_executive_tmt_shift_nfl_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
@@ -958,7 +958,7 @@
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_pos)
+    # summary_executive_tmt_shift_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_pos, digits = 10)
     summary_executive_tmt_shift_nfl_apoe_pos <- NULL
 
     # vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg")
@@ -971,7 +971,7 @@
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg)
+    # summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg, digits = 10)
     summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- NULL
 
     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos")
@@ -984,7 +984,7 @@
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos)
+    # summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos, digits = 10)
     summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- NULL
 
     # model_summary can't extract from lme models
