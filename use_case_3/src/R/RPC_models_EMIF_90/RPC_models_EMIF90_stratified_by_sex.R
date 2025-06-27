@@ -484,7 +484,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_male <- sjPlot::tab_model(RIRS_language_p_tau_male)
+    summary_language_p_tau_male <- sjPlot::tab_model(RIRS_language_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_language_p_tau_female")
     RIRS_language_p_tau_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -496,7 +496,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female)
+    summary_language_p_tau_female <- sjPlot::tab_model(RIRS_language_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_male")
     RIRS_language_gfap_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -508,7 +508,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                          method = "REML",
                                          na.action = na.exclude,
                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_male <- sjPlot::tab_model(RIRS_language_gfap_male)
+    summary_language_gfap_male <- sjPlot::tab_model(RIRS_language_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_language_gfap_female")
     RIRS_language_gfap_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -520,7 +520,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                            method = "REML",
                                            na.action = na.exclude,
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female)
+    summary_language_gfap_female <- sjPlot::tab_model(RIRS_language_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_language_nfl_male")
     RIRS_language_nfl_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -532,7 +532,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                         method = "REML",
                                         na.action = na.exclude,
                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_male <- sjPlot::tab_model(RIRS_language_nfl_male)
+    summary_language_nfl_male <- sjPlot::tab_model(RIRS_language_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_language_nfl_female")
     RIRS_language_nfl_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -544,7 +544,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                           method = "REML",
                                           na.action = na.exclude,
                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female)
+    summary_language_nfl_female <- sjPlot::tab_model(RIRS_language_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_male")
     RIRS_language_amyloid_b_ratio_male <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -556,7 +556,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                     method = "REML",
                                                     na.action = na.exclude,
                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male)
+    summary_language_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio_female")
     RIRS_language_amyloid_b_ratio_female <- nlme::lme(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -568,7 +568,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                       method = "REML",
                                                       na.action = na.exclude,
                                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female)
+    summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female, digits = 10)
 
 
     #Processing speed
@@ -582,7 +582,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_p_tau_male <- sjPlot::tab_model(RIRS_processing_speed_p_tau_male)
+    summary_processing_speed_p_tau_male <- sjPlot::tab_model(RIRS_processing_speed_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_p_tau_female")
     RIRS_processing_speed_p_tau_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -594,7 +594,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_p_tau_female <- sjPlot::tab_model(RIRS_processing_speed_p_tau_female)
+    summary_processing_speed_p_tau_female <- sjPlot::tab_model(RIRS_processing_speed_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_gfap_male")
     RIRS_processing_speed_gfap_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -606,7 +606,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_male <- sjPlot::tab_model(RIRS_processing_speed_gfap_male)
+    summary_processing_speed_gfap_male <- sjPlot::tab_model(RIRS_processing_speed_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_gfap_female")
     RIRS_processing_speed_gfap_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -618,7 +618,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_female <- sjPlot::tab_model(RIRS_processing_speed_gfap_female)
+    summary_processing_speed_gfap_female <- sjPlot::tab_model(RIRS_processing_speed_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_nfl_male")
     RIRS_processing_speed_nfl_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -630,7 +630,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_nfl_male <- sjPlot::tab_model(RIRS_processing_speed_nfl_male)
+    summary_processing_speed_nfl_male <- sjPlot::tab_model(RIRS_processing_speed_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_nfl_female")
     RIRS_processing_speed_nfl_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -642,7 +642,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_nfl_female <- sjPlot::tab_model(RIRS_processing_speed_nfl_female)
+    summary_processing_speed_nfl_female <- sjPlot::tab_model(RIRS_processing_speed_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_male")
     RIRS_processing_speed_amyloid_b_ratio_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -654,7 +654,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_male)
+    summary_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_female")
     RIRS_processing_speed_amyloid_b_ratio_female <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -666,7 +666,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_female)
+    summary_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_female, digits = 10)
 
     #Attention
     # vtg::log$info("RIRS_attention_tmt_p_tau_male")
@@ -679,7 +679,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
     #                                           method = "REML",
     #                                           na.action = na.exclude,
     #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_p_tau_male <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_male)
+    # summary_attention_tmt_p_tau_male <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_male, digits = 10)
     summary_attention_tmt_p_tau_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_p_tau_female")
@@ -692,7 +692,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_p_tau_female <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_female)
+    summary_attention_tmt_p_tau_female <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_attention_tmt_gfap_male")
     RIRS_attention_tmt_gfap_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -704,7 +704,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_gfap_male <- sjPlot::tab_model(RIRS_attention_tmt_gfap_male)
+    summary_attention_tmt_gfap_male <- sjPlot::tab_model(RIRS_attention_tmt_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_attention_tmt_gfap_female")
     RIRS_attention_tmt_gfap_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -716,7 +716,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_gfap_female <- sjPlot::tab_model(RIRS_attention_tmt_gfap_female)
+    summary_attention_tmt_gfap_female <- sjPlot::tab_model(RIRS_attention_tmt_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_attention_tmt_nfl_male")
     RIRS_attention_tmt_nfl_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -728,7 +728,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_nfl_male <- sjPlot::tab_model(RIRS_attention_tmt_nfl_male)
+    summary_attention_tmt_nfl_male <- sjPlot::tab_model(RIRS_attention_tmt_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_attention_tmt_nfl_female")
     RIRS_attention_tmt_nfl_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -740,7 +740,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_nfl_female <- sjPlot::tab_model(RIRS_attention_tmt_nfl_female)
+    summary_attention_tmt_nfl_female <- sjPlot::tab_model(RIRS_attention_tmt_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_male")
     # RIRS_attention_tmt_amyloid_b_ratio_male <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -752,7 +752,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
     #                                                     method = "REML",
     #                                                     na.action = na.exclude,
     #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_male)
+    # summary_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_male, digits = 10)
     summary_attention_tmt_amyloid_b_ratio_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_female")
@@ -765,7 +765,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_female)
+    summary_attention_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_female, digits = 10)
 
     #Executive function
     vtg::log$info("RIRS_executive_tmt_p_tau_male")
@@ -778,7 +778,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_male <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_male)
+    summary_executive_tmt_p_tau_male <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_p_tau_female")
     RIRS_executive_tmt_p_tau_female <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -790,7 +790,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_female <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_female)
+    summary_executive_tmt_p_tau_female <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_gfap_male")
     RIRS_executive_tmt_gfap_male <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -802,7 +802,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_male <- sjPlot::tab_model(RIRS_executive_tmt_gfap_male)
+    summary_executive_tmt_gfap_male <- sjPlot::tab_model(RIRS_executive_tmt_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_gfap_female")
     RIRS_executive_tmt_gfap_female <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -814,7 +814,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_female <- sjPlot::tab_model(RIRS_executive_tmt_gfap_female)
+    summary_executive_tmt_gfap_female <- sjPlot::tab_model(RIRS_executive_tmt_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_nfl_male")
     RIRS_executive_tmt_nfl_male <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -826,7 +826,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_nfl_male <- sjPlot::tab_model(RIRS_executive_tmt_nfl_male)
+    summary_executive_tmt_nfl_male <- sjPlot::tab_model(RIRS_executive_tmt_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_nfl_female")
     RIRS_executive_tmt_nfl_female <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -838,7 +838,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_nfl_female <- sjPlot::tab_model(RIRS_executive_tmt_nfl_female)
+    summary_executive_tmt_nfl_female <- sjPlot::tab_model(RIRS_executive_tmt_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_male")
     RIRS_executive_tmt_amyloid_b_ratio_male <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -850,7 +850,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_male)
+    summary_executive_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_female")
     RIRS_executive_tmt_amyloid_b_ratio_female <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
@@ -862,7 +862,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_female)
+    summary_executive_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_female, digits = 10)
 
     #Interference score
     vtg::log$info("RIRS_executive_tmt_shift_p_tau_male")
@@ -875,7 +875,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_p_tau_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_male)
+    summary_executive_tmt_shift_p_tau_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_p_tau_female")
     RIRS_executive_tmt_shift_p_tau_female <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -887,7 +887,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_p_tau_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_female)
+    summary_executive_tmt_shift_p_tau_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_gfap_male")
     RIRS_executive_tmt_shift_gfap_male <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -899,7 +899,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_gfap_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_male)
+    summary_executive_tmt_shift_gfap_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_gfap_female")
     RIRS_executive_tmt_shift_gfap_female <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -911,7 +911,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_gfap_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_female)
+    summary_executive_tmt_shift_gfap_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_nfl_male")
     RIRS_executive_tmt_shift_nfl_male <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -923,7 +923,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_nfl_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_male)
+    summary_executive_tmt_shift_nfl_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_nfl_female")
     RIRS_executive_tmt_shift_nfl_female <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -935,7 +935,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_nfl_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_female)
+    summary_executive_tmt_shift_nfl_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_male")
     RIRS_executive_tmt_shift_amyloid_b_ratio_male <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -947,7 +947,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_male)
+    summary_executive_tmt_shift_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_female")
     RIRS_executive_tmt_shift_amyloid_b_ratio_female <- nlme::lme(priority_executive_tmt_shift_z ~ years_since_baseline
@@ -959,7 +959,7 @@ RPC_models_EMIF_90_stratified_by_sex <- function(df, config, model = "memory", e
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_female)
+    summary_executive_tmt_shift_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_female, digits = 10)
 
     # model_summary can't extract from lme models
     results <- list(
