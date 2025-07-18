@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -883,7 +883,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
                                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_female, digits = 10)
 
-    
+
     #Processing speed
     vtg::log$info("RIRS_processing_speed_p_tau_male")
     RIRS_processing_speed_p_tau_male <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
@@ -1465,7 +1465,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_executive_stroop_interf_amyloid_b_ratio_female <- sjPlot::tab_model(RIRS_executive_stroop_interf_amyloid_b_ratio_female, digits = 10)
-    
+
     # model_summary can't extract from lme models
     results <- list(
       "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
@@ -1485,7 +1485,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "summary_memory_gfap_dr_female" = summary_memory_gfap_dr_female,
       "summary_memory_nfl_dr_female" = summary_memory_nfl_dr_female,
       "summary_memory_amyloid_b_ratio_dr_female" = summary_memory_amyloid_b_ratio_dr_female,
-      
+
       "summary_language_p_tau_male" = summary_language_p_tau_male,
       "summary_language_gfap_male" = summary_language_gfap_male,
       "summary_language_nfl_male" = summary_language_nfl_male,
@@ -1530,7 +1530,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "summary_executive_tmt_shift_nfl_female" = summary_executive_tmt_shift_nfl_female,
       "summary_executive_tmt_shift_amyloid_b_ratio_male" = summary_executive_tmt_shift_amyloid_b_ratio_male,
       "summary_executive_tmt_shift_amyloid_b_ratio_female" = summary_executive_tmt_shift_amyloid_b_ratio_female,
-      
+
       "summary_executive_stroop_3_p_tau_male" = summary_executive_stroop_3_p_tau_male,
       "summary_executive_stroop_3_p_tau_female" = summary_executive_stroop_3_p_tau_female,
       "summary_executive_stroop_3_gfap_male" = summary_executive_stroop_3_gfap_male,
@@ -1539,7 +1539,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "summary_executive_stroop_3_nfl_female" = summary_executive_stroop_3_nfl_female,
       "summary_executive_stroop_3_amyloid_b_ratio_male" = summary_executive_stroop_3_amyloid_b_ratio_male,
       "summary_executive_stroop_3_amyloid_b_ratio_female" = summary_executive_stroop_3_amyloid_b_ratio_female,
-          
+
       "summary_executive_stroop_interf_p_tau_male" = summary_executive_stroop_interf_p_tau_male,
       "summary_executive_stroop_interf_p_tau_female" = summary_executive_stroop_interf_p_tau_female,
       "summary_executive_stroop_interf_gfap_male" = summary_executive_stroop_interf_gfap_male,
@@ -1572,4 +1572,4 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
   })
   return(result)
 }
-      
+

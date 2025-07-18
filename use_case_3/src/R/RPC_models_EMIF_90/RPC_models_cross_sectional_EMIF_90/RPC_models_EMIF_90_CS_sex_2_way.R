@@ -1,4 +1,4 @@
-RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_sex_2_way <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -494,24 +494,24 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
                                       data = df,
                                       na.action = na.exclude)
      summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w, digits = 10)
-    
+
      vtg::log$info("CS_language_gfap_2w")
      CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap
-                                     + sex * gfap,,
+                                     + sex * gfap,
                                      data = df,
                                      na.action = na.exclude)
      summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w, digits = 10)
-    
+
      vtg::log$info("CS_language_nfl_2w")
      CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl
-                                    + sex * nfl,,
+                                    + sex * nfl,
                                     data = df,
                                     na.action = na.exclude)
      summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w, digits = 10)
-    
+
      vtg::log$info("CS_language_amyloid_b_ratio_2w")
      CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
-                                                + sex * amyloid_b_ratio_42_40,,
+                                                + sex * amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
      summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w, digits = 10)
@@ -526,14 +526,14 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
 
     vtg::log$info("CS_processing_speed_gfap_2w")
     CS_processing_speed_gfap_2w <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
-                                     + sex * gfap,,
+                                     + sex * gfap,
                            data = df,
                            na.action = na.exclude)
     summary_CS_processing_speed_gfap_2w <- sjPlot::tab_model(CS_processing_speed_gfap_2w, digits = 10)
 
     vtg::log$info("CS_processing_speed_nfl_2w")
     CS_processing_speed_nfl_2w <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
-                                    + sex * nfl,,
+                                    + sex * nfl,
                            data = df,
                            na.action = na.exclude)
     summary_CS_processing_speed_nfl_2w <- sjPlot::tab_model(CS_processing_speed_nfl_2w, digits = 10)
@@ -569,7 +569,7 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
 
     vtg::log$info("CS_attention_tmt_a_amyloid_b_ratio_2w")
     CS_attention_tmt_a_amyloid_b_ratio_2w <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
-                                                + sex * amyloid_b_ratio_42_40,           
+                                                + sex * amyloid_b_ratio_42_40,
                             data = df,
                             na.action = na.exclude)
     summary_CS_attention_tmt_a_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_attention_tmt_a_amyloid_b_ratio_2w, digits = 10)
@@ -627,7 +627,7 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
 
     vtg::log$info("CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w")
     CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w <- nlme::lme(priority_executive_shift_tmt_z ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
-                                                + sex * amyloid_b_ratio_42_40,          
+                                                + sex * amyloid_b_ratio_42_40,
                             data = df,
                             na.action = na.exclude)
     summary_CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w, digits = 10)
@@ -681,7 +681,4 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
     ))
   })
 return(result)
-}
-  })
-  return(result)
 }

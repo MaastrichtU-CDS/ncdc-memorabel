@@ -554,7 +554,7 @@ RPC_models_EMIF_90_overall_model <- function(df, config, model = "memory", exclu
 
     vtg::log$info("CS_RIRS_attention_tmt_a_nfl")
     CS_RIRS_attention_tmt_a_nfl <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl,
-                            data = df,                            
+                            data = df,
                             na.action = na.exclude)
     summary_CS_attention_tmt_a_nfl <- sjPlot::tab_model(CS_RIRS_attention_tmt_a_nfl, digits = 10)
 

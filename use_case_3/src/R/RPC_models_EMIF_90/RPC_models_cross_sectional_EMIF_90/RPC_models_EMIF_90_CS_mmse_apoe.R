@@ -1,4 +1,4 @@
-RPC_models_EMIF_90_apoe_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_90_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -185,6 +185,7 @@ RPC_models_EMIF_90_apoe_3_w_interaction <- function(df, config, model = "memory"
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)

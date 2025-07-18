@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_sex_3_w_interaction <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -737,7 +737,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_language_amyloid_b_ratio <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio, digits = 10)
 
-    
+
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
     RIRS_processing_speed_p_tau <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
@@ -985,7 +985,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
 
     #Executive function - Stroop 3
     vtg::log$info("RIRS_executive_stroop_3_p_tau")
-     RIRS_executive_stroop_3_p_tau <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit  + education_low + education_high + apoe_carrier + p_tau 
+     RIRS_executive_stroop_3_p_tau <- nlme::lme(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit  + education_low + education_high + apoe_carrier + p_tau
                                       + p_tau * years_since_baseline
                                       + sex * p_tau
                                       + sex * years_since_baseline

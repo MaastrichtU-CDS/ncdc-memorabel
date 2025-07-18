@@ -160,7 +160,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     # Apoe
     # df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
-    
+
     # Education levels
     # df$education_category_3 <- ifelse(
     #   is.na(df$education_category_3),
@@ -513,14 +513,14 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
 
     #2 way interaction models for sex
     vtg::log$info("RIRS_mmse_p_tau_2w")
-    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau 
+    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
                                     + sex * p_tau,
                                     data = df,
                                     na.action = na.exclude)
     summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_2w")
-    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap 
+    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
                                    + sex * gfap,
                                    data = df,
                                    na.action = na.exclude)
@@ -557,7 +557,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     vtg::log$info("RIRS_mmse_gfap_male")
     RIRS_mmse_gfap_male <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + gfap,
                                      data = subset(df, sex_num == 0),
-                                     na.action = na.exclude)
+                                     na.action = na.exclude,
                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
@@ -580,7 +580,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     vtg::log$info("RIRS_mmse_nfl_female")
     RIRS_mmse_nfl_female <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + nfl,
                                       data = subset(df, sex_num == 1),
-                                      na.action = na.exclude)
+                                      na.action = na.exclude,
                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
                                       correlation = nlme::corSymm(form = ~1 | id),
                                       method = "REML",

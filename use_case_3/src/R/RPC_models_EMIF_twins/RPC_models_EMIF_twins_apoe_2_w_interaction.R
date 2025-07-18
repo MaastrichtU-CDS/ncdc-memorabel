@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_twins_apoe_2_w_interaction <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1057,7 +1057,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_priority_executive_stroop_interf_z_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_stroop_interf_z_amyloid_b_ratio, digits = 10)
 
-  
+
     #model_summary can't extract from lme models
     results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,

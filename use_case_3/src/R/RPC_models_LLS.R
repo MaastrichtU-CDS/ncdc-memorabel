@@ -281,10 +281,10 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
     }
 
     #Z-score: processing speed
-    #SDST; Burggraaf et al (2016) norms 
+    #SDST; Burggraaf et al (2016) norms
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
-    else if (c("attention_test_sdst_60_correct") %in% colnames(df)) {
+    if (c("attention_test_sdst_60_correct") %in% colnames(df)) {
       df$sex_sdst <- ifelse(df$sex == 1, 0, 1)
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
@@ -403,8 +403,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
         sd_age = sd(age_rec, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
-        sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        mean_priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -443,8 +443,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
         sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
-        sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        mean_priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+        sd_priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
         sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
         mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
@@ -454,7 +454,7 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
         mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
         sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
         mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),m
+        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         mean_apoe = mean(apoe_carrier, na.rm = TRUE),
@@ -485,8 +485,8 @@ RPC_models_LLS <- function(df, config, model = "memory", exclude=c()) {
       sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-      mean_df$priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
-      sd_df$priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+      mean_priority_processing_speed_sdst_z = mean(df$priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z = sd(df$priority_processing_speed_sdst_z, na.rm = TRUE),
       mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
       sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
       mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),

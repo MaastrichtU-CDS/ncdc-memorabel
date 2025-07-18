@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -279,7 +279,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
         mean_age = mean(age_rec, na.rm = TRUE),
         sd_age = sd(age_rec, na.rm = TRUE),
       )
-    
+
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
 

@@ -1,4 +1,4 @@
-RPC_models <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_LASA <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(

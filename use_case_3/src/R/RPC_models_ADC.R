@@ -311,7 +311,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     #Van der Elst, et al. norms for animal fluency
      if (c("priority_language_animal_fluency") %in% colnames(df)) {
     df$priority_language_z <-
-      (df$priority_language_animal_fluency - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
+      (df$priority_language_animal_fluency - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -923,7 +923,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     summary_attention_tmt_a_amyloid_b_ratio <- sjPlot::tab_model(RIRS_attention_tmt_a_amyloid_b_ratio)
 
     # Executive function
-     Missing the TMT B pre-processing to calculate priority_priority_executive_tmt_z
+    # Missing the TMT B pre-processing to calculate priority_priority_executive_tmt_z
     vtg::log$info("RIRS_priority_executive_tmt_p_tau")
     RIRS_priority_executive_tmt_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                              data = df,
@@ -934,7 +934,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_priority_executive_tmt_p_tau <- sjPlot::tab_model(RIRS_priority_executive_tmt_p_tau)
-    
+
      vtg::log$info("RIRS_priority_executive_tmt_b_gfap")
      RIRS_priority_executive_tmt_gfap <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                              data = df,
@@ -945,7 +945,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_priority_executive_tmt_gfap <- sjPlot::tab_model(RIRS_priority_executive_tmt_gfap)
-    
+
      vtg::log$info("RIRS_priority_executive_tmt_nfl")
      RIRS_priority_executive_tmt_nfl <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                              data = df,
@@ -956,7 +956,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_priority_executive_tmt_nfl <- sjPlot::tab_model(RIRS_priority_executive_tmt_nfl)
-    
+
      vtg::log$info("RIRS_priority_executive_tmt_amyloid_b_ratio")
      RIRS_priority_executive_tmt_amyloid_b_ratio <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
@@ -967,7 +967,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_priority_executive_tmt_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_tmt_amyloid_b_ratio)
-    
+
     #Interference score
     vtg::log$info("RIRS_priority_executive_shift_tmt_z_p_tau")
     RIRS_priority_executive_shift_tmt_z_p_tau <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
@@ -1054,11 +1054,11 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "summary_attention_tmt_a_nfl" = summary_attention_tmt_a_nfl,
       "summary_attention_tmt_a_amyloid_b_ratio" = summary_attention_tmt_a_amyloid_b_ratio,
 
-      "summary_executive_tmt_p_tau" = summary_executive_tmt_p_tau,
-      "summary_executive_tmt_gfap" = summary_executive_tmt_gfap,
-      "summary_executive_tmt_nfl" = summary_executive_tmt_nfl,
-      "summary_executive_tmt_amyloid_b_ratio" = summary_executive_tmt_amyloid_b_ratio,
-      
+      # "summary_executive_tmt_p_tau" = summary_executive_tmt_p_tau,
+      # "summary_executive_tmt_gfap" = summary_executive_tmt_gfap,
+      # "summary_executive_tmt_nfl" = summary_executive_tmt_nfl,
+      # "summary_executive_tmt_amyloid_b_ratio" = summary_executive_tmt_amyloid_b_ratio,
+
       "summary_priority_executive_shift_tmt_z_p_tau" = summary_priority_executive_shift_tmt_z_p_tau,
       "summary_priority_executive_shift_tmt_z_gfap" = summary_priority_executive_shift_tmt_z_gfap,
       "summary_priority_executive_shift_tmt_z_nfl" = summary_priority_executive_shift_tmt_z_nfl,

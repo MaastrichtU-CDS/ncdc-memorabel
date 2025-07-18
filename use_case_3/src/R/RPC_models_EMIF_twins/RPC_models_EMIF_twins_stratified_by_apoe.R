@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1485,7 +1485,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "summary_memory_gfap_dr_apoe_pos" = summary_memory_gfap_dr_apoe_pos,
       "summary_memory_nfl_dr_apoe_pos" = summary_memory_nfl_dr_apoe_pos,
       "summary_memory_amyloid_b_ratio_dr_apoe_pos" = summary_memory_amyloid_b_ratio_dr_apoe_pos,
-      
+
       "summary_language_p_tau_apoe_neg" = summary_language_p_tau_apoe_neg,
       "summary_language_gfap_apoe_neg" = summary_language_gfap_apoe_neg,
       "summary_language_nfl_apoe_neg" = summary_language_nfl_apoe_neg,
@@ -1539,7 +1539,7 @@ RPC_models_EMIF_AD_PreclinAD <- function(df, config, model = "memory", exclude=c
       "summary_executive_stroop_3_nfl_apoe_pos" = summary_executive_stroop_3_nfl_apoe_pos,
       "summary_executive_stroop_3_amyloid_b_ratio_apoe_neg" = summary_executive_stroop_3_amyloid_b_ratio_apoe_neg,
       "summary_executive_stroop_3_amyloid_b_ratio_apoe_pos" = summary_executive_stroop_3_amyloid_b_ratio_apoe_pos,
-      
+
      "summary_executive_stroop_interf_p_tau_apoe_neg" = summary_executive_stroop_interf_p_tau_apoe_neg,
       "summary_executive_stroop_interf_p_tau_apoe_pos" = summary_executive_stroop_interf_p_tau_apoe_pos,
       "summary_executive_stroop_interf_gfap_apoe_neg" = summary_executive_stroop_interf_gfap_apoe_neg,

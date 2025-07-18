@@ -309,7 +309,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #Van der Elst, et al. norms for animal fluency
     if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
       df$priority_language_z <-
-        (df$priority_language_animal_fluency_60_correct - (24.777 + (df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
+        (df$priority_language_animal_fluency_60_correct - (24.777 + (df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -319,7 +319,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #Z-score: processing speed
     #LDST; Van der Elst norms - AGE IS NOT CENTERED IN THIS ARTICLE!
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
-      df$priority_processing_speed_ldst_z <- (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12))) / 5.63)
+      df$priority_processing_speed_ldst_z <- (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12))) / 5.63
     }  else {
       return(list(
         "error_message" = paste("processing speed test not found, no z-score transformation possible")
@@ -410,8 +410,8 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
       #make sure that if a value is missing it doesn't just divide the 1 available by 2
       if  (c("priority_attention_stroop_1_z") %in% colnames(df) & c("priority_attention_stroop_2_z") %in% colnames(df)) {
-        df$priority_attention_stroop_average_z <- ((df$priority_attention_stroop_1_z + df$priority_attention_stroop_2_z) /2),
-          ifelse(!is.na(df$priority_attention_stroop_1_z), df$priority_attention_stroop_1_z, df$priority_attention_stroop_2_z))
+        df$priority_attention_stroop_average_z <- ((df$priority_attention_stroop_1_z + df$priority_attention_stroop_2_z) /2)
+        # ifelse(!is.na(df$priority_attention_stroop_1_z), df$priority_attention_stroop_1_z, df$priority_attention_stroop_2_z))
       } else {
         return(list(
           "error_message" = paste("either stroop 1 or stroop 2 is missing, no average was calculated")
