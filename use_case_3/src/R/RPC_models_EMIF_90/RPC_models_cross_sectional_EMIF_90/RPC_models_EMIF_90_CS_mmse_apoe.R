@@ -133,10 +133,6 @@ RPC_models_EMIF_90_mmse_apoe <- function(df, config, model = "memory", exclude=c
       dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
-    #Take the square root of the number of follow-ups
-    df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
-
-
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
