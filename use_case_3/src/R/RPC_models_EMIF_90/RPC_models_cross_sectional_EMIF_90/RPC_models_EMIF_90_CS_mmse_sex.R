@@ -133,10 +133,6 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
       dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
-    #Take the square root of the number of follow-ups
-    df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
-
-
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
@@ -488,53 +484,53 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Overall models
     vtg::log$info("RIRS_mmse_p_tau")
-    RIRS_mmse_p_tau <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau,
+    RIRS_mmse_p_tau <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
                                  data = df,
                                  na.action = na.exclude)
     summary_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap")
-    RIRS_mmse_gfap <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap,
+    RIRS_mmse_gfap <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
                                 data = df,
                                 na.action = na.exclude)
     summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl")
-    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl,
+    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
                                data = df,
                                na.action = na.exclude)
     summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    RIRS_mmse_amyloid_b_ratio_log <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + log_amyloid_b_ratio_42_40,
+    RIRS_mmse_amyloid_b_ratio_log <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                data = df,
                                                na.action = na.exclude)
     summary_mmse_amyloid_b_ratio_log <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log, digits = 10)
 
     #2 way interaction models for sex
     vtg::log$info("RIRS_mmse_p_tau_2w")
-    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
+    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + p_tau
                                     + sex * p_tau,
                                     data = df,
                                     na.action = na.exclude)
     summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_2w")
-    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
+    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + gfap
                                    + sex * gfap,
                                    data = df,
                                    na.action = na.exclude)
     summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_2w")
-    RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
+    RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + nfl
                                   + sex * nfl,
                                   data = df,
                                   na.action = na.exclude)
     summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
-    RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ age_rec + sex + sqrt_prior_visit + education_low + education_high + log_amyloid_b_ratio_42_40
+    RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40
                                                   + sex * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   na.action = na.exclude)
