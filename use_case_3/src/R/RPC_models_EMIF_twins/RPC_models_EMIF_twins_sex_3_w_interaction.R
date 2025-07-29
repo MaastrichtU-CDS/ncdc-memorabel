@@ -284,7 +284,7 @@ RPC_models_EMIF_AD_sex_3_w_interaction <- function(df, config, model = "memory",
     #Z-score: Memory immediate recall
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (c("priority_memory_im_ravlt") %in% colnames(df)) {
+    if (c("priority_memory_im_15_word_list_correct") %in% colnames(df)) {
       df$priority_memory_im_z <-
       ((df$priority_memory_im_ravlt - (25.440 + (df$age_cent * -0.150) + (df$age_cent2 * -0.0016) + (df$sex_num * -2.217) + (df$education_low * -1.699) + (df$education_high * 1.467))) / 4.739)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
@@ -297,7 +297,7 @@ RPC_models_EMIF_AD_sex_3_w_interaction <- function(df, config, model = "memory",
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (c("priority_memory_dr_ravlt") %in% colnames(df)) {
+    if (c("priority_memory_dr_15_word_list_correct") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- ((df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
                                                                     (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
@@ -322,7 +322,7 @@ RPC_models_EMIF_AD_sex_3_w_interaction <- function(df, config, model = "memory",
         "error_message" = paste("language test not found, no z-score transformation possible")
       ))
     }
-
+    
    #Z-score: processing speed
     #SDST; Burggraaf et al (2016) norms
     ##education is coded in years for this formula.. this needs to be fixed
