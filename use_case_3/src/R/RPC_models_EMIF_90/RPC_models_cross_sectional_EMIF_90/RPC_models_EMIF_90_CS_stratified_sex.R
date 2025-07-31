@@ -121,11 +121,11 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(days_since_baseline >= 0)
+      dplyr::filter(days_since_baseline >= -365.25)
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
-    df <- subset(df, years_since_baseline >= 0)
+    df <- subset(df, years_since_baseline == 0)
 
     #Create variable for number of follow-ups
     df <- df %>%
@@ -314,7 +314,7 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
       df$priority_processing_speed_sdst_z <-
         ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
       df$priority_processing_speed_sdst <-  df$attention_test_sdst_60
-      df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
+      df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 10), -10)
     }
     else  {
       return(list(
@@ -349,9 +349,9 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
 
     #TMT shifting: NIP norms
     ##education and sex coded differently
-      df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
-      df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
-      df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
+      df$priority_executive_tmt_shift_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
+      df$priority_executive_tmt_shift_z <- pmax(pmin(df$priority_executive_tmt_shift_z, 5), -5)
+      df$priority_executive_tmt_shift_z <- -df$priority_executive_tmt_shift_z
     }
 
     df$education_low <- as.factor(df$education_low)
@@ -461,26 +461,11 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
       count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
     )
 
-
-    summary_post <- summary_stats(
-      df,
-      c(
-        "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "age_rec", "age_cent", "years_since_baseline", "mmse_total"
-      )
-    )
-
     if (nrow(df) == 0) {
       return(list(
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-
-    # Filter visit years with few patients
-    print(table(df$years_since_baseline))
-    df <- df %>%
-      dplyr::group_by(years_since_baseline) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 30)
-    print(table(df$years_since_baseline))
 
     #CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
      #Language
@@ -509,8 +494,7 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
      summary_CS_language_gfap_female <- sjPlot::tab_model(CS_language_gfap_female, digits = 10)
 
      vtg::log$info("CS_language_nfl_male")
-     CS_language_nfl_male <- lm(priority_language_z ~  age_rec + education_low + education_high +
-                                           nfl,
+     CS_language_nfl_male <- lm(priority_language_z ~  age_rec + education_low + education_high + nfl,
                                          data = subset(df, sex_num == 0),
                                          na.action = na.exclude)
      summary_CS_language_nfl_male <- sjPlot::tab_model(CS_language_nfl_male, digits = 10)
@@ -533,198 +517,198 @@ RPC_models_EMIF_90_stratified_sex <- function(df, config, model = "memory", excl
                                                        na.action = na.exclude)
      summary_CS_language_amyloid_b_ratio_female <- sjPlot::tab_model(CS_language_amyloid_b_ratio_female, digits = 10)
 
-    # Processing speed
+    # # Processing speed
     vtg::log$info("CS_processing_speed_p_tau_male")
-    CS_processing_speed_p_tau_male <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + p_tau,
+    CS_processing_speed_p_tau_male <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 0),
                                               na.action = na.exclude)
     summary_CS_processing_speed_p_tau_male <- sjPlot::tab_model(CS_processing_speed_p_tau_male, digits = 10)
 
-    vtg::log$info("CS_processing_speed_p_tau_female")
-    CS_processing_speed_p_tau_female <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + p_tau,
-                                              data = subset(df, sex_num == 1),
-                                              na.action = na.exclude)
-    summary_CS_processing_speed_p_tau_female <- sjPlot::tab_model(CS_processing_speed_p_tau_female, digits = 10)
+        vtg::log$info("CS_processing_speed_p_tau_female")
+        CS_processing_speed_p_tau_female <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + p_tau,
+                                                  data = subset(df, sex_num == 1),
+                                                  na.action = na.exclude)
+        summary_CS_processing_speed_p_tau_female <- sjPlot::tab_model(CS_processing_speed_p_tau_female, digits = 10)
 
-    vtg::log$info("CS_processing_speed_gfap_male")
-    CS_processing_speed_gfap_male <- nlme::lme(priority_processing_speed_sdst_z ~  age_rec + education_low + education_high + gfap,
-                                             data = subset(df, sex_num == 0),
-                                             na.action = na.exclude)
-    summary_CS_processing_speed_gfap_male <- sjPlot::tab_model(CS_processing_speed_gfap_male, digits = 10)
+        vtg::log$info("CS_processing_speed_gfap_male")
+        CS_processing_speed_gfap_male <- lm(priority_processing_speed_sdst_z ~  age_rec + education_low + education_high + gfap,
+                                                 data = subset(df, sex_num == 0),
+                                                 na.action = na.exclude)
+        summary_CS_processing_speed_gfap_male <- sjPlot::tab_model(CS_processing_speed_gfap_male, digits = 10)
 
-    vtg::log$info("CS_processing_speed_gfap_female")
-    CS_processing_speed_gfap_female <- nlme::lme(priority_processing_speed_sdst_z ~  age_rec + education_low + education_high + gfap,
-                                             data = subset(df, sex_num == 1),
-                                             na.action = na.exclude)
-    summary_CS_processing_speed_gfap_female <- sjPlot::tab_model(CS_processing_speed_gfap_female, digits = 10)
+        vtg::log$info("CS_processing_speed_gfap_female")
+        CS_processing_speed_gfap_female <- lm(priority_processing_speed_sdst_z ~  age_rec + education_low + education_high + gfap,
+                                                 data = subset(df, sex_num == 1),
+                                                 na.action = na.exclude)
+        summary_CS_processing_speed_gfap_female <- sjPlot::tab_model(CS_processing_speed_gfap_female, digits = 10)
 
-    vtg::log$info("CS_processing_speed_nfl_male")
-    CS_processing_speed_nfl_male <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + nfl,
-                                            data = subset(df, sex_num == 0),
-                                            na.action = na.exclude)
-    summary_CS_processing_speed_nfl_male <- sjPlot::tab_model(CS_processing_speed_nfl_male, digits = 10)
+        vtg::log$info("CS_processing_speed_nfl_male")
+        CS_processing_speed_nfl_male <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + nfl,
+                                                data = subset(df, sex_num == 0),
+                                                na.action = na.exclude)
+        summary_CS_processing_speed_nfl_male <- sjPlot::tab_model(CS_processing_speed_nfl_male, digits = 10)
 
-    vtg::log$info("CS_processing_speed_nfl_female")
-    CS_processing_speed_nfl_female <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + nfl,
-                                            data = subset(df, sex_num == 1),
-                                            na.action = na.exclude)
-    summary_CS_processing_speed_nfl_female <- sjPlot::tab_model(CS_processing_speed_nfl_female, digits = 10)
+        vtg::log$info("CS_processing_speed_nfl_female")
+        CS_processing_speed_nfl_female <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + nfl,
+                                                data = subset(df, sex_num == 1),
+                                                na.action = na.exclude)
+        summary_CS_processing_speed_nfl_female <- sjPlot::tab_model(CS_processing_speed_nfl_female, digits = 10)
 
-    vtg::log$info("CS_processing_speed_amyloid_b_ratio_male")
-    CS_processing_speed_amyloid_b_ratio_male <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
-                                                        data = subset(df, sex_num == 0),
-                                                        na.action = na.exclude)
-    summary_CS_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_male, digits = 10)
+        vtg::log$info("CS_processing_speed_amyloid_b_ratio_male")
+        CS_processing_speed_amyloid_b_ratio_male <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+                                                            data = subset(df, sex_num == 0),
+                                                            na.action = na.exclude)
+        summary_CS_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_male, digits = 10)
 
-    vtg::log$info("CS_processing_speed_amyloid_b_ratio_female")
-    CS_processing_speed_amyloid_b_ratio_female <- nlme::lme(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
-                                                        data = subset(df, sex_num == 1),
-                                                        na.action = na.exclude)
-    summary_CS_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_female, digits = 10)
+        vtg::log$info("CS_processing_speed_amyloid_b_ratio_female")
+        CS_processing_speed_amyloid_b_ratio_female <- lm(priority_processing_speed_sdst_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+                                                            data = subset(df, sex_num == 1),
+                                                            na.action = na.exclude)
+        summary_CS_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_female, digits = 10)
 
     #Attention
      vtg::log$info("CS_attention_tmt_p_tau_male")
-     CS_attention_tmt_p_tau_male <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + p_tau,
+     CS_attention_tmt_p_tau_male <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + p_tau,
                                                data = subset(df, sex_num == 0),
                                                na.action = na.exclude)
     summary_CS_attention_tmt_p_tau_male <- sjPlot::tab_model(CS_attention_tmt_p_tau_male, digits = 10)
 
     vtg::log$info("CS_attention_tmt_p_tau_female")
-    CS_attention_tmt_p_tau_female <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + p_tau,
+    CS_attention_tmt_p_tau_female <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 1),
                                               na.action = na.exclude)
     summary_CS_attention_tmt_p_tau_female <- sjPlot::tab_model(CS_attention_tmt_p_tau_female, digits = 10)
 
     vtg::log$info("CS_attention_tmt_gfap_male")
-    CS_attention_tmt_gfap_male <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + gfap,
+    CS_attention_tmt_gfap_male <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 0),
                                              na.action = na.exclude)
     summary_CS_attention_tmt_gfap_male <- sjPlot::tab_model(CS_attention_tmt_gfap_male, digits = 10)
 
     vtg::log$info("CS_attention_tmt_gfap_female")
-    CS_attention_tmt_gfap_female <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + gfap,
+    CS_attention_tmt_gfap_female <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 1),
                                              na.action = na.exclude)
     summary_CS_attention_tmt_gfap_female <- sjPlot::tab_model(CS_attention_tmt_gfap_female, digits = 10)
 
     vtg::log$info("CS_attention_tmt_nfl_male")
-    CS_attention_tmt_nfl_male <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + nfl,
+    CS_attention_tmt_nfl_male <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 0),
                                             na.action = na.exclude)
     summary_CS_attention_tmt_nfl_male <- sjPlot::tab_model(CS_attention_tmt_nfl_male, digits = 10)
 
     vtg::log$info("CS_attention_tmt_nfl_female")
-    CS_attention_tmt_nfl_female <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + nfl,
+    CS_attention_tmt_nfl_female <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 1),
                                             na.action = na.exclude)
     summary_CS_attention_tmt_nfl_female <- sjPlot::tab_model(CS_attention_tmt_nfl_female, digits = 10)
 
     vtg::log$info("CS_attention_tmt_amyloid_b_ratio_male")
-     CS_attention_tmt_amyloid_b_ratio_male <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+     CS_attention_tmt_amyloid_b_ratio_male <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, sex_num == 0),
                                                          na.action = na.exclude)
     summary_CS_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(CS_attention_tmt_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("CS_attention_tmt_amyloid_b_ratio_female")
-    CS_attention_tmt_amyloid_b_ratio_female <- nlme::lme(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+    CS_attention_tmt_amyloid_b_ratio_female <- lm(priority_attention_tmt_a_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == 1),
                                                         na.action = na.exclude)
     summary_CS_attention_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(CS_attention_tmt_amyloid_b_ratio_female, digits = 10)
 
     #Executive function
     vtg::log$info("CS_executive_tmt_p_tau_male")
-    CS_executive_tmt_p_tau_male <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + p_tau,
+    CS_executive_tmt_p_tau_male <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 0),
                                               na.action = na.exclude)
     summary_CS_executive_tmt_p_tau_male <- sjPlot::tab_model(CS_executive_tmt_p_tau_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_p_tau_female")
-    CS_executive_tmt_p_tau_female <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + p_tau,
+    CS_executive_tmt_p_tau_female <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 1),
                                               na.action = na.exclude)
     summary_CS_executive_tmt_p_tau_female <- sjPlot::tab_model(CS_executive_tmt_p_tau_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_gfap_male")
-    CS_executive_tmt_gfap_male <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + gfap,
+    CS_executive_tmt_gfap_male <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 0),
                                              na.action = na.exclude)
     summary_CS_executive_tmt_gfap_male <- sjPlot::tab_model(CS_executive_tmt_gfap_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_gfap_female")
-    CS_executive_tmt_gfap_female <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + gfap,
+    CS_executive_tmt_gfap_female <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 1),
                                              na.action = na.exclude)
     summary_CS_executive_tmt_gfap_female <- sjPlot::tab_model(CS_executive_tmt_gfap_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_nfl_male")
-    CS_executive_tmt_nfl_male <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + nfl,
+    CS_executive_tmt_nfl_male <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 0),
                                             na.action = na.exclude)
     summary_CS_executive_tmt_nfl_male <- sjPlot::tab_model(CS_executive_tmt_nfl_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_nfl_female")
-    CS_executive_tmt_nfl_female <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + nfl,
+    CS_executive_tmt_nfl_female <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 1),
                                             na.action = na.exclude)
     summary_CS_executive_tmt_nfl_female <- sjPlot::tab_model(CS_executive_tmt_nfl_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_amyloid_b_ratio_male")
-    CS_executive_tmt_amyloid_b_ratio_male <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+    CS_executive_tmt_amyloid_b_ratio_male <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == 0),
                                                         na.action = na.exclude)
     summary_CS_executive_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(CS_executive_tmt_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_amyloid_b_ratio_female")
-    CS_executive_tmt_amyloid_b_ratio_female <- nlme::lme(priority_executive_tmt_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+    CS_executive_tmt_amyloid_b_ratio_female <- lm(priority_executive_tmt_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == 1),
                                                         na.action = na.exclude)
     summary_CS_executive_tmt_amyloid_b_ratio_female <- sjPlot::tab_model(CS_executive_tmt_amyloid_b_ratio_female, digits = 10)
 
     #Interference score
     vtg::log$info("CS_executive_tmt_shift_p_tau_male")
-    CS_executive_tmt_shift_p_tau_male <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + p_tau,
+    CS_executive_tmt_shift_p_tau_male <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 0),
                                               na.action = na.exclude)
     summary_CS_executive_tmt_shift_p_tau_male <- sjPlot::tab_model(CS_executive_tmt_shift_p_tau_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_p_tau_female")
-    CS_executive_tmt_shift_p_tau_female <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + p_tau,
+    CS_executive_tmt_shift_p_tau_female <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == 1),
                                               na.action = na.exclude)
     summary_CS_executive_tmt_shift_p_tau_female <- sjPlot::tab_model(CS_executive_tmt_shift_p_tau_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_gfap_male")
-    CS_executive_tmt_shift_gfap_male <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + gfap,
+    CS_executive_tmt_shift_gfap_male <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 0),
                                              na.action = na.exclude)
     summary_CS_executive_tmt_shift_gfap_male <- sjPlot::tab_model(CS_executive_tmt_shift_gfap_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_gfap_female")
-    CS_executive_tmt_shift_gfap_female <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + gfap,
+    CS_executive_tmt_shift_gfap_female <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == 1),
                                              na.action = na.exclude)
     summary_CS_executive_tmt_shift_gfap_female <- sjPlot::tab_model(CS_executive_tmt_shift_gfap_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_nfl_male")
-    CS_executive_tmt_shift_nfl_male <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + nfl,
+    CS_executive_tmt_shift_nfl_male <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 0),
                                             na.action = na.exclude)
     summary_CS_executive_tmt_shift_nfl_male <- sjPlot::tab_model(CS_executive_tmt_shift_nfl_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_nfl_female")
-    CS_executive_tmt_shift_nfl_female <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + nfl,
+    CS_executive_tmt_shift_nfl_female <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == 1),
                                             na.action = na.exclude)
     summary_CS_executive_tmt_shift_nfl_female <- sjPlot::tab_model(CS_executive_tmt_shift_nfl_female, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_amyloid_b_ratio_male")
-    CS_executive_tmt_shift_amyloid_b_ratio_male <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+    CS_executive_tmt_shift_amyloid_b_ratio_male <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == 0),
                                                         na.action = na.exclude)
     summary_CS_executive_tmt_shift_amyloid_b_ratio_male <- sjPlot::tab_model(CS_executive_tmt_shift_amyloid_b_ratio_male, digits = 10)
 
     vtg::log$info("CS_executive_tmt_shift_amyloid_b_ratio_female")
-    CS_executive_tmt_shift_amyloid_b_ratio_female <- nlme::lme(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+    CS_executive_tmt_shift_amyloid_b_ratio_female <- lm(priority_executive_tmt_shift_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == 1),
                                                         na.action = na.exclude)
     summary_CS_executive_tmt_shift_amyloid_b_ratio_female <- sjPlot::tab_model(CS_executive_tmt_shift_amyloid_b_ratio_female, digits = 10)

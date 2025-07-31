@@ -120,11 +120,11 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(days_since_baseline >= 0)
+      dplyr::filter(days_since_baseline >= -365.25)
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
-    df <- subset(df, years_since_baseline >= 0)
+    df <- subset(df, years_since_baseline == 0)
 
     #Create variable for number of follow-ups
     df <- df %>%
@@ -181,6 +181,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
@@ -474,63 +475,56 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
       ))
     }
 
-    # Filter visit years with few patients
-    print(table(df$years_since_baseline))
-    df <- df %>%
-      dplyr::group_by(years_since_baseline) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 30)
-    print(table(df$years_since_baseline))
-
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Overall models
     vtg::log$info("RIRS_mmse_p_tau")
-    RIRS_mmse_p_tau <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
+    RIRS_mmse_p_tau <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
                                  data = df,
                                  na.action = na.exclude)
     summary_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap")
-    RIRS_mmse_gfap <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
+    RIRS_mmse_gfap <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
                                 data = df,
                                 na.action = na.exclude)
     summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl")
-    RIRS_mmse_nfl <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
+    RIRS_mmse_nfl <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
                                data = df,
                                na.action = na.exclude)
     summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    RIRS_mmse_amyloid_b_ratio_log <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
+    RIRS_mmse_amyloid_b_ratio_log <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                data = df,
                                                na.action = na.exclude)
     summary_mmse_amyloid_b_ratio_log <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log, digits = 10)
 
     #2 way interaction models for sex
     vtg::log$info("RIRS_mmse_p_tau_2w")
-    RIRS_mmse_p_tau_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + p_tau
+    RIRS_mmse_p_tau_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau
                                     + sex * p_tau,
                                     data = df,
                                     na.action = na.exclude)
     summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_2w")
-    RIRS_mmse_gfap_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + gfap
+    RIRS_mmse_gfap_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap
                                    + sex * gfap,
                                    data = df,
                                    na.action = na.exclude)
     summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_2w")
-    RIRS_mmse_nfl_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + nfl
+    RIRS_mmse_nfl_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl
                                   + sex * nfl,
                                   data = df,
                                   na.action = na.exclude)
     summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
-    RIRS_mmse_amyloid_b_ratio_log_2w <- nlme::lme(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40
+    RIRS_mmse_amyloid_b_ratio_log_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40
                                                   + sex * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   na.action = na.exclude)
@@ -539,59 +533,57 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     #models stratified for sex
     ##man = 0, female = 1
     vtg::log$info("RIRS_mmse_p_tau_male")
-    RIRS_mmse_p_tau_male <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + p_tau,
+    RIRS_mmse_p_tau_male <- lm(mmse_total ~ age_rec + education_low + education_high + p_tau,
                                       data = subset(df, sex_num == 0),
                                       na.action = na.exclude)
     summary_mmse_p_tau_male <- sjPlot::tab_model(RIRS_mmse_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_p_tau_female")
-    RIRS_mmse_p_tau_female <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + p_tau,
+    RIRS_mmse_p_tau_female <- lm(mmse_total ~ age_rec + education_low + education_high + p_tau,
                                         data = subset(df, sex_num == 1),
                                         na.action = na.exclude)
     summary_mmse_p_tau_female <- sjPlot::tab_model(RIRS_mmse_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_male")
-    RIRS_mmse_gfap_male <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + gfap,
+    RIRS_mmse_gfap_male <- lm(mmse_total ~ age_rec + education_low + education_high + gfap,
                                      data = subset(df, sex_num == 0),
                                      na.action = na.exclude,
                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
                                      correlation = nlme::corSymm(form = ~1 | id),
                                      method = "REML",
-                                     na.action = na.exclude,
-                                     control = nlme::lmeControl(opt='optim'))
+                                     control = lmControl(opt='optim'))
     summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male, digits = 10)
 
     # vtg::log$info("RIRS_mmse_gfap_female")
-    RIRS_mmse_gfap_female <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + gfap,
+    RIRS_mmse_gfap_female <- lm(mmse_total ~ age_rec + education_low + education_high + gfap,
                                        data = subset(df, sex_num == 1),
                                        na.action = na.exclude)
     summary_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmse_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_male")
-    RIRS_mmse_nfl_male <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + nfl,
+    RIRS_mmse_nfl_male <- lm(mmse_total ~ age_rec + education_low + education_high + nfl,
                                     data = subset(df, sex_num == 0),
                                     na.action = na.exclude)
     summary_mmse_nfl_male <- sjPlot::tab_model(RIRS_mmse_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_female")
-    RIRS_mmse_nfl_female <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + nfl,
+    RIRS_mmse_nfl_female <- lm(mmse_total ~ age_rec + education_low + education_high + nfl,
                                       data = subset(df, sex_num == 1),
                                       na.action = na.exclude,
                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
                                       correlation = nlme::corSymm(form = ~1 | id),
                                       method = "REML",
-                                      na.action = na.exclude,
-                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+                                      control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     summary_mmse_nfl_female <- sjPlot::tab_model(RIRS_mmse_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_male")
-    RIRS_mmse_amyloid_b_ratio_log_male <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
+    RIRS_mmse_amyloid_b_ratio_log_male <- lm(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                     data = subset(df, sex_num == 0),
                                                     na.action = na.exclude)
     summary_mmse_amyloid_b_ratio_log_male <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_female")
-    RIRS_mmse_amyloid_b_ratio_log_female <- nlme::lme(mmse_total ~ sqrt_prior_visit + age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
+    RIRS_mmse_amyloid_b_ratio_log_female <- lm(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                       data = subset(df, sex_num == 1),
                                                       na.action = na.exclude)
     summary_mmse_amyloid_b_ratio_log_female <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_female, digits = 10)
