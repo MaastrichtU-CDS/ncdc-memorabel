@@ -277,19 +277,19 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
-    #Z-score transformations
+    #Z-score transformations    
     #Z-score: Memory immediate recall
-    #used van der Elst for RAVLT
-    #used norm scores from ADC for logical memory
-    if (c("priority_memory_im_15_word_list_correct") %in% colnames(df)) {
-      df <- df[df$priority_memory_im_15_word_list_correct < 16 ,]
+    #used van der Elst for 15 WLT (this is the total recall for 3 trials)
+    if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-
-        ((df$priority_memory_im_15_word_list_correct - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
+      ((df$priority_memory_im_ravlt - (25.440 + (df$age_cent * -0.150) + (df$age_cent2 * -0.0016) + (df$sex_num * -2.217) + (df$education_low * -1.699) + (df$education_high * 1.467))) / 4.739)
+      df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
       return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
       ))
     }
+
 
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
@@ -307,11 +307,13 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
+
     #Z-score: language
     #Van der Elst, et al. norms for animal fluency
-     if (c("priority_language_animal_fluency") %in% colnames(df)) {
-    df$priority_language_z <-
-      (df$priority_language_animal_fluency - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797
+    if (c("priority_language_animal_fluency_60_correct") %in% colnames(df)) {
+      df$priority_language_z <-
+        ((df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797)
+      df$priority_language_z <- pmax(pmin(df$priority_language_z, 5), -5)
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -483,6 +485,8 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
         sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
         mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
