@@ -94,7 +94,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df <- merge(
       x = df_cogn_test[c("id", "date", "priority_memory_dr_15_word_list_correct",
                          "priority_memory_im_15_word_list_correct", "attention_test_tmt_a_time",
-                         "priority_executive_tmt_b_time", "priority_language_animal_fluency", "mmse_total")],
+                         "priority_executive_tmt_b_time", "priority_language_animal_fluency_60_correct", "mmse_total")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -127,11 +127,13 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(days_since_baseline >= 0)
+      dplyr::filter(days_since_baseline >= -365.25)
 
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
+
+    vtg::log$info("Number of rows in the dataset after baseline subset: '{nrow(df)}'")
 
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
@@ -277,11 +279,10 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
-    #Z-score transformations    
+    #Z-score transformations
     #Z-score: Memory immediate recall
-    #used van der Elst for 15 WLT 
+    #used van der Elst for 15 WLT
     if (c("priority_memory_im_15_word_list_correct") %in% colnames(df)) {
-      df <- df[df$priority_memory_im_15_word_list_correct < 16 ,]
       df$priority_memory_im_z <-
         ((df$priority_memory_im_15_word_list_correct - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
@@ -290,12 +291,11 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
           "error_message" = paste("immediate recall test not found, no z-score transformation possible")
         ))
       }
-    
+
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
     if (memory_dr_test_name == "priority_memory_dr_15_word_list_correct") {
-      df <- df[df$priority_memory_dr_15_word_list_correct < 16 ,]
       df$priority_memory_dr <- df$priority_memory_dr_15_word_list_correct
       df$priority_memory_dr_z <- (
       df$priority_memory_dr_15_word_list_correct - (10.924 + (df$age_cent * -0.073) +
@@ -445,7 +445,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
 
-#This makes a table with means and standard deviations for the following variables per days since baseline
     descriptives_per_year_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
       dplyr::filter(dplyr::n_distinct(id) > 2) %>%
@@ -485,8 +484,8 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
         sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
         mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
+        #mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+        #sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
@@ -584,17 +583,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
     )
 
-
-    summary_post <- summary_stats(
-      df,
-      c(
-        "p_tau", "amyloid_b_ratio_42_40", "gfap", "nfl", "priority_memory_dr",
-        "priority_memory_dr_z", "age_rec", "age_cent", "years_since_baseline",
-        "mmse_total", "priority_language_z",
-        "memory_delayed_recall_z", "memory_immediate_recall_z"
-      )
-    )
-
     if (nrow(df) == 0) {
       return(list(
         "error_message" = "Empty dataset: no participants selected"
@@ -605,7 +593,7 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     print(table(df$years_since_baseline))
     df <- df %>%
       dplyr::group_by(years_since_baseline) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 100)
+      dplyr::filter(dplyr::n_distinct(id) > 30)
     print(table(df$years_since_baseline))
 
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
@@ -1020,15 +1008,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     summary_priority_executive_shift_tmt_z_amyloid_b_ratio <- sjPlot::tab_model(RIRS_priority_executive_shift_tmt_z_amyloid_b_ratio)
 
     results <- list(
-      #"model_memory_p_tau_im" = model_summary(RIRS_memory_p_tau_im),
-      #"model_memory_gfap_im" = model_summary(RIRS_memory_gfap_im),
-      #"model_memory_nfl_im" = model_summary(RIRS_memory_nfl_im),
-      #"model_memory_amyloid_b_ratio_im" = model_summary(RIRS_memory_amyloid_b_ratio_im),
-      #"model_memory_p_tau_dr" = model_summary(RIRS_memory_p_tau_dr),
-      #"model_memory_gfap_dr" = model_summary(RIRS_memory_gfap_dr),
-      #"model_memory_nfl_dr" = model_summary(RIRS_memory_nfl_dr),
-      #"model_memory_amyloid_b_ratio_dr" = model_summary(RIRS_memory_amyloid_b_ratio_dr),
-
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
@@ -1042,11 +1021,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       # "model_mmse_gfap" = RIRS_mmse_gfap[model_info],
       # "model_mmse_nfl" = RIRS_mmse_nfl_dr[model_info],
       # "model_mmse_amyloid_b_ratio" = RIRS_mmse_amyloid_b_ratio_dr[model_info],
-
-      #"model_language_p_tau" = model_summary(RIRS_language_p_tau),
-      #"model_language_gfap" = model_summary(RIRS_language_gfap),
-      #"model_language_nfl" = model_summary(RIRS_language_nfl),
-      #"model_language_amyloid_b_ratio" = model_summary(RIRS_language_amyloid_b_ratio),
 
       "summary_language_p_tau" = summary_language_p_tau,
       "summary_language_gfap" = summary_language_gfap,
