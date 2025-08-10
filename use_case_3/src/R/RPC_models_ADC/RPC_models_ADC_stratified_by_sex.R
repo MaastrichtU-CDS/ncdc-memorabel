@@ -766,7 +766,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_attention_tmt_p_tau_male <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_male, digits = 10)
-    summary_attention_tmt_p_tau_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_p_tau_female")
     RIRS_attention_tmt_p_tau_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
@@ -839,7 +838,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      summary_attention_tmt_amyloid_b_ratio_male <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_male, digits = 10)
-    summary_attention_tmt_amyloid_b_ratio_male <- NULL
 
     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_female")
     RIRS_attention_tmt_amyloid_b_ratio_female <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
