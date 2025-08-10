@@ -683,7 +683,6 @@ RPC_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                             method = "REML",
                             na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-
     summary_priority_executive_tmt_b_p_tau <- sjPlot::tab_model(RIRS_priority_executive_tmt_b_p_tau, digits = 10)
 
     vtg::log$info("RIRS_priority_executive_tmt_b_time_gfap")
