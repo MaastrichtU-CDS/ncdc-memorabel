@@ -660,7 +660,9 @@ RPC_models_EMIF_AD_sex_3_w_interaction <- function(df, config, model = "memory",
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
     RIRS_memory_p_tau_dr <- nlme::lme(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline
-                                      + sex * amyloid_b_ratio_42_40 + sex * years_since_baseline + sex * amyloid_b_ratio_42_40 * years_since_baseline,
+                                      + sex * p_tau 
+                                      + sex * years_since_baseline 
+                                      + sex * p_tau * years_since_baseline,
                                       data = df,
                                       random = ~ years_since_baseline | id,
                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
