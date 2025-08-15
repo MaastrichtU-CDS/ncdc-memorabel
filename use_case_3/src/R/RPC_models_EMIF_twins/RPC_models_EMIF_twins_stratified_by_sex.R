@@ -335,7 +335,7 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
     if (c("attention_test_sdst_60") %in% colnames(df)) {
-      # df$attention_test_sdst_60 <- df$attention_test_sdst_90_ts * (2/3)
+      df$attention_test_sdst_60 <- (df$attention_test_sdst_60 * (2/3))
       df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
