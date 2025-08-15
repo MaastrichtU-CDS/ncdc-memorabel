@@ -431,9 +431,16 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
         sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
         mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
+        
     )
 
     #same as above but here the table sorted by sex
@@ -467,6 +474,12 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
         sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
         mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
@@ -501,6 +514,12 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
       sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
       mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
       sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+      mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+      sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+      mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+      sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+      mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+      sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse = sd(mmse_total, na.rm = TRUE),
       count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
