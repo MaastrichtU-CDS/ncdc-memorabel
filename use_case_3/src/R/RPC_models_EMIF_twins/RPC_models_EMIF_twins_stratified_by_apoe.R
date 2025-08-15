@@ -513,7 +513,13 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),        
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       )
 
     #same as above but here the table sorted by sex
@@ -544,7 +550,13 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),        
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -573,7 +585,13 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),        
+        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       )
 
     if (nrow(df) == 0) {
