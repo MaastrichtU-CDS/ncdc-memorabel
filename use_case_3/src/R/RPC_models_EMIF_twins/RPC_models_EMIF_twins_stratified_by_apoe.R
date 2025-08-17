@@ -513,9 +513,9 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),              
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
         mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),  
+        sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
         sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
         mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
@@ -552,7 +552,7 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),                
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
         mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
         sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
@@ -589,7 +589,7 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
         mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
         sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
         mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),                
+        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
         mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
         sd_priority_processing_speed_sdst_z = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
         mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
@@ -608,8 +608,8 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
 
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
-    vtg::log$info("RIRS_memory_p_tau_im_apoe_neg")
-    RIRS_memory_p_tau_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_p_tau_im_apoe_neg")
+    summary_memory_p_tau_im_apoe_neg <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "no"),
                                                random = ~ years_since_baseline | id,
@@ -618,10 +618,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_p_tau_im_apoe_neg, digits = 10)
+    # summary_memory_p_tau_im_apoe_neg <- sjPlot::tab_model(summary_memory_p_tau_im_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_p_tau_im_apoe_pos")
-    RIRS_memory_p_tau_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_p_tau_im_apoe_pos")
+    summary_memory_p_tau_im_apoe_pos <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -630,10 +630,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_p_tau_im_apoe_pos, digits = 10)
+    # summary_memory_p_tau_im_apoe_pos <- sjPlot::tab_model(summary_memory_p_tau_im_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_memory_gfap_im_apoe_neg")
-    RIRS_memory_gfap_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_gfap_im_apoe_neg")
+    summary_memory_gfap_im_apoe_neg <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -642,10 +642,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_gfap_im_apoe_neg, digits = 10)
+    # summary_memory_gfap_im_apoe_neg <- sjPlot::tab_model(summary_memory_gfap_im_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_gfap_im_apoe_pos")
-    RIRS_memory_gfap_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_gfap_im_apoe_pos")
+    summary_memory_gfap_im_apoe_pos <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -654,11 +654,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_gfap_im_apoe_pos, digits = 10)
+    # summary_memory_gfap_im_apoe_pos <- sjPlot::tab_model(summary_memory_gfap_im_apoe_pos, digits = 10)
 
 
-    # vtg::log$info("RIRS_memory_nfl_im_apoe_neg")
-    # RIRS_memory_nfl_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    # vtg::log$info("summary_memory_nfl_im_apoe_neg")
+    # summary_memory_nfl_im_apoe_neg <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "no"),
     #                                          random = ~ years_since_baseline | id,
@@ -667,10 +667,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_nfl_im_apoe_neg, digits = 10)
+    # # summary_memory_nfl_im_apoe_neg <- sjPlot::tab_model(summary_memory_nfl_im_apoe_neg, digits = 10)
 
-    # vtg::log$info("RIRS_memory_nfl_im_apoe_pos")
-    # RIRS_memory_nfl_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    # vtg::log$info("summary_memory_nfl_im_apoe_pos")
+    # summary_memory_nfl_im_apoe_pos <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -679,10 +679,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_nfl_im_apoe_pos, digits = 10)
+    # # summary_memory_nfl_im_apoe_pos <- sjPlot::tab_model(summary_memory_nfl_im_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_neg")
-    RIRS_memory_amyloid_b_ratio_im_apoe_neg <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_amyloid_b_ratio_im_apoe_neg")
+    summary_memory_amyloid_b_ratio_im_apoe_neg <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
@@ -691,10 +691,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_im_apoe_neg <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_apoe_neg, digits = 10)
+    # summary_memory_amyloid_b_ratio_im_apoe_neg <- sjPlot::tab_model(summary_memory_amyloid_b_ratio_im_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_im_apoe_pos")
-    RIRS_memory_amyloid_b_ratio_im_apoe_pos <- nlme::lme(priority_memory_im_z ~ years_since_baseline
+    vtg::log$info("summary_memory_amyloid_b_ratio_im_apoe_pos")
+    summary_memory_amyloid_b_ratio_im_apoe_pos <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -703,11 +703,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_im_apoe_pos <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_im_apoe_pos, digits = 10)
+    # summary_memory_amyloid_b_ratio_im_apoe_pos <- sjPlot::tab_model(summary_memory_amyloid_b_ratio_im_apoe_pos, digits = 10)
 
     #Delayed recall
-    vtg::log$info("RIRS_memory_p_tau_dr_apoe_neg")
-    RIRS_memory_p_tau_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_p_tau_dr_apoe_neg")
+    summary_memory_p_tau_dr_apoe_neg <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "no"),
                                                random = ~ years_since_baseline | id,
@@ -716,10 +716,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_p_tau_dr_apoe_neg, digits = 10)
+    # summary_memory_p_tau_dr_apoe_neg <- sjPlot::tab_model(summary_memory_p_tau_dr_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_p_tau_dr_apoe_pos")
-    RIRS_memory_p_tau_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_p_tau_dr_apoe_pos")
+    summary_memory_p_tau_dr_apoe_pos <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -728,10 +728,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_p_tau_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_p_tau_dr_apoe_pos, digits = 10)
+    # summary_memory_p_tau_dr_apoe_pos <- sjPlot::tab_model(summary_memory_p_tau_dr_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_memory_gfap_dr_apoe_neg")
-    RIRS_memory_gfap_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_gfap_dr_apoe_neg")
+    summary_memory_gfap_dr_apoe_neg <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -740,10 +740,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_gfap_dr_apoe_neg, digits = 10)
+    # summary_memory_gfap_dr_apoe_neg <- sjPlot::tab_model(summary_memory_gfap_dr_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_gfap_dr_apoe_pos")
-    RIRS_memory_gfap_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_gfap_dr_apoe_pos")
+    summary_memory_gfap_dr_apoe_pos <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -752,10 +752,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_gfap_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_gfap_dr_apoe_pos, digits = 10)
+    # summary_memory_gfap_dr_apoe_pos <- sjPlot::tab_model(summary_memory_gfap_dr_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_memory_nfl_dr_apoe_neg")
-    # RIRS_memory_nfl_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    # vtg::log$info("summary_memory_nfl_dr_apoe_neg")
+    # summary_memory_nfl_dr_apoe_neg <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "no"),
     #                                          random = ~ years_since_baseline | id,
@@ -764,10 +764,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_nfl_dr_apoe_neg, digits = 10)
+    # # summary_memory_nfl_dr_apoe_neg <- sjPlot::tab_model(summary_memory_nfl_dr_apoe_neg, digits = 10)
 
-    # vtg::log$info("RIRS_memory_nfl_dr_apoe_pos")
-    # RIRS_memory_nfl_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    # vtg::log$info("summary_memory_nfl_dr_apoe_pos")
+    # summary_memory_nfl_dr_apoe_pos <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -776,10 +776,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_nfl_dr_apoe_pos, digits = 10)
+    # # summary_memory_nfl_dr_apoe_pos <- sjPlot::tab_model(summary_memory_nfl_dr_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_neg")
-    RIRS_memory_amyloid_b_ratio_dr_apoe_neg <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_amyloid_b_ratio_dr_apoe_neg")
+    summary_memory_amyloid_b_ratio_dr_apoe_neg <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
@@ -788,10 +788,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_dr_apoe_neg <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_apoe_neg, digits = 10)
+    # summary_memory_amyloid_b_ratio_dr_apoe_neg <- sjPlot::tab_model(summary_memory_amyloid_b_ratio_dr_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_memory_amyloid_b_ratio_dr_apoe_pos")
-    RIRS_memory_amyloid_b_ratio_dr_apoe_pos <- nlme::lme(priority_memory_dr_z ~ years_since_baseline
+    vtg::log$info("summary_memory_amyloid_b_ratio_dr_apoe_pos")
+    summary_memory_amyloid_b_ratio_dr_apoe_pos <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -800,12 +800,12 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_memory_amyloid_b_ratio_dr_apoe_pos <- sjPlot::tab_model(RIRS_memory_amyloid_b_ratio_dr_apoe_pos, digits = 10)
+    # summary_memory_amyloid_b_ratio_dr_apoe_pos <- sjPlot::tab_model(summary_memory_amyloid_b_ratio_dr_apoe_pos, digits = 10)
 
 
     #Language
-    vtg::log$info("RIRS_language_p_tau_apoe_neg")
-    RIRS_language_p_tau_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_p_tau_apoe_neg")
+    summary_language_p_tau_apoe_neg <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -814,10 +814,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_language_p_tau_apoe_neg, digits = 10)
+    # summary_language_p_tau_apoe_neg <- sjPlot::tab_model(summary_language_p_tau_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_language_p_tau_apoe_pos")
-    RIRS_language_p_tau_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_p_tau_apoe_pos")
+    summary_language_p_tau_apoe_pos <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -826,10 +826,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_language_p_tau_apoe_pos, digits = 10)
+    # summary_language_p_tau_apoe_pos <- sjPlot::tab_model(summary_language_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_language_gfap_apoe_neg")
-    RIRS_language_gfap_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_gfap_apoe_neg")
+    summary_language_gfap_apoe_neg <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -838,10 +838,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_apoe_neg <- sjPlot::tab_model(RIRS_language_gfap_apoe_neg, digits = 10)
+    # summary_language_gfap_apoe_neg <- sjPlot::tab_model(summary_language_gfap_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_language_gfap_apoe_pos")
-    RIRS_language_gfap_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_gfap_apoe_pos")
+    summary_language_gfap_apoe_pos <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
@@ -850,10 +850,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_gfap_apoe_pos <- sjPlot::tab_model(RIRS_language_gfap_apoe_pos, digits = 10)
+    # summary_language_gfap_apoe_pos <- sjPlot::tab_model(summary_language_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_language_nfl_apoe_neg")
-    # RIRS_language_nfl_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+    # vtg::log$info("summary_language_nfl_apoe_neg")
+    # summary_language_nfl_apoe_neg <- safe_lme_summary(priority_language_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -862,10 +862,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_nfl_apoe_neg <- sjPlot::tab_model(RIRS_language_nfl_apoe_neg, digits = 10)
+    # # summary_language_nfl_apoe_neg <- sjPlot::tab_model(summary_language_nfl_apoe_neg, digits = 10)
 
-    # vtg::log$info("RIRS_language_nfl_apoe_pos")
-    # RIRS_language_nfl_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+    # vtg::log$info("summary_language_nfl_apoe_pos")
+    # summary_language_nfl_apoe_pos <- safe_lme_summary(priority_language_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "yes"),
     #                                         random = ~ years_since_baseline | id,
@@ -874,10 +874,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_nfl_apoe_pos <- sjPlot::tab_model(RIRS_language_nfl_apoe_pos, digits = 10)
+    # # summary_language_nfl_apoe_pos <- sjPlot::tab_model(summary_language_nfl_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_neg")
-    RIRS_language_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_amyloid_b_ratio_apoe_neg")
+    summary_language_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
@@ -886,10 +886,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_neg, digits = 10)
+    # summary_language_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_language_amyloid_b_ratio_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_language_amyloid_b_ratio_apoe_pos")
-    RIRS_language_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_language_z ~ years_since_baseline
+    vtg::log$info("summary_language_amyloid_b_ratio_apoe_pos")
+    summary_language_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_language_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "yes"),
                                                         random = ~ years_since_baseline | id,
@@ -898,11 +898,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_language_amyloid_b_ratio_apoe_pos, digits = 10)
+    # summary_language_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_language_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Processing speed
-    vtg::log$info("RIRS_processing_speed_p_tau_apoe_neg")
-    RIRS_processing_speed_p_tau_apoe_neg <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    vtg::log$info("summary_processing_speed_p_tau_apoe_neg")
+    summary_processing_speed_p_tau_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -911,11 +911,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_neg, digits = 10)
+    # summary_processing_speed_p_tau_apoe_neg <- sjPlot::tab_model(summary_processing_speed_p_tau_apoe_neg, digits = 10)
 
     #Processing speed
-     vtg::log$info("RIRS_processing_speed_p_tau_apoe_pos")
-     RIRS_processing_speed_p_tau_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+     vtg::log$info("summary_processing_speed_p_tau_apoe_pos")
+     summary_processing_speed_p_tau_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -924,10 +924,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_processing_speed_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_p_tau_apoe_pos, digits = 10)
+     # summary_processing_speed_p_tau_apoe_pos <- sjPlot::tab_model(summary_processing_speed_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_processing_speed_gfap_apoe_neg")
-    RIRS_processing_speed_gfap_apoe_neg <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    vtg::log$info("summary_processing_speed_gfap_apoe_neg")
+    summary_processing_speed_gfap_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -936,10 +936,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_neg, digits = 10)
+    # summary_processing_speed_gfap_apoe_neg <- sjPlot::tab_model(summary_processing_speed_gfap_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_processing_speed_gfap_apoe_pos")
-    RIRS_processing_speed_gfap_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    vtg::log$info("summary_processing_speed_gfap_apoe_pos")
+    summary_processing_speed_gfap_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
@@ -948,10 +948,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_gfap_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_gfap_apoe_pos, digits = 10)
+    # summary_processing_speed_gfap_apoe_pos <- sjPlot::tab_model(summary_processing_speed_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_processing_speed_nfl_apoe_neg")
-    # RIRS_processing_speed_nfl_apoe_neg <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    # vtg::log$info("summary_processing_speed_nfl_apoe_neg")
+    # summary_processing_speed_nfl_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -960,10 +960,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_processing_speed_nfl_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_neg, digits = 10)
+    # # summary_processing_speed_nfl_apoe_neg <- sjPlot::tab_model(summary_processing_speed_nfl_apoe_neg, digits = 10)
 
-    #  vtg::log$info("RIRS_processing_speed_nfl_apoe_pos")
-    #  RIRS_processing_speed_nfl_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    #  vtg::log$info("summary_processing_speed_nfl_apoe_pos")
+    #  summary_processing_speed_nfl_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -972,10 +972,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #  summary_processing_speed_nfl_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_nfl_apoe_pos, digits = 10)
+    #  # summary_processing_speed_nfl_apoe_pos <- sjPlot::tab_model(summary_processing_speed_nfl_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_neg")
-    RIRS_processing_speed_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+    vtg::log$info("summary_processing_speed_amyloid_b_ratio_apoe_neg")
+    summary_processing_speed_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
@@ -984,10 +984,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_processing_speed_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_neg, digits = 10)
+    # summary_processing_speed_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio_apoe_pos")
-     RIRS_processing_speed_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_processing_speed_sdst_z ~ years_since_baseline
+     vtg::log$info("summary_processing_speed_amyloid_b_ratio_apoe_pos")
+     summary_processing_speed_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -996,11 +996,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_processing_speed_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_processing_speed_amyloid_b_ratio_apoe_pos, digits = 10)
+     # summary_processing_speed_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Attention
-    vtg::log$info("RIRS_attention_tmt_p_tau_apoe_neg")
-    RIRS_attention_tmt_p_tau_apoe_neg <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    vtg::log$info("summary_attention_tmt_p_tau_apoe_neg")
+    summary_attention_tmt_p_tau_apoe_neg <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -1009,10 +1009,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_neg, digits = 10)
+    # summary_attention_tmt_p_tau_apoe_neg <- sjPlot::tab_model(summary_attention_tmt_p_tau_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_attention_tmt_p_tau_apoe_pos")
-     RIRS_attention_tmt_p_tau_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+     vtg::log$info("summary_attention_tmt_p_tau_apoe_pos")
+     summary_attention_tmt_p_tau_apoe_pos <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -1021,10 +1021,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_attention_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_p_tau_apoe_pos, digits = 10)
+     # summary_attention_tmt_p_tau_apoe_pos <- sjPlot::tab_model(summary_attention_tmt_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_attention_tmt_gfap_apoe_neg")
-    RIRS_attention_tmt_gfap_apoe_neg <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    vtg::log$info("summary_attention_tmt_gfap_apoe_neg")
+    summary_attention_tmt_gfap_apoe_neg <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1033,10 +1033,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_neg, digits = 10)
+    # summary_attention_tmt_gfap_apoe_neg <- sjPlot::tab_model(summary_attention_tmt_gfap_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_attention_tmt_gfap_apoe_pos")
-     RIRS_attention_tmt_gfap_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+     vtg::log$info("summary_attention_tmt_gfap_apoe_pos")
+     summary_attention_tmt_gfap_apoe_pos <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1045,10 +1045,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_attention_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_gfap_apoe_pos, digits = 10)
+     # summary_attention_tmt_gfap_apoe_pos <- sjPlot::tab_model(summary_attention_tmt_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_attention_tmt_nfl_apoe_neg")
-    # RIRS_attention_tmt_nfl_apoe_neg <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    # vtg::log$info("summary_attention_tmt_nfl_apoe_neg")
+    # summary_attention_tmt_nfl_apoe_neg <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -1057,10 +1057,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_attention_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_neg, digits = 10)
+    # # summary_attention_tmt_nfl_apoe_neg <- sjPlot::tab_model(summary_attention_tmt_nfl_apoe_neg, digits = 10)
 
-    #  vtg::log$info("RIRS_attention_tmt_nfl_apoe_pos")
-    #  RIRS_attention_tmt_nfl_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    #  vtg::log$info("summary_attention_tmt_nfl_apoe_pos")
+    #  summary_attention_tmt_nfl_apoe_pos <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -1069,10 +1069,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #  summary_attention_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_nfl_apoe_pos, digits = 10)
+    #  # summary_attention_tmt_nfl_apoe_pos <- sjPlot::tab_model(summary_attention_tmt_nfl_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_neg")
-    RIRS_attention_tmt_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+    vtg::log$info("summary_attention_tmt_amyloid_b_ratio_apoe_neg")
+    summary_attention_tmt_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
@@ -1081,10 +1081,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
+    # summary_attention_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_attention_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_attention_tmt_amyloid_b_ratio_apoe_pos")
-     RIRS_attention_tmt_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_attention_tmt_a_z ~ years_since_baseline
+     vtg::log$info("summary_attention_tmt_amyloid_b_ratio_apoe_pos")
+     summary_attention_tmt_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_attention_tmt_a_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -1093,11 +1093,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_attention_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_attention_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
+    # summary_attention_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_attention_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Executive function
-    vtg::log$info("RIRS_executive_tmt_p_tau_apoe_neg")
-    RIRS_executive_tmt_p_tau_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_p_tau_apoe_neg")
+    summary_executive_tmt_p_tau_apoe_neg <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -1106,10 +1106,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_neg, digits = 10)
+    # summary_executive_tmt_p_tau_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_p_tau_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_p_tau_apoe_pos")
-    RIRS_executive_tmt_p_tau_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_p_tau_apoe_pos")
+    summary_executive_tmt_p_tau_apoe_pos <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1118,10 +1118,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_p_tau_apoe_pos, digits = 10)
+    # summary_executive_tmt_p_tau_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_gfap_apoe_neg")
-    RIRS_executive_tmt_gfap_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_gfap_apoe_neg")
+    summary_executive_tmt_gfap_apoe_neg <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1130,10 +1130,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_neg, digits = 10)
+    # summary_executive_tmt_gfap_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_gfap_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_gfap_apoe_pos")
-    RIRS_executive_tmt_gfap_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_gfap_apoe_pos")
+    summary_executive_tmt_gfap_apoe_pos <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
@@ -1142,10 +1142,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_gfap_apoe_pos, digits = 10)
+    # summary_executive_tmt_gfap_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_gfap_apoe_pos, digits = 10)
 
-  #   vtg::log$info("RIRS_executive_tmt_nfl_apoe_neg")
-  #   RIRS_executive_tmt_nfl_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+  #   vtg::log$info("summary_executive_tmt_nfl_apoe_neg")
+  #   summary_executive_tmt_nfl_apoe_neg <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
   #                                           + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
   #                                           data = subset(df, apoe_carrier == "no"),
   #                                           random = ~ years_since_baseline | id,
@@ -1154,10 +1154,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
   #                                           method = "REML",
   #                                           na.action = na.exclude,
   #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-  #   summary_executive_tmt_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_neg, digits = 10)
+  #   # summary_executive_tmt_nfl_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_nfl_apoe_neg, digits = 10)
 
-  #    vtg::log$info("RIRS_executive_tmt_nfl_apoe_pos")
-  #    RIRS_executive_tmt_nfl_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+  #    vtg::log$info("summary_executive_tmt_nfl_apoe_pos")
+  #    summary_executive_tmt_nfl_apoe_pos <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
   #                                            + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
   #                                            data = subset(df, apoe_carrier == "yes"),
   #                                            random = ~ years_since_baseline | id,
@@ -1166,10 +1166,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
   #                                            method = "REML",
   #                                            na.action = na.exclude,
   #                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-  #  summary_executive_tmt_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_nfl_apoe_pos, digits = 10)
+  #  # summary_executive_tmt_nfl_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_nfl_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_neg")
-    RIRS_executive_tmt_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_amyloid_b_ratio_apoe_neg")
+    summary_executive_tmt_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
@@ -1178,10 +1178,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
+    # summary_executive_tmt_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_amyloid_b_ratio_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_amyloid_b_ratio_apoe_pos")
-     RIRS_executive_tmt_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_amyloid_b_ratio_apoe_pos")
+     summary_executive_tmt_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -1190,11 +1190,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
+     # summary_executive_tmt_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Interference score
-    vtg::log$info("RIRS_executive_tmt_shift_p_tau_apoe_neg")
-    RIRS_executive_tmt_shift_p_tau_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_shift_p_tau_apoe_neg")
+    summary_executive_tmt_shift_p_tau_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -1203,10 +1203,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_neg, digits = 10)
+    # summary_executive_tmt_shift_p_tau_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_shift_p_tau_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_tmt_shift_p_tau_apoe_pos")
-     RIRS_executive_tmt_shift_p_tau_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_tmt_shift_p_tau_apoe_pos")
+     summary_executive_tmt_shift_p_tau_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -1215,10 +1215,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-   summary_executive_tmt_shift_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_p_tau_apoe_pos, digits = 10)
+   # summary_executive_tmt_shift_p_tau_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_shift_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_shift_gfap_apoe_neg")
-    RIRS_executive_tmt_shift_gfap_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_shift_gfap_apoe_neg")
+    summary_executive_tmt_shift_gfap_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1227,10 +1227,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_tmt_shift_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_neg, digits = 10)
+    # summary_executive_tmt_shift_gfap_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_tmt_shift_gfap_apoe_pos")
-     RIRS_executive_tmt_shift_gfap_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_tmt_shift_gfap_apoe_pos")
+     summary_executive_tmt_shift_gfap_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1239,10 +1239,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_tmt_shift_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_gfap_apoe_pos, digits = 10)
+     # summary_executive_tmt_shift_gfap_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_neg")
-    # RIRS_executive_tmt_shift_nfl_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    # vtg::log$info("summary_executive_tmt_shift_nfl_apoe_neg")
+    # summary_executive_tmt_shift_nfl_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -1251,10 +1251,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_tmt_shift_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_neg, digits = 10)
+    # # summary_executive_tmt_shift_nfl_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_shift_nfl_apoe_neg, digits = 10)
 
-    #  vtg::log$info("RIRS_executive_tmt_shift_nfl_apoe_pos")
-    #  RIRS_executive_tmt_shift_nfl_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    #  vtg::log$info("summary_executive_tmt_shift_nfl_apoe_pos")
+    #  summary_executive_tmt_shift_nfl_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -1263,10 +1263,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #  summary_executive_tmt_shift_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_nfl_apoe_pos, digits = 10)
+    #  # summary_executive_tmt_shift_nfl_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_shift_nfl_apoe_pos, digits = 10)
 
-     vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg")
-     RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg")
+     summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
@@ -1275,10 +1275,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_neg, digits = 10)
+     # summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_executive_tmt_shift_amyloid_b_ratio_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos")
-     RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos")
+     summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -1287,11 +1287,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_tmt_shift_amyloid_b_ratio_apoe_pos, digits = 10)
+     # summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_executive_tmt_shift_amyloid_b_ratio_apoe_pos, digits = 10)
 
         #Stroop 3
-    vtg::log$info("RIRS_executive_stroop_3_p_tau_apoe_neg")
-    RIRS_executive_stroop_3_p_tau_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_3_p_tau_apoe_neg")
+    summary_executive_stroop_3_p_tau_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -1300,10 +1300,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_stroop_3_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_3_p_tau_apoe_neg, digits = 10)
+    # summary_executive_stroop_3_p_tau_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_3_p_tau_apoe_pos")
-     RIRS_executive_stroop_3_p_tau_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_3_p_tau_apoe_pos")
+     summary_executive_stroop_3_p_tau_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -1312,10 +1312,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-   summary_executive_stroop_3_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_3_p_tau_apoe_pos, digits = 10)
+   # summary_executive_stroop_3_p_tau_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_executive_stroop_3_gfap_apoe_neg")
-    RIRS_executive_stroop_3_gfap_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_3_gfap_apoe_neg")
+    summary_executive_stroop_3_gfap_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1324,10 +1324,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_stroop_3_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_3_gfap_apoe_neg, digits = 10)
+    # summary_executive_stroop_3_gfap_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_3_gfap_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_3_gfap_apoe_pos")
-     RIRS_executive_stroop_3_gfap_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_3_gfap_apoe_pos")
+     summary_executive_stroop_3_gfap_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1336,10 +1336,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_3_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_3_gfap_apoe_pos, digits = 10)
+     # summary_executive_stroop_3_gfap_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_3_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_executive_stroop_3_nfl_apoe_neg")
-    # RIRS_executive_stroop_3_nfl_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    # vtg::log$info("summary_executive_stroop_3_nfl_apoe_neg")
+    # summary_executive_stroop_3_nfl_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -1348,10 +1348,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_stroop_3_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_3_nfl_apoe_neg, digits = 10)
+    # # summary_executive_stroop_3_nfl_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_3_nfl_apoe_neg, digits = 10)
 
-    #  vtg::log$info("RIRS_executive_stroop_3_nfl_apoe_pos")
-    #  RIRS_executive_stroop_3_nfl_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    #  vtg::log$info("summary_executive_stroop_3_nfl_apoe_pos")
+    #  summary_executive_stroop_3_nfl_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -1360,10 +1360,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #  summary_executive_stroop_3_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_3_nfl_apoe_pos, digits = 10)
+    #  # summary_executive_stroop_3_nfl_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_3_nfl_apoe_pos, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_3_amyloid_b_ratio_apoe_neg")
-     RIRS_executive_stroop_3_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_apoe_neg")
+     summary_executive_stroop_3_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
@@ -1372,10 +1372,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_3_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_3_amyloid_b_ratio_apoe_neg, digits = 10)
+     # summary_executive_stroop_3_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_stroop_3_amyloid_b_ratio_apoe_pos")
-     RIRS_executive_stroop_3_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_apoe_pos")
+     summary_executive_stroop_3_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -1384,11 +1384,11 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_3_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_3_amyloid_b_ratio_apoe_pos, digits = 10)
+     # summary_executive_stroop_3_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_apoe_pos, digits = 10)
 
     #Stroop interference
-    vtg::log$info("RIRS_executive_stroop_interf_p_tau_apoe_neg")
-    RIRS_executive_stroop_interf_p_tau_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_interf_p_tau_apoe_neg")
+    summary_executive_stroop_interf_p_tau_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                               data = subset(df, apoe_carrier == "no"),
                                               random = ~ years_since_baseline | id,
@@ -1397,10 +1397,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_stroop_interf_p_tau_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_interf_p_tau_apoe_neg, digits = 10)
+    # summary_executive_stroop_interf_p_tau_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_interf_p_tau_apoe_pos")
-     RIRS_executive_stroop_interf_p_tau_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_interf_p_tau_apoe_pos")
+     summary_executive_stroop_interf_p_tau_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -1409,10 +1409,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                method = "REML",
                                                na.action = na.exclude,
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-   summary_executive_stroop_interf_p_tau_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_interf_p_tau_apoe_pos, digits = 10)
+   # summary_executive_stroop_interf_p_tau_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_apoe_pos, digits = 10)
 
-    vtg::log$info("RIRS_executive_stroop_interf_gfap_apoe_neg")
-    RIRS_executive_stroop_interf_gfap_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_interf_gfap_apoe_neg")
+    summary_executive_stroop_interf_gfap_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1421,10 +1421,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    summary_executive_stroop_interf_gfap_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_interf_gfap_apoe_neg, digits = 10)
+    # summary_executive_stroop_interf_gfap_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_apoe_neg, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_interf_gfap_apoe_pos")
-     RIRS_executive_stroop_interf_gfap_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_interf_gfap_apoe_pos")
+     summary_executive_stroop_interf_gfap_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1433,10 +1433,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                               method = "REML",
                                               na.action = na.exclude,
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_interf_gfap_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_interf_gfap_apoe_pos, digits = 10)
+     # summary_executive_stroop_interf_gfap_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_apoe_pos, digits = 10)
 
-    # vtg::log$info("RIRS_executive_stroop_interf_nfl_apoe_neg")
-    # RIRS_executive_stroop_interf_nfl_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    # vtg::log$info("summary_executive_stroop_interf_nfl_apoe_neg")
+    # summary_executive_stroop_interf_nfl_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, apoe_carrier == "no"),
     #                                         random = ~ years_since_baseline | id,
@@ -1445,10 +1445,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                         method = "REML",
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_executive_stroop_interf_nfl_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_interf_nfl_apoe_neg, digits = 10)
+    # # summary_executive_stroop_interf_nfl_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_interf_nfl_apoe_neg, digits = 10)
 
-    #  vtg::log$info("RIRS_executive_stroop_interf_nfl_apoe_pos")
-    #  RIRS_executive_stroop_interf_nfl_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    #  vtg::log$info("summary_executive_stroop_interf_nfl_apoe_pos")
+    #  summary_executive_stroop_interf_nfl_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                          data = subset(df, apoe_carrier == "yes"),
     #                                          random = ~ years_since_baseline | id,
@@ -1457,10 +1457,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
     #                                          method = "REML",
     #                                          na.action = na.exclude,
     #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #  summary_executive_stroop_interf_nfl_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_interf_nfl_apoe_pos, digits = 10)
+    #  # summary_executive_stroop_interf_nfl_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_interf_nfl_apoe_pos, digits = 10)
 
-     vtg::log$info("RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_neg")
-     RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_neg <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+     vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_apoe_neg")
+     summary_executive_stroop_interf_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "no"),
                                                          random = ~ years_since_baseline | id,
@@ -1469,10 +1469,10 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_interf_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_neg, digits = 10)
+     # summary_executive_stroop_interf_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_apoe_neg, digits = 10)
 
-    vtg::log$info("RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_pos")
-     RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_pos <- nlme::lme(priority_executive_shift_tmt_z ~ years_since_baseline
+    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_apoe_pos")
+     summary_executive_stroop_interf_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,
@@ -1481,7 +1481,7 @@ RPC_models_EMIF_AD_stratified_apoe <- function(df, config, model = "memory", exc
                                                          method = "REML",
                                                          na.action = na.exclude,
                                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     summary_executive_stroop_interf_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(RIRS_executive_stroop_interf_amyloid_b_ratio_apoe_pos, digits = 10)
+     # summary_executive_stroop_interf_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_apoe_pos, digits = 10)
 
 
     results <- list(
