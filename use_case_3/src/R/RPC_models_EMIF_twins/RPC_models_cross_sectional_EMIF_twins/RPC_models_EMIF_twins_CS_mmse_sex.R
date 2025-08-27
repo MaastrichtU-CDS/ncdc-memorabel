@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -181,6 +181,7 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
@@ -559,11 +560,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
         sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       )
 
-    if (nrow(df) == 0) {
-      return(list(
-        "error_message" = "Empty dataset: no participants selected"
-      ))
-
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Overall models
     vtg::log$info("RIRS_mmse_p_tau")
@@ -635,12 +631,8 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
 
     vtg::log$info("RIRS_mmse_gfap_male")
     RIRS_mmse_gfap_male <- lm(mmse_total ~ age_rec + education_low + education_high + gfap,
-                                     data = subset(df, sex_num == 0),
-                                     na.action = na.exclude,
-                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                     correlation = nlme::corSymm(form = ~1 | id),
-                                     method = "REML",
-                                     control = lmControl(opt='optim'))
+                                        data = subset(df, sex_num == 0),
+                                        na.action = na.exclude)
     summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_female")
@@ -702,8 +694,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
       "descriptives_per_year_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
-      "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
-      "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
       "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
@@ -719,4 +709,3 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
   })
   return(result)
 }
-    }

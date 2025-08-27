@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_cs_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_sex_2w <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -181,7 +181,6 @@ RPC_models_EMIF_AD_cs_mmse_apoe <- function(df, config, model = "memory", exclud
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
-    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
@@ -566,101 +565,247 @@ RPC_models_EMIF_AD_cs_mmse_apoe <- function(df, config, model = "memory", exclud
       ))
     }
 
-    # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
-    #2-way interactions for apoe
-    vtg::log$info("CS_mmse_p_tau_2w")
-    CS_mmse_p_tau_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * p_tau,
-                                    data = df,
-                                    na.action = na.exclude)
-    summary_CS_mmse_p_tau_2w <- sjPlot::tab_model(CS_mmse_p_tau_2w, digits = 10)
+#CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
+    #Immediate recall
+    vtg::log$info("CS_memory_p_tau_im_2w")
+    CS_memory_p_tau_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau
+                                      + sex * p_tau,
+                                      data = df,
+                                      na.action = na.exclude)
+    summary_CS_memory_p_tau_im_2w <- sjPlot::tab_model(CS_memory_p_tau_im_2w, digits = 10)
 
-    vtg::log$info("CS_mmse_gfap_2w")
-    CS_mmse_gfap_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
-                                   data = df,
-                                   na.action = na.exclude)
-    summary_CS_mmse_gfap_2w <- sjPlot::tab_model(CS_mmse_gfap_2w, digits = 10)
+    vtg::log$info("CS_memory_gfap_im_2w")
+    CS_memory_gfap_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                                     data = df,
+                                     na.action = na.exclude)
+    summary_CS_memory_gfap_im_2w <- sjPlot::tab_model(CS_memory_gfap_im_2w, digits = 10)
 
-    #vtg::log$info("CS_mmse_nfl_2w")
-    #CS_mmse_nfl_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
-    #                              data = df,
-    #                              na.action = na.exclude)
-    #summary_CS_mmse_nfl_2w <- sjPlot::tab_model(CS_mmse_nfl_2w, digits = 10)
+    #vtg::log$info("CS_memory_nfl_im_2w")
+    #CS_memory_nfl_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                                data = df,
+    #                                na.action = na.exclude)
+    #summary_CS_memory_nfl_im_2w <- sjPlot::tab_model(CS_memory_nfl_im_2w, digits = 10)
 
-    vtg::log$info("CS_mmse_amyloid_b_ratio_2w")
-    CS_mmse_amyloid_b_ratio_log_2w <- lm(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + log_amyloid_b_ratio_42_40
-                                                  + apoe_carrier * log_amyloid_b_ratio_42_40,
-                                                  data = df,
-                                                  na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_log_2w, digits = 10)
+    vtg::log$info("CS_memory_amyloid_b_ratio_im_2w")
+    CS_memory_amyloid_b_ratio_im_2w <- lm(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                                                data = df,
+                                                na.action = na.exclude)
+    summary_CS_memory_amyloid_b_ratio_im_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_im_2w, digits = 10)
 
-    # Apoe stratified models
-    ##APOE4_carrier no = F, APOE4_carrier yes = T
-    CS_mmse_p_tau_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
-                                          data = subset(df, apoe_carrier == "no"),
-                                          na.action = na.exclude)
-    summary_CS_mmse_p_tau_apoe_neg <- sjPlot::tab_model(CS_mmse_p_tau_apoe_neg, digits = 10)
+    #Delayed recall
+    vtg::log$info("CS_memory_p_tau_dr_2w")
+    CS_memory_p_tau_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau
+                                      + sex * amyloid_b_ratio_42_40,
+                                      data = df,
+                                      na.action = na.exclude)
+    summary_CS_memory_p_tau_dr_2w <- sjPlot::tab_model(CS_memory_p_tau_dr_2w, digits = 10)
 
-    CS_mmse_p_tau_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
-                                          data = subset(df, apoe_carrier == "yes"),
-                                          na.action = na.exclude)
-    summary_CS_mmse_p_tau_apoe_pos <- sjPlot::tab_model(CS_mmse_p_tau_apoe_pos, digits = 10)
+    vtg::log$info("CS_memory_gfap_dr_2w")
+    CS_memory_gfap_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                                     data = df,
+                                     na.action = na.exclude)
+    summary_CS_memory_gfap_dr_2w <- sjPlot::tab_model(CS_memory_gfap_dr_2w, digits = 10)
 
-    vtg::log$info("CS_mmse_gfap")
-    CS_mmse_gfap_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
-                                         data = subset(df, apoe_carrier == "no"),
-                                         na.action = na.exclude)
-    summary_CS_mmse_gfap_apoe_neg <- sjPlot::tab_model(CS_mmse_gfap_apoe_neg, digits = 10)
+    #vtg::log$info("CS_memory_nfl_dr_2w")
+    #CS_memory_nfl_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                                data = df,
+    #                                na.action = na.exclude)
+    #summary_CS_memory_nfl_dr_2w <- sjPlot::tab_model(CS_memory_nfl_dr_2w, digits = 10)
 
-    CS_mmse_gfap_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
-                                         data = subset(df, apoe_carrier == "yes"),
-                                         na.action = na.exclude)
-    summary_CS_mmse_gfap_apoe_pos <- sjPlot::tab_model(CS_mmse_gfap_apoe_pos, digits = 10)
-
-    #vtg::log$info("CS_mmse_nfl")
-    #CS_mmse_nfl_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
-    #                                    data = subset(df, apoe_carrier == "no"),
-    #                                    na.action = na.exclude)
-    #summary_CS_mmse_nfl_apoe_neg <- sjPlot::tab_model(CS_mmse_nfl_apoe_neg, digits = 10)
-
-    #CS_mmse_nfl_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
-    #                                    data = subset(df, apoe_carrier == "yes"),
-    #                                    na.action = na.exclude)
-    #summary_CS_mmse_nfl_apoe_pos <- sjPlot::tab_model(CS_mmse_nfl_apoe_pos, digits = 10)
-
-    vtg::log$info("CS_mmse_amyloid_b_ratio")
-    CS_mmse_amyloid_b_ratio_apoe_neg <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
-                                                    data = subset(df, apoe_carrier == "no"),
-                                                    na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_apoe_neg <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_neg, digits = 10)
-
-    vtg::log$info("CS_mmse_amyloid_b_ratio")
-    CS_mmse_amyloid_b_ratio_apoe_pos <- lm(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
-                                                    data = subset(df, apoe_carrier == "yes"),
-                                                    na.action = na.exclude)
-    summary_CS_mmse_amyloid_b_ratio_apoe_pos <- sjPlot::tab_model(CS_mmse_amyloid_b_ratio_apoe_pos, digits = 10)
+    vtg::log$info("CS_memory_amyloid_b_ratio_dr_2w")
+    CS_memory_amyloid_b_ratio_dr_2w <- lm(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                                                data = df,
+                                                na.action = na.exclude)
+    summary_CS_memory_amyloid_b_ratio_dr_2w <- sjPlot::tab_model(CS_memory_amyloid_b_ratio_dr_2w, digits = 10)
 
 
-    # model_summary can't extract from lme models
+     #Language
+     vtg::log$info("CS_language_p_tau_2w")
+     CS_language_p_tau_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau
+                                      + sex * p_tau,
+                                      data = df,
+                                      na.action = na.exclude)
+     summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w, digits = 10)
+
+     vtg::log$info("CS_language_gfap_2w")
+     CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                                     data = df,
+                                     na.action = na.exclude)
+     summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w, digits = 10)
+
+    # vtg::log$info("CS_language_nfl_2w")
+    # CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                                data = df,
+    #                                na.action = na.exclude)
+    # summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w, digits = 10)
+
+     vtg::log$info("CS_language_amyloid_b_ratio_2w")
+     CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                                                data = df,
+                                                na.action = na.exclude)
+     summary_CS_language_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_language_amyloid_b_ratio_2w, digits = 10)
+
+ # Processing speed
+    vtg::log$info("CS_processing_speed_p_tau_2w")
+    CS_processing_speed_p_tau_2w <- lm(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + p_tau
+                                             + sex * p_tau,
+                           data = df,
+                           na.action = na.exclude)
+    summary_CS_processing_speed_p_tau_2w <- sjPlot::tab_model(CS_processing_speed_p_tau_2w, digits = 10)
+
+    vtg::log$info("CS_processing_speed_gfap_2w")
+    CS_processing_speed_gfap_2w <- lm(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                           data = df,
+                           na.action = na.exclude)
+    summary_CS_processing_speed_gfap_2w <- sjPlot::tab_model(CS_processing_speed_gfap_2w, digits = 10)
+
+    #vtg::log$info("CS_processing_speed_nfl_2w")
+    #CS_processing_speed_nfl_2w <- lm(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                       data = df,
+    #                       na.action = na.exclude)
+    #summary_CS_processing_speed_nfl_2w <- sjPlot::tab_model(CS_processing_speed_nfl_2w, digits = 10)
+
+    vtg::log$info("CS_processing_speed_amyloid_b_ratio_2w")
+    CS_processing_speed_amyloid_b_ratio_2w <- lm(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                           data = df,
+                           na.action = na.exclude)
+    summary_CS_processing_speed_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_2w, digits = 10)
+
+    #Attention
+    vtg::log$info("CS_attention_tmt_a_p_tau_2w")
+    CS_attention_tmt_a_p_tau_2w <- lm(priority_attention_tmt_a_z ~ age_rec + sex + education_low + education_high + p_tau
+                                            + sex * p_tau,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_attention_tmt_a_p_tau_2w <- sjPlot::tab_model(CS_attention_tmt_a_p_tau_2w, digits = 10)
+
+    vtg::log$info("CS_attention_tmt_a_gfap_2w")
+    CS_attention_tmt_a_gfap_2w <- lm(priority_attention_tmt_a_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_attention_tmt_a_gfap_2w <- sjPlot::tab_model(CS_attention_tmt_a_gfap_2w, digits = 10)
+
+    #vtg::log$info("CS_attention_tmt_a_nfl_2w")
+    #CS_attention_tmt_a_nfl_2w <- lm(priority_attention_tmt_a_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                        data = df,
+    #                        na.action = na.exclude)
+    #summary_CS_attention_tmt_a_nfl_2w <- sjPlot::tab_model(CS_attention_tmt_a_nfl_2w, digits = 10)
+
+    vtg::log$info("CS_attention_tmt_a_amyloid_b_ratio_2w")
+    CS_attention_tmt_a_amyloid_b_ratio_2w <- lm(priority_attention_tmt_a_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_attention_tmt_a_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_attention_tmt_a_amyloid_b_ratio_2w, digits = 10)
+
+    #Executive function
+    vtg::log$info("CS_priority_executive_tmt_b_time_p_tau_2w")
+    CS_priority_executive_tmt_b_p_tau_2w <- lm(priority_executive_tmt_z ~ age_rec + sex + education_low + education_high + p_tau
+                                        + sex * p_tau,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_tmt_b_p_tau_2w <- sjPlot::tab_model(CS_priority_executive_tmt_b_p_tau_2w, digits = 10)
+
+    vtg::log$info("CS_priority_executive_tmt_b_time_gfap_2w")
+    CS_priority_executive_tmt_b_gfap_2w <- lm(priority_executive_tmt_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_tmt_b_gfap_2w <- sjPlot::tab_model(CS_priority_executive_tmt_b_gfap_2w, digits = 10)
+
+    #vtg::log$info("CS_priority_executive_tmt_b_time_nfl_2w")
+    #CS_priority_executive_tmt_b_nfl_2w <- lm(priority_executive_tmt_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                        data = df,
+    #                        na.action = na.exclude)
+    #summary_CS_priority_executive_tmt_b_nfl_2w <- sjPlot::tab_model(CS_priority_executive_tmt_b_nfl_2w, digits = 10)
+
+    vtg::log$info("CS_priority_executive_tmt_b_time_amyloid_b_ratio_2w")
+    CS_priority_executive_tmt_b_amyloid_b_ratio_2w <- lm(priority_executive_tmt_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_tmt_b_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_priority_executive_tmt_b_amyloid_b_ratio_2w, digits = 10)
+
+    #Interference score
+    vtg::log$info("CS_priority_executive_shift_tmt_z_p_tau_2w")
+    CS_priority_executive_shift_tmt_z_p_tau_2w <- lm(priority_executive_shift_tmt_z ~ age_rec + sex + education_low + education_high + p_tau
+                                      + sex * p_tau,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_shift_tmt_z_p_tau_2w <- sjPlot::tab_model(CS_priority_executive_shift_tmt_z_p_tau_2w, digits = 10)
+
+    vtg::log$info("CS_priority_executive_shift_tmt_z_gfap_2w")
+    CS_priority_executive_shift_tmt_z_gfap_2w <- lm(priority_executive_shift_tmt_z ~ age_rec + sex + education_low + education_high + gfap
+                                     + sex * gfap,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_shift_tmt_z_gfap_2w <- sjPlot::tab_model(CS_priority_executive_shift_tmt_z_gfap_2w, digits = 10)
+
+    #vtg::log$info("CS_priority_executive_shift_tmt_z_nfl_2w")
+    #CS_priority_executive_shift_tmt_z_nfl_2w <- lm(priority_executive_shift_tmt_z ~ age_rec + sex + education_low + education_high + nfl
+    #                                + sex * nfl,
+    #                        data = df,
+    #                        na.action = na.exclude)
+    #summary_CS_priority_executive_shift_tmt_z_nfl_2w <- sjPlot::tab_model(CS_priority_executive_shift_tmt_z_nfl_2w, digits = 10)
+
+    vtg::log$info("CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w")
+    CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w <- lm(priority_executive_shift_tmt_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40
+                                                + sex * amyloid_b_ratio_42_40,
+                            data = df,
+                            na.action = na.exclude)
+    summary_CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w <- sjPlot::tab_model(CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w, digits = 10)
+
+    #model_summary can't extract from lme models
     results <- list(
-      # "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
-      # "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
-      # "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
-      # "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
+      "summary_CS_memory_p_tau_im_2w" = summary_CS_memory_p_tau_im_2w,
+      "summary_CS_memory_gfap_im_2w" = summary_CS_memory_gfap_im_2w,
+      #"summary_CS_memory_nfl_im_2w" = summary_CS_memory_nfl_im_2w,
+      "summary_CS_memory_amyloid_b_ratio_im_2w" = summary_CS_memory_amyloid_b_ratio_im_2w,
 
-      "summary_CS_mmse_p_tau_2w" = summary_CS_mmse_p_tau_2w,
-      "summary_CS_mmse_gfap_2w" = summary_CS_mmse_gfap_2w,
-      #"summary_CS_mmse_nfl_2w" = summary_CS_mmse_nfl_2w,
-      "summary_CS_mmse_amyloid_b_ratio_log_2w" = summary_CS_mmse_amyloid_b_ratio_log_2w,
+      "summary_CS_memory_p_tau_dr_2w" = summary_CS_memory_p_tau_dr_2w,
+      "summary_CS_memory_gfap_dr_2w" = summary_CS_memory_gfap_dr_2w,
+      #"summary_CS_memory_nfl_dr_2w" = summary_CS_memory_nfl_dr_2w,
+      "summary_CS_memory_amyloid_b_ratio_dr_2w" = summary_CS_memory_amyloid_b_ratio_dr_2w,
 
-      "summary_CS_mmse_p_tau_apoe_neg" = summary_CS_mmse_p_tau_apoe_neg,
-      "summary_CS_mmse_gfap_apoe_neg" = summary_CS_mmse_gfap_apoe_neg,
-      #"summary_CS_mmse_nfl_apoe_neg" = summary_CS_mmse_nfl_apoe_neg,
-      "summary_CS_mmse_amyloid_b_ratio_apoe_neg" = summary_CS_mmse_amyloid_b_ratio_apoe_neg,
+       "summary_CS_language_p_tau_2w" = summary_CS_language_p_tau_2w,
+       "summary_CS_language_gfap_2w" = summary_CS_language_gfap_2w,
+      # "summary_CS_language_nfl_2w" = summary_CS_language_nfl_2w,
+       "summary_CS_language_amyloid_b_ratio_2w" = summary_CS_language_amyloid_b_ratio_2w,
 
-      "summary_CS_mmse_p_tau_apoe_pos" = summary_CS_mmse_p_tau_apoe_pos,
-      "summary_CS_mmse_gfap_apoe_pos" = summary_CS_mmse_gfap_apoe_pos,
-      #"summary_CS_mmse_nfl_apoe_pos" = summary_CS_mmse_nfl_apoe_pos,
-      "summary_CS_mmse_amyloid_b_ratio_apoe_pos" = summary_CS_mmse_amyloid_b_ratio_apoe_pos,
+      "summary_CS_processing_speed_p_tau_2w" = summary_CS_processing_speed_p_tau_2w,
+      "summary_CS_processing_speed_gfap_2w" = summary_CS_processing_speed_gfap_2w,
+      #"summary_CS_processing_speed_nfl_2w" = summary_CS_processing_speed_nfl_2w,
+      "summary_CS_processing_speed_amyloid_b_ratio_2w" = summary_CS_processing_speed_amyloid_b_ratio_2w,
+
+      "summary_CS_attention_tmt_a_p_tau_2w" = summary_CS_attention_tmt_a_p_tau_2w,
+      "summary_CS_attention_tmt_a_gfap_2w" = summary_CS_attention_tmt_a_gfap_2w,
+      #"summary_CS_attention_tmt_a_nfl_2w" = summary_CS_attention_tmt_a_nfl_2w,
+      "summary_CS_attention_tmt_a_amyloid_b_ratio_2w" = summary_CS_attention_tmt_a_amyloid_b_ratio_2w,
+
+      "summary_CS_priority_executive_tmt_b_p_tau_2w" = summary_CS_priority_executive_tmt_b_p_tau_2w,
+      "summary_CS_priority_executive_tmt_b_gfap_2w" = summary_CS_priority_executive_tmt_b_gfap_2w,
+      #"summary_CS_priority_executive_tmt_b_nfl_2w" = summary_CS_priority_executive_tmt_b_nfl_2w,
+      "summary_CS_priority_executive_tmt_b_amyloid_b_ratio_2w" = summary_CS_priority_executive_tmt_b_amyloid_b_ratio_2w,
+
+      "summary_CS_priority_executive_shift_tmt_z_p_tau_2w" = summary_CS_priority_executive_shift_tmt_z_p_tau_2w,
+      "summary_CS_priority_executive_shift_tmt_z_gfap_2w" = summary_CS_priority_executive_shift_tmt_z_gfap_2w,
+      #"summary_CS_priority_executive_shift_tmt_z_nfl_2w" = summary_CS_priority_executive_shift_tmt_z_nfl_2w,
+      "summary_CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w" = summary_CS_priority_executive_shift_tmt_z_amyloid_b_ratio_2w,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,

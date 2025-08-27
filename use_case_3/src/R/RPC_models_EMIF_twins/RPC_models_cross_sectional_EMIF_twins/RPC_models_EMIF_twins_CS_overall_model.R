@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -622,19 +622,19 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
                                       data = df,
                                       na.action = na.exclude)
      summary_CS_language_p_tau <- sjPlot::tab_model(CS_language_p_tau)
-    
+
      vtg::log$info("CS_language_gfap")
      CS_language_gfap <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude)
      summary_CS_language_gfap <- sjPlot::tab_model(CS_language_gfap)
-    
+
      #vtg::log$info("CS_language_nfl")
      #CS_language_nfl <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
      #                               data = df,
      #                               na.action = na.exclude)
      #summary_CS_language_nfl <- sjPlot::tab_model(CS_language_nfl)
-    
+
      vtg::log$info("CS_language_amyloid_b_ratio")
      CS_language_amyloid_b_ratio <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
@@ -786,7 +786,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
       "descriptives_per_year_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
-      "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table.
       "descriptives_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")

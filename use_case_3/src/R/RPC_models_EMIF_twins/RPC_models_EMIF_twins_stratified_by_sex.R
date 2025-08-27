@@ -754,29 +754,29 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_memory_gfap_dr_female <- sjPlot::tab_model(summary_memory_gfap_dr_female, digits = 10)
 
-    vtg::log$info("summary_memory_nfl_dr_male")
-    summary_memory_nfl_dr_male <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                         + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
-                                         data = subset(df, sex_num == 0),
-                                         random = ~ years_since_baseline | id,
-                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                         correlation = nlme::corSymm(form = ~1 | id),
-                                         method = "REML",
-                                         na.action = na.exclude,
-                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_dr_male <- sjPlot::tab_model(summary_memory_nfl_dr_male, digits = 10)
-
-    vtg::log$info("summary_memory_nfl_dr_female")
-    summary_memory_nfl_dr_female <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
-                                           + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
-                                           data = subset(df, sex_num == 1),
-                                           random = ~ years_since_baseline | id,
-                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                           correlation = nlme::corSymm(form = ~1 | id),
-                                           method = "REML",
-                                           na.action = na.exclude,
-                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_memory_nfl_dr_female <- sjPlot::tab_model(summary_memory_nfl_dr_female, digits = 10)
+    # vtg::log$info("summary_memory_nfl_dr_male")
+    # summary_memory_nfl_dr_male <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
+    #                                      + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                      data = subset(df, sex_num == 0),
+    #                                      random = ~ years_since_baseline | id,
+    #                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                      correlation = nlme::corSymm(form = ~1 | id),
+    #                                      method = "REML",
+    #                                      na.action = na.exclude,
+    #                                      control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # # summary_memory_nfl_dr_male <- sjPlot::tab_model(summary_memory_nfl_dr_male, digits = 10)
+    #
+    # vtg::log$info("summary_memory_nfl_dr_female")
+    # summary_memory_nfl_dr_female <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
+    #                                        + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                        data = subset(df, sex_num == 1),
+    #                                        random = ~ years_since_baseline | id,
+    #                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                        correlation = nlme::corSymm(form = ~1 | id),
+    #                                        method = "REML",
+    #                                        na.action = na.exclude,
+    #                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # # summary_memory_nfl_dr_female <- sjPlot::tab_model(summary_memory_nfl_dr_female, digits = 10)
 
     vtg::log$info("summary_memory_amyloid_b_ratio_dr_male")
     summary_memory_amyloid_b_ratio_dr_male <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + sqrt_prior_visit
@@ -852,29 +852,29 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
                                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_language_gfap_female <- sjPlot::tab_model(summary_language_gfap_female, digits = 10)
 
-    vtg::log$info("summary_language_nfl_male")
-    summary_language_nfl_male <- safe_lme_summary(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                        + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
-                                        data = subset(df, sex_num == 0),
-                                        random = ~ years_since_baseline | id,
-                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                        correlation = nlme::corSymm(form = ~1 | id),
-                                        method = "REML",
-                                        na.action = na.exclude,
-                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_nfl_male <- sjPlot::tab_model(summary_language_nfl_male, digits = 10)
-
-    vtg::log$info("summary_language_nfl_female")
-    summary_language_nfl_female <- safe_lme_summary(priority_language_z ~ years_since_baseline + sqrt_prior_visit
-                                          + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
-                                          data = subset(df, sex_num == 1),
-                                          random = ~ years_since_baseline | id,
-                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                          correlation = nlme::corSymm(form = ~1 | id),
-                                          method = "REML",
-                                          na.action = na.exclude,
-                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # summary_language_nfl_female <- sjPlot::tab_model(summary_language_nfl_female, digits = 10)
+    # vtg::log$info("summary_language_nfl_male")
+    # summary_language_nfl_male <- safe_lme_summary(priority_language_z ~ years_since_baseline + sqrt_prior_visit
+    #                                     + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                     data = subset(df, sex_num == 0),
+    #                                     random = ~ years_since_baseline | id,
+    #                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                     correlation = nlme::corSymm(form = ~1 | id),
+    #                                     method = "REML",
+    #                                     na.action = na.exclude,
+    #                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # # summary_language_nfl_male <- sjPlot::tab_model(summary_language_nfl_male, digits = 10)
+    #
+    # vtg::log$info("summary_language_nfl_female")
+    # summary_language_nfl_female <- safe_lme_summary(priority_language_z ~ years_since_baseline + sqrt_prior_visit
+    #                                       + age_rec + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                       data = subset(df, sex_num == 1),
+    #                                       random = ~ years_since_baseline | id,
+    #                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                       correlation = nlme::corSymm(form = ~1 | id),
+    #                                       method = "REML",
+    #                                       na.action = na.exclude,
+    #                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # # summary_language_nfl_female <- sjPlot::tab_model(summary_language_nfl_female, digits = 10)
 
     vtg::log$info("summary_language_amyloid_b_ratio_male")
     summary_language_amyloid_b_ratio_male <- safe_lme_summary(priority_language_z ~ years_since_baseline + sqrt_prior_visit
@@ -902,102 +902,102 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
 
 
     #Processing speed
-    # vtg::log$info("summary_processing_speed_p_tau_male")
-    # print(df$priority_processing_speed_sdst_z)
-    # summary_processing_speed_p_tau_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "0"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_p_tau_male <- sjPlot::tab_model(summary_processing_speed_p_tau_male, digits = 10)
+    vtg::log$info("summary_processing_speed_p_tau_male")
+    print(df$priority_processing_speed_sdst_z)
+    summary_processing_speed_p_tau_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "0"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_p_tau_male <- sjPlot::tab_model(summary_processing_speed_p_tau_male, digits = 10)
+
+    vtg::log$info("summary_processing_speed_p_tau_female")
+    summary_processing_speed_p_tau_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "1"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_p_tau_female <- sjPlot::tab_model(summary_processing_speed_p_tau_female, digits = 10)
+
+    vtg::log$info("summary_processing_speed_gfap_male")
+    summary_processing_speed_gfap_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "0"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_gfap_male <- sjPlot::tab_model(summary_processing_speed_gfap_male, digits = 10)
+
+    vtg::log$info("summary_processing_speed_gfap_female")
+    summary_processing_speed_gfap_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "1"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_gfap_female <- sjPlot::tab_model(summary_processing_speed_gfap_female, digits = 10)
+
+    # vtg::log$info("summary_processing_speed_nfl_male")
+    # summary_processing_speed_nfl_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+    #                                         + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                         data = subset(df, sex_num == "0"),
+    #                                         random = ~ years_since_baseline | id,
+    #                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                         correlation = nlme::corSymm(form = ~1 | id),
+    #                                         method = "REML",
+    #                                         na.action = na.exclude,
+    #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # # summary_processing_speed_nfl_male <- sjPlot::tab_model(summary_processing_speed_nfl_male, digits = 10)
     #
-    # vtg::log$info("summary_processing_speed_p_tau_female")
-    # summary_processing_speed_p_tau_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "1"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_p_tau_female <- sjPlot::tab_model(summary_processing_speed_p_tau_female, digits = 10)
-    #
-    # vtg::log$info("summary_processing_speed_gfap_male")
-    # summary_processing_speed_gfap_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "0"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_gfap_male <- sjPlot::tab_model(summary_processing_speed_gfap_male, digits = 10)
-    #
-    # vtg::log$info("summary_processing_speed_gfap_female")
-    # summary_processing_speed_gfap_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "1"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_gfap_female <- sjPlot::tab_model(summary_processing_speed_gfap_female, digits = 10)
-    #
-    # # vtg::log$info("summary_processing_speed_nfl_male")
-    # # summary_processing_speed_nfl_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    # #                                         + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
-    # #                                         data = subset(df, sex_num == "0"),
-    # #                                         random = ~ years_since_baseline | id,
-    # #                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    # #                                         correlation = nlme::corSymm(form = ~1 | id),
-    # #                                         method = "REML",
-    # #                                         na.action = na.exclude,
-    # #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # # summary_processing_speed_nfl_male <- sjPlot::tab_model(summary_processing_speed_nfl_male, digits = 10)
-    # #
-    # # vtg::log$info("summary_processing_speed_nfl_female")
-    # # summary_processing_speed_nfl_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    # #                                         + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
-    # #                                         data = subset(df, sex_num == "1"),
-    # #                                         random = ~ years_since_baseline | id,
-    # #                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    # #                                         correlation = nlme::corSymm(form = ~1 | id),
-    # #                                         method = "REML",
-    # #                                         na.action = na.exclude,
-    # #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # # summary_processing_speed_nfl_female <- sjPlot::tab_model(summary_processing_speed_nfl_female, digits = 10)
-    #
-    # vtg::log$info("summary_processing_speed_amyloid_b_ratio_male")
-    # summary_processing_speed_amyloid_b_ratio_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                                     + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                                                     data = subset(df, sex_num == "0"),
-    #                                                     random = ~ years_since_baseline | id,
-    #                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                                     correlation = nlme::corSymm(form = ~1 | id),
-    #                                                     method = "REML",
-    #                                                     na.action = na.exclude,
-    #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_male, digits = 10)
-    #
-    # vtg::log$info("summary_processing_speed_amyloid_b_ratio_female")
-    # summary_processing_speed_amyloid_b_ratio_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
-    #                                                     + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                                                     data = subset(df, sex_num == "1"),
-    #                                                     random = ~ years_since_baseline | id,
-    #                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                                     correlation = nlme::corSymm(form = ~1 | id),
-    #                                                     method = "REML",
-    #                                                     na.action = na.exclude,
-    #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_female, digits = 10)
+    # vtg::log$info("summary_processing_speed_nfl_female")
+    # summary_processing_speed_nfl_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+    #                                         + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
+    #                                         data = subset(df, sex_num == "1"),
+    #                                         random = ~ years_since_baseline | id,
+    #                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
+    #                                         correlation = nlme::corSymm(form = ~1 | id),
+    #                                         method = "REML",
+    #                                         na.action = na.exclude,
+    #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_nfl_female <- sjPlot::tab_model(summary_processing_speed_nfl_female, digits = 10)
+
+    vtg::log$info("summary_processing_speed_amyloid_b_ratio_male")
+    summary_processing_speed_amyloid_b_ratio_male <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "0"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_amyloid_b_ratio_male <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_male, digits = 10)
+
+    vtg::log$info("summary_processing_speed_amyloid_b_ratio_female")
+    summary_processing_speed_amyloid_b_ratio_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "1"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(summary_processing_speed_amyloid_b_ratio_female, digits = 10)
 
     #Attention
      vtg::log$info("summary_attention_tmt_p_tau_male")
@@ -1218,31 +1218,31 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_executive_tmt_shift_p_tau_female <- sjPlot::tab_model(summary_executive_tmt_shift_p_tau_female, digits = 10)
 
-    # vtg::log$info("summary_executive_tmt_shift_gfap_male")
-    # summary_executive_tmt_shift_gfap_male <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "0"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_tmt_shift_gfap_male <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_tmt_shift_gfap_female")
-    # summary_executive_tmt_shift_gfap_female <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "1"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_tmt_shift_gfap_female <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_female, digits = 10)
+    vtg::log$info("summary_executive_tmt_shift_gfap_male")
+    summary_executive_tmt_shift_gfap_male <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "0"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_tmt_shift_gfap_male <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_male, digits = 10)
 
-    # vtg::log$info("summary_executive_tmt_shift_nfl_male")
+    vtg::log$info("summary_executive_tmt_shift_gfap_female")
+    summary_executive_tmt_shift_gfap_female <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "1"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_tmt_shift_gfap_female <- sjPlot::tab_model(summary_executive_tmt_shift_gfap_female, digits = 10)
+
+    vtg::log$info("summary_executive_tmt_shift_nfl_male")
     # summary_executive_tmt_shift_nfl_male <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline
     #                                         + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
     #                                         data = subset(df, sex_num == "0"),
@@ -1292,52 +1292,52 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
 
     #Stroop 3
     vtg::log$info("summary_executive_stroop_3_p_tau_male")
-    # summary_executive_stroop_3_p_tau_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "0"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_p_tau_male <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_3_p_tau_female")
-    # summary_executive_stroop_3_p_tau_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "1"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_p_tau_female <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_female, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_3_gfap_male")
-    # summary_executive_stroop_3_gfap_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "0"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_gfap_male <- sjPlot::tab_model(summary_executive_stroop_3_gfap_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_3_gfap_female")
-    # summary_executive_stroop_3_gfap_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "1"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_gfap_female <- sjPlot::tab_model(summary_executive_stroop_3_gfap_female, digits = 10)
+    summary_executive_stroop_3_p_tau_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "0"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_p_tau_male <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_p_tau_female")
+    summary_executive_stroop_3_p_tau_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "1"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_p_tau_female <- sjPlot::tab_model(summary_executive_stroop_3_p_tau_female, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_gfap_male")
+    summary_executive_stroop_3_gfap_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "0"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_gfap_male <- sjPlot::tab_model(summary_executive_stroop_3_gfap_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_gfap_female")
+    summary_executive_stroop_3_gfap_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "1"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_gfap_female <- sjPlot::tab_model(summary_executive_stroop_3_gfap_female, digits = 10)
 
     # vtg::log$info("summary_executive_stroop_3_nfl_male")
     # summary_executive_stroop_3_nfl_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
@@ -1363,78 +1363,78 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # # summary_executive_stroop_3_nfl_female <- sjPlot::tab_model(summary_executive_stroop_3_nfl_female, digits = 10)
 
-    # vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_male")
-    # summary_executive_stroop_3_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                                     + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                                                     data = subset(df, sex_num == "0"),
-    #                                                     random = ~ years_since_baseline | id,
-    #                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                                     correlation = nlme::corSymm(form = ~1 | id),
-    #                                                     method = "REML",
-    #                                                     na.action = na.exclude,
-    #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_amyloid_b_ratio_male <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_female")
-    # summary_executive_stroop_3_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
-    #                                                     + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-    #                                                     data = subset(df, sex_num == "1"),
-    #                                                     random = ~ years_since_baseline | id,
-    #                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                                     correlation = nlme::corSymm(form = ~1 | id),
-    #                                                     method = "REML",
-    #                                                     na.action = na.exclude,
-    #                                                     control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_3_amyloid_b_ratio_female <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_female, digits = 10)
-    #
-    # #Stroop interference
-    # vtg::log$info("summary_executive_stroop_interf_p_tau_male")
-    # summary_executive_stroop_interf_p_tau_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "0"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_interf_p_tau_male <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_interf_p_tau_female")
-    # summary_executive_stroop_interf_p_tau_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-    #                                           + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                                           data = subset(df, sex_num == "1"),
-    #                                           random = ~ years_since_baseline | id,
-    #                                           weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                           correlation = nlme::corSymm(form = ~1 | id),
-    #                                           method = "REML",
-    #                                           na.action = na.exclude,
-    #                                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_interf_p_tau_female <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_female, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_interf_gfap_male")
-    # summary_executive_stroop_interf_gfap_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "0"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_interf_gfap_male <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_male, digits = 10)
-    #
-    # vtg::log$info("summary_executive_stroop_interf_gfap_female")
-    # summary_executive_stroop_interf_gfap_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-    #                                          + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-    #                                          data = subset(df, sex_num == "1"),
-    #                                          random = ~ years_since_baseline | id,
-    #                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                                          correlation = nlme::corSymm(form = ~1 | id),
-    #                                          method = "REML",
-    #                                          na.action = na.exclude,
-    #                                          control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_executive_stroop_interf_gfap_female <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_female, digits = 10)
+    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_male")
+    summary_executive_stroop_3_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "0"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_amyloid_b_ratio_male <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_female")
+    summary_executive_stroop_3_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "1"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_amyloid_b_ratio_female <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio_female, digits = 10)
+
+    #Stroop interference
+    vtg::log$info("summary_executive_stroop_interf_p_tau_male")
+    summary_executive_stroop_interf_p_tau_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "0"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_p_tau_male <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_p_tau_female")
+    summary_executive_stroop_interf_p_tau_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                              + age_rec + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                              data = subset(df, sex_num == "1"),
+                                              random = ~ years_since_baseline | id,
+                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                              correlation = nlme::corSymm(form = ~1 | id),
+                                              method = "REML",
+                                              na.action = na.exclude,
+                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_p_tau_female <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau_female, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_gfap_male")
+    summary_executive_stroop_interf_gfap_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "0"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_gfap_male <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_gfap_female")
+    summary_executive_stroop_interf_gfap_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                             + age_rec + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+                                             data = subset(df, sex_num == "1"),
+                                             random = ~ years_since_baseline | id,
+                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                             correlation = nlme::corSymm(form = ~1 | id),
+                                             method = "REML",
+                                             na.action = na.exclude,
+                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_gfap_female <- sjPlot::tab_model(summary_executive_stroop_interf_gfap_female, digits = 10)
 
     # vtg::log$info("summary_executive_stroop_interf_nfl_male")
     # summary_executive_stroop_interf_nfl_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
@@ -1459,30 +1459,30 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
     #                                         na.action = na.exclude,
     #                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # # summary_executive_stroop_interf_nfl_female <- sjPlot::tab_model(summary_executive_stroop_interf_nfl_female, digits = 10)
-#
-#     vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_male")
-#     summary_executive_stroop_interf_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-#                                                         + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-#                                                         data = subset(df, sex_num == "0"),
-#                                                         random = ~ years_since_baseline | id,
-#                                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-#                                                         correlation = nlme::corSymm(form = ~1 | id),
-#                                                         method = "REML",
-#                                                         na.action = na.exclude,
-#                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-#     # summary_executive_stroop_interf_amyloid_b_ratio_male <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_male, digits = 10)
-#
-#     vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_female")
-#     summary_executive_stroop_interf_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
-#                                                         + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
-#                                                         data = subset(df, sex_num == "1"),
-#                                                         random = ~ years_since_baseline | id,
-#                                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-#                                                         correlation = nlme::corSymm(form = ~1 | id),
-#                                                         method = "REML",
-#                                                         na.action = na.exclude,
-#                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-#     # summary_executive_stroop_interf_amyloid_b_ratio_female <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_female, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_male")
+    summary_executive_stroop_interf_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "0"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_amyloid_b_ratio_male <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_male, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_female")
+    summary_executive_stroop_interf_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline
+                                                        + age_rec + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+                                                        data = subset(df, sex_num == "1"),
+                                                        random = ~ years_since_baseline | id,
+                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                        correlation = nlme::corSymm(form = ~1 | id),
+                                                        method = "REML",
+                                                        na.action = na.exclude,
+                                                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_amyloid_b_ratio_female <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_female, digits = 10)
 
     # model_summary can't extract from lme models
     results <- list(
@@ -1513,14 +1513,14 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
       # "summary_language_nfl_female" = summary_language_nfl_female,
       "summary_language_amyloid_b_ratio_female" = summary_language_amyloid_b_ratio_female,
 
-      # "summary_processing_speed_p_tau_male" = summary_processing_speed_p_tau_male,
-      # "summary_processing_speed_p_tau_female" = summary_processing_speed_p_tau_female,
-      # "summary_processing_speed_gfap_male" = summary_processing_speed_gfap_male,
-      # "summary_processing_speed_gfap_female" = summary_processing_speed_gfap_female,
-      # # "summary_processing_speed_nfl_male" = summary_processing_speed_nfl_male,
-      # # "summary_processing_speed_nfl_female" = summary_processing_speed_nfl_female,
-      # "summary_processing_speed_amyloid_b_ratio_male" = summary_processing_speed_amyloid_b_ratio_male,
-      # "summary_processing_speed_amyloid_b_ratio_female" = summary_processing_speed_amyloid_b_ratio_female,
+      "summary_processing_speed_p_tau_male" = summary_processing_speed_p_tau_male,
+      "summary_processing_speed_p_tau_female" = summary_processing_speed_p_tau_female,
+      "summary_processing_speed_gfap_male" = summary_processing_speed_gfap_male,
+      "summary_processing_speed_gfap_female" = summary_processing_speed_gfap_female,
+      # "summary_processing_speed_nfl_male" = summary_processing_speed_nfl_male,
+      # "summary_processing_speed_nfl_female" = summary_processing_speed_nfl_female,
+      "summary_processing_speed_amyloid_b_ratio_male" = summary_processing_speed_amyloid_b_ratio_male,
+      "summary_processing_speed_amyloid_b_ratio_female" = summary_processing_speed_amyloid_b_ratio_female,
 
       "summary_attention_tmt_p_tau_male" = summary_attention_tmt_p_tau_male,
       "summary_attention_tmt_p_tau_female" = summary_attention_tmt_p_tau_female,
@@ -1542,30 +1542,30 @@ RPC_models_EMIF_AD_stratified_sex <- function(df, config, model = "memory", excl
 
       "summary_executive_tmt_shift_p_tau_male" = summary_executive_tmt_shift_p_tau_male,
       "summary_executive_tmt_shift_p_tau_female" = summary_executive_tmt_shift_p_tau_female,
-      # "summary_executive_tmt_shift_gfap_male" = summary_executive_tmt_shift_gfap_male,
-      # "summary_executive_tmt_shift_gfap_female" = summary_executive_tmt_shift_gfap_female,
+      "summary_executive_tmt_shift_gfap_male" = summary_executive_tmt_shift_gfap_male,
+      "summary_executive_tmt_shift_gfap_female" = summary_executive_tmt_shift_gfap_female,
       # "summary_executive_tmt_shift_nfl_male" = summary_executive_tmt_shift_nfl_male,
       # "summary_executive_tmt_shift_nfl_female" = summary_executive_tmt_shift_nfl_female,
       "summary_executive_tmt_shift_amyloid_b_ratio_male" = summary_executive_tmt_shift_amyloid_b_ratio_male,
       "summary_executive_tmt_shift_amyloid_b_ratio_female" = summary_executive_tmt_shift_amyloid_b_ratio_female,
 
-      # "summary_executive_stroop_3_p_tau_male" = summary_executive_stroop_3_p_tau_male,
-      # "summary_executive_stroop_3_p_tau_female" = summary_executive_stroop_3_p_tau_female,
-      # "summary_executive_stroop_3_gfap_male" = summary_executive_stroop_3_gfap_male,
-      # "summary_executive_stroop_3_gfap_female" = summary_executive_stroop_3_gfap_female,
+      "summary_executive_stroop_interf_p_tau_male" = summary_executive_stroop_3_p_tau_male,
+      "summary_executive_stroop_3_p_tau_female" = summary_executive_stroop_3_p_tau_female,
+      "summary_executive_stroop_3_gfap_male" = summary_executive_stroop_3_gfap_male,
+      "summary_executive_stroop_3_gfap_female" = summary_executive_stroop_3_gfap_female,
       # "summary_executive_stroop_3_nfl_male" = summary_executive_stroop_3_nfl_male,
       # "summary_executive_stroop_3_nfl_female" = summary_executive_stroop_3_nfl_female,
-      # "summary_executive_stroop_3_amyloid_b_ratio_male" = summary_executive_stroop_3_amyloid_b_ratio_male,
-      # "summary_executive_stroop_3_amyloid_b_ratio_female" = summary_executive_stroop_3_amyloid_b_ratio_female,
+      "summary_executive_stroop_3_amyloid_b_ratio_male" = summary_executive_stroop_3_amyloid_b_ratio_male,
+      "summary_executive_stroop_3_amyloid_b_ratio_female" = summary_executive_stroop_3_amyloid_b_ratio_female,
 
-      # "summary_executive_stroop_interf_p_tau_male" = summary_executive_stroop_interf_p_tau_male,
-      # "summary_executive_stroop_interf_p_tau_female" = summary_executive_stroop_interf_p_tau_female,
-      # "summary_executive_stroop_interf_gfap_male" = summary_executive_stroop_interf_gfap_male,
-      # "summary_executive_stroop_interf_gfap_female" = summary_executive_stroop_interf_gfap_female,
-      # # "summary_executive_stroop_interf_nfl_male" = summary_executive_stroop_interf_nfl_male,
-      # # "summary_executive_stroop_interf_nfl_female" = summary_executive_stroop_interf_nfl_female,
-      # "summary_executive_stroop_interf_amyloid_b_ratio_male" = summary_executive_stroop_interf_amyloid_b_ratio_male,
-      # "summary_executive_stroop_interf_amyloid_b_ratio_female" = summary_executive_stroop_interf_amyloid_b_ratio_female,
+      "summary_executive_stroop_interf_p_tau_male" = summary_executive_stroop_interf_p_tau_male,
+      "summary_executive_stroop_interf_p_tau_female" = summary_executive_stroop_interf_p_tau_female,
+      "summary_executive_stroop_interf_gfap_male" = summary_executive_stroop_interf_gfap_male,
+      "summary_executive_stroop_interf_gfap_female" = summary_executive_stroop_interf_gfap_female,
+      # "summary_executive_stroop_interf_nfl_male" = summary_executive_stroop_interf_nfl_male,
+      # "summary_executive_stroop_interf_nfl_female" = summary_executive_stroop_interf_nfl_female,
+      "summary_executive_stroop_interf_amyloid_b_ratio_male" = summary_executive_stroop_interf_amyloid_b_ratio_male,
+      "summary_executive_stroop_interf_amyloid_b_ratio_female" = summary_executive_stroop_interf_amyloid_b_ratio_female,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,

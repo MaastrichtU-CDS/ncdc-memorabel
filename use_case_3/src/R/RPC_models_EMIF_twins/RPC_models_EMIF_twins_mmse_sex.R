@@ -48,7 +48,6 @@ RPC_models_EMIF_AD_mmse_sex <- function(df, config, model = "memory", exclude=c(
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- "priority_memory_dr_15_word_list_correct"
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]

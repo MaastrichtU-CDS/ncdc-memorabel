@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_overall_model <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -559,11 +559,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
         sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE)
       )
 
-    if (nrow(df) == 0) {
-      return(list(
-        "error_message" = "Empty dataset: no participants selected"
-      ))
-
     #CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("CS_memory_p_tau_im_2w")
@@ -624,19 +619,19 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
                                       data = df,
                                       na.action = na.exclude)
      summary_CS_language_p_tau_2w <- sjPlot::tab_model(CS_language_p_tau_2w, digits = 10)
-    
+
      vtg::log$info("CS_language_gfap_2w")
      CS_language_gfap_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + gfap + apoe_carrier * gfap,
                                      data = df,
                                      na.action = na.exclude)
      summary_CS_language_gfap_2w <- sjPlot::tab_model(CS_language_gfap_2w, digits = 10)
-    
+
     #vtg::log$info("CS_language_nfl_2w")
     # CS_language_nfl_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + nfl + apoe_carrier * nfl,
     #                                data = df,
     #                                na.action = na.exclude)
     # summary_CS_language_nfl_2w <- sjPlot::tab_model(CS_language_nfl_2w, digits = 10)
-    
+
      vtg::log$info("CS_language_amyloid_b_ratio_2w")
      CS_language_amyloid_b_ratio_2w <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
@@ -804,8 +799,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
       "descriptives_per_year_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
-      "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
-      "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
       "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
@@ -821,4 +814,3 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
   })
   return(result)
 }
-    }
