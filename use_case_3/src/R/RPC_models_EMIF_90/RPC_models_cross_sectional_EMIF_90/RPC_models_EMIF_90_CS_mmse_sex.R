@@ -547,11 +547,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     vtg::log$info("RIRS_mmse_gfap_male")
     RIRS_mmse_gfap_male <- lm(mmse_total ~ age_rec + education_low + education_high + gfap,
                                      data = subset(df, sex_num == 0),
-                                     na.action = na.exclude,
-                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                     correlation = nlme::corSymm(form = ~1 | id),
-                                     method = "REML",
-                                     control = lmControl(opt='optim'))
+                                     na.action = na.exclude)
     summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male, digits = 10)
 
     # vtg::log$info("RIRS_mmse_gfap_female")
@@ -569,11 +565,7 @@ RPC_models_EMIF_90_mmse_sex_models <- function(df, config, model = "memory", exc
     vtg::log$info("RIRS_mmse_nfl_female")
     RIRS_mmse_nfl_female <- lm(mmse_total ~ age_rec + education_low + education_high + nfl,
                                       data = subset(df, sex_num == 1),
-                                      na.action = na.exclude,
-                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                      correlation = nlme::corSymm(form = ~1 | id),
-                                      method = "REML",
-                                      control = lmControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+                                      na.action = na.exclude)
     summary_mmse_nfl_female <- sjPlot::tab_model(RIRS_mmse_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_male")
