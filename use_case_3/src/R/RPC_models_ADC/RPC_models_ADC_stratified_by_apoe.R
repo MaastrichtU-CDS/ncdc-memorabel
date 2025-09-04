@@ -348,6 +348,8 @@ RPC_models_strat_apoe_ADC <- function(df, config, model = "memory", exclude=c())
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_a_z <-
         ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
+      df$priority_attention_tmt_a_z <- pmax(pmin(df$priority_attention_tmt_a_z, 5), -5)
+      df$priority_attention_tmt_a_z <- -df$priority_attention_tmt_a_z
     }
 
     #Z-score: executive functioning (Stroop and TMT)
@@ -358,10 +360,14 @@ RPC_models_strat_apoe_ADC <- function(df, config, model = "memory", exclude=c())
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
-
+      df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
+      df$priority_executive_tmt_z <- -df$priority_executive_tmt_z
+      
     #TMT shifting: NIP norms
     ##education and sex coded differently
       df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
+      df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
+      df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
     }
 
     descriptives_per_year_NPA_table <- df %>%
