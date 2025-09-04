@@ -283,7 +283,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-(
-        df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826
+        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
     } else {
       return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
@@ -1135,6 +1135,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
       "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
+      
       "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
       "summary_memory_nfl_dr" = summary_memory_nfl_dr,
