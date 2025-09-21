@@ -283,7 +283,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-(
-        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
+        ((df$priority_memory_im_ravlt - (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826))
     } else {
       return(list(
         "error_message" = paste("immediate recall test not found, no z-score transformation possible")
@@ -429,13 +429,13 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     }
 
     #Z-score attention (CST, van der Elst norms)
-      if (c("priority_executive_cst_a_time") %in% colnames(df)) {
+    if (c("priority_executive_cst_a_time") %in% colnames(df)) {
       df$priority_attention_cst_a_z <-
         (((sqrt(df$priority_executive_cst_a_time)) - (3.668 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0002) + (df$sex * 0.143) + (df$education_low * 0.188) + (df$education_high * -0.092))) / 0.556)
     } else {
       print("cst a not found")
     }
-      
+
     if (c("priority_executive_cst_b_time") %in% colnames(df)) {
       df$priority_attention_cst_b_z <-
         (((sqrt(df$priority_executive_cst_b_time)) - (4.154 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0001) + (df$sex * 0.136) + (df$education_low * 0.365) + (df$education_high * -0.146))) / 0.639)
@@ -444,11 +444,11 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     }
 
   #Calculate the average CST a and b score
-      df <- df %>%
-  dplyr::mutate(
-    priority_attention_cst_average_z = rowMeans(select(., priority_executive_cst_a_time, priority_executive_cst_b_time), na.rm = TRUE)
-  ) %>%
-  filter(!is.na(priority_attention_cst_average_z))
+    df <- df %>%
+      dplyr::mutate(
+        priority_attention_cst_average_z = rowMeans(select(., priority_executive_cst_a_time, priority_executive_cst_b_time), na.rm = TRUE)
+      ) %>%
+      filter(!is.na(priority_attention_cst_average_z))
     df$priority_attention_cst_average_z <- pmax(pmin(df$priority_attention_cst_average_z, 5), -5)
     df$priority_attention_cst_average_z <- -df$priority_attention_cst_average_z
 
@@ -476,26 +476,27 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     df$priority_executive_cst_c <- df$priority_executive_cst_c_time
     df$priority_executive_cst_z <- pmax(pmin(df$priority_executive_cst_z, 5), -5)
     df$priority_executive_cst_z <- -df$priority_executive_cst_z
-
+   }
 
   #Shifting score
      df <- df %>%
-  dplyr::mutate(
-    # compute row-wise average (or single value if only one present)
-    priority_executive_cst_ab_time = rowMeans(
-      select(., priority_executive_cst_a_time, priority_executive_cst_b_time),
-      na.rm = TRUE
-    )
-  ) %>%
-  filter(!is.na(priority_executive_cst_ab_time)) %>%
-  dplyr::mutate(
+      dplyr::mutate(
+        # compute row-wise average (or single value if only one present)
+        priority_executive_cst_ab_time = rowMeans(
+          select(., priority_executive_cst_a_time, priority_executive_cst_b_time),
+          na.rm = TRUE
+        )
+      ) %>%
+      filter(!is.na(priority_executive_cst_ab_time)) %>%
+      dplyr::mutate(
     # shifting score
-    df$priority_executive_shifting <- sqrt((priority_executive_cst_c_time - priority_executive_cst_ab) + 10)
-  df$priority_executive_shifting_z <-
+    priority_executive_shifting <- sqrt((priority_executive_cst_c_time - priority_executive_cst_ab) + 10))
+
+    df$priority_executive_shifting_z <-
       ((df$priority_executive_shifting - (4.463 + (df$age_cent * 0.018) + (df$education_low * 0.415) + (df$education_high * -0.251))) / 0.870)
     df$priority_executive_shifting_z <- pmax(pmin(df$priority_executive_shifting_z, 5), -5)
     df$priority_executive_shifting_z <- -df$priority_executive_shifting_z
-        
+
     ##Stroop: van der Elst norms
     df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
     df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
@@ -606,7 +607,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
         #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
         # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
         mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
         sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
@@ -661,7 +662,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
         #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
         # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
         mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
         sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
@@ -714,7 +715,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
         #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
         #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE)
+        sd_mmse = sd(mmse_total, na.rm = TRUE),
         # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
         mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
         sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
@@ -1025,7 +1026,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_attention_cst_average_p_tau <- sjPlot::tab_model(RIRS_attention_cst_average_p_tau)
-    
+
      vtg::log$info("RIRS_attention_cst_average_gfap")
      RIRS_attention_cst_average_gfap <- nlme::lme(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
@@ -1036,7 +1037,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_attention_cst_average_gfap <- sjPlot::tab_model(RIRS_attention_cst_average_gfap)
-    
+
      vtg::log$info("RIRS_attention_cst_average_nfl")
      RIRS_attention_cst_average_nfl <- nlme::lme(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
@@ -1047,7 +1048,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_attention_cst_average_nfl <- sjPlot::tab_model(RIRS_attention_cst_average_nfl)
-    
+
      vtg::log$info("RIRS_attention_cst_average_amyloid_b_ratio")
      RIRS_attention_cst_average_amyloid_b_ratio <- nlme::lme(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
@@ -1058,7 +1059,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_attention_cst_average_amyloid_b_ratio <- sjPlot::tab_model(RIRS_attention_cst_average_amyloid_b_ratio)
-    
+
      #Executive function
      vtg::log$info("RIRS_priority_executive_cst_p_tau")
      RIRS_priority_executive_cst_time_p_tau <- nlme::lme(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
@@ -1070,7 +1071,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_priority_executive_cst_p_tau <- sjPlot::tab_model(RIRS_priority_executive_cst_p_tau)
-    
+
      vtg::log$info("RIRS_priority_executive_cst_gfap")
      RIRS_priority_executive_cst_time_gfap <- nlme::lme(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
@@ -1081,7 +1082,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_priority_executive_cst_gfap <- sjPlot::tab_model(RIRS_priority_executive_cst_gfap)
-    
+
      vtg::log$info("RIRS_priority_executive_cst_nfl")
      RIRS_priority_executive_tmt_b_time_nfl <- nlme::lme(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
@@ -1091,9 +1092,9 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              method = "REML",
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
-    
+
      summary_priority_executive_cst_nfl <- sjPlot::tab_model(RIRS_priority_executive_cst_nfl)
-    
+
      vtg::log$info("RIRS_priority_executive_cst_amyloid_b_ratio")
      RIRS_priority_executive_cst_amyloid_b_ratio <- nlme::lme(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
@@ -1151,10 +1152,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     summary_attention_stroop_3_amyloid_b_ratio <- sjPlot::tab_model(RIRS_executive_stroop_3_amyloid_b_ratio)
 
     #Executive function (shifting)
-            mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
-        sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE)
-
-         vtg::log$info("RIRS_priority_executive_shifting_p_tau")
+     vtg::log$info("RIRS_priority_executive_shifting_p_tau")
      RIRS_priority_executive_shifting_time_p_tau <- nlme::lme(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
@@ -1164,7 +1162,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_priority_executive_shifting_p_tau <- sjPlot::tab_model(RIRS_priority_executive_shifting_p_tau)
-    
+
      vtg::log$info("RIRS_priority_executive_shifting_gfap")
      RIRS_priority_executive_shifting_time_gfap <- nlme::lme(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
@@ -1175,7 +1173,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_priority_executive_shifting_gfap <- sjPlot::tab_model(RIRS_priority_executive_shifting_gfap)
-    
+
      vtg::log$info("RIRS_priority_executive_shifting_nfl")
      RIRS_priority_executive_tmt_b_time_nfl <- nlme::lme(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
@@ -1186,7 +1184,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim'))
      summary_priority_executive_shifting_nfl <- sjPlot::tab_model(RIRS_priority_executive_shifting_nfl)
-    
+
      vtg::log$info("RIRS_priority_executive_shifting_amyloid_b_ratio")
      RIRS_priority_executive_shifting_amyloid_b_ratio <- nlme::lme(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
@@ -1306,7 +1304,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
       "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
-      
+
       "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
       "summary_memory_nfl_dr" = summary_memory_nfl_dr,
