@@ -353,14 +353,14 @@ RPC_models_sex_3_ADC <- function(df, config, model = "memory", exclude=c()) {
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
       df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
       df$priority_executive_tmt_z <- -df$priority_executive_tmt_z
-      
+
     #TMT shifting: NIP norms
     ##education and sex coded differently
       df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
       df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
       df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
     }
-    
+
     descriptives_per_year_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
       dplyr::filter(dplyr::n_distinct(id) > 2) %>%
@@ -461,8 +461,6 @@ RPC_models_sex_3_ADC <- function(df, config, model = "memory", exclude=c()) {
       return(list(
         "error_message" = "Empty dataset: no participants selected"
       ))
-    }
-
     }
 
    df$education_low <- as.factor(df$education_low)

@@ -1,4 +1,4 @@
-RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_apoe_mmse_cs_ADC <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -198,6 +198,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
@@ -555,10 +556,11 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
 
     # model_summary can't extract from lme models
     results <- list(
-       "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
-       "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
-       "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
-       "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
+       # Not included?
+       # "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
+       # "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
+       # "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
+       # "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
 
       "summary_CS_mmse_p_tau_2w" = summary_CS_mmse_p_tau_2w,
       "summary_CS_mmse_gfap_2w" = summary_CS_mmse_gfap_2w,
@@ -597,5 +599,5 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
   return(result)
 }
 
-  
-    
+
+

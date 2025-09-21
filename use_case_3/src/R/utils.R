@@ -58,3 +58,33 @@ model_summary <- function(model) {
     "contrasts" = model[["contrasts"]]
   ))
 }
+
+# safe_lme_summary <- function(formula, data, log_name, ...) {
+safe_lme_summary <- function(formula, data, random, weights, correlation, method, na.action, control) {
+  # Log the start of the model fitting
+  # vtg::log$info(log_name)
+  # Use tryCatch to gracefully handle any errors during model fitting or summary generation
+  result <- tryCatch({
+    # Attempt to fit the lme model
+    lme_model <- nlme::lme(
+      formula,
+      data = data,
+      random = ~ years_since_baseline | id,
+      weights = nlme::varIdent(form= ~1 | years_since_baseline),
+      correlation = nlme::corSymm(form = ~1 | id),
+      method = method,
+      na.action = na.action,
+      control = control
+    )
+    # Attempt to generate the summary table
+    sjPlot::tab_model(lme_model, digits = 10)
+  }, error = function(e) {
+    # If an error occurs, log the error message
+    # vtg::log$error(paste("An error occurred for", log_name, ":", e$message))
+    print(paste("An error occurred:", e))
+    # Return a list with the error message
+    return(list(error = e))
+  })
+
+  return(result)
+}

@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_cs_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_sex_2w <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -292,7 +292,7 @@ RPC_models_EMIF_AD_cs_overall_model <- function(df, config, model = "memory", ex
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_15_word_list_correct") %in% colnames(df)) {
             df$priority_memory_im_z <-
-      ((df$priority_memory_im_15_word_list_correct - (49.672 + (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826) 
+      ((df$priority_memory_im_15_word_list_correct - (49.672 + (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))) / 7.826)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
       return(list(

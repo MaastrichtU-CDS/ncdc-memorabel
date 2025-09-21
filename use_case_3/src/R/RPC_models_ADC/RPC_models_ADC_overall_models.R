@@ -363,7 +363,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
       df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
       df$priority_executive_tmt_z <- -df$priority_executive_tmt_z
-      
+
     #TMT shifting: NIP norms
     ##education and sex coded differently
       df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
@@ -694,16 +694,16 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_priority_executive_tmt_b_gfap <- sjPlot::tab_model(summary_priority_executive_tmt_b_gfap, digits = 10)
 
-    # vtg::log$info("summary_priority_executive_tmt_b_time_nfl")
-    # summary_priority_executive_tmt_b_nfl <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    # # summary_priority_executive_tmt_b_nfl <- sjPlot::tab_model(summary_priority_executive_tmt_b_nfl, digits = 10)
+    vtg::log$info("summary_priority_executive_tmt_b_time_nfl")
+    summary_priority_executive_tmt_b_nfl <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_priority_executive_tmt_b_nfl <- sjPlot::tab_model(summary_priority_executive_tmt_b_nfl, digits = 10)
 
     vtg::log$info("summary_priority_executive_tmt_b_time_amyloid_b_ratio")
     summary_priority_executive_tmt_b_amyloid_b_ratio <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
@@ -717,15 +717,15 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_tmt_b_amyloid_b_ratio <- sjPlot::tab_model(summary_priority_executive_tmt_b_amyloid_b_ratio, digits = 10)
 
     # #Interference score
-    # vtg::log$info("summary_priority_executive_shift_tmt_z_p_tau")
-    # summary_priority_executive_shift_tmt_z_p_tau <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-    #                         data = df,
-    #                         random = ~ years_since_baseline | id,
-    #                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-    #                         correlation = nlme::corSymm(form = ~1 | id),
-    #                         method = "REML",
-    #                         na.action = na.exclude,
-    #                        control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    vtg::log$info("summary_priority_executive_shift_tmt_z_p_tau")
+    summary_priority_executive_shift_tmt_z_p_tau <- safe_lme_summary(priority_executive_shift_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # # summary_priority_executive_shift_tmt_z_p_tau <- sjPlot::tab_model(summary_priority_executive_shift_tmt_z_p_tau, digits = 10)
 
     vtg::log$info("summary_priority_executive_shift_tmt_z_gfap")
@@ -769,7 +769,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
 
       "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
-      # "summary_memory_nfl_dr" = summary_memory_nfl_dr,
+      "summary_memory_nfl_dr" = summary_memory_nfl_dr,
       "summary_memory_amyloid_b_ratio_dr" = summary_memory_amyloid_b_ratio_dr,
 
       "summary_language_p_tau" = summary_language_p_tau,
@@ -784,10 +784,10 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
 
       "summary_priority_executive_tmt_b_p_tau" = summary_priority_executive_tmt_b_p_tau,
       "summary_priority_executive_tmt_b_gfap" = summary_priority_executive_tmt_b_gfap,
-      # "summary_priority_executive_tmt_b_nfl" = summary_priority_executive_tmt_b_nfl,
+      "summary_priority_executive_tmt_b_nfl" = summary_priority_executive_tmt_b_nfl,
       "summary_priority_executive_tmt_b_amyloid_b_ratio" = summary_priority_executive_tmt_b_amyloid_b_ratio,
 
-      # "summary_priority_executive_shift_tmt_z_p_tau" = summary_priority_executive_shift_tmt_z_p_tau,
+      "summary_priority_executive_shift_tmt_z_p_tau" = summary_priority_executive_shift_tmt_z_p_tau,
       "summary_priority_executive_shift_tmt_z_gfap" = summary_priority_executive_shift_tmt_z_gfap,
       "summary_priority_executive_shift_tmt_z_nfl" = summary_priority_executive_shift_tmt_z_nfl,
       "summary_priority_executive_shift_tmt_z_amyloid_b_ratio" = summary_priority_executive_shift_tmt_z_amyloid_b_ratio,

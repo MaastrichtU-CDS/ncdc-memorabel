@@ -1,4 +1,4 @@
-RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_strat_apoe_2_cs_ADC <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -479,7 +479,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       dplyr::filter(dplyr::n_distinct(id) > 30)
     print(table(df$years_since_baseline))
 
-    
+
     #CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("CS_memory_p_tau_im_2w")
@@ -690,7 +690,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
     )
-    
+
     return(results)
   }, error = function(e) {
     msg <- "Error while running linear models"

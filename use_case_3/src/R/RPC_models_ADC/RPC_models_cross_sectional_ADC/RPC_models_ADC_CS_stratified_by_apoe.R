@@ -1,4 +1,4 @@
-RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_strat_apoe_cs_ADC <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -479,7 +479,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
       dplyr::filter(dplyr::n_distinct(id) > 30)
     print(table(df$years_since_baseline))
 
-    
+
     # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("CS_memory_p_tau_im_apoe_neg")
@@ -611,7 +611,7 @@ RPC_overall_models_ADC <- function(df, config, model = "memory", exclude=c()) {
                                              data = subset(df, apoe_carrier == "no"),
                                              na.action = na.exclude)
      summary_CS_language_nfl_apoe_neg <- sjPlot::tab_model(CS_language_nfl_apoe_neg, digits = 10)
-    
+
      vtg::log$info("CS_language_nfl_apoe_pos")
      CS_language_nfl_apoe_pos <- lm(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
                                              data = subset(df, apoe_carrier == "yes"),
