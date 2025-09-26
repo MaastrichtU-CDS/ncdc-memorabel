@@ -813,7 +813,8 @@ RPC_models_strat_sex_cs_ADC <- function(df, config, model = "memory", exclude=c(
       "summary_CS_attention_tmt_p_tau_female" = summary_CS_attention_tmt_p_tau_female,
       "summary_CS_attention_tmt_gfap_male" = summary_CS_attention_tmt_gfap_male,
       "summary_CS_attention_tmt_gfap_female" = summary_CS_attention_tmt_gfap_female,
-      "summary_CS_attention_tmt_nfl_male" = summary_CS_attention_tmt_nfl_male,      #"summary_CS_attention_tmt_nfl_female" = summary_CS_attention_tmt_nfl_female,
+      "summary_CS_attention_tmt_nfl_male" = summary_CS_attention_tmt_nfl_male,      
+      "summary_CS_attention_tmt_nfl_female" = summary_CS_attention_tmt_nfl_female,
       "summary_CS_attention_tmt_amyloid_b_ratio_male" = summary_CS_attention_tmt_amyloid_b_ratio_male,
       "summary_CS_attention_tmt_amyloid_b_ratio_female" = summary_CS_attention_tmt_amyloid_b_ratio_female,
 
