@@ -49,7 +49,6 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- "priority_memory_dr_cerad"
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_verhage),]
@@ -57,12 +56,12 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
-      y = df_baseline_education[c("id", "education_category_verhage", "education_years")],
+      y = df_baseline_education[c("id", "education_category_3", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -74,13 +73,16 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       by = "id",
       all.x = T
     )
-    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["attention_test_sdst_90_ts"]])
-      | !is.na(df[["priority_memory_im_cerad"]]) | !is.na(df[["dexterity_clock_drawing"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
-      | !is.na(df[["priority_memory_dr_cerad"]]) | !is.na(df[["priority_executive_tmt_b_time"]]) | !is.na(df[["mmse_total"]])),]
+    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["priority_memory_im_ravlt"]])
+      | !is.na(df[["priority_memory_dr_ravlt"]])
+      | !is.na(df[["priority_language_animal_fluency_60_correct"]])
+      | !is.na(df[["attention_test_ldst_60_correct"]])
+      | !is.na(df[["attention_test_tmt_a_time"]])
+      | !is.na(df[["mmse_total"]])),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", "attention_test_tmt_a_time", "attention_test_sdst_90_ts",
-        "priority_memory_im_cerad", "dexterity_clock_drawing", "priority_language_animal_fluency_60_correct",
-        "mmse_total", "priority_memory_dr_cerad", "priority_executive_tmt_b_time")],
+      x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
+        "priority_language_animal_fluency_60_correct", "attention_test_ldst_60_correct", "priority_language_animal_fluency_60_correct",
+        "mmse_total", "attention_test_tmt_a_time")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -170,9 +172,10 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #   dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2),
     #   df$education_category_3
     # )
-    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
+
+    # df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-    
+
     # dummy variables:
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
@@ -310,7 +313,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #Memory delayed recall z-transformations
     #used van der Elst for RAVLT
     #used norm scores from ADC for logical memory
-    if (memory_dr_test_name == "priority_memory_dr_ravlt") {
+    if (c("priority_memory_dr_ravlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_dr_ravlt
       df$priority_memory_dr_z <- (
         df$priority_memory_dr_ravlt - (10.924 + (df$age_cent * -0.073) +
@@ -355,7 +358,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #Z-score: attention (here we have the TMT and the Stroop)
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
-    if (c("priority_attention_test_tmt_a_time") %in% colnames(df)) {
+    if (c("attention_test_tmt_a_time") %in% colnames(df)) {
       df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
@@ -513,8 +516,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
     #same as above but here the table sorted by sex
@@ -562,8 +564,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
-        mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-        sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+        count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
     #same as above but here the table sorted by years since baseline and sex
@@ -609,8 +610,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse = sd(mmse_total, na.rm = TRUE),
-      mean_apoe = mean(apoe_carrier, na.rm = TRUE),
-      sd_apoe = sd(apoe_carrier, na.rm = TRUE)
+      count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
 
@@ -1045,7 +1045,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
       "summary_memory_nfl_im" = summary_memory_nfl_im,
-      
+
       "summary_memory_amyloid_b_ratio_im" = summary_memory_amyloid_b_ratio_im,
       "summary_memory_p_tau_dr" = summary_memory_p_tau_dr,
       "summary_memory_gfap_dr" = summary_memory_gfap_dr,
