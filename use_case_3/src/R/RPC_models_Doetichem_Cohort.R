@@ -50,18 +50,20 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
     df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
-    df_baseline_education <- df[!is.na(df$education_category_verhage),]
+    # A specific date is not available.
+    df_plasma$date_plasma <- df_plasma$date
+    df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
+    df_baseline_education <- df[!is.na(df$education_category_3),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_grouped <- merge(
-      x = df_baseline[c("id", "age", "sex", "birth_year")],
+      x = df_baseline[c("id", "age", "sex")],
       y = df_baseline_education[c("id", "education_category_3", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -77,19 +79,20 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       | !is.na(df[["priority_memory_dr_ravlt"]])
       | !is.na(df[["priority_language_animal_fluency_60_correct"]])
       | !is.na(df[["attention_test_ldst_60_correct"]])
-      | !is.na(df[["attention_test_tmt_a_time"]])
+      | !is.na(df[["attention_test_stroop_1_time"]])
+      | !is.na(df[["attention_test_stroop_2_time"]])
+      | !is.na(df[["priority_executive_stroop_3_time"]])
       | !is.na(df[["mmse_total"]])),]
     df <- merge(
       x = df_cogn_test[c("id", "date", "priority_memory_im_ravlt", "priority_memory_dr_ravlt",
-        "priority_language_animal_fluency_60_correct", "attention_test_ldst_60_correct", "priority_language_animal_fluency_60_correct",
-        "mmse_total", "attention_test_tmt_a_time")],
+        "priority_language_animal_fluency_60_correct", "attention_test_ldst_60_correct",
+        "mmse_total", "attention_test_stroop_1_time", "attention_test_stroop_2_time",
+        "priority_executive_stroop_3_time")],
       y = df_grouped,
       by = "id"
       # all.x = T
     )
-    # attention_test_sdst_60_correct should be attention_test_sdst_60_ts but there was an error in the DB
-    df$attention_test_sdst_60_ts <- df$attention_test_sdst_60_correct
-    excluded <- unique(df$id[is.na(df$birth_year) | is.na(df$sex)])
+    excluded <- unique(df$id[is.na(df$age) | is.na(df$sex)])
 
     # Missing data
     df[df==-95.0] <- NA
@@ -124,8 +127,8 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     df <- df %>%
       dplyr::left_join(baseline_df[c("id", "date_baseline")], by = "id") %>%
       dplyr::mutate(days_since_baseline = as.numeric(difftime(date, date_baseline, units = "days"))) %>%
-      dplyr::filter(days_since_baseline >= 0)
-
+      dplyr::filter(days_since_baseline >= -365.25)
+    vtg::log$info("Number of rows in the dataset after filtering date: '{nrow(df)}'")
     df$years_since_baseline <- as.integer(df$days_since_baseline/365.25, 0)
 
     df <- subset(df, years_since_baseline >= 0)
@@ -144,7 +147,9 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
-    df$age_rec <- as.numeric(format(df$date, "%Y")) - df$birth_year
+    # DCS: use age, error with the birth year
+    # df$age_rec <- as.numeric(format(df$date, "%Y")) - df$birth_year
+    df$age_rec <- as.numeric(df$age)
 
     #Age squared:
     df$age2 <- df$age_rec^2
@@ -390,30 +395,30 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         )
         df$priority_attention_stroop_1_z <- pmax(pmin(df$priority_attention_stroop_1_z, 5), -5)
         df$priority_attention_stroop_1_z <- -df$priority_attention_stroop_1_z
-
-        if(c("attention_test_stroop_2_time") %in% colnames(df)) {
-        df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$education_low * 4.235) + (df$education_high * -2.346))
-        df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
-        df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
-          priority_attention_stroop_2_z = ifelse(
-            priority_attention_stroop_2_pred_score <= 51.661,
-            ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/7.988),
-            ifelse(
-              priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
-              ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/8.459),
+      }
+      if(c("attention_test_stroop_2_time") %in% colnames(df)) {
+          df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$education_low * 4.235) + (df$education_high * -2.346))
+          df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
+          df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+            priority_attention_stroop_2_z = ifelse(
+              priority_attention_stroop_2_pred_score <= 51.661,
+              ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/7.988),
               ifelse(
-                priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
-                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/9.419),
-                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/10.587)
+                priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
+                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/8.459),
+                ifelse(
+                  priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
+                  ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/9.419),
+                  ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/10.587)
+                )
               )
             )
           )
-        )
-        df$priority_attention_stroop_2_z <- pmax(pmin(df$priority_attention_stroop_2_z, 5), -5)
-        df$priority_attention_stroop_2_z <- -df$priority_attention_stroop_2_z
-
-       #make sure that if a value is missing it doesn't just divide the 1 available by 2
-       if  (c("priority_attention_stroop_1_z") %in% colnames(df) & c("priority_attention_stroop_2_z") %in% colnames(df)) {
+          df$priority_attention_stroop_2_z <- pmax(pmin(df$priority_attention_stroop_2_z, 5), -5)
+          df$priority_attention_stroop_2_z <- -df$priority_attention_stroop_2_z
+      }
+      #make sure that if a value is missing it doesn't just divide the 1 available by 2
+      if  (c("priority_attention_stroop_1_z") %in% colnames(df) & c("priority_attention_stroop_2_z") %in% colnames(df)) {
         df$priority_attention_stroop_average_z <- ((df$priority_attention_stroop_1_z + df$priority_attention_stroop_2_z) /2)
         # ifelse(!is.na(df$priority_attention_stroop_1_z), df$priority_attention_stroop_1_z, df$priority_attention_stroop_2_z))
       } else {
@@ -527,12 +532,12 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         #sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
         #mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
         #sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
-        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
+        # mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        # sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        # mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        # sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        # mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        # sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
@@ -575,12 +580,12 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         #sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
         #mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
         #sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-        mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
-        sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
+        # mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+        # sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+        # mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+        # sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+        # mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+        # sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
         mean_mmse = mean(mmse_total, na.rm = TRUE),
         sd_mmse = sd(mmse_total, na.rm = TRUE),
         count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
@@ -621,12 +626,12 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       #sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
       #mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
       #sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-      mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-      sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-      mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-      sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-      mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
-      sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
+      # mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
+      # sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
+      # mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
+      # sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
+      # mean_priority_executive_shift_tmt_z = mean(priority_executive_shift_tmt_z, na.rm = TRUE),
+      # sd_priority_executive_shift_tmt_z = sd(priority_executive_shift_tmt_z, na.rm = TRUE),
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse = sd(mmse_total, na.rm = TRUE),
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
@@ -651,7 +656,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("RIRS_memory_p_tau_im")
-    RIRS_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+    summary_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -662,7 +667,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_p_tau_im <- tab_model(RIRS_memory_p_tau_im, p.val = "kr")
 
     vtg::log$info("RIRS_memory_gfap_im")
-    RIRS_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+    summary_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -673,7 +678,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_gfap_im <- tab_model(RIRS_memory_gfap_im, p.val = "kr")
 
     vtg::log$info("RIRS_memory_nfl_im")
-    RIRS_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+    summary_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -684,7 +689,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_nfl_im <- tab_model(RIRS_memory_nfl_im, p.val = "kr")
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_im")
-    RIRS_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -696,7 +701,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 
     #Delayed recall
     vtg::log$info("RIRS_memory_p_tau_dr")
-    RIRS_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+    summary_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -707,7 +712,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_p_tau_dr <- tab_model(RIRS_memory_p_tau_dr, p.val = "kr")
 
     vtg::log$info("RIRS_memory_gfap_dr")
-    RIRS_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+    summary_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -718,7 +723,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_gfap_dr <- tab_model(RIRS_memory_gfap_dr, p.val = "kr")
 
     vtg::log$info("RIRS_memory_nfl_dr")
-    RIRS_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+    summary_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -729,7 +734,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_memory_nfl_dr <- tab_model(RIRS_memory_nfl_dr, p.val = "kr")
 
     vtg::log$info("RIRS_memory_amyloid_b_ratio_dr")
-    RIRS_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -742,7 +747,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 
     #Language
     vtg::log$info("RIRS_language_p_tau")
-    RIRS_language_p_tau <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+    summary_language_p_tau <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -754,7 +759,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_language_p_tau <- tab_model(RIRS_language_p_tau)
 
     vtg::log$info("RIRS_language_gfap")
-    RIRS_language_gfap <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+    summary_language_gfap <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -765,7 +770,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_language_gfap <- tab_model(RIRS_language_gfap)
 
     vtg::log$info("RIRS_language_nfl")
-    RIRS_language_nfl <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+    summary_language_nfl <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -776,7 +781,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_language_nfl <- tab_model(RIRS_language_nfl)
 
     vtg::log$info("RIRS_language_amyloid_b_ratio")
-    RIRS_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -789,7 +794,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 
     #processing speed
     vtg::log$info("RIRS_processing_speed_p_tau")
-    RIRS_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+    summary_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -800,7 +805,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_processing_speed_p_tau <- tab_model(RIRS_processing_speed_p_tau, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_gfap")
-    RIRS_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+    summary_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -811,7 +816,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_processing_speed_gfap <- tab_model(RIRS_processing_speed_gfap, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_nfl")
-    RIRS_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+    summary_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -822,7 +827,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
     #summary_processing_speed_nfl <- tab_model(RIRS_processing_speed_nfl, p.val = "kr")
 
     vtg::log$info("RIRS_processing_speed_amyloid_b_ratio")
-    RIRS_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                            data = df,
                            random = ~ years_since_baseline | id,
                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -832,7 +837,7 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
                            control = nlme::lmeControl(opt='optim'))
     #summary_processing_speed_amyloid_b_ratio <- tab_model(RIRS_processing_speed_amyloid_b_ratio, p.val = "kr")
 
-        
+
    #Attention
     vtg::log$info("summary_attention_stroop_average_p_tau")
     summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
@@ -1148,9 +1153,6 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
                                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     #summary_attention_stroop_interf_amyloid_b_ratio <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio)
 
-
-    print(names(RIRS_memory_p_tau_im))
-    # model_summary can't extract from lme models
     results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,

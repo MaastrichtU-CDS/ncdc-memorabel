@@ -323,7 +323,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #used norm scores from ADC for logical memory
     if (c("priority_memory_im_ravlt") %in% colnames(df)) {
       df$priority_memory_im_z <-(
-        ((df$priority_memory_im_ravlt - 
+        ((df$priority_memory_im_ravlt -
           (49.672+ (df$age_cent * -0.247) + (df$age_cent2 * -0.0033) + (df$sex_num * -4.227) + (df$education_low * -3.055) + (df$education_high * 2.496))
          ) / 7.826))
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
@@ -1113,7 +1113,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
      #Executive function
      vtg::log$info("summary_priority_executive_cst_p_tau")
-     summary_priority_executive_cst_time_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+     summary_priority_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1124,7 +1124,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_p_tau <- sjPlot::tab_model(summary_priority_executive_cst_p_tau)
 
      vtg::log$info("summary_priority_executive_cst_gfap")
-     summary_priority_executive_cst_time_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+     summary_priority_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1135,7 +1135,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_gfap <- sjPlot::tab_model(summary_priority_executive_cst_gfap)
 
      vtg::log$info("summary_priority_executive_cst_nfl")
-     summary_priority_executive_tmt_b_time_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_priority_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1203,7 +1203,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Executive function (shifting)
      vtg::log$info("summary_priority_executive_shifting_p_tau")
-     summary_priority_executive_shifting_time_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+     summary_priority_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1214,7 +1214,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_shifting_p_tau <- sjPlot::tab_model(summary_priority_executive_shifting_p_tau)
 
      vtg::log$info("summary_priority_executive_shifting_gfap")
-     summary_priority_executive_shifting_time_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+     summary_priority_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1225,7 +1225,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_shifting_gfap <- sjPlot::tab_model(summary_priority_executive_shifting_gfap)
 
      vtg::log$info("summary_priority_executive_shifting_nfl")
-     summary_priority_executive_tmt_b_time_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_priority_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1282,7 +1282,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl)
 
     vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_attention_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                                                          data = df,
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1373,7 +1373,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_attention_cst_average_gfap" = summary_attention_cst_average_gfap,
       "summary_attention_cst_average_nfl" = summary_attention_cst_average_nfl,
       "summary_attention_cst_average_amyloid_b_ratio" = summary_attention_cst_average_amyloid_b_ratio,
-      
+
       "summary_attention_stroop_average_p_tau" = summary_attention_stroop_average_p_tau,
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
       "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
