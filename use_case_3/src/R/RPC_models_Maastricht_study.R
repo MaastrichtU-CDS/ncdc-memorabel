@@ -340,7 +340,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                          (df$age_cent2 * -0.0009) + (df$sex_num * -1.197) + (df$education_low * -0.844)
                                        + (df$education_high * 0.424))) / 2.496
       df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
-      df$priority_memory_dr_z <- -df$priority_memory_dr_z
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
@@ -353,7 +352,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       df$priority_language_z <-
         (df$priority_language_animal_fluency_60_correct - (24.777 + (df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586))) / 5.797
       df$priority_language_z <- pmax(pmin(df$priority_language_z, 5), -5)
-      df$priority_language_z <- -df$priority_language_z
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -365,7 +363,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     if (c("attention_test_ldst_60_correct") %in% colnames(df)) {
       df$priority_processing_speed_ldst_z <- (df$attention_test_ldst_60_correct - (48.27 + (df$age_rec * -0.28) + (df$sex_num * -0.81) + (df$education_low * -4.53) + (df$education_high * 1.12))) / 5.63
       df$priority_processing_speed_ldst_z <- pmax(pmin(df$priority_processing_speed_ldst_z, 5), -5)
-      df$priority_processing_speed_ldst_z <- -df$priority_processing_speed_ldst_z
     }  else {
       return(list(
         "error_message" = paste("processing speed test not found, no z-score transformation possible")
