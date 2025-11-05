@@ -491,9 +491,6 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         df$priority_executive_stroop_interf_z <- pmax(pmin(df$priority_executive_stroop_interf_z, 5), -5)
         df$priority_executive_stroop_interf_z <- -df$priority_executive_stroop_interf_z
 
-    df$education_low <- as.factor(df$education_low)
-    df$education_high <- as.factor(df$education_high)
-
 #This makes a table with means and standard deviations for the following variables per days since baseline
     descriptives_per_year_NPA_table <- df %>%
       dplyr::group_by(years_since_baseline) %>%
@@ -640,6 +637,9 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
+
+   df$education_low <- as.factor(df$education_low)
+   df$education_high <- as.factor(df$education_high)
 
     summary_post <- summary_stats(
       df,
