@@ -1313,20 +1313,35 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
 
+      "summary_attention_cst_average_p_tau" = summary_attention_cst_average_p_tau,
+      "summary_attention_cst_average_gfap" = summary_attention_cst_average_gfap,
+      "summary_attention_cst_average_nfl" = summary_attention_cst_average_nfl,
+      "summary_attention_cst_average_amyloid_b_ratio" = summary_attention_cst_average_amyloid_b_ratio,
+
+      "summary_executive_cst_p_tau" = summary_executive_cst_p_tau,
+      "summary_executive_cst_gfap" = summary_executive_cst_gfap,
+      "summary_executive_cst_nfl" = summary_executive_cst_nfl,
+      "summary_executive_cst_amyloid_b_ratio" = summary_executive_cst_amyloid_b_ratio,
+
+      "summary_executive_shifting_p_tau" = summary_executive_shifting_p_tau,
+      "summary_executive_shifting_gfap" = summary_executive_shifting_gfap,
+      "summary_executive_shifting_nfl" = summary_executive_shifting_nfl,
+      "summary_priority_executive_shifting_amyloid_b_ratio" = summary_priority_executive_shifting_amyloid_b_ratio,
+
       "summary_attention_stroop_average_p_tau" = summary_attention_stroop_average_p_tau,
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
       "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
       "summary_attention_stroop_average_amyloid_b_ratio" = summary_attention_stroop_average_amyloid_b_ratio,
 
-      "summary_attention_stroop_3_p_tau" = summary_executive_stroop_3_p_tau,
-      "summary_attention_stroop_3_gfap" = summary_executive_stroop_3_gfap,
-      "summary_attention_stroop_3_nfl" = summary_executive_stroop_3_nfl,
-      "summary_attention_stroop_3_amyloid_b_ratio" = summary_executive_stroop_3_amyloid_b_ratio,
+      "summary_executive_stroop_3_p_tau" = summary_executive_stroop_3_p_tau,
+      "summary_executive_stroop_3_gfap" = summary_executive_stroop_3_gfap,
+      "summary_executive_stroop_3_nfl" = summary_executive_stroop_3_nfl,
+      "summary_executive_stroop_3_amyloid_b_ratio" = summary_executive_stroop_3_amyloid_b_ratio,
 
-      "summary_attention_stroop_interf_p_tau" = summary_executive_stroop_interf_p_tau,
-      "summary_attention_stroop_interf_gfap" = summary_executive_stroop_interf_gfap,
-      "summary_attention_stroop_interf_nfl" = summary_executive_stroop_interf_nfl,
-      "summary_attention_stroop_interf_amyloid_b_ratio" = summary_executive_stroop_interf_amyloid_b_ratio,
+      "summary_executive_stroop_interf_p_tau" = summary_executive_stroop_interf_p_tau,
+      "summary_executive_stroop_interf_gfap" = summary_executive_stroop_interf_gfap,
+      "summary_executive_stroop_interf_nfl" = summary_executive_stroop_interf_nfl,
+      "summary_executive_stroop_interf_amyloid_b_ratio" = summary_executive_stroop_interf_amyloid_b_ratio,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
