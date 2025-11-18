@@ -566,15 +566,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     )
     df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
     df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
-    # if (df$priority_executive_stroop_3_pred_score <= 79.988) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/13.963)
-    # } else if (df$priority_executive_stroop_3_pred_score <= 79.989 & df$priority_executive_stroop_3_pred_score >= 92.862) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/16.367)
-    # } else if (df$priority_executive_stroop_3_pred_score <= 92.863 & df$priority_executive_stroop_3_pred_score >= 108.585) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/19.506)
-    # } else {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/25.936)
-    #   }
 
     ##Z-score: executive functioning - interference
     ##stroop interference score, van der Elst norms
@@ -597,19 +588,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     )
     df$priority_executive_stroop_interf_z <- pmax(pmin(df$priority_executive_stroop_interf_z, 5), -5)
     df$priority_executive_stroop_interf_z <- -df$priority_executive_stroop_interf_z
-    # if (df$priority_executive_interf_stroop_pred_score <= 34.845) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/11.037)
-    #   } else if (df$priority_executive_interf_stroop_pred_score <= 34.846 & df$priority_executive_interf_stroop_pred_score >= 41.636) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/12.667)
-    #   } else if (df$priority_executive_interf_stroop_pred_score <= 41.637 & df$priority_executive_interf_stroop_pred_score >= 54.849) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/15.856)
-    #   } else if (df$priority_executive_interf_stroop_pred_score  >= 54.850) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/22.472)
-    #   } else {
-    #     return(list(
-    #       "error_message" = paste("executive function test not found, no z-score transformation possible")
-    #     ))
-    #   }
 
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
@@ -1198,52 +1176,6 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              na.action = na.exclude,
                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
      #summary_priority_executive_shifting_amyloid_b_ratio <- sjPlot::tab_model(summary_priority_executive_shifting_amyloid_b_ratio)
-
-    #Executive function (interference)
-    vtg::log$info("summary_executive_stroop_3_p_tau")
-    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
-                                               data = df,
-                                               random = ~ years_since_baseline | id,
-                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                               correlation = nlme::corSymm(form = ~1 | id),
-                                               method = "REML",
-                                               na.action = na.exclude,
-                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #summary_attention_stroop_3_p_tau <- sjPlot::tab_model(summary_executive_stroop_3_p_tau)
-
-    vtg::log$info("summary_executive_stroop_3_gfap")
-    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
-                                              data = df,
-                                              random = ~ years_since_baseline | id,
-                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                              correlation = nlme::corSymm(form = ~1 | id),
-                                              method = "REML",
-                                              na.action = na.exclude,
-                                              # control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #summary_attention_stroop_3_gfap <- sjPlot::tab_model(summary_executive_stroop_3_gfap)
-
-    vtg::log$info("summary_executive_stroop_3_nfl")
-    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
-                                             data = df,
-                                             random = ~ years_since_baseline | id,
-                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                             correlation = nlme::corSymm(form = ~1 | id),
-                                             method = "REML",
-                                             na.action = na.exclude,
-                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #summary_attention_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl)
-
-    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-    summary_attention_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
-                                                         data = df,
-                                                         random = ~ years_since_baseline | id,
-                                                         weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                                                         correlation = nlme::corSymm(form = ~1 | id),
-                                                         method = "REML",
-                                                         na.action = na.exclude,
-                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    #summary_attention_stroop_3_amyloid_b_ratio <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio)
 
     # Executive function (Interference)
     vtg::log$info("summary_executive_stroop_interf_p_tau")
