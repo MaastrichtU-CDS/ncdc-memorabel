@@ -793,7 +793,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     
 #Immediate recall
     vtg::log$info("summary_memory_p_tau_im")
-    summary_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                       data = df,
                                       random = ~ years_since_baseline | id,
                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -804,7 +804,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_p_tau_im <- sjPlot::tab_model(summary_memory_p_tau_im)
 
     vtg::log$info("summary_memory_gfap_im")
-    summary_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                      data = df,
                                      random = ~ years_since_baseline | id,
                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -815,7 +815,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_gfap_im <- sjPlot::tab_model(summary_memory_gfap_im)
 
     vtg::log$info("summary_memory_nfl_im")
-    summary_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                     data = df,
                                     random = ~ years_since_baseline | id,
                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -826,7 +826,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_nfl_im <- sjPlot::tab_model(summary_memory_nfl_im)
 
     vtg::log$info("summary_memory_amyloid_b_ratio_im")
-    summary_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                 data = df,
                                                 random = ~ years_since_baseline | id,
                                                 weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -838,7 +838,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Delayed recall
     vtg::log$info("summary_memory_p_tau_dr")
-    summary_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                       data = df,
                                       random = ~ years_since_baseline | id,
                                       weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -849,7 +849,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_p_tau_dr <- sjPlot::tab_model(summary_memory_p_tau_dr)
 
     vtg::log$info("summary_memory_gfap_dr")
-    summary_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                      data = df,
                                      random = ~ years_since_baseline | id,
                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -860,7 +860,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_gfap_dr <- sjPlot::tab_model(summary_memory_gfap_dr)
 
     vtg::log$info("summary_memory_nfl_dr")
-    summary_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                     data = df,
                                     random = ~ years_since_baseline | id,
                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -871,7 +871,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_memory_nfl_dr <- sjPlot::tab_model(summary_memory_nfl_dr)
 
     vtg::log$info("summary_memory_amyloid_b_ratio_dr")
-    summary_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                 data = df,
                                                 random = ~ years_since_baseline | id,
                                                 weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -883,7 +883,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Language
     vtg::log$info("summary_language_p_tau")
-    summary_language_p_tau <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_language_p_tau <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                      data = df,
                                      random = ~ years_since_baseline | id,
                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -894,7 +894,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_language_p_tau <- sjPlot::tab_model(summary_language_p_tau)
 
     vtg::log$info("summary_language_gfap")
-    summary_language_gfap <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_language_gfap <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                     data = df,
                                     random = ~ years_since_baseline | id,
                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -905,7 +905,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_language_gfap <- sjPlot::tab_model(summary_language_gfap)
 
     vtg::log$info("summary_language_nfl")
-    summary_language_nfl <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_language_nfl <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                    data = df,
                                    random = ~ years_since_baseline | id,
                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -916,7 +916,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_language_nfl <- sjPlot::tab_model(summary_language_nfl)
 
     vtg::log$info("summary_language_amyloid_b_ratio")
-    summary_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                data = df,
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -928,7 +928,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #processing speed
     vtg::log$info("summary_processing_speed_p_tau")
-    summary_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                              data = df,
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -939,7 +939,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_processing_speed_p_tau <- sjPlot::tab_model(summary_processing_speed_p_tau)
 
     vtg::log$info("summary_processing_speed_gfap")
-    summary_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                             data = df,
                                             random = ~ years_since_baseline | id,
                                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -951,7 +951,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_processing_speed_gfap <- sjPlot::tab_model(summary_processing_speed_gfap)
 
     vtg::log$info("summary_processing_speed_nfl")
-    summary_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                            data = df,
                                            random = ~ years_since_baseline | id,
                                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -962,7 +962,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_processing_speed_nfl <- sjPlot::tab_model(summary_processing_speed_nfl)
 
     vtg::log$info("summary_processing_speed_amyloid_b_ratio")
-    summary_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                        data = df,
                                                        random = ~ years_since_baseline | id,
                                                        weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -976,7 +976,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Attention
     vtg::log$info("summary_attention_stroop_average_p_tau")
-    summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                      data = df,
                                                      random = ~ years_since_baseline | id,
                                                      weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -988,7 +988,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_average_p_tau <- sjPlot::tab_model(summary_attention_stroop_average_p_tau)
 
     vtg::log$info("summary_attention_stroop_average_gfap")
-    summary_attention_stroop_average_gfap <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_attention_stroop_average_gfap <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                                     data = df,
                                                     random = ~ years_since_baseline | id,
                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -999,7 +999,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_average_gfap <- sjPlot::tab_model(summary_attention_stroop_average_gfap)
 
     vtg::log$info("summary_attention_stroop_average_nfl")
-    summary_attention_stroop_average_nfl <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_attention_stroop_average_nfl <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                                    data = df,
                                                    random = ~ years_since_baseline | id,
                                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1010,7 +1010,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_average_nfl <- sjPlot::tab_model(summary_attention_stroop_average_nfl)
 
     vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio")
-    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                                                                data = df,
                                                                random = ~ years_since_baseline | id,
                                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1021,7 +1021,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_average_amyloid_b_ratio <- sjPlot::tab_model(summary_attention_stroop_average_amyloid_b_ratio)
 
      vtg::log$info("summary_attention_cst_average_p_tau")
-     summary_attention_cst_average_p_tau <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+     summary_attention_cst_average_p_tau <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1032,7 +1032,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_attention_cst_average_p_tau <- sjPlot::tab_model(summary_attention_cst_average_p_tau)
 
      vtg::log$info("summary_attention_cst_average_gfap")
-     summary_attention_cst_average_gfap <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+     summary_attention_cst_average_gfap <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1043,7 +1043,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_attention_cst_average_gfap <- sjPlot::tab_model(summary_attention_cst_average_gfap)
 
      vtg::log$info("summary_attention_cst_average_nfl")
-     summary_attention_cst_average_nfl <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_attention_cst_average_nfl <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1054,7 +1054,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_attention_cst_average_nfl <- sjPlot::tab_model(summary_attention_cst_average_nfl)
 
      vtg::log$info("summary_attention_cst_average_amyloid_b_ratio")
-     summary_attention_cst_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+     summary_attention_cst_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1066,7 +1066,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
      #Executive function
      vtg::log$info("summary_priority_executive_cst_p_tau")
-     summary_priority_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+     summary_priority_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1077,7 +1077,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_p_tau <- sjPlot::tab_model(summary_priority_executive_cst_p_tau)
 
      vtg::log$info("summary_priority_executive_cst_gfap")
-     summary_priority_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+     summary_priority_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1088,7 +1088,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_gfap <- sjPlot::tab_model(summary_priority_executive_cst_gfap)
 
      vtg::log$info("summary_priority_executive_cst_nfl")
-     summary_priority_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_priority_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1099,7 +1099,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_nfl <- sjPlot::tab_model(summary_priority_executive_cst_nfl)
 
      vtg::log$info("summary_priority_executive_cst_amyloid_b_ratio")
-     summary_priority_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+     summary_priority_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1110,7 +1110,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_cst_amyloid_b_ratio <- sjPlot::tab_model(summary_priority_executive_cst_amyloid_b_ratio)
 
     vtg::log$info("summary_executive_stroop_3_p_tau")
-    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = df,
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1121,7 +1121,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_p_tau <- sjPlot::tab_model(summary_executive_stroop_3_p_tau)
 
     vtg::log$info("summary_executive_stroop_3_gfap")
-    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = df,
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1133,7 +1133,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_gfap <- sjPlot::tab_model(summary_executive_stroop_3_gfap)
 
     vtg::log$info("summary_executive_stroop_3_nfl")
-    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = df,
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1144,7 +1144,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl)
 
     vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                                                          data = df,
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1156,7 +1156,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Executive function (shifting)
      vtg::log$info("summary_priority_executive_shifting_p_tau")
-     summary_priority_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+     summary_priority_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1167,7 +1167,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_shifting_p_tau <- sjPlot::tab_model(summary_priority_executive_shifting_p_tau)
 
      vtg::log$info("summary_priority_executive_shifting_gfap")
-     summary_priority_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+     summary_priority_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1178,7 +1178,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_shifting_gfap <- sjPlot::tab_model(summary_priority_executive_shifting_gfap)
 
      vtg::log$info("summary_priority_executive_shifting_nfl")
-     summary_priority_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_priority_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1189,7 +1189,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
      #summary_priority_executive_shifting_nfl <- sjPlot::tab_model(summary_priority_executive_shifting_nfl)
 
      vtg::log$info("summary_priority_executive_shifting_amyloid_b_ratio")
-     summary_priority_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+     summary_priority_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1201,7 +1201,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     #Executive function (interference)
     vtg::log$info("summary_executive_stroop_3_p_tau")
-    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = df,
                                                random = ~ years_since_baseline | id,
                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1212,7 +1212,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_p_tau <- sjPlot::tab_model(summary_executive_stroop_3_p_tau)
 
     vtg::log$info("summary_executive_stroop_3_gfap")
-    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                               data = df,
                                               random = ~ years_since_baseline | id,
                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1224,7 +1224,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_gfap <- sjPlot::tab_model(summary_executive_stroop_3_gfap)
 
     vtg::log$info("summary_executive_stroop_3_nfl")
-    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = df,
                                              random = ~ years_since_baseline | id,
                                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1235,7 +1235,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl)
 
     vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-    summary_attention_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_attention_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                                                          data = df,
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1247,7 +1247,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     # Executive function (Interference)
     vtg::log$info("summary_executive_stroop_interf_p_tau")
-    summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                     data = df,
                                                     random = ~ years_since_baseline | id,
                                                     weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1258,7 +1258,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_interf_p_tau <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau)
 
     vtg::log$info("summary_executive_stroop_interf_gfap")
-    summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                                    data = df,
                                                    random = ~ years_since_baseline | id,
                                                    weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1270,7 +1270,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_interf_gfap <- sjPlot::tab_model(summary_executive_stroop_interf_gfap)
 
     vtg::log$info("summary_executive_stroop_interf_nfl")
-    summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
+    summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                                   data = df,
                                                   random = ~ years_since_baseline | id,
                                                   weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1281,7 +1281,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     #summary_attention_stroop_interf_nfl <- sjPlot::tab_model(summary_executive_stroop_interf_nfl)
 
     vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio")
-    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
                                                               data = df,
                                                               random = ~ years_since_baseline | id,
                                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
