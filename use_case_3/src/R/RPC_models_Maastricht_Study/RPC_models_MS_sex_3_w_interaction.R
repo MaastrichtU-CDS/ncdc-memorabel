@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -734,7 +734,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                       method = "REML",
                                       na.action = na.exclude,
                                       control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
     vtg::log$info("summary_memory_gfap_im")
     summary_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline
                                      + sex * gfap + sex * years_since_baseline + sex * gfap * years_since_baseline,
@@ -1193,7 +1193,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                              method = "REML",
                              na.action = na.exclude,
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
 results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,

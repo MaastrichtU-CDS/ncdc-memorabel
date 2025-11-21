@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -663,6 +663,3 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
   })
   return(result)
 }
-        "error_message" = "Empty dataset: no participants selected"
-      ))
-    }

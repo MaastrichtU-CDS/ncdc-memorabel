@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -768,7 +768,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
         "error_message" = "Empty dataset: no participants selected"
       ))
     }
-    
+
 #Immediate recall
     vtg::log$info("summary_memory_p_tau_im")
     summary_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,

@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1311,7 +1311,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_priority_executive_stroop_interf_amyloid_b_ratio <- sjPlot::tab_model(summary_priority_executive_stroop_interf_amyloid_b_ratio, digits = 10)
 
-    
+
 
  results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
@@ -1385,4 +1385,4 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     ))
   })
   return(result)
-}   
+}

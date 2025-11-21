@@ -1,4 +1,4 @@
-RPC_models_EMIF_AD_cs_sex_2w <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_EMIF_AD_cs_apoe_2w <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(

@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_apoe_3_w_int <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1393,7 +1393,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     # summary_executive_shifting_amyloid_b_ratio <- sjPlot::tab_model(summary_executive_shifting_amyloid_b_ratio, digits = 10)
 
 
-    
+
   results <- list(
       "summary_memory_p_tau_im" = summary_memory_p_tau_im,
       "summary_memory_gfap_im" = summary_memory_gfap_im,
@@ -1466,4 +1466,4 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     ))
   })
   return(result)
-}  
+}

@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_strat_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -417,7 +417,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
         )
         df$priority_attention_stroop_2_z <- pmax(pmin(df$priority_attention_stroop_2_z, 5), -5)
         df$priority_attention_stroop_2_z <- -df$priority_attention_stroop_2_z
-      
+
       } else {
         return(list(
           "error_message" = paste("stroop 2 not found")
@@ -713,6 +713,9 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
 
     if (nrow(df) == 0) {
       return(list(
+        "error_message" = "Empty dataset: no participants selected"
+      ))
+    }
 
   #Immediate recall
     vtg::log$info("summary_memory_p_tau_im_male")
@@ -1059,7 +1062,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
      vtg::log$info("summary_processing_speed_nfl_female")
      summary_processing_speed_nfl_female <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                              + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -1148,7 +1151,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
      vtg::log$info("summary_attention_cst_average_nfl_female")
      summary_attention_cst_average_nfl_female <- safe_lme_summary(priority_attention_cst_average_a_z ~ years_since_baseline
                                              + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -1238,7 +1241,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                              method = "REML",
                                              na.action = na.exclude,
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
      vtg::log$info("summary_attention_stroop_average_nfl_female")
      summary_attention_stroop_average_nfl_female <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline
                                              + age_rec + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -1271,7 +1274,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                                         method = "REML",
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-        
+
 
     #Executive function (CST)
     vtg::log$info("summary_executive_cst_p_tau_male")
@@ -1653,8 +1656,8 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                                         na.action = na.exclude,
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     # summary_executive_stroop_interf_amyloid_b_ratio_female <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio_female, digits = 10)
-        
-        
+
+
   results <- list(
       "summary_memory_p_tau_im_male" = summary_memory_p_tau_im_male,
       "summary_memory_gfap_im_male" = summary_memory_gfap_im_male,
@@ -1700,7 +1703,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_attention_cst_average_nfl_female" = summary_attention_cst_average_nfl_female,
       "summary_attention_cst_average_amyloid_b_ratio_male" = summary_attention_cst_average_amyloid_b_ratio_male,
       "summary_attention_cst_average_amyloid_b_ratio_female" = summary_attention_cst_average_amyloid_b_ratio_female,
-    
+
       "summary_attention_stroop_average_p_tau_male" = summary_attention_stroop_average_p_tau_male,
       "summary_attention_stroop_average_p_tau_female" = summary_attention_stroop_average_p_tau_female,
       "summary_attention_stroop_average_gfap_male" = summary_attention_stroop_average_gfap_male,
@@ -1708,7 +1711,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
       "summary_attention_stroop_average_nfl_male" = summary_attention_stroop_average_nfl_male,
       "summary_attention_stroop_average_nfl_female" = summary_attention_stroop_average_nfl_female,
       "summary_attention_stroop_average_amyloid_b_ratio_male" = summary_attention_stroop_average_amyloid_b_ratio_male,
-      "summary_attention_stroop_average_amyloid_b_ratio_female" = summary_attention_stroop_average_amyloid_b_ratio_female,    
+      "summary_attention_stroop_average_amyloid_b_ratio_female" = summary_attention_stroop_average_amyloid_b_ratio_female,
 
       "summary_executive_cst_p_tau_male" = summary_executive_cst_p_tau_male,
       "summary_executive_cst_p_tau_female" = summary_executive_cst_p_tau_female,
@@ -1769,6 +1772,3 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
   })
   return(result)
 }
-        "error_message" = "Empty dataset: no participants selected"
-      ))
-    }

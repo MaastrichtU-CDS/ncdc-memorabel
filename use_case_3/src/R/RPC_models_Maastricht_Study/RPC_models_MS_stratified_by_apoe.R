@@ -1,4 +1,4 @@
-RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1390,7 +1390,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
      vtg::log$info("RIRS_executive_cst_nfl_apoe_pos")
      summary_executive_cst_nfl_apoe_pos <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -1568,7 +1568,7 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
                                             method = "REML",
                                             na.action = na.exclude,
                                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-    
+
      vtg::log$info("RIRS_executive_stroop_3_nfl_apoe_pos")
      summary_executive_stroop_3_nfl_apoe_pos <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
@@ -1797,4 +1797,4 @@ RPC_models_Maastricht_study <- function(df, config, model = "memory", exclude=c(
     ))
   })
   return(result)
-}  
+}
