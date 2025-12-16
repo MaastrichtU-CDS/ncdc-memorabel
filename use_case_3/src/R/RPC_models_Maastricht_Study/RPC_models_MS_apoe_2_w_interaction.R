@@ -1097,7 +1097,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
 
     #Executive function (CST)
     vtg::log$info("summary_priority_executive_cst_p_tau")
-    summary_priority_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+    summary_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                         + p_tau * years_since_baseline
                                         + apoe_carrier * p_tau,
                             data = df,
@@ -1111,7 +1111,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_cst_p_tau <- sjPlot::tab_model(summary_priority_executive_cst_p_tau, digits = 10)
 
     vtg::log$info("summary_priority_executive_cst_gfap")
-    summary_priority_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+    summary_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap,
                             data = df,
@@ -1124,7 +1124,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_cst_gfap <- sjPlot::tab_model(summary_priority_executive_cst_gfap, digits = 10)
 
     vtg::log$info("summary_priority_executive_cst_nfl")
-    summary_priority_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+    summary_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl,
                             data = df,
@@ -1138,7 +1138,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_cst_nfl <- sjPlot::tab_model(summary_priority_executive_cst_nfl, digits = 10)
 
     vtg::log$info("summary_priority_executive_cst_amyloid_b_ratio")
-    summary_priority_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+    summary_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                             data = df,
@@ -1152,7 +1152,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
 
     #Interference score
     vtg::log$info("summary_priority_executive_shifting_p_tau")
-    summary_priority_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+    summary_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                       + p_tau * years_since_baseline
                                       + apoe_carrier * p_tau,
                             data = df,
@@ -1165,7 +1165,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_shifting_p_tau <- sjPlot::tab_model(summary_priority_executive_shifting_p_tau, digits = 10)
 
     vtg::log$info("summary_priority_executive_shifting_gfap")
-    summary_priority_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+    summary_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap,
                             data = df,
@@ -1178,7 +1178,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_shifting_gfap <- sjPlot::tab_model(summary_priority_executive_shifting_gfap, digits = 10)
 
     vtg::log$info("summary_priority_executive_shifting_nfl")
-    summary_priority_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+    summary_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl,
                             data = df,
@@ -1191,7 +1191,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_shifting_nfl <- sjPlot::tab_model(summary_priority_executive_shifting_nfl, digits = 10)
 
     vtg::log$info("summary_priority_executive_shifting_amyloid_b_ratio")
-    summary_priority_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+    summary_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                             data = df,
@@ -1205,7 +1205,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
 
     #Executive function (Stroop)
     vtg::log$info("summary_priority_executive_stroop_3_p_tau")
-    summary_priority_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                         + p_tau * years_since_baseline
                                         + apoe_carrier * p_tau,
                             data = df,
@@ -1219,7 +1219,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_3_p_tau <- sjPlot::tab_model(summary_priority_executive_stroop_3_p_tau, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_3_gfap")
-    summary_priority_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap,
                             data = df,
@@ -1232,7 +1232,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_3_gfap <- sjPlot::tab_model(summary_priority_executive_stroop_3_gfap, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_3_nfl")
-    summary_priority_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl,
                             data = df,
@@ -1246,7 +1246,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_3_nfl <- sjPlot::tab_model(summary_priority_executive_stroop_3_nfl, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_3_amyloid_b_ratio")
-    summary_priority_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                             data = df,
@@ -1260,7 +1260,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
 
     #Interference score
     vtg::log$info("summary_priority_executive_stroop_interf_p_tau")
-    summary_priority_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+    summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
                                       + p_tau * years_since_baseline
                                       + apoe_carrier * p_tau,
                             data = df,
@@ -1273,7 +1273,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_interf_p_tau <- sjPlot::tab_model(summary_priority_executive_stroop_interf_p_tau, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_interf_gfap")
-    summary_priority_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+    summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
                                      + gfap * years_since_baseline
                                      + apoe_carrier * gfap,
                             data = df,
@@ -1286,7 +1286,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_interf_gfap <- sjPlot::tab_model(summary_priority_executive_stroop_interf_gfap, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_interf_nfl")
-    summary_priority_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+    summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
                                     + nfl * years_since_baseline
                                     + apoe_carrier * nfl,
                             data = df,
@@ -1299,7 +1299,7 @@ RPC_models_apoe_2_w_int <- function(df, config, model = "memory", exclude=c()) {
     # summary_priority_executive_stroop_interf_nfl <- sjPlot::tab_model(summary_priority_executive_stroop_interf_nfl, digits = 10)
 
     vtg::log$info("summary_priority_executive_stroop_interf_amyloid_b_ratio")
-    summary_priority_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + apoe_carrier * amyloid_b_ratio_42_40,
                             data = df,
