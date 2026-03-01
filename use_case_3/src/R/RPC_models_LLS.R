@@ -83,11 +83,11 @@ RPC_models_lls <- function(df, config, model = "memory", exclude=c()) {
     )
     df_cogn_test <- df[!is.na(df[["priority_executive_stroop_3_time"]]) | !is.na(df[["priority_memory_im_pwlt"]]) |
       !is.na(df[["attention_test_stroop_1_time"]]) | !is.na(df[["attention_test_stroop_2_time"]]) | !is.na(df[["priority_memory_de_pwlt"]]) |
-        !is.na(df[["attention_test_sdst_60_ts"]]) | !is.na(df[["attention_test_sdst_90_ts"]]),]
+        !is.na(df[["attention_test_sdst_60_correct"]]) | !is.na(df[["attention_test_sdst_90_correct"]]),]
     df <- merge(
           x = df_cogn_test[c("id", "date", "priority_memory_im_pwlt", "priority_memory_de_pwlt",
             "priority_executive_stroop_3_time", "mmse_total", "attention_test_stroop_1_time",
-            "attention_test_stroop_2_time", "attention_test_sdst_60_ts", "attention_test_sdst_90_ts")],
+            "attention_test_stroop_2_time", "attention_test_sdst_60_correct", "attention_test_sdst_90_correct")],
           y = df_grouped,
           by = "id"
           # all.x = T
@@ -297,14 +297,14 @@ RPC_models_lls <- function(df, config, model = "memory", exclude=c()) {
 #     #SDST; Burggraaf et al (2016) norms
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
-    if (c("attention_test_sdst_60_ts") %in% colnames(df)) {
-      df$attention_test_sdst_60_ts <- (df$attention_test_sdst_60_ts * (90/60))
+    if (c("attention_test_sdst_90_correct") %in% colnames(df)) {
+      df$attention_test_sdst_90_correct <- (df$attention_test_sdst_90_correct * (90/60))
       df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
       df$priority_processing_speed_sdst_z <-
-        ((df$attention_test_sdst_60_ts - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
-      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60_ts
+        ((df$attention_test_sdst_90_correct - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_90_correct
       df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
     }
     else  {
