@@ -314,6 +314,15 @@ RPC_models_lls <- function(df, config, model = "memory", exclude=c()) {
     }
 
     ##Stroop: Van der Elst norms
+    #They only had the 4 lines available - to account for this and adjust it for 10 lines, I time the raw scores by 2.5
+
+  df <- df %>%
+  dplyr::mutate(attention_test_stroop_1_time = attention_test_stroop_1_time * 2.5)
+  df <- df %>%
+  dplyr::mutate(attention_test_stroop_2_time = attention_test_stroop_2_time * 2.5)
+  df <- df %>%
+  dplyr::mutate(priority_executive_stroop_3_time = priority_executive_stroop_3_time * 2.5)
+    
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
