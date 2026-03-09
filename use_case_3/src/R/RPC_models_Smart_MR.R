@@ -484,27 +484,29 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
 
       df <- df %>%
         dplyr::mutate(priority_processing_speed_sdst_z = dplyr::case_when(
-          sdst_scaled >= 1 ~ -3.00,
-          sdst_scaled >= 2 ~ -2.67,
-          sdst_scaled >= 3 ~ -2.33,
-          sdst_scaled >= 4 ~ -2.00,
-          sdst_scaled >= 5 ~ -1.67,
-          sdst_scaled >= 6 ~ -1.33,
-          sdst_scaled >= 7 ~ -1.00,
-          sdst_scaled >= 8 ~ -0.67,
-          sdst_scaled >= 9 ~ -0.33,
-          sdst_scaled >= 10 ~ 0,
-          sdst_scaled >= 11 ~ 0.33,
-          sdst_scaled >= 12 ~ 0.67,
-          sdst_scaled >= 13 ~ 1.00,
-          sdst_scaled >= 14 ~ 1.33,
-          sdst_scaled >= 15 ~ 1.67,
-          sdst_scaled >= 16 ~ 2.00,
-          sdst_scaled >= 17 ~ 2.33,
-          sdst_scaled >= 18 ~ 2.67,
-          sdst_scaled >= 19 ~ 3.00,
+          sdst_scaled <= 1 ~ -3.00,
+          sdst_scaled <= 2 ~ -2.67,
+          sdst_scaled <= 3 ~ -2.33,
+          sdst_scaled <= 4 ~ -2.00,
+          sdst_scaled <= 5 ~ -1.67,
+          sdst_scaled <= 6 ~ -1.33,
+          sdst_scaled <= 7 ~ -1.00,
+          sdst_scaled <= 8 ~ -0.67,
+          sdst_scaled <= 9 ~ -0.33,
+          sdst_scaled <= 10 ~ 0,
+          sdst_scaled <= 11 ~ 0.33,
+          sdst_scaled <= 12 ~ 0.67,
+          sdst_scaled <= 13 ~ 1.00,
+          sdst_scaled <= 14 ~ 1.33,
+          sdst_scaled <= 15 ~ 1.67,
+          sdst_scaled <= 16 ~ 2.00,
+          sdst_scaled <= 17 ~ 2.33,
+          sdst_scaled <= 18 ~ 2.67,
+          sdst_scaled <= 19 ~ 3.00,
           TRUE ~ NA_real_  # Assign NA for other cases
         ))
+      priority_processing_speed_sdst_z <- priority_processing_speed_sdst_z/2
+      
     } else  {
       print("No measure for processing speed found, no z-score transformation possible")
     }
