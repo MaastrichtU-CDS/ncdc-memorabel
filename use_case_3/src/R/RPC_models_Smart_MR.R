@@ -163,11 +163,14 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     df$apoe_carrier <- as.integer(df$apoe_genotype %in% c(4, 5, 6))
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
+    # Education levels (They have CBS available)
+    df$education_category_3 <- recode(df$education, "1"=0, "2"=0, "3"=1, "4"=1, "5"=1, "6"=2, "7"=2, "8"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
-    # dummy variables:
-    df$education_low <- ifelse(df$education == 'low', 1, 0)
-    df$education_high <- ifelse(df$education == 'high', 1, 0)
 
+    # dummy variables:
+    df$education_low <- ifelse(df$education  == 'low', 1, 0)
+    df$education_high <- ifelse(df$education  == 'high', 1, 0)
+    
     # In the original dataset, this variable may not
     # be associated with the plasma data but only with the visit date
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
@@ -181,9 +184,6 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
-
-    #animal fluency 120 sec to 60 sec
-    df$priority_language_animal_fluency_60_correct  <- df$priority_language_animal_fluency_120_correct/2
 
     vtg::log$info("Number of rows in the dataset after pre-processing: '{nrow(df)}'")
     #Descriptive statistics
@@ -314,14 +314,27 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = paste("Delayed recall test not found")
       ))
     }
+    
+    #animal fluency 120 sec to 60 sec
+    df$priority_language_animal_fluency_60_correct  <- df$priority_language_animal_fluency_120_correct/2
 
-    #Z-score: language
+    df$priority_language_animal_fluency_60_correct <- as.numeric(as.character(df$priority_language_animal_fluency_60_correct))
+   
+  #Z-score: language
    print("Animal Fluency")
    print(sum(is.na(df["priority_language_animal_fluency_120_correct"])))
-    #Van der Elst, et al. norms for animal fluency
+  #Van der Elst, et al. norms for animal fluency
      if (c("priority_language_animal_fluency_120_correct") %in% colnames(df)) {
-       df$priority_language_z <-
-      (df$priority_language_animal_fluency_60_correct - (24.777 +(df$age_cent * -0.097) + (df$education_low * -2.790) + (df$education_high * 1.586)) / 5.797)
+        df$predicted_animal_fluency <-
+          24.777 +
+          (-0.097 * df$age_cent) +
+          (-2.790 * df$education_low) +
+          (1.586 * df$education_high)
+        
+        df$priority_language_z <-
+          (df$priority_language_animal_fluency_60_correct -
+             df$predicted_animal_fluency) / 5.797
+               df$priority_language_z <-
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
