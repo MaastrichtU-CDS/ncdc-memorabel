@@ -597,52 +597,84 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       dplyr::group_by(years_since_baseline) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        count_edu_low = sum(education_low == '1', na.rm = TRUE),
-        count_edu_high = sum(education_high == '1', na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-        mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
-        sd_memory_immediate_recall_z = sd(priority_memory_im_z, na.rm = TRUE),
-        mean_memory_im_ravlt = mean(priority_memory_im_ravlt, na.rm = TRUE),
-        sd_memory_im_ravlt = sd(priority_memory_im_ravlt, na.rm = TRUE),
-        mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
-        sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
-        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
-        mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
-        sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
-        mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
-        sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
-        mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
-        sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
-        mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
-        sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
-        mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-        #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        #sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE),
-        # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
-        mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
-        sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
-        mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
-        sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
-        mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
-        sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE)
-      )
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      n_p_tau = sum(!is.na(p_tau)),
+
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+       
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      n_gfap = sum(!is.na(gfap)),
+       
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      n_nfl = sum(!is.na(nfl)),
+
+      high_edu = sum(education == "high"),
+      medium_edu = sum(education == "medium"),
+      low_edu = sum(education == "low"),
+      
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      
+      mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
+      sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
+      n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
+    
+      mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
+      sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
+      n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
+    
+      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
+      n_priority_language_z    = sum(!is.na(priority_language_z)),
+    
+      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
+    
+      mean_mmse = mean(mmse_total, na.rm = TRUE),
+      sd_mmse   = sd(mmse_total, na.rm = TRUE),
+      n_mmse    = sum(!is.na(mmse_total)),
+
+      mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
+      sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
+      n_cst_average    = sum(!is.na(priority_attention_cst_average_z)),
+      
+      mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
+      sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
+      n_cst_executive    = sum(!is.na(priority_executive_cst_z)),
+        
+      mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
+      sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE),
+      n_executive_shifting    = sum(!is.na(priority_executive_shifting_z)),
+
+      mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
+      sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
+      n_stroop1    = sum(!is.na(priority_attention_stroop_1_z)),
+        
+      mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
+      sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
+      n_stroop2    = sum(!is.na(priority_attention_stroop_2_z)),
+        
+      mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
+      sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
+      n_stroop_average    = sum(!is.na(priority_attention_stroop_average_z)),
+        
+      mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
+      sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
+      n_stroop_3    = sum(!is.na(priority_executive_stroop_3_z)),
+        
+      mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+      sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
+      n_stroop_interf   = sum(!is.na(priority_executive_stroop_interf_z))
+      
+      #count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
+
 
     #same as above but here the table sorted by sex
     descriptives_by_sex_NPA_table <- df %>%
@@ -650,54 +682,84 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        count_edu_low = sum(education_low == '1', na.rm = TRUE),
-        count_edu_high = sum(education_high == '1', na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-        years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
-        sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE),
-        mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
-        sd_memory_immediate_recall_z = sd(priority_memory_im_z, na.rm = TRUE),
-        mean_memory_im_ravlt = mean(priority_memory_im_ravlt, na.rm = TRUE),
-        sd_memory_im_ravlt = sd(priority_memory_im_ravlt, na.rm = TRUE),
-        mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
-        sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
-        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
-        mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
-        sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
-        mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
-        sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
-        mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
-        sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
-        mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
-        sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
-        mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-        #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        #sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE),
-        # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
-        mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
-        sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
-        mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
-        sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
-        mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
-        sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE)
-      )
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      n_p_tau = sum(!is.na(p_tau)),
+
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+       
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      n_gfap = sum(!is.na(gfap)),
+       
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      n_nfl = sum(!is.na(nfl)),
+
+      high_edu = sum(education == "high"),
+      medium_edu = sum(education == "medium"),
+      low_edu = sum(education == "low"),
+      
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      
+      mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
+      sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
+      n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
+    
+      mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
+      sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
+      n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
+    
+      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
+      n_priority_language_z    = sum(!is.na(priority_language_z)),
+    
+      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
+    
+      mean_mmse = mean(mmse_total, na.rm = TRUE),
+      sd_mmse   = sd(mmse_total, na.rm = TRUE),
+      n_mmse    = sum(!is.na(mmse_total)),
+
+      mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
+      sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
+      n_cst_average    = sum(!is.na(priority_attention_cst_average_z)),
+      
+      mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
+      sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
+      n_cst_executive    = sum(!is.na(priority_executive_cst_z)),
+        
+      mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
+      sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE),
+      n_executive_shifting    = sum(!is.na(priority_executive_shifting_z)),
+
+      mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
+      sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
+      n_stroop1    = sum(!is.na(priority_attention_stroop_1_z)),
+        
+      mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
+      sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
+      n_stroop2    = sum(!is.na(priority_attention_stroop_2_z)),
+        
+      mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
+      sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
+      n_stroop_average    = sum(!is.na(priority_attention_stroop_average_z)),
+        
+      mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
+      sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
+      n_stroop_3    = sum(!is.na(priority_executive_stroop_3_z)),
+        
+      mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+      sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
+      n_stroop_interf   = sum(!is.na(priority_executive_stroop_interf_z))
+      
+      #count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
+
 
     #same as above but here the table sorted by years since baseline and sex
     descriptives_by_sex_and_FU_NPA_table <- df %>%
@@ -705,52 +767,83 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        count_edu_low = sum(education_low == '1', na.rm = TRUE),
-        count_edu_high = sum(education_high == '1', na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE),
-        mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
-        sd_memory_immediate_recall_z = sd(priority_memory_im_z, na.rm = TRUE),
-        mean_memory_im_ravlt = mean(priority_memory_im_ravlt, na.rm = TRUE),
-        sd_memory_im_ravlt = sd(priority_memory_im_ravlt, na.rm = TRUE),
-        mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
-        sd_memory_delayed_recall_z = sd(priority_memory_dr_z, na.rm = TRUE),
-        mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-        sd_priority_language_z = sd(priority_language_z, na.rm = TRUE),
-        mean_priority_processing_speed_ldst_z = mean(priority_processing_speed_ldst_z, na.rm = TRUE),
-        sd_priority_processing_speed_ldst_z = sd(priority_processing_speed_ldst_z, na.rm = TRUE),
-        mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
-        sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
-        mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
-        sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
-        mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
-        sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
-        mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
-        sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
-        mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-        sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-        #mean_priority_attention_tmt_a_z = mean(priority_attention_tmt_a_z, na.rm = TRUE),
-        #sd_priority_attention_tmt_a_z = sd(priority_attention_tmt_a_z, na.rm = TRUE),
-        #mean_priority_executive_tmt_z = mean(priority_executive_tmt_z, na.rm = TRUE),
-        #sd_priority_executive_tmt_z = sd(priority_executive_tmt_z, na.rm = TRUE),
-        mean_mmse = mean(mmse_total, na.rm = TRUE),
-        sd_mmse = sd(mmse_total, na.rm = TRUE),
-        # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
-        mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
-        sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
-        mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
-        sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
-        mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
-        sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE)
-      )
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      n_p_tau = sum(!is.na(p_tau)),
+
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+       
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      n_gfap = sum(!is.na(gfap)),
+       
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      n_nfl = sum(!is.na(nfl)),
+
+      high_edu = sum(education == "high"),
+      medium_edu = sum(education == "medium"),
+      low_edu = sum(education == "low"),
+      
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+      
+      mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
+      sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
+      n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
+    
+      mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
+      sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
+      n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
+    
+      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
+      n_priority_language_z    = sum(!is.na(priority_language_z)),
+    
+      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
+    
+      mean_mmse = mean(mmse_total, na.rm = TRUE),
+      sd_mmse   = sd(mmse_total, na.rm = TRUE),
+      n_mmse    = sum(!is.na(mmse_total)),
+
+      mean_cst_ab_average_z = mean(priority_attention_cst_average_z, na.rm = TRUE),
+      sd_cst_ab_average_z = sd(priority_attention_cst_average_z, na.rm = TRUE),
+      n_cst_average    = sum(!is.na(priority_attention_cst_average_z)),
+      
+      mean_executive_cst_z = mean(priority_executive_cst_z, na.rm = TRUE),
+      sd_executive_cst_z = sd(priority_executive_cst_z, na.rm = TRUE),
+      n_cst_executive    = sum(!is.na(priority_executive_cst_z)),
+        
+      mean_executive_shifting_z = mean(priority_executive_shifting_z, na.rm = TRUE),
+      sd_executive_shifting_z = sd(priority_executive_shifting_z, na.rm = TRUE),
+      n_executive_shifting    = sum(!is.na(priority_executive_shifting_z)),
+
+      mean_priority_attention_stroop_1_z = mean(priority_attention_stroop_1_z, na.rm = TRUE),
+      sd_priority_attention_stroop_1_z = sd(priority_attention_stroop_1_z, na.rm = TRUE),
+      n_stroop1    = sum(!is.na(priority_attention_stroop_1_z)),
+        
+      mean_priority_attention_stroop_2_z = mean(priority_attention_stroop_2_z, na.rm = TRUE),
+      sd_priority_attention_stroop_2_z = sd(priority_attention_stroop_2_z, na.rm = TRUE),
+      n_stroop2    = sum(!is.na(priority_attention_stroop_2_z)),
+        
+      mean_priority_attention_stroop_average_z = mean(priority_attention_stroop_average_z, na.rm = TRUE),
+      sd_priority_attention_stroop_average_z = sd(priority_attention_stroop_average_z, na.rm = TRUE),
+      n_stroop_average    = sum(!is.na(priority_attention_stroop_average_z)),
+        
+      mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
+      sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
+      n_stroop_3    = sum(!is.na(priority_executive_stroop_3_z)),
+        
+      mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+      sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
+      n_stroop_interf   = sum(!is.na(priority_executive_stroop_interf_z))
+      
+      #count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
+    )
 
 
     summary_post <- summary_stats(
