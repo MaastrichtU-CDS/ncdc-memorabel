@@ -185,7 +185,7 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
 
-    
+    #Remove two outliers
     df <- df[df$p_tau != 33.4 & df$p_tau != 111, ]
 
     #Descriptive statistics
