@@ -175,60 +175,65 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
       dplyr::select(priority_memory_im_lm, priority_memory_dr_lm, age_cent, sex, education_low, education_high) %>%
       tidyr::drop_na()
     # Regression models -------------------------------------------------------
+    #Need some new library's for this part
+    library(lmtest)
+    
     #Syntax regression model including age, sex, and education for immediate recall of logical memory
     model_im_lm <- lm(priority_memory_im_lm ~ age_cent + sex + education_low + education_high, data = df)
     summary_model_im_lm <- sjPlot::tab_model(model_im_lm)
 
+    #heteroscedasticity test for LM_IM. Significant = homoscedasticity violated.
+    bptest_im_lm <- lmtest::bptest(model_im_lm, varformula = NULL, studentize = TRUE, data = list(), weights = NULL)
+
+    #Calculate the residuals for the model
+    res <- residuals(model_im_lm)
+    
+    #Create a polynomial function to model the squared residuals
+    im_lm_var <- lm(I(res^2) ~ age_cent + sex + education_low + education_high, data = df)
+    summary_model_var_im_lm <- sjPlot::tab_model(im_lm_var)
+
+    #Create a polynomial function to model the cubic residuals
+    im_lm_var_cube <- lm(I(res^3) ~ age_cent + sex + education_low + education_high, data = df)
+    summary_model_var_im_lm_cube <- sjPlot::tab_model(im_lm_var)
+
+    #Predict the residuals (this is a proof of concept at the moment)
+    #pred_var <- predict(lm_var, df)
+
+    #Take the square root of the (polynomial) residuals to get the variance for the z-scores (this is a proof of concept at the moment)
+    #sigma <- sqrt(pred_var)
+
+    #Predict the logical memory score (this is a proof of concept at the moment)
+    #mu <- predict(model_im_lm, df)
+
+    #calculate the z-scores for dataset (this is a proof of concept at the moment)
+    #im_lm_z_score <- (df$priority_memory_im_lm - mu) / sigma
+
     ##Syntax regression model including age, sex, and education for delayed recall of logical memory
     model_dr_lm <- lm(priority_memory_dr_lm ~ age_cent + sex + education_low + education_high, data = df)
     summary_model_dr_lm <- sjPlot::tab_model(model_dr_lm)
-#
-#     #immediate recall logical memory
-#     # Missing data (error when assigning it to df$ZPRED_im_lm)
-#     ZPRED_im_lm <- stats::predict(model_im_lm, newdata = df_clean) #predicted z-score
-#     ZRESID_im_lm <- stats::resid(model_im_lm, newdata = df_clean) #residuals of the model
-#
-#     ##Homoscedasticity
-#     ###Scatterplot of residuals - immediate recall logical memory
-#     scatter_res_im_lm <- plot(ZPRED_im_lm, ZRESID_im_lm,
-#                               xlab = "Predicted Mean Test Score",
-#                               ylab = "Residuals",
-#                               main = "Scatterplot of immediate recall logical memory",
-#                               pch = 19,  # point type
-#                               col = ifelse(df_clean$sex == 1, "blue", "red"))
-#     #Add a horizontal line at y = 0 to show where residuals = 0
-#     abline(h = 0, col = "black", lty = 2)
-#
-#     ##Noramlity of the errors - immediate recall logical memory
-#     histo_im_lm <- hist(ZRESID_im_lm, main = "Histogram of Residuals", xlab = "Residuals")
-#     qqnorm_im_lm <- qqnorm(ZRESID_im_lm)
-#     qq_line_im_lm <- qqline(ZRESID_im_lm, col = "red")
-#
-#     # z_pred_resid_descriptives_im_lm <- describe(df %>% select(ZPRED_im_lm, ZRESID_im_lm))
-#     # print(z_pred_resid_descriptives_im_lm)
-#
-#     #delayed recall logical memory
-#     ZPRED_dr_lm <- stats::predict(model_dr_lm, newdata = df_clean) #predicted z-score
-#     ZRESID_dr_lm <- stats::resid(model_dr_lm, newdata = df_clean) #residuals of the model
-#
-#     ##Homoscedasticity
-#     ###Scatterplot of residuals - delayed recall logical memory
-#     scatter_res_dr_lm <- plot(ZPRED_dr_lm, ZRESID_dr_lm,
-#                               xlab = "Predicted Mean Test Score",
-#                               ylab = "Residuals",
-#                               main = "Scatterplot of delayed recall logical memory",
-#                               pch = 19,  # point type
-#                               col = ifelse(df_clean$sex == 1, "blue", "red"))
-#     #Add a horizontal line at y = 0 to show where residuals = 0
-#     abline(h = 0, col = "black", lty = 2)
-#
-#     ##Noramlity of the errors - delayed recall logical memory
-#     histo_dr_lm <- hist(ZRESID_dr_lm, main = "Histogram of Residuals", xlab = "Residuals")
-#     qqnorm_dr_lm <- qqnorm(ZRESID_dr_lm)
-#     qq_line_dr_lm <- qqline(ZRESID_dr_lm, col = "red")
-#
-#     # z_pred_resid_descriptives_dr_lm <- describe(df %>% select(ZPRED_dr_lm, ZRESID_dr_lm))
-#     # print(z_pred_resid_descriptives_dr_lm)
+
+    #heteroscedasticity test for LM_DR. Significant = homoscedasticity violated.
+    bptest_dr_lm <- lmtest::bptest(model_dr_lm, varformula = NULL, studentize = TRUE, data = list(), weights = NULL)
+
+    #Create a polynomial function to model the squared residuals
+    dr_lm_var <- lm(I(res^2) ~ age_cent + sex + education_low + education_high, data = df)
+    summary_model_var_dr_lm <- sjPlot::tab_model(dr_lm_var)
+
+    #Create a polynomial function to model the cubic residuals
+    dr_lm_var_cube <- lm(I(res^3) ~ age_cent + sex + education_low + education_high, data = df)
+    summary_model_var_dr_lm_cube <- sjPlot::tab_model(dr_lm_var)
+    
+    #Predict the residuals (this is a proof of concept at the moment)
+    #pred_var <- predict(lm_var, df)
+
+    #Take the square root of the (polynomial) residuals to get the variance for the z-scores (this is a proof of concept at the moment)
+    #sigma <- sqrt(pred_var)
+
+    #Predict the logical memory score (this is a proof of concept at the moment)
+    #mu <- predict(model_im_lm, df)
+
+    #calculate the z-scores for dataset (this is a proof of concept at the moment)
+    #im_lm_z_score <- (df$priority_memory_dr_lm - mu) / sigma
 
     # The output --------------------------------------------------------------
     results <- list(
@@ -237,16 +242,12 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
       "descriptives_by_sex_and_edu" = descriptives_by_sex_and_edu_table,
       "summary_model_im_lm" = summary_model_im_lm,
       "summary_model_dr_lm" = summary_model_dr_lm,
-      # "scatter_res_im_lm" = scatter_res_im_lm,
-      # "histo_im_lm" = histo_im_lm,
-      # "qqnorm_im_lm" = qqnorm_im_lm,
-      # "qq_line_im_lm" = qq_line_im_lm,
-      # # "z_pred_resid_descriptives_im_lm" = z_pred_resid_descriptives_im_lm,
-      # "scatter_res_dr_lm" = scatter_res_dr_lm,
-      # "histo_dr_lm" = histo_dr_lm,
-      # "qqnorm_dr_lm" = qqnorm_dr_lm,
-      # "qq_line_dr_lm" = qq_line_dr_lm,
-      # # "z_pred_resid_descriptives_dr_lm" = z_pred_resid_descriptives_dr_lm,
+      "bptest_im_lm" =  bptest_im_lm,
+      "bptest_dr_lm" =  bptest_dr_lm,
+      "summary_model_var_im_lm" = summary_model_var_im_lm,
+      "summary_model_var_dr_lm" = summary_model_var_dr_lm,
+      "summary_model_var_im_lm_cube" = summary_model_var_im_lm_cube,
+      "summary_model_var_dr_lm_cube" = summary_model_var_dr_lm_cube,
       "n" = nrow(df),
       "n_cog" = nrow(df_cogn_test),
       "n_clean" = nrow(df_clean),
