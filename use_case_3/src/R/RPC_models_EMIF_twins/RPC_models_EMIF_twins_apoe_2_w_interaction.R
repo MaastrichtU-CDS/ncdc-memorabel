@@ -184,6 +184,9 @@ RPC_models_EMIF_twins_apoe_2_w_interaction <- function(df, config, model = "memo
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
 
+    #Remove two outliers
+    df <- df[df$p_tau != 33.4 & df$p_tau != 111, ]
+
     #Descriptive statistics
     #Count of participants
     dplyr::n_distinct(df$id)
