@@ -186,6 +186,9 @@ RPC_models_EMIF_AD_mmse_sex <- function(df, config, model = "memory", exclude=c(
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
 
+    #Remove two outliers
+    df <- df[df$p_tau != 33.4 & df$p_tau != 111, ]
+
     #Descriptive statistics
     #Count of participants
     dplyr::n_distinct(df$id)
