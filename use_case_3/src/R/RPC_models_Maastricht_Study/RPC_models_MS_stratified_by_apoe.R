@@ -474,7 +474,6 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
     if (c("priority_executive_cst_a_time") %in% colnames(df)) {
       df$priority_attention_cst_a_z <-
         (((sqrt(df$priority_executive_cst_a_time)) - (3.668 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0002) + (df$sex * 0.143) + (df$education_low * 0.188) + (df$education_high * -0.092))) / 0.556)
-      df$priority_attention_cst_a_z <- pmax(pmin(df$priority_attention_cst_a_z, 5), -5)
       df$priority_attention_cst_a_z <- -df$priority_attention_cst_a_z
     } else {
       print("cst a not found")
@@ -483,7 +482,6 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
     if (c("priority_executive_cst_b_time") %in% colnames(df)) {
       df$priority_attention_cst_b_z <-
         (((sqrt(df$priority_executive_cst_b_time)) - (4.154 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0001) + (df$sex * 0.136) + (df$education_low * 0.365) + (df$education_high * -0.146))) / 0.639)
-      df$priority_attention_cst_b_z <- pmax(pmin(df$priority_attention_cst_b_z, 5), -5)
       df$priority_attention_cst_b_z <- -df$priority_attention_cst_b_z
     } else {
       print("cst b not found")
@@ -492,12 +490,10 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
   #Calculate the average CST a and b score
     df <- df %>%
       dplyr::mutate(
-        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_executive_cst_a_time, priority_executive_cst_b_time)), na.rm = TRUE)
+        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_attention_cst_a_z, priority_attention_cst_b_z)), na.rm = TRUE)
       )
       # filter(!is.na(priority_attention_cst_average_z))
     df$priority_attention_cst_average_z <- pmax(pmin(df$priority_attention_cst_average_z, 5), -5)
-    df$priority_attention_cst_average_z <- -df$priority_attention_cst_average_z
-
 
     #Z-score: executive functioning (Stroop and TMT)
     #TMT b: NIP norms
