@@ -177,7 +177,7 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
     # Regression models -------------------------------------------------------
     #Need some new library's for this part
     library(lmtest)
-    
+
     #Syntax regression model including age, sex, and education for immediate recall of logical memory
     model_im_lm <- lm(priority_memory_im_lm ~ age_cent + sex + education_low + education_high, data = df)
     summary_model_im_lm <- sjPlot::tab_model(model_im_lm)
@@ -186,14 +186,14 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
     bptest_im_lm <- lmtest::bptest(model_im_lm, varformula = NULL, studentize = TRUE, data = list(), weights = NULL)
 
     #Calculate the residuals for the model
-    res <- residuals(model_im_lm)
-    
+    res_im <- residuals(model_im_lm)
+
     #Create a polynomial function to model the squared residuals
-    im_lm_var <- lm(I(res^2) ~ age_cent + sex + education_low + education_high, data = df)
+    im_lm_var <- lm(I(res_im^2) ~ age_cent + sex + education_low + education_high, data = model.frame(model_im_lm))
     summary_model_var_im_lm <- sjPlot::tab_model(im_lm_var)
 
     #Create a polynomial function to model the cubic residuals
-    im_lm_var_cube <- lm(I(res^3) ~ age_cent + sex + education_low + education_high, data = df)
+    im_lm_var_cube <- lm(I(res_im^3) ~ age_cent + sex + education_low + education_high, data = model.frame(model_im_lm))
     summary_model_var_im_lm_cube <- sjPlot::tab_model(im_lm_var)
 
     #Predict the residuals (this is a proof of concept at the moment)
@@ -211,18 +211,19 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
     ##Syntax regression model including age, sex, and education for delayed recall of logical memory
     model_dr_lm <- lm(priority_memory_dr_lm ~ age_cent + sex + education_low + education_high, data = df)
     summary_model_dr_lm <- sjPlot::tab_model(model_dr_lm)
+    res_dr <- residuals(model_dr_lm)
 
     #heteroscedasticity test for LM_DR. Significant = homoscedasticity violated.
     bptest_dr_lm <- lmtest::bptest(model_dr_lm, varformula = NULL, studentize = TRUE, data = list(), weights = NULL)
 
     #Create a polynomial function to model the squared residuals
-    dr_lm_var <- lm(I(res^2) ~ age_cent + sex + education_low + education_high, data = df)
+    dr_lm_var <- lm(I(res_dr^2) ~ age_cent + sex + education_low + education_high, data = model.frame(model_dr_lm))
     summary_model_var_dr_lm <- sjPlot::tab_model(dr_lm_var)
 
     #Create a polynomial function to model the cubic residuals
-    dr_lm_var_cube <- lm(I(res^3) ~ age_cent + sex + education_low + education_high, data = df)
+    dr_lm_var_cube <- lm(I(res_dr^3) ~ age_cent + sex + education_low + education_high, data = model.frame(model_dr_lm))
     summary_model_var_dr_lm_cube <- sjPlot::tab_model(dr_lm_var)
-    
+
     #Predict the residuals (this is a proof of concept at the moment)
     #pred_var <- predict(lm_var, df)
 
