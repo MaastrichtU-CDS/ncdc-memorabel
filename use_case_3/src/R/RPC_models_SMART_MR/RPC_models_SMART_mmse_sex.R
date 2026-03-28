@@ -1,4 +1,4 @@
-RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_Smart_MR_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -163,7 +163,7 @@ query <- 'SELECT * FROM ncdc'
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
 
     # Education levels
-    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
+    # df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:

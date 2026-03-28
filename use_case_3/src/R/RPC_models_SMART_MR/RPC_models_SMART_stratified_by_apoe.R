@@ -1,5 +1,5 @@
 
-RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_Smart_MR_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -136,6 +136,8 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       dplyr::mutate(num_prior_visit = dplyr::row_number()-1) %>%
       dplyr::ungroup()
 
+    df$sqrt_prior_visit <- sqrt(df$num_prior_visit)
+
     # Age of participant:
     # current_year <- format(Sys.Date(), "%Y")
     # Year of birth will always be available (mandatory in OMOP), age is not guarantee
@@ -164,13 +166,13 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels (They have CBS available)
-    df$education_category_3 <- recode(df$education, "1"=0, "2"=0, "3"=1, "4"=1, "5"=1, "6"=2, "7"=2, "8"=2)
+    # df$education_category_3 <- recode(df$education, "1"=0, "2"=0, "3"=1, "4"=1, "5"=1, "6"=2, "7"=2, "8"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:
     df$education_low <- ifelse(df$education  == 'low', 1, 0)
     df$education_high <- ifelse(df$education  == 'high', 1, 0)
-    
+
     # In the original dataset, this variable may not
     # be associated with the plasma data but only with the visit date
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
@@ -314,12 +316,12 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
         "error_message" = paste("Delayed recall test not found")
       ))
     }
-    
+
     #animal fluency 120 sec to 60 sec
     df$priority_language_animal_fluency_60_correct  <- df$priority_language_animal_fluency_120_correct/2
 
     df$priority_language_animal_fluency_60_correct <- as.numeric(as.character(df$priority_language_animal_fluency_60_correct))
-   
+
   #Z-score: language
    print("Animal Fluency")
    print(sum(is.na(df["priority_language_animal_fluency_120_correct"])))
@@ -330,11 +332,10 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
           (-0.097 * df$age_cent) +
           (-2.790 * df$education_low) +
           (1.586 * df$education_high)
-        
+
         df$priority_language_z <-
           (df$priority_language_animal_fluency_60_correct -
              df$predicted_animal_fluency) / 5.797
-               df$priority_language_z <-
     } else {
       return(list(
         "error_message" = paste("language test not found, no z-score transformation possible")
@@ -505,8 +506,8 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
           sdst_scaled <= 19 ~ 3.00,
           TRUE ~ NA_real_  # Assign NA for other cases
         ))
-      priority_processing_speed_sdst_z <- priority_processing_speed_sdst_z/2
-      
+      df$priority_processing_speed_sdst_z <- df$priority_processing_speed_sdst_z/2
+
     } else  {
       print("No measure for processing speed found, no z-score transformation possible")
     }
@@ -527,11 +528,11 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
       sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
       n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
-       
+
       mean_gfap = mean(gfap, na.rm = TRUE),
       sd_gfap = sd(gfap, na.rm = TRUE),
       n_gfap = sum(!is.na(gfap)),
-       
+
       mean_nfl = mean(nfl, na.rm = TRUE),
       sd_nfl = sd(nfl, na.rm = TRUE),
       n_nfl = sum(!is.na(nfl)),
@@ -539,30 +540,30 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       high_edu = sum(education == "high"),
       medium_edu = sum(education == "medium"),
       low_edu = sum(education == "low"),
-      
+
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
-      
+
       mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
       sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
       n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
+
       mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
       sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
       n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
+
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
       n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
+
       mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
       sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
       n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
-    
+
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse   = sd(mmse_total, na.rm = TRUE),
       n_mmse    = sum(!is.na(mmse_total)),
-      
+
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
@@ -579,11 +580,11 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
       sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
       n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
-       
+
       mean_gfap = mean(gfap, na.rm = TRUE),
       sd_gfap = sd(gfap, na.rm = TRUE),
       n_gfap = sum(!is.na(gfap)),
-       
+
       mean_nfl = mean(nfl, na.rm = TRUE),
       sd_nfl = sd(nfl, na.rm = TRUE),
       n_nfl = sum(!is.na(nfl)),
@@ -591,30 +592,30 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       high_edu = sum(education == "high"),
       medium_edu = sum(education == "medium"),
       low_edu = sum(education == "low"),
-      
+
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
-      
+
       mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
       sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
       n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
+
       mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
       sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
       n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
+
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
       n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
+
       mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
       sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
       n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
-    
+
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse   = sd(mmse_total, na.rm = TRUE),
       n_mmse    = sum(!is.na(mmse_total)),
-      
+
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
       )
 
@@ -631,11 +632,11 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
       sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
       n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
-       
+
       mean_gfap = mean(gfap, na.rm = TRUE),
       sd_gfap = sd(gfap, na.rm = TRUE),
       n_gfap = sum(!is.na(gfap)),
-       
+
       mean_nfl = mean(nfl, na.rm = TRUE),
       sd_nfl = sd(nfl, na.rm = TRUE),
       n_nfl = sum(!is.na(nfl)),
@@ -643,30 +644,30 @@ RPC_models_Smart_MR <- function(df, config, model = "memory", exclude=c()) {
       high_edu = sum(education == "high"),
       medium_edu = sum(education == "medium"),
       low_edu = sum(education == "low"),
-      
+
       mean_age = mean(age_rec, na.rm = TRUE),
       sd_age = sd(age_rec, na.rm = TRUE),
-      
+
       mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
       sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
       n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
+
       mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
       sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
       n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
+
       mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
       sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
       n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
+
       mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
       sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
       n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
-    
+
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse   = sd(mmse_total, na.rm = TRUE),
       n_mmse    = sum(!is.na(mmse_total)),
-      
+
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
