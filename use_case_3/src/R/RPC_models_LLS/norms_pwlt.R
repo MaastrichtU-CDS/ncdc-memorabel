@@ -185,6 +185,28 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
     #heteroscedasticity test for LM_IM. Significant = homoscedasticity violated.
     bptest_im_lm <- lmtest::bptest(model_im_lm, varformula = NULL, studentize = TRUE, data = list(), weights = NULL)
 
+    #Since heteroscedascity is not the case, we need the following models:
+    rse <- sigma(model_im_lm)
+
+ model_im_lm_residual_errors <- sjPlot::tab_model(
+  model_im_lm,
+  show.r2 = TRUE,
+  show.adj.r2 = TRUE,
+  show.aic = TRUE,
+  notes = paste0("Residual Standard Error: ", round(rse, 3),
+                 " (df = ", df.residual(model_im_lm), ")")
+)
+
+        rse2 <- sigma(model_dr_lm)
+
+model_dr_lm_residual_errors <- sjPlot::tab_model(
+  model_dr_lm,
+  show.r2 = TRUE,
+  show.adj.r2 = TRUE,
+  show.aic = TRUE,
+  notes = paste0("Residual Standard Error: ", round(rse2, 3),
+                 " (df = ", df.residual(model_im_lm), ")")
+)
     #Calculate the residuals for the model
     res_im <- residuals(model_im_lm)
 
@@ -249,6 +271,8 @@ RPC_models_lls_norm <- function(df, config, model = "memory", exclude=c()) {
       "summary_model_var_dr_lm" = summary_model_var_dr_lm,
       "summary_model_var_im_lm_cube" = summary_model_var_im_lm_cube,
       "summary_model_var_dr_lm_cube" = summary_model_var_dr_lm_cube,
+      "model_im_lm_residual_errors" = model_dr_lm_residual_errors,
+      "model_dr_lm_residual_errors" = model_dr_lm_residual_errors,
       "n" = nrow(df),
       "n_cog" = nrow(df_cogn_test),
       "n_clean" = nrow(df_clean),
