@@ -490,7 +490,7 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
   #Calculate the average CST a and b score
     df <- df %>%
       dplyr::mutate(
-        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_attention_cst_a_z, priority_attention_cst_b_z)), na.rm = TRUE)
+        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_executive_cst_a_z, priority_executive_cst_b_z)), na.rm = TRUE)
       )
       # filter(!is.na(priority_attention_cst_average_z))
     df$priority_attention_cst_average_z <- pmax(pmin(df$priority_attention_cst_average_z, 5), -5)
