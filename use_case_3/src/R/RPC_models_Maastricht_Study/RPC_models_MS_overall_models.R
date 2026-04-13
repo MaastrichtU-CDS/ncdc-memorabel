@@ -713,9 +713,9 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
       n_priority_language_z    = sum(!is.na(priority_language_z)),
 
-      # mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-      # sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
-      # n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
+      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
 
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse   = sd(mmse_total, na.rm = TRUE),
