@@ -996,7 +996,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
 
     #Executive function
     vtg::log$info("summary_executive_cst_p_tau")
-    summary_executive_cst_p_tau <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
+    summary_executive_cst_p_tau <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
                                         + p_tau * years_since_baseline
                                         + sex * p_tau
                                         + sex * years_since_baseline
@@ -1010,7 +1010,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_cst_gfap")
-    summary_executive_cst_gfap <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
+    summary_executive_cst_gfap <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
                                      + gfap * years_since_baseline
                                      + sex * gfap
                                      + sex * years_since_baseline
@@ -1024,7 +1024,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_cst_nfl")
-    summary_executive_cst_nfl <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
+    summary_executive_cst_nfl <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
                                     + nfl * years_since_baseline
                                     + sex * nfl
                                     + sex * years_since_baseline
@@ -1038,7 +1038,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_cst_amyloid_b_ratio")
-    summary_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_tmt_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
+    summary_executive_cst_amyloid_b_ratio <- safe_lme_summary(priority_executive_cst_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + sex * amyloid_b_ratio_42_40
                                                 + sex * years_since_baseline
@@ -1053,7 +1053,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
 
     #Interference score
     vtg::log$info("summary_executive_shifting_p_tau")
-    summary_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
+    summary_executive_shifting_p_tau <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
                                       + p_tau * years_since_baseline
                                       + sex * p_tau
                                       + sex * years_since_baseline
@@ -1067,7 +1067,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_shifting_gfap")
-    summary_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
+    summary_executive_shifting_gfap <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap
                                      + gfap * years_since_baseline
                                      + sex * gfap
                                      + sex * years_since_baseline
@@ -1081,7 +1081,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_shifting_nfl")
-    summary_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
+    summary_executive_shifting_nfl <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
                                     + nfl * years_since_baseline
                                     + sex * nfl
                                     + sex * years_since_baseline
@@ -1095,7 +1095,7 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_executive_shifting_amyloid_b_ratio")
-    summary_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
+    summary_executive_shifting_amyloid_b_ratio <- safe_lme_summary(priority_executive_shifting_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40
                                                 + amyloid_b_ratio_42_40 * years_since_baseline
                                                 + sex * amyloid_b_ratio_42_40
                                                 + sex * years_since_baseline
