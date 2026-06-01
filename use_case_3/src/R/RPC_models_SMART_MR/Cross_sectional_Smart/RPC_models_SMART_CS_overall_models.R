@@ -690,91 +690,90 @@ RPC_models_Smart_MR_overall <- function(df, config, model = "memory", exclude=c(
     # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Immediate recall
     vtg::log$info("CS_memory_p_tau_im")
-    CS_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
+    summary_CS_memory_p_tau_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
                                       na.action = na.exclude)
 
     vtg::log$info("CS_memory_gfap_im")
-    CS_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
+    summary_CS_memory_gfap_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude)
 
     vtg::log$info("CS_memory_nfl_im")
-    CS_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
+    summary_CS_memory_nfl_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
                                     na.action = na.exclude)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_im")
-    CS_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
+    summary_CS_memory_amyloid_b_ratio_im <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
 
     #Delayed recall
     vtg::log$info("CS_memory_p_tau_dr")
-    CS_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
+    summary_CS_memory_p_tau_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
                                       na.action = na.exclude)
 
     vtg::log$info("CS_memory_gfap_dr")
-    CS_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
+    summary_CS_memory_gfap_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude)
 
     vtg::log$info("CS_memory_nfl_dr")
-    CS_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
+    summary_CS_memory_nfl_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
                                     na.action = na.exclude)
 
     vtg::log$info("CS_memory_amyloid_b_ratio_dr")
-    CS_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
+    summary_CS_memory_amyloid_b_ratio_dr <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
 
 
      #Language
      vtg::log$info("CS_language_p_tau")
-     CS_language_p_tau <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
+     summary_CS_language_p_tau <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau,
                                       data = df,
                                       na.action = na.exclude)
 
      vtg::log$info("CS_language_gfap")
-     CS_language_gfap <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
+     summary_CS_language_gfap <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + gfap,
                                      data = df,
                                      na.action = na.exclude)
 
      vtg::log$info("CS_language_nfl")
-     CS_language_nfl <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
+     summary_CS_language_nfl <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + nfl,
                                     data = df,
                                     na.action = na.exclude)
 
      vtg::log$info("CS_language_amyloid_b_ratio")
-     CS_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
+     summary_CS_language_amyloid_b_ratio <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                                                 data = df,
                                                 na.action = na.exclude)
 
     #processing speed
     vtg::log$info("CS_RIRS_processing_speed_p_tau")
-    CS_RIRS_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + p_tau,
+    summary_CS_processing_speed_p_tau <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + p_tau,
                            data = df,
                            na.action = na.exclude)
 
     vtg::log$info("CS_RIRS_processing_speed_gfap")
-    CS_RIRS_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + gfap,
+    summary_CS_processing_speed_gfap <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + gfap,
                            data = df,
                            na.action = na.exclude)
 
     vtg::log$info("CS_RIRS_processing_speed_nfl")
-    CS_RIRS_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + nfl,
+    summary_CS_processing_speed_nfl <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + nfl,
                            data = df,
                            na.action = na.exclude)
 
     vtg::log$info("CS_RIRS_processing_speed_amyloid_b_ratio")
-    CS_RIRS_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
+    summary_CS_processing_speed_amyloid_b_ratio <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40,
                            data = df,
                            na.action = na.exclude)
 
 
-    print(names(CS_memory_p_tau_im))
     results <- list(
       "summary_CS_memory_p_tau_im" = summary_CS_memory_p_tau_im,
       "summary_CS_memory_gfap_im" = summary_CS_memory_gfap_im,
