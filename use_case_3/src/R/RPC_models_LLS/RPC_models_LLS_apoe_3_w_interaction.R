@@ -574,6 +574,28 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
         "error_message" = paste("attention test not found, no z-score transformation possible")
       ))
     }
+
+      ##Stroop: van der Elst norms
+    df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+    df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
+    df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+      priority_executive_stroop_3_z = ifelse(
+        priority_executive_stroop_3_pred_score <= 79.988,
+        ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
+        ifelse(
+          priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
+          ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
+          ifelse(
+            priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+          )
+        )
+      )
+    )
+    df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
+    df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
+    
      ##Z-score: executive functioning - interference
     ##stroop interference score, van der Elst norms
     df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
@@ -985,6 +1007,187 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
                            na.action = na.exclude,
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
+    #Attention (Stroop)
+    vtg::log$info("summary_attention_stroop_average_p_tau")
+    summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+                                            + p_tau * years_since_baseline
+                                            + apoe_carrier * p_tau
+                                            + apoe_carrier * years_since_baseline
+                                            + apoe_carrier * p_tau * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    vtg::log$info("summary_attention_stroop_average_gfap")
+    summary_attention_stroop_average_gfap <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+                                     + gfap * years_since_baseline
+                                     + apoe_carrier * gfap
+                                     + apoe_carrier * years_since_baseline
+                                     + apoe_carrier * gfap * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    vtg::log$info("summary_attention_stroop_average_nfl")
+    summary_attention_stroop_average_nfl <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+                                    + nfl * years_since_baseline
+                                    + apoe_carrier * nfl
+                                    + apoe_carrier * years_since_baseline
+                                    + apoe_carrier * nfl * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio")
+    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+                                                + amyloid_b_ratio_42_40 * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40
+                                                + apoe_carrier * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    #Executive function (Stroop)
+    vtg::log$info("summary_executive_stroop_3_p_tau")
+    summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+                                        + p_tau * years_since_baseline
+                                        + apoe_carrier * p_tau
+                                        + apoe_carrier * years_since_baseline
+                                        + apoe_carrier * p_tau * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    # summary_executive_stroop_3_p_tau <- sjPlot::tab_model(summary_executive_stroop_3_p_tau, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_gfap")
+    summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+                                     + gfap * years_since_baseline
+                                     + apoe_carrier * gfap
+                                     + apoe_carrier * years_since_baseline
+                                     + apoe_carrier * gfap * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_gfap <- sjPlot::tab_model(summary_executive_stroop_3_gfap, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_nfl")
+    summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+                                    + nfl * years_since_baseline
+                                    + apoe_carrier * nfl
+                                    + apoe_carrier * years_since_baseline
+                                    + apoe_carrier * nfl * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
+    # summary_executive_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
+    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+                                                + amyloid_b_ratio_42_40 * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40
+                                                + apoe_carrier * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_3_amyloid_b_ratio <- sjPlot::tab_model(summary_executive_stroop_3_amyloid_b_ratio, digits = 10)
+
+    #Shifting score
+    vtg::log$info("summary_executive_stroop_interf_p_tau")
+    summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau
+                                      + p_tau * years_since_baseline
+                                      + apoe_carrier * p_tau
+                                      + apoe_carrier * years_since_baseline
+                                      + apoe_carrier * p_tau * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_p_tau <- sjPlot::tab_model(summary_executive_stroop_interf_p_tau, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_gfap")
+    summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap
+                                     + gfap * years_since_baseline
+                                     + apoe_carrier * gfap
+                                     + apoe_carrier * years_since_baseline
+                                     + apoe_carrier * gfap * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_gfap <- sjPlot::tab_model(summary_executive_stroop_interf_gfap, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_nfl")
+    summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+                                    + nfl * years_since_baseline
+                                    + apoe_carrier * nfl
+                                    + apoe_carrier * years_since_baseline
+                                    + apoe_carrier * nfl * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_nfl <- sjPlot::tab_model(summary_executive_stroop_interf_nfl, digits = 10)
+
+    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio")
+    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+                                                + amyloid_b_ratio_42_40 * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40
+                                                + apoe_carrier * years_since_baseline
+                                                + apoe_carrier * amyloid_b_ratio_42_40 * years_since_baseline,
+                            data = df,
+                            random = ~ years_since_baseline | id,
+                            weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                            correlation = nlme::corSymm(form = ~1 | id),
+                            method = "REML",
+                            na.action = na.exclude,
+                           control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+    # summary_executive_stroop_interf_amyloid_b_ratio <- sjPlot::tab_model(summary_executive_stroop_interf_amyloid_b_ratio, digits = 10)
+
     #model_summary can't extract from lme models
     results <- list(
 
@@ -1002,6 +1205,21 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
       "summary_processing_speed_gfap" = summary_processing_speed_gfap,
        "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
+      
+      "summary_attention_stroop_average_p_tau" = summary_attention_stroop_average_p_tau,
+      "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
+      "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
+      "summary_attention_stroop_average_amyloid_b_ratio" = summary_attention_stroop_average_amyloid_b_ratio,
+
+      "summary_executive_stroop_3_p_tau" = summary_executive_stroop_3_p_tau,
+      "summary_executive_stroop_3_gfap" = summary_executive_stroop_3_gfap,
+      "summary_executive_stroop_3_nfl" = summary_executive_stroop_3_nfl,
+      "summary_executive_stroop_3_amyloid_b_ratio" = summary_executive_stroop_3_amyloid_b_ratio,
+
+      "summary_executive_stroop_interf_p_tau" = summary_executive_stroop_interf_p_tau,
+      "summary_executive_stroop_interf_gfap" = summary_executive_stroop_interf_gfap,
+      "summary_executive_stroop_interf_nfl" = summary_executive_stroop_interf_nfl,
+      "summary_executive_stroop_interf_amyloid_b_ratio" = summary_executive_stroop_interf_amyloid_b_ratio,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
