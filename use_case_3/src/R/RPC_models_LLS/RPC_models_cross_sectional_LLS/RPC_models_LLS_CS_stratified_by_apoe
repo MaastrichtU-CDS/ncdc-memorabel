@@ -292,176 +292,24 @@ RPC_models_LLS_CS_stratified_by_apoe <- function(df, config, model = "memory", e
       ))
     }
 
-        #Z-score: processing speed
-    #SDST WAIS-4 norms -> this is for the 120 sec. In LLS we have the 60 sec SDST.
-    #  To fix this we time the SDST scores by 2 -> be mindful of this as this could lead to unrealistic scores
-    
-    attention_test_sdst_120_correct <- attention_test_sdst_60_correct*2
-    
-    if (c("attention_test_sdst_120_correct") %in% colnames(df)){
-      df <- df %>%
-        dplyr::mutate(sdst_scaled = dplyr::case_when(
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 34  ~ 1,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 35 & attention_test_sdst_120_correct <= 40 ~ 2,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 41 & attention_test_sdst_120_correct <= 45 ~ 3,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 46 & attention_test_sdst_120_correct <= 51 ~ 4,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 52 & attention_test_sdst_120_correct <= 56 ~ 5,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 57 & attention_test_sdst_120_correct <= 62 ~ 6,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 63 & attention_test_sdst_120_correct <= 67 ~ 7,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 68 & attention_test_sdst_120_correct <= 72 ~ 8,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 73 & attention_test_sdst_120_correct <= 77 ~ 9,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 78 & attention_test_sdst_120_correct <= 82 ~ 10,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 83 & attention_test_sdst_120_correct <= 87 ~ 11,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 88 & attention_test_sdst_120_correct <= 91 ~ 12,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 92 & attention_test_sdst_120_correct <= 96 ~ 13,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 97 & attention_test_sdst_120_correct <= 100 ~ 14,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 101 & attention_test_sdst_120_correct <= 104 ~ 15,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 105 & attention_test_sdst_120_correct <= 108 ~ 16,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 109 & attention_test_sdst_120_correct <= 112 ~ 17,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 113 & attention_test_sdst_120_correct <= 115 ~ 18,
-          age_rec >= 25.0 & age_rec <= 29.92 & attention_test_sdst_120_correct >= 116 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 34  ~ 1,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 35 & attention_test_sdst_120_correct <= 40 ~ 2,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 41 & attention_test_sdst_120_correct <= 45 ~ 3,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 46 & attention_test_sdst_120_correct <= 51 ~ 4,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 52 & attention_test_sdst_120_correct <= 56 ~ 5,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 57 & attention_test_sdst_120_correct <= 61 ~ 6,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 62 & attention_test_sdst_120_correct <= 67 ~ 7,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 68 & attention_test_sdst_120_correct <= 72 ~ 8,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 73 & attention_test_sdst_120_correct <= 77 ~ 9,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 78 & attention_test_sdst_120_correct <= 81 ~ 10,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 82 & attention_test_sdst_120_correct <= 86 ~ 11,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 87 & attention_test_sdst_120_correct <= 91 ~ 12,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 92 & attention_test_sdst_120_correct <= 96 ~ 13,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 97 & attention_test_sdst_120_correct <= 100 ~ 14,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 101 & attention_test_sdst_120_correct <= 104 ~ 15,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 105 & attention_test_sdst_120_correct <= 108 ~ 16,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 109 & attention_test_sdst_120_correct <= 112 ~ 17,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 113 & attention_test_sdst_120_correct <= 115 ~ 18,
-          age_rec > 29.92 & age_rec <= 34.92 & attention_test_sdst_120_correct >= 116 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 33  ~ 1,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 34 & attention_test_sdst_120_correct <= 39 ~ 2,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 40 & attention_test_sdst_120_correct <= 44 ~ 3,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 45 & attention_test_sdst_120_correct <= 49 ~ 4,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 50 & attention_test_sdst_120_correct <= 54 ~ 5,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 55 & attention_test_sdst_120_correct <= 59 ~ 6,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 60 & attention_test_sdst_120_correct <= 64 ~ 7,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 65 & attention_test_sdst_120_correct <= 69 ~ 8,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 70 & attention_test_sdst_120_correct <= 74 ~ 9,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 75 & attention_test_sdst_120_correct <= 79 ~ 10,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 80 & attention_test_sdst_120_correct <= 83 ~ 11,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 84 & attention_test_sdst_120_correct <= 88 ~ 12,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 89 & attention_test_sdst_120_correct <= 93 ~ 13,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 94 & attention_test_sdst_120_correct <= 98 ~ 14,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 99 & attention_test_sdst_120_correct <= 102 ~ 15,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 103 & attention_test_sdst_120_correct <= 107 ~ 16,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 108 & attention_test_sdst_120_correct <= 111 ~ 17,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 112 & attention_test_sdst_120_correct <= 115 ~ 18,
-          age_rec > 34.92 & age_rec <= 44.92 & attention_test_sdst_120_correct >= 116 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 28  ~ 1,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 29 & attention_test_sdst_120_correct <= 33 ~ 2,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 34 & attention_test_sdst_120_correct <= 38 ~ 3,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 39 & attention_test_sdst_120_correct <= 43 ~ 4,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 44 & attention_test_sdst_120_correct <= 48 ~ 5,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 49 & attention_test_sdst_120_correct <= 53 ~ 6,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 54 & attention_test_sdst_120_correct <= 58 ~ 7,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 59 & attention_test_sdst_120_correct <= 63 ~ 8,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 64 & attention_test_sdst_120_correct <= 68 ~ 9,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 69 & attention_test_sdst_120_correct <= 72 ~ 10,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 73 & attention_test_sdst_120_correct <= 77 ~ 11,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 78 & attention_test_sdst_120_correct <= 82 ~ 12,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 83 & attention_test_sdst_120_correct <= 87 ~ 13,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 88 & attention_test_sdst_120_correct <= 91 ~ 14,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 92 & attention_test_sdst_120_correct <= 96 ~ 15,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 97 & attention_test_sdst_120_correct <= 101 ~ 16,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 102 & attention_test_sdst_120_correct <= 105 ~ 17,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 106 & attention_test_sdst_120_correct <= 110 ~ 18,
-          age_rec > 44.92 & age_rec <= 54.92 & attention_test_sdst_120_correct >= 111 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 22  ~ 1,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 23 & attention_test_sdst_120_correct <= 27 ~ 2,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 28 & attention_test_sdst_120_correct <= 31 ~ 3,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 32 & attention_test_sdst_120_correct <= 36 ~ 4,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 37 & attention_test_sdst_120_correct <= 41 ~ 5,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 42 & attention_test_sdst_120_correct <= 46 ~ 6,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 47 & attention_test_sdst_120_correct <= 50 ~ 7,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 51 & attention_test_sdst_120_correct <= 55 ~ 8,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 56 & attention_test_sdst_120_correct <= 60 ~ 9,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 61 & attention_test_sdst_120_correct <= 65 ~ 10,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 66 & attention_test_sdst_120_correct <= 69 ~ 11,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 70 & attention_test_sdst_120_correct <= 74 ~ 12,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 75 & attention_test_sdst_120_correct <= 79 ~ 13,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 80 & attention_test_sdst_120_correct <= 83 ~ 14,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 84 & attention_test_sdst_120_correct <= 88 ~ 15,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 89 & attention_test_sdst_120_correct <= 93 ~ 16,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 94 & attention_test_sdst_120_correct <= 98 ~ 17,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 99 & attention_test_sdst_120_correct <= 102 ~ 18,
-          age_rec > 54.92 & age_rec <= 64.92 & attention_test_sdst_120_correct >= 103 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 20  ~ 1,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 21 & attention_test_sdst_120_correct <= 22 ~ 2,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 23 & attention_test_sdst_120_correct <= 25 ~ 3,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 26 & attention_test_sdst_120_correct <= 29 ~ 4,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 30 & attention_test_sdst_120_correct <= 33 ~ 5,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 34 & attention_test_sdst_120_correct <= 36 ~ 6,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 37 & attention_test_sdst_120_correct <= 40 ~ 7,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 41 & attention_test_sdst_120_correct <= 46 ~ 8,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 47 & attention_test_sdst_120_correct <= 50 ~ 9,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 51 & attention_test_sdst_120_correct <= 55 ~ 10,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 56 & attention_test_sdst_120_correct <= 60 ~ 11,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 61 & attention_test_sdst_120_correct <= 64 ~ 12,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 65 & attention_test_sdst_120_correct <= 69 ~ 13,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 70 & attention_test_sdst_120_correct <= 74 ~ 14,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 75 & attention_test_sdst_120_correct <= 79 ~ 15,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 80 & attention_test_sdst_120_correct <= 84 ~ 16,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 85 & attention_test_sdst_120_correct <= 89 ~ 17,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 90 & attention_test_sdst_120_correct <= 95 ~ 18,
-          age_rec > 64.92 & age_rec <= 74.92 & attention_test_sdst_120_correct >= 96 & attention_test_sdst_120_correct <= 135 ~ 19,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 0 & attention_test_sdst_120_correct <= 19  ~ 1,
-          age_rec > 74.92  & attention_test_sdst_120_correct == 20 ~ 2,
-          age_rec > 74.92  & attention_test_sdst_120_correct == 21 ~ 3,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 22 & attention_test_sdst_120_correct <= 23 ~ 4,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 24 & attention_test_sdst_120_correct <= 26 ~ 5,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 27 & attention_test_sdst_120_correct <= 29 ~ 6,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 30 & attention_test_sdst_120_correct <= 33 ~ 7,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 34 & attention_test_sdst_120_correct <= 36 ~ 8,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 37 & attention_test_sdst_120_correct <= 40 ~ 9,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 41 & attention_test_sdst_120_correct <= 43 ~ 10,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 44 & attention_test_sdst_120_correct <= 46 ~ 11,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 47 & attention_test_sdst_120_correct <= 50 ~ 12,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 51 & attention_test_sdst_120_correct <= 55 ~ 13,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 56 & attention_test_sdst_120_correct <= 61 ~ 14,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 62 & attention_test_sdst_120_correct <= 69 ~ 15,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 70 & attention_test_sdst_120_correct <= 75 ~ 16,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 76 & attention_test_sdst_120_correct <= 80 ~ 17,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 81 & attention_test_sdst_120_correct <= 86 ~ 18,
-          age_rec > 74.92  & attention_test_sdst_120_correct >= 87 & attention_test_sdst_120_correct <= 135 ~ 19,
-          TRUE ~ NA_real_  # Assign NA for other cases
-        ))
-
-      df <- df %>%
-        dplyr::mutate(priority_processing_speed_sdst_z = dplyr::case_when(
-          sdst_scaled <= 1 ~ -3.00,
-          sdst_scaled <= 2 ~ -2.67,
-          sdst_scaled <= 3 ~ -2.33,
-          sdst_scaled <= 4 ~ -2.00,
-          sdst_scaled <= 5 ~ -1.67,
-          sdst_scaled <= 6 ~ -1.33,
-          sdst_scaled <= 7 ~ -1.00,
-          sdst_scaled <= 8 ~ -0.67,
-          sdst_scaled <= 9 ~ -0.33,
-          sdst_scaled <= 10 ~ 0,
-          sdst_scaled <= 11 ~ 0.33,
-          sdst_scaled <= 12 ~ 0.67,
-          sdst_scaled <= 13 ~ 1.00,
-          sdst_scaled <= 14 ~ 1.33,
-          sdst_scaled <= 15 ~ 1.67,
-          sdst_scaled <= 16 ~ 2.00,
-          sdst_scaled <= 17 ~ 2.33,
-          sdst_scaled <= 18 ~ 2.67,
-          sdst_scaled <= 19 ~ 3.00,
-          TRUE ~ NA_real_  # Assign NA for other cases
-        ))
-    } else  {
-      print("No measure for processing speed found, no z-score transformation possible")
+#Z-score: processing speed
+    #SDST; Burggraaf et al (2016) norms
+    ##education is coded in years for this formula.. this needs to be fixed
+    ##sex is coded male=0, female=1
+    if (c("attention_test_sdst_60") %in% colnames(df)) {
+      df$attention_test_sdst_60 <- (df$attention_test_sdst_60 * (90/60))
+      df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
+      df$age_cent_sdst <- df$age_rec-46
+      df$age_cent_sdst2 <- df$age_cent_sdst^2
+      df$priority_processing_speed_sdst_z <-
+        ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
+      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60
+      df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
+    }
+    else  {
+      return(list(
+        "error_message" = paste("No measure for processing speed found, no z-score transformation possible")
+      ))
     }
 
     ##Stroop: Van der Elst norms
