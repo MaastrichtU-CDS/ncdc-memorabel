@@ -1,4 +1,4 @@
-RPC_models_SMART_CS_stratified_by_sex <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({ j
     con <- RPostgres::dbConnect(
