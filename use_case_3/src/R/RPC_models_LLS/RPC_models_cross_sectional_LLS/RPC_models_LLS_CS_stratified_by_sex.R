@@ -27,7 +27,7 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
       )
     }
     df <- RPostgres::dbGetQuery(con, query)
-    pre_summary <- summary_stats(df)
+    pre_summary <- summary_CS_stats(df)
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
@@ -858,64 +858,64 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
         #summary_CS_processing_speed_amyloid_b_ratio_female <- sjPlot::tab_model(CS_processing_speed_amyloid_b_ratio_female, digits = 10)
 
        #Attention (Stroop)
-     vtg::log$info("summary_attention_stroop_average_p_tau_male")
-     summary_attention_stroop_average_p_tau_male <- safe_lme_summary(priority_attention_stroop_average_z ~
+     vtg::log$info("summary_CS_attention_stroop_average_p_tau_male")
+     summary_CS_attention_stroop_average_p_tau_male <- safe_lme_summary(priority_attention_stroop_average_z ~
                                                + age_rec + education_low + education_high + p_tau,
                                                data = subset(df, sex_num == "0"),
                                                method = "REML",
                                                na.action = na.exclude
                                                )
 
-    vtg::log$info("summary_attention_stroop_average_p_tau_female")
-    summary_attention_stroop_average_p_tau_female <- safe_lme_summary(priority_attention_stroop_average_a_z ~
+    vtg::log$info("summary_CS_attention_stroop_average_p_tau_female")
+    summary_CS_attention_stroop_average_p_tau_female <- safe_lme_summary(priority_attention_stroop_average_a_z ~
                                               + age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == "1"),
                                               method = "REML",
                                               na.action = na.exclude
                                              )
 
-    vtg::log$info("summary_attention_stroop_average_gfap_male")
-    summary_attention_stroop_average_gfap_male <- safe_lme_summary(priority_attention_stroop_average_z ~
+    vtg::log$info("summary_CS_attention_stroop_average_gfap_male")
+    summary_CS_attention_stroop_average_gfap_male <- safe_lme_summary(priority_attention_stroop_average_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "0"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_attention_stroop_average_gfap_female")
-    summary_attention_stroop_average_gfap_female <- safe_lme_summary(priority_attention_stroop_average_z ~
+    vtg::log$info("summary_CS_attention_stroop_average_gfap_female")
+    summary_CS_attention_stroop_average_gfap_female <- safe_lme_summary(priority_attention_stroop_average_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "1"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-     vtg::log$info("summary_attention_stroop_average_nfl_male")
-     summary_attention_stroop_average_nfl_male <- safe_lme_summary(priority_attention_stroop_average_z ~
+     vtg::log$info("summary_CS_attention_stroop_average_nfl_male")
+     summary_CS_attention_stroop_average_nfl_male <- safe_lme_summary(priority_attention_stroop_average_z ~
                                              + age_rec + education_low + education_high + nfl,
                                              data = subset(df, sex_num == "0"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-     vtg::log$info("summary_attention_stroop_average_nfl_female")
-     summary_attention_stroop_average_nfl_female <- safe_lme_summary(priority_attention_stroop_average_z ~
+     vtg::log$info("summary_CS_attention_stroop_average_nfl_female")
+     summary_CS_attention_stroop_average_nfl_female <- safe_lme_summary(priority_attention_stroop_average_z ~
                                              + age_rec + education_low + education_high + nfl,
                                              data = subset(df, sex_num == "1"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio_male")
-     summary_attention_stroop_average_amyloid_b_ratio_male <- safe_lme_summary(priority_attention_stroop_average_z ~
+    vtg::log$info("summary_CS_attention_stroop_average_amyloid_b_ratio_male")
+     summary_CS_attention_stroop_average_amyloid_b_ratio_male <- safe_lme_summary(priority_attention_stroop_average_z ~
                                                          + age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                          data = subset(df, sex_num == "0"),
                                                          method = "REML",
                                                          na.action = na.exclude
                                                         )
 
-    vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio_female")
-    summary_attention_stroop_average_amyloid_b_ratio_female <- safe_lme_summary(priority_attention_stroop_average_z ~
+    vtg::log$info("summary_CS_attention_stroop_average_amyloid_b_ratio_female")
+    summary_CS_attention_stroop_average_amyloid_b_ratio_female <- safe_lme_summary(priority_attention_stroop_average_z ~
                                                         + age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == "1"),
                                                         method = "REML",
@@ -923,64 +923,64 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
                                                        )
 
   #Executive function (stroop)
-    vtg::log$info("summary_executive_stroop_3_p_tau_male")
-    summary_executive_stroop_3_p_tau_male <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_p_tau_male")
+    summary_CS_executive_stroop_3_p_tau_male <- safe_lme_summary(priority_executive_stroop_3_z ~
                                               + age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == "0"),
                                               method = "REML",
                                               na.action = na.exclude
                                              )
 
-    vtg::log$info("summary_executive_stroop_3_p_tau_female")
-    summary_executive_stroop_3_p_tau_female <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_p_tau_female")
+    summary_CS_executive_stroop_3_p_tau_female <- safe_lme_summary(priority_executive_stroop_3_z ~
                                               + age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == "1"),
                                               method = "REML",
                                               na.action = na.exclude
                                              )
 
-    vtg::log$info("summary_executive_stroop_3_gfap_male")
-    summary_executive_stroop_3_gfap_male <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_gfap_male")
+    summary_CS_executive_stroop_3_gfap_male <- safe_lme_summary(priority_executive_stroop_3_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "0"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_executive_stroop_3_gfap_female")
-    summary_executive_stroop_3_gfap_female <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_gfap_female")
+    summary_CS_executive_stroop_3_gfap_female <- safe_lme_summary(priority_executive_stroop_3_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "1"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_executive_stroop_3_nfl_male")
-    summary_executive_stroop_3_nfl_male <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_nfl_male")
+    summary_CS_executive_stroop_3_nfl_male <- safe_lme_summary(priority_executive_stroop_3_z ~
                                             + age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == "0"),
                                             method = "REML",
                                             na.action = na.exclude
                                            )
                      
-    vtg::log$info("summary_executive_stroop_3_nfl_female")
-    summary_executive_stroop_3_nfl_female <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_nfl_female")
+    summary_CS_executive_stroop_3_nfl_female <- safe_lme_summary(priority_executive_stroop_3_z ~
                                             + age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == "1"),
                                             method = "REML",
                                             na.action = na.exclude
                                            )
 
-    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_male")
-    summary_executive_stroop_3_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_amyloid_b_ratio_male")
+    summary_CS_executive_stroop_3_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_3_z ~
                                                         + age_rec + education_low + education_high + amyloid_b_ratio_42_40 ,
                                                         data = subset(df, sex_num == "0"),
                                                         method = "REML",
                                                         na.action = na.exclude
                                                        )
 
-    vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio_female")
-    summary_executive_stroop_3_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_3_z ~
+    vtg::log$info("summary_CS_executive_stroop_3_amyloid_b_ratio_female")
+    summary_CS_executive_stroop_3_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_3_z ~
                                                         + age_rec + education_low + education_high + amyloid_b_ratio_42_40 ,
                                                         data = subset(df, sex_num == "1"),
                                                         method = "REML",
@@ -988,64 +988,64 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
                                                        )
 
     #Interference score
-    vtg::log$info("summary_executive_stroop_interf_p_tau_male")
-    summary_executive_stroop_interf_p_tau_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_p_tau_male")
+    summary_CS_executive_stroop_interf_p_tau_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                               + age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == "0"),
                                               method = "REML",
                                               na.action = na.exclude
                                              )
 
-    vtg::log$info("summary_executive_stroop_interf_p_tau_female")
-    summary_executive_stroop_interf_p_tau_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_p_tau_female")
+    summary_CS_executive_stroop_interf_p_tau_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                               + age_rec + education_low + education_high + p_tau,
                                               data = subset(df, sex_num == "1"),
                                               method = "REML",
                                               na.action = na.exclude
                                              )
 
-    vtg::log$info("summary_executive_stroop_interf_gfap_male")
-    summary_executive_stroop_interf_gfap_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_gfap_male")
+    summary_CS_executive_stroop_interf_gfap_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "0"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_executive_stroop_interf_gfap_female")
-    summary_executive_stroop_interf_gfap_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_gfap_female")
+    summary_CS_executive_stroop_interf_gfap_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                              + age_rec + education_low + education_high + gfap,
                                              data = subset(df, sex_num == "1"),
                                              method = "REML",
                                              na.action = na.exclude
                                             )
 
-    vtg::log$info("summary_executive_stroop_interf_nfl_male")
-    summary_executive_stroop_interf_nfl_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_nfl_male")
+    summary_CS_executive_stroop_interf_nfl_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                             + age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == "0"),
                                             method = "REML",
                                             na.action = na.exclude
                                            )
 
-    vtg::log$info("summary_executive_stroop_interf_nfl_female")
-    summary_executive_stroop_interf_nfl_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_nfl_female")
+    summary_CS_executive_stroop_interf_nfl_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                             + age_rec + education_low + education_high + nfl,
                                             data = subset(df, sex_num == "1"),
                                             method = "REML",
                                             na.action = na.exclude
                                            )
 
-    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_male")
-    summary_executive_stroop_interf_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_amyloid_b_ratio_male")
+    summary_CS_executive_stroop_interf_amyloid_b_ratio_male <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                                         + age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == "0"),
                                                         method = "REML",
                                                         na.action = na.exclude
                                                        )
 
-    vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio_female")
-    summary_executive_stroop_interf_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
+    vtg::log$info("summary_CS_executive_stroop_interf_amyloid_b_ratio_female")
+    summary_CS_executive_stroop_interf_amyloid_b_ratio_female <- safe_lme_summary(priority_executive_stroop_interf_z ~
                                                         + age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                         data = subset(df, sex_num == "1"),
                                                         method = "REML",
@@ -1080,32 +1080,32 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
       "summary_CS_processing_speed_amyloid_b_ratio_male" = summary_CS_processing_speed_amyloid_b_ratio_male,
       "summary_CS_processing_speed_amyloid_b_ratio_female" = summary_CS_processing_speed_amyloid_b_ratio_female,
 
-      "summary_attention_stroop_average_p_tau_male" = summary_attention_stroop_average_p_tau_male,
-      "summary_attention_stroop_average_p_tau_female" = summary_attention_stroop_average_p_tau_female,
-      "summary_attention_stroop_average_gfap_male" = summary_attention_stroop_average_gfap_male,
-      "summary_attention_stroop_average_gfap_female" = summary_attention_stroop_average_gfap_female,
-      "summary_attention_stroop_average_nfl_male" = summary_attention_stroop_average_nfl_male,
-      "summary_attention_stroop_average_nfl_female" = summary_attention_stroop_average_nfl_female,
-      "summary_attention_stroop_average_amyloid_b_ratio_male" = summary_attention_stroop_average_amyloid_b_ratio_male,
-      "summary_attention_stroop_average_amyloid_b_ratio_female" = summary_attention_stroop_average_amyloid_b_ratio_female,
+      "summary_CS_attention_stroop_average_p_tau_male" = summary_CS_attention_stroop_average_p_tau_male,
+      "summary_CS_attention_stroop_average_p_tau_female" = summary_CS_attention_stroop_average_p_tau_female,
+      "summary_CS_attention_stroop_average_gfap_male" = summary_CS_attention_stroop_average_gfap_male,
+      "summary_CS_attention_stroop_average_gfap_female" = summary_CS_attention_stroop_average_gfap_female,
+      "summary_CS_attention_stroop_average_nfl_male" = summary_CS_attention_stroop_average_nfl_male,
+      "summary_CS_attention_stroop_average_nfl_female" = summary_CS_attention_stroop_average_nfl_female,
+      "summary_CS_attention_stroop_average_amyloid_b_ratio_male" = summary_CS_attention_stroop_average_amyloid_b_ratio_male,
+      "summary_CS_attention_stroop_average_amyloid_b_ratio_female" = summary_CS_attention_stroop_average_amyloid_b_ratio_female,
 
-      "summary_executive_stroop_3_p_tau_male" = summary_executive_stroop_3_p_tau_male,
-      "summary_executive_stroop_3_p_tau_female" = summary_executive_stroop_3_p_tau_female,
-      "summary_executive_stroop_3_gfap_male" = summary_executive_stroop_3_gfap_male,
-      "summary_executive_stroop_3_gfap_female" = summary_executive_stroop_3_gfap_female,
-      "summary_executive_stroop_3_nfl_male" = summary_executive_stroop_3_nfl_male,
-      "summary_executive_stroop_3_nfl_female" = summary_executive_stroop_3_nfl_female,
-      "summary_executive_stroop_3_amyloid_b_ratio_male" = summary_executive_stroop_3_amyloid_b_ratio_male,
-      "summary_executive_stroop_3_amyloid_b_ratio_female" = summary_executive_stroop_3_amyloid_b_ratio_female,
+      "summary_CS_executive_stroop_3_p_tau_male" = summary_CS_executive_stroop_3_p_tau_male,
+      "summary_CS_executive_stroop_3_p_tau_female" = summary_CS_executive_stroop_3_p_tau_female,
+      "summary_CS_executive_stroop_3_gfap_male" = summary_CS_executive_stroop_3_gfap_male,
+      "summary_CS_executive_stroop_3_gfap_female" = summary_CS_executive_stroop_3_gfap_female,
+      "summary_CS_executive_stroop_3_nfl_male" = summary_CS_executive_stroop_3_nfl_male,
+      "summary_CS_executive_stroop_3_nfl_female" = summary_CS_executive_stroop_3_nfl_female,
+      "summary_CS_executive_stroop_3_amyloid_b_ratio_male" = summary_CS_executive_stroop_3_amyloid_b_ratio_male,
+      "summary_CS_executive_stroop_3_amyloid_b_ratio_female" = summary_CS_executive_stroop_3_amyloid_b_ratio_female,
 
-      "summary_executive_stroop_interf_p_tau_male" = summary_executive_stroop_interf_p_tau_male,
-      "summary_executive_stroop_interf_p_tau_female" = summary_executive_stroop_interf_p_tau_female,
-      "summary_executive_stroop_interf_gfap_male" = summary_executive_stroop_interf_gfap_male,
-      "summary_executive_stroop_interf_gfap_female" = summary_executive_stroop_interf_gfap_female,
-      "summary_executive_stroop_interf_nfl_male" = summary_executive_stroop_interf_nfl_male,
-      "summary_executive_stroop_interf_nfl_female" = summary_executive_stroop_interf_nfl_female,
-      "summary_executive_stroop_interf_amyloid_b_ratio_male" = summary_executive_stroop_interf_amyloid_b_ratio_male,
-      "summary_executive_stroop_interf_amyloid_b_ratio_female" = summary_executive_stroop_interf_amyloid_b_ratio_female,
+      "summary_CS_executive_stroop_interf_p_tau_male" = summary_CS_executive_stroop_interf_p_tau_male,
+      "summary_CS_executive_stroop_interf_p_tau_female" = summary_CS_executive_stroop_interf_p_tau_female,
+      "summary_CS_executive_stroop_interf_gfap_male" = summary_CS_executive_stroop_interf_gfap_male,
+      "summary_CS_executive_stroop_interf_gfap_female" = summary_CS_executive_stroop_interf_gfap_female,
+      "summary_CS_executive_stroop_interf_nfl_male" = summary_CS_executive_stroop_interf_nfl_male,
+      "summary_CS_executive_stroop_interf_nfl_female" = summary_CS_executive_stroop_interf_nfl_female,
+      "summary_CS_executive_stroop_interf_amyloid_b_ratio_male" = summary_CS_executive_stroop_interf_amyloid_b_ratio_male,
+      "summary_CS_executive_stroop_interf_amyloid_b_ratio_female" = summary_CS_executive_stroop_interf_amyloid_b_ratio_female,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
