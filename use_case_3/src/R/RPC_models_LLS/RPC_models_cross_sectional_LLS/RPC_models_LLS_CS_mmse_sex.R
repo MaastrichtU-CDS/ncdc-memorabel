@@ -27,7 +27,7 @@ RPC_models_LLS_CS_mmse_sex <- function(df, config, model = "memory", exclude=c()
       )
     }
     df <- RPostgres::dbGetQuery(con, query)
-    pre_summary <- summary_stats(df)
+    pre_summary <- summary_CS_stats(df)
     # The dataframe will contain all the data harmonized for the cohort. The
     # variable names will be the same in all cohorts.
     # In any case, it's a best practice to validate that all columns are available
@@ -711,128 +711,129 @@ RPC_models_LLS_CS_mmse_sex <- function(df, config, model = "memory", exclude=c()
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Overall models
     vtg::log$info("RIRS_mmse_p_tau")
-    summary_mmse_p_tau <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
+    summary_CS_mmse_p_tau <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + p_tau,
                                  data = df,
                                  na.action = na.exclude)
-    #summary_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau, digits = 10)
+    #summary_CS_mmse_p_tau <- sjPlot::tab_model(RIRS_mmse_p_tau, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap")
-    summary_mmse_gfap <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
+    summary_CS_mmse_gfap <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + gfap,
                                 data = df,
                                 na.action = na.exclude)
-    #summary_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap, digits = 10)
+    #summary_CS_mmse_gfap <- sjPlot::tab_model(RIRS_mmse_gfap, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl")
-    summary_mmse_nfl <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
+    summary_CS_mmse_nfl <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + nfl,
                                data = df,
                                na.action = na.exclude)
-    #summary_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl, digits = 10)
+    #summary_CS_mmse_nfl <- sjPlot::tab_model(RIRS_mmse_nfl, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio")
-    summary_mmse_amyloid_b_ratio_log <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
+    summary_CS_mmse_amyloid_b_ratio_log <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                data = df,
                                                na.action = na.exclude)
-    #summary_mmse_amyloid_b_ratio_log <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log, digits = 10)
+    #summary_CS_mmse_amyloid_b_ratio_log <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log, digits = 10)
 
     #2 way interaction models for sex
     vtg::log$info("RIRS_mmse_p_tau_2w")
-    summary_mmse_p_tau_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + p_tau
+    summary_CS_mmse_p_tau_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + p_tau
                                     + sex * p_tau,
                                     data = df,
                                     na.action = na.exclude)
-    #summary_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
+    #summary_CS_mmse_p_tau_2w <- sjPlot::tab_model(RIRS_mmse_p_tau_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_2w")
-    summary_mmse_gfap_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + gfap
+    summary_CS_mmse_gfap_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + gfap
                                    + sex * gfap,
                                    data = df,
                                    na.action = na.exclude)
-    #summary_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w, digits = 10)
+    #summary_CS_mmse_gfap_2w <- sjPlot::tab_model(RIRS_mmse_gfap_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_2w")
-    summary_mmse_nfl_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + nfl
+    summary_CS_mmse_nfl_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + nfl
                                   + sex * nfl,
                                   data = df,
                                   na.action = na.exclude)
-    #summary_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w, digits = 10)
+    #summary_CS_mmse_nfl_2w <- sjPlot::tab_model(RIRS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_2w")
-    summary_mmse_amyloid_b_ratio_log_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40
+    summary_CS_mmse_amyloid_b_ratio_log_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + log_amyloid_b_ratio_42_40
                                                   + sex * log_amyloid_b_ratio_42_40,
                                                   data = df,
                                                   na.action = na.exclude)
-    #summary_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w, digits = 10)
+    #summary_CS_mmse_amyloid_b_ratio_log_2w <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_2w, digits = 10)
 
     #models stratified for sex
     ##man = 0, female = 1
     vtg::log$info("RIRS_mmse_p_tau_male")
-    summary_mmse_p_tau_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + p_tau,
+    summary_CS_mmse_p_tau_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + p_tau,
                                       data = subset(df, sex_num == 0),
                                       na.action = na.exclude)
-    #summary_mmse_p_tau_male <- sjPlot::tab_model(RIRS_mmse_p_tau_male, digits = 10)
+    #summary_CS_mmse_p_tau_male <- sjPlot::tab_model(RIRS_mmse_p_tau_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_p_tau_female")
-    summary_mmse_p_tau_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + p_tau,
+    summary_CS_mmse_p_tau_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + p_tau,
                                         data = subset(df, sex_num == 1),
                                         na.action = na.exclude)
-    #summary_mmse_p_tau_female <- sjPlot::tab_model(RIRS_mmse_p_tau_female, digits = 10)
+    #summary_CS_mmse_p_tau_female <- sjPlot::tab_model(RIRS_mmse_p_tau_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_male")
-    summary_mmse_gfap_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + gfap,
+    summary_CS_mmse_gfap_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + gfap,
                                         data = subset(df, sex_num == 0),
                                         na.action = na.exclude)
-    #summary_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male, digits = 10)
+    #summary_CS_mmse_gfap_male <- sjPlot::tab_model(RIRS_mmse_gfap_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_gfap_female")
-    summary_mmse_gfap_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + gfap,
+    summary_CS_mmse_gfap_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + gfap,
                                        data = subset(df, sex_num == 1),
                                        na.action = na.exclude)
-    #summary_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmse_gfap_female, digits = 10)
+    #summary_CS_mmse_gfap_female <- sjPlot::tab_model(RIRS_mmse_gfap_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_male")
-    summary_mmse_nfl_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + nfl,
+    summary_CS_mmse_nfl_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + nfl,
                                     data = subset(df, sex_num == 0),
                                     na.action = na.exclude)
-    #summary_mmse_nfl_male <- sjPlot::tab_model(RIRS_mmse_nfl_male, digits = 10)
+    #summary_CS_mmse_nfl_male <- sjPlot::tab_model(RIRS_mmse_nfl_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_nfl_female")
-    summary_mmse_nfl_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + nfl,
+    summary_CS_mmse_nfl_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + nfl,
                                       data = subset(df, sex_num == 1),
                                       na.action = na.exclude)
-    #summary_mmse_nfl_female <- sjPlot::tab_model(RIRS_mmse_nfl_female, digits = 10)
+    #summary_CS_mmse_nfl_female <- sjPlot::tab_model(RIRS_mmse_nfl_female, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_male")
-    summary_mmse_amyloid_b_ratio_log_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
+    summary_CS_mmse_amyloid_b_ratio_log_male <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                     data = subset(df, sex_num == 0),
                                                     na.action = na.exclude)
-    #summary_mmse_amyloid_b_ratio_log_male <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_male, digits = 10)
+    #summary_CS_mmse_amyloid_b_ratio_log_male <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_male, digits = 10)
 
     vtg::log$info("RIRS_mmse_amyloid_b_ratio_log_female")
-    summary_mmse_amyloid_b_ratio_log_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
+    summary_CS_mmse_amyloid_b_ratio_log_female <- safe_lme_summary(mmse_total ~ age_rec + education_low + education_high + log_amyloid_b_ratio_42_40,
                                                       data = subset(df, sex_num == 1),
                                                       na.action = na.exclude)
-    #summary_mmse_amyloid_b_ratio_log_female <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_female, digits = 10)
+    #summary_CS_mmse_amyloid_b_ratio_log_female <- sjPlot::tab_model(RIRS_mmse_amyloid_b_ratio_log_female, digits = 10)
 
     # model_summary can't extract from safe_lme_summarye models
     results <- list(
-      "summary_mmse_p_tau" = summary_mmse_p_tau,
-      "summary_mmse_gfap" = summary_mmse_gfap,
-      "summary_mmse_nfl" = summary_mmse_nfl,
-      "summary_mmse_amyloid_b_ratio_log" = summary_mmse_amyloid_b_ratio_log,
+      "summary_CS_mmse_p_tau" = summary_CS_mmse_p_tau,
+      "summary_CS_mmse_gfap" = summary_CS_mmse_gfap,
+      "summary_CS_mmse_nfl" = summary_CS_mmse_nfl,
+      "summary_CS_mmse_amyloid_b_ratio_log" = summary_CS_mmse_amyloid_b_ratio_log,
 
-      "summary_mmse_p_tau_2w" = summary_mmse_p_tau_2w,
-      "summary_mmse_gfap_2w" = summary_mmse_gfap_2w,
-      "summary_mmse_nfl_2w" = summary_mmse_nfl_2w,
-      "summary_mmse_amyloid_b_ratio_log_2w" = summary_mmse_amyloid_b_ratio_log_2w,
+      "summary_CS_mmse_p_tau_2w" = summary_CS_mmse_p_tau_2w,
+      "summary_CS_mmse_gfap_2w" = summary_CS_mmse_gfap_2w,
+      "summary_CS_mmse_nfl_2w" = summary_CS_mmse_nfl_2w,
+      "summary_CS_mmse_amyloid_b_ratio_log_2w" = summary_CS_mmse_amyloid_b_ratio_log_2w,
 
-      "summary_mmse_p_tau_male" = summary_mmse_p_tau_male,
-      "summary_mmse_gfap_male" = summary_mmse_gfap_male,
-      "summary_mmse_nfl_male" = summary_mmse_nfl_male,
-      "summary_mmse_amyloid_b_ratio_log_male" = summary_mmse_amyloid_b_ratio_log_male,
-      "summary_mmse_p_tau_female" = summary_mmse_p_tau_female,
-      "summary_mmse_gfap_female" = summary_mmse_gfap_female,
-      "summary_mmse_nfl_female" = summary_mmse_nfl_female,
-      "summary_mmse_amyloid_b_ratio_log_female" = summary_mmse_amyloid_b_ratio_log_female,
+      "summary_CS_mmse_p_tau_male" = summary_CS_mmse_p_tau_male,
+      "summary_CS_mmse_gfap_male" = summary_CS_mmse_gfap_male,
+      "summary_CS_mmse_nfl_male" = summary_CS_mmse_nfl_male,
+      "summary_CS_mmse_amyloid_b_ratio_log_male" = summary_CS_mmse_amyloid_b_ratio_log_male,
+      
+      "summary_CS_mmse_p_tau_female" = summary_CS_mmse_p_tau_female,
+      "summary_CS_mmse_gfap_female" = summary_CS_mmse_gfap_female,
+      "summary_CS_mmse_nfl_female" = summary_CS_mmse_nfl_female,
+      "summary_CS_mmse_amyloid_b_ratio_log_female" = summary_CS_mmse_amyloid_b_ratio_log_female,
 
     "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
