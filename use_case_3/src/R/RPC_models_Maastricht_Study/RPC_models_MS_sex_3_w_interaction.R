@@ -1111,7 +1111,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
 
     # Executive function - Stroop 3
     vtg::log$info("summary_executive_stroop_3_p_tau")
-     summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit  + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+     summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit  + education_low + education_high + apoe_carrier + p_tau 
+                                      + p_tau * years_since_baseline
+                                      + sex * p_tau
+                                      + sex * years_since_baseline
+                                      + sex * p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1121,7 +1125,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_executive_stroop_3_gfap")
-     summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+     summary_executive_stroop_3_gfap <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
+                                     + gfap * years_since_baseline
+                                     + sex * gfap
+                                     + sex * years_since_baseline
+                                     + sex * gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1131,7 +1139,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
        vtg::log$info("summary_executive_stroop_3_nfl")
-       summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+       summary_executive_stroop_3_nfl <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl
+                                    + nfl * years_since_baseline
+                                    + sex * nfl
+                                    + sex * years_since_baseline
+                                    + sex * nfl * years_since_baseline,
                                data = df,
                                random = ~ years_since_baseline | id,
                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1141,7 +1153,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-     summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+     summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40
+                                                + amyloid_b_ratio_42_40 * years_since_baseline
+                                                + sex * amyloid_b_ratio_42_40
+                                                + sex * years_since_baseline
+                                                + sex * amyloid_b_ratio_42_40 * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1152,7 +1168,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
 
      # Executive function (Interference)
      vtg::log$info("summary_executive_stroop_interf_p_tau")
-     summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau + p_tau * years_since_baseline,
+     summary_executive_stroop_interf_p_tau <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + p_tau 
+                                      + p_tau * years_since_baseline
+                                      + sex * p_tau
+                                      + sex * years_since_baseline
+                                      + sex * p_tau * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1162,7 +1182,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_executive_stroop_interf_gfap")
-     summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap + gfap * years_since_baseline,
+     summary_executive_stroop_interf_gfap <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + gfap 
+                                     + gfap * years_since_baseline
+                                     + sex * gfap
+                                     + sex * years_since_baseline
+                                     + sex * gfap * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1172,7 +1196,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
         vtg::log$info("summary_executive_stroop_interf_nfl")
-        summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl + nfl * years_since_baseline,
+        summary_executive_stroop_interf_nfl <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + nfl 
+                                    + nfl * years_since_baseline
+                                    + sex * nfl
+                                    + sex * years_since_baseline
+                                    + sex * nfl * years_since_baseline,
                                 data = df,
                                 random = ~ years_since_baseline | id,
                                 weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -1182,7 +1210,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio")
-     summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+     summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + apoe_carrier + amyloid_b_ratio_42_40 
+                                              + amyloid_b_ratio_42_40 * years_since_baseline
+                                              + sex * amyloid_b_ratio_42_40
+                                              + sex * years_since_baseline
+                                              + sex * amyloid_b_ratio_42_40 * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
