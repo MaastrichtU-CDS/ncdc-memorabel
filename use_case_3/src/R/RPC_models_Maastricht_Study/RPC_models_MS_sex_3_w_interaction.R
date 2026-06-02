@@ -955,7 +955,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
 
     #Attention - stroop average
     vtg::log$info("summary_attention_stroop_average_p_tau")
-    summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+    summary_attention_stroop_average_p_tau <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau
+                                            + p_tau * years_since_baseline
+                                            + sex * p_tau
+                                            + sex * years_since_baseline
+                                            + sex * p_tau * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -965,7 +969,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_attention_stroop_average_gfap")
-    summary_attention_stroop_average_gfap <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
+    summary_attention_stroop_average_gfap <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap 
+                                     + gfap * years_since_baseline
+                                     + sex * gfap
+                                     + sex * years_since_baseline
+                                     + sex * gfap * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -975,7 +983,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                            control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_attention_stroop_average_nfl")
-     summary_attention_stroop_average_nfl <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
+     summary_attention_stroop_average_nfl <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl
+                                    + nfl * years_since_baseline
+                                    + sex * nfl
+                                    + sex * years_since_baseline
+                                    + sex * nfl * years_since_baseline,
                              data = df,
                              random = ~ years_since_baseline | id,
                              weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -985,7 +997,11 @@ RPC_models_ms_sex_3_w_int <- function(df, config, model = "memory", exclude=c())
                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio")
-    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
+    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 
+                                                + amyloid_b_ratio_42_40 * years_since_baseline
+                                                + sex * amyloid_b_ratio_42_40
+                                                + sex * years_since_baseline
+                                                + sex * amyloid_b_ratio_42_40 * years_since_baseline,
                             data = df,
                             random = ~ years_since_baseline | id,
                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
