@@ -574,6 +574,29 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
         "error_message" = paste("attention test not found, no z-score transformation possible")
       ))
     }
+
+        # Stroop 3
+      ##Stroop: van der Elst norms
+    df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+    df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
+    df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+      priority_executive_stroop_3_z = ifelse(
+        priority_executive_stroop_3_pred_score <= 79.988,
+        ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
+        ifelse(
+          priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
+          ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
+          ifelse(
+            priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+          )
+        )
+      )
+    )
+    df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
+    df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
+    
      ##Z-score: executive functioning - interference
     ##stroop interference score, van der Elst norms
     df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
