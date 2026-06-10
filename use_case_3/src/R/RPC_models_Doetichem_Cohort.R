@@ -356,35 +356,26 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
-    #Z-score: attention (here we have the TMT and the Stroop)
-    ##TMT-A z-scores calculated with NIP manual and excel sheet
-    ###education and sex coded differently women = 2, men = 1
-    #if (c("attention_test_tmt_a_time") %in% colnames(df)) {
-    #  df$sex_tmt <- ifelse(df$sex == 0, 2, df$sex)
-    #  df$age2_cent_tmt <- ((df$age_rec-60)^2)
-    #  df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
-    #  df$priority_attention_tmt_a_z <-
-    #    ((1.516 + (0.003 * df$age_rec) + (0.00011 * df$age2_cent_tmt) + (-0.082 * df$education_category_verhage) + (0.0008 * (df$age_rec * df$education_category_verhage)) - df$log10_tmt_a)/0.12734)
-    #  df$priority_attention_tmt_a_z <- pmax(pmin(df$priority_attention_tmt_a_z, 5), -5)
-    #  df$priority_attention_tmt_a_z <- -df$priority_attention_tmt_a_z
-    #}
-
     ##Stroop: Van der Elst norms
+    #  Doetinchem has the 4 lines Stroop - so we need to time everything by 2.5 to infer the 10 line score.
+    df$attention_test_stroop_1_time_10 <- attention_test_stroop_1_time*2.5
+    df$attention_test_stroop_2_time_10 <- attention_test_stroop_2_time*2.5
+  
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
-        df$priority_attention_stroop_1 <- df$attention_test_stroop_1_time
+        df$priority_attention_stroop_1 <- df$attention_test_stroop_1_time_10
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_attention_stroop_1_z = ifelse(
             priority_attention_stroop_1_pred_score <= 40.209,
-            ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/5.961),
+            ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/5.961),
             ifelse(
               priority_attention_stroop_1_pred_score >= 40.210 & priority_attention_stroop_1_pred_score <= 43.353,
-              ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/6.400),
+              ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/6.400),
               ifelse(
                 priority_attention_stroop_1_pred_score >= 43.354 & priority_attention_stroop_1_pred_score <= 46.059,
-                ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.217),
-                ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.921)
+                ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/7.217),
+                ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/7.921)
               )
             )
           )
@@ -394,18 +385,18 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       }
       if(c("attention_test_stroop_2_time") %in% colnames(df)) {
           df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$sex_num * 2.390) + (df$education_low * 4.235) + (df$education_high * -2.346))
-          df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
+          df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time_10
           df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
             priority_attention_stroop_2_z = ifelse(
               priority_attention_stroop_2_pred_score <= 51.661,
-              ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/7.988),
+              ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/7.988),
               ifelse(
                 priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
-                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/8.459),
+                ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/8.459),
                 ifelse(
                   priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
-                  ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/9.419),
-                  ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/10.587)
+                  ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/9.419),
+                  ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/10.587)
                 )
               )
             )
@@ -429,27 +420,12 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
-    #Z-score: executive functioning (Stroop and TMT)
-    #TMT b: NIP norms
-    ##education and sex coded differently
-    #if (c("priority_executive_tmt_b_time") %in% colnames(df)) {
-    #  df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
-    #  df$age2_cent_tmt <- ((df$age_rec-60)^2)
-    #  df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
-    #  df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
-    #  df$priority_executive_tmt_z <- pmax(pmin(df$priority_executive_tmt_z, 5), -5)
-    #  df$priority_executive_tmt_z <- -df$priority_executive_tmt_z
-
-    #TMT shifting: NIP norms
-    ##education and sex coded differently
-    #  df$priority_executive_shift_tmt_z <- (((0.983 + (0.555 * df$log10_tmt_a) + (0.0041 * df$age_rec) + (0.00006 * df$age2_cent_tmt) + (-0.03 * df$education_category_verhage) + (-0.028 * df$sex_tmt)) - df$log10_tmt_b) / 0.12729)
-    #  df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
-    #  df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
-    #}
-
     ##Stroop: van der Elst norms
+        #  Doetinchem has the 4 lines Stroop - so we need to time everything by 2.5 to infer the 10 line score.
+    df$priority_executive_stroop_3_time_10 <- priority_executive_stroop_3_time*2.5
+    
         df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
-        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
+        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_executive_stroop_3_z = ifelse(
             priority_executive_stroop_3_pred_score <= 79.988,
