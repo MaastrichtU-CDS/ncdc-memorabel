@@ -859,50 +859,6 @@ descriptives_per_year_NPA_table <- df %>%
                                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
     #summary_attention_stroop_average_amyloid_b_ratio <- sjPlot::tab_model(summary_attention_stroop_average_amyloid_b_ratio)
 
-     vtg::log$info("summary_attention_cst_average_p_tau")
-     summary_attention_cst_average_p_tau <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
-                             data = df,
-                             random = ~ years_since_baseline | id,
-                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                             correlation = nlme::corSymm(form = ~1 | id),
-                             method = "REML",
-                             na.action = na.exclude,
-                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     #summary_attention_cst_average_p_tau <- sjPlot::tab_model(summary_attention_cst_average_p_tau)
-
-     vtg::log$info("summary_attention_cst_average_gfap")
-     summary_attention_cst_average_gfap <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + gfap + gfap * years_since_baseline,
-                             data = df,
-                             random = ~ years_since_baseline | id,
-                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                             correlation = nlme::corSymm(form = ~1 | id),
-                             method = "REML",
-                             na.action = na.exclude,
-                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     #summary_attention_cst_average_gfap <- sjPlot::tab_model(summary_attention_cst_average_gfap)
-
-     vtg::log$info("summary_attention_cst_average_nfl")
-     summary_attention_cst_average_nfl <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + nfl + nfl * years_since_baseline,
-                             data = df,
-                             random = ~ years_since_baseline | id,
-                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                             correlation = nlme::corSymm(form = ~1 | id),
-                             method = "REML",
-                             na.action = na.exclude,
-                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     #summary_attention_cst_average_nfl <- sjPlot::tab_model(summary_attention_cst_average_nfl)
-
-     vtg::log$info("summary_attention_cst_average_amyloid_b_ratio")
-     summary_attention_cst_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_cst_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
-                             data = df,
-                             random = ~ years_since_baseline | id,
-                             weights = nlme::varIdent(form= ~1 | years_since_baseline),
-                             correlation = nlme::corSymm(form = ~1 | id),
-                             method = "REML",
-                             na.action = na.exclude,
-                             control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
-     #summary_attention_cst_average_amyloid_b_ratio <- sjPlot::tab_model(summary_attention_cst_average_amyloid_b_ratio)
-
     vtg::log$info("summary_executive_stroop_3_p_tau")
     summary_executive_stroop_3_p_tau <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = df,
