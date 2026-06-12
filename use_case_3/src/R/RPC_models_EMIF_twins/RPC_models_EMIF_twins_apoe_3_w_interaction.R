@@ -375,7 +375,7 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
     if (c("attention_test_tmt_a_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex_num)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_a_z <-
@@ -388,7 +388,7 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
     #TMT b: NIP norms
     ##education and sex coded differently
     if (c("priority_executive_tmt_b_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex_num)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
@@ -401,6 +401,112 @@ RPC_models_EMIF_twins_apoe_3_w_interaction <- function(df, config, model = "memo
       df$priority_executive_shift_tmt_z <- pmax(pmin(df$priority_executive_shift_tmt_z, 5), -5)
       df$priority_executive_shift_tmt_z <- -df$priority_executive_shift_tmt_z
     }
+
+    ##Stroop 1 & 2: Van der Elst norms
+       if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
+         if(c("attention_test_stroop_1_time") %in% colnames(df)) {
+           df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
+           df$priority_attention_stroop_1 <- df$attention_test_stroop_1_time
+           df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+            priority_attention_stroop_1_z = ifelse(
+              priority_attention_stroop_1_pred_score <= 40.209,
+              ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/5.961),
+              ifelse(
+                priority_attention_stroop_1_pred_score >= 40.210 & priority_attention_stroop_1_pred_score <= 43.353,
+                ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/6.400),
+                ifelse(
+                  priority_attention_stroop_1_pred_score >= 43.354 & priority_attention_stroop_1_pred_score <= 46.059,
+                  ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.217),
+                  ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.921)
+                )
+              )
+            )
+          )
+        df$priority_attention_stroop_1_z <- pmax(pmin(df$priority_attention_stroop_1_z, 5), -5)
+        df$priority_attention_stroop_1_z <- -df$priority_attention_stroop_1_z
+
+       if(c("attention_test_stroop_2_time") %in% colnames(df)) {
+         df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$education_low * 4.235) + (df$education_high * -2.346))
+         df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
+         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+          priority_attention_stroop_2_z = ifelse(
+            priority_attention_stroop_2_pred_score <= 51.661,
+            ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/7.988),
+            ifelse(
+              priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
+              ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/8.459),
+              ifelse(
+                priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
+                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/9.419),
+                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/10.587)
+              )
+            )
+          )
+        )
+        df$priority_attention_stroop_2_z <- pmax(pmin(df$priority_attention_stroop_2_z, 5), -5)
+        df$priority_attention_stroop_2_z <- -df$priority_attention_stroop_2_z
+       } else {
+           return(list(
+             "error_message" = paste("stroop 2 not found")
+           ))
+         }
+
+     #make sure that if a value is missing it doesn't just divide the 1 available by 2
+    if ("priority_attention_stroop_1_z" %in% colnames(df) | "priority_attention_stroop_2_z" %in% colnames(df)) {
+      df$priority_attention_stroop_average_z <- rowMeans(
+        df[, intersect(c("priority_attention_stroop_1_z", "priority_attention_stroop_2_z"), colnames(df))],
+        na.rm = TRUE
+      )
+    }
+     } else {
+        return(list(
+         "error_message" = paste("either stroop 1 or stroop 2 is missing, no average was calculated")
+       ))
+     }
+   }
+
+##Stroop 3: van der Elst norms    
+        df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
+        df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+          priority_executive_stroop_3_z = ifelse(
+            priority_executive_stroop_3_pred_score <= 79.988,
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
+            ifelse(
+              priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
+              ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
+              ifelse(
+                priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
+                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
+                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+              )
+            )
+          )
+        )
+        df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
+        df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
+
+    ##Z-score: executive functioning - interference
+        ##stroop interference score, van der Elst norms
+        df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_cent * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low) * 0.167) + ((df$age_cent * df$education_high) * 0.167))
+        df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$priority_attention_stroop_1 + df$priority_attention_test_stroop_2)/2))
+        df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+          priority_executive_stroop_interf_z = ifelse(
+            priority_executive_interf_stroop_pred_score <= 34.845,
+            ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/11.037),
+            ifelse(
+              priority_executive_interf_stroop_pred_score >= 34.846 & priority_executive_interf_stroop_pred_score <= 41.636,
+              ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/12.667),
+              ifelse(
+                priority_executive_interf_stroop_pred_score >= 41.637 & priority_executive_interf_stroop_pred_score <= 54.849,
+                ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/15.856),
+                ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/22.472)
+              )
+            )
+          )
+        )
+        df$priority_executive_stroop_interf_z <- pmax(pmin(df$priority_executive_stroop_interf_z, 5), -5)
+        df$priority_executive_stroop_interf_z <- -df$priority_executive_stroop_interf_z
 
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
