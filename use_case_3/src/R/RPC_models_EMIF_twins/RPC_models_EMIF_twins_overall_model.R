@@ -159,7 +159,6 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
     # Apoe
-    # df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
 
     # Education levels
@@ -192,7 +191,7 @@ RPC_models_EMIF_AD_overall_model <- function(df, config, model = "memory", exclu
     #Count of participants
     dplyr::n_distinct(df$id)
 
-    #Count of women and men (0 = women, 1 = men)
+    #Count of women and men (1 = women, 0 = men)
     count_men_and_women_table <- df %>%
       dplyr::group_by(sex) %>%
       dplyr::summarise(
