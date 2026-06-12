@@ -543,69 +543,47 @@ RPC_models_apoe_3_w_int <- function(df, config, model = "memory", exclude=c()) {
     df$priority_executive_shifting_z <- -df$priority_executive_shifting_z
 
     ##Stroop: van der Elst norms
-    df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_rec * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
-    df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
-    df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
-      priority_executive_stroop_3_z = ifelse(
-        priority_executive_stroop_3_pred_score <= 79.988,
-        ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
-        ifelse(
-          priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
-          ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
-          ifelse(
-            priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
-            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
-            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+        df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
+        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
+        df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+          priority_executive_stroop_3_z = ifelse(
+            priority_executive_stroop_3_pred_score <= 79.988,
+            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
+            ifelse(
+              priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
+              ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
+              ifelse(
+                priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
+                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
+                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+              )
+            )
           )
         )
-      )
-    )
-    df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
-    df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
-    # if (df$priority_executive_stroop_3_pred_score <= 79.988) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/13.963)
-    # } else if (df$priority_executive_stroop_3_pred_score <= 79.989 & df$priority_executive_stroop_3_pred_score >= 92.862) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/16.367)
-    # } else if (df$priority_executive_stroop_3_pred_score <= 92.863 & df$priority_executive_stroop_3_pred_score >= 108.585) {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/19.506)
-    # } else {
-    #   df$priority_executive_stroop_3_z <- ((df$priority_executive_stroop_3 - df$priority_executive_stroop_3_pred_score)/25.936)
-    #   }
+        df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
+        df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
 
     ##Z-score: executive functioning - interference
-    ##stroop interference score, van der Elst norms
-    df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
-    df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$priority_attention_stroop_1 + df$priority_attention_test_stroop_2)/2))
-    df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
-      priority_executive_stroop_interf_z = ifelse(
-        priority_executive_interf_stroop_pred_score <= 34.845,
-        ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/11.037),
-        ifelse(
-          priority_executive_interf_stroop_pred_score >= 34.846 & priority_executive_interf_stroop_pred_score <= 41.636,
-          ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/12.667),
-          ifelse(
-            priority_executive_interf_stroop_pred_score >= 41.637 & priority_executive_interf_stroop_pred_score <= 54.849,
-            ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/15.856),
-            ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/22.472)
+        ##stroop interference score, van der Elst norms
+        df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_cent * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low) * 0.167) + ((df$age_cent * df$education_high) * 0.167))
+        df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$priority_attention_stroop_1 + df$priority_attention_test_stroop_2)/2))
+        df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
+          priority_executive_stroop_interf_z = ifelse(
+            priority_executive_interf_stroop_pred_score <= 34.845,
+            ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/11.037),
+            ifelse(
+              priority_executive_interf_stroop_pred_score >= 34.846 & priority_executive_interf_stroop_pred_score <= 41.636,
+              ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/12.667),
+              ifelse(
+                priority_executive_interf_stroop_pred_score >= 41.637 & priority_executive_interf_stroop_pred_score <= 54.849,
+                ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/15.856),
+                ((priority_executive_stroop_interf - priority_executive_interf_stroop_pred_score)/22.472)
+              )
+            )
           )
         )
-      )
-    )
-    df$priority_executive_stroop_interf_z <- pmax(pmin(df$priority_executive_stroop_interf_z, 5), -5)
-    df$priority_executive_stroop_interf_z <- -df$priority_executive_stroop_interf_z
-    # if (df$priority_executive_interf_stroop_pred_score <= 34.845) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/11.037)
-    #   } else if (df$priority_executive_interf_stroop_pred_score <= 34.846 & df$priority_executive_interf_stroop_pred_score >= 41.636) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/12.667)
-    #   } else if (df$priority_executive_interf_stroop_pred_score <= 41.637 & df$priority_executive_interf_stroop_pred_score >= 54.849) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/15.856)
-    #   } else if (df$priority_executive_interf_stroop_pred_score  >= 54.850) {
-    #     df$priority_executive_stroop_interf_z <- ((df$priority_executive_stroop_interf - df$priority_executive_stroop_3_pred_score)/22.472)
-    #   } else {
-    #     return(list(
-    #       "error_message" = paste("executive function test not found, no z-score transformation possible")
-    #     ))
-    #   }
+        df$priority_executive_stroop_interf_z <- pmax(pmin(df$priority_executive_stroop_interf_z, 5), -5)
+        df$priority_executive_stroop_interf_z <- -df$priority_executive_stroop_interf_z
 
     df$education_low <- as.factor(df$education_low)
     df$education_high <- as.factor(df$education_high)
