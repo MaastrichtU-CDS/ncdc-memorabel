@@ -327,7 +327,7 @@ RPC_models_EMIF_90_sex_2_way <- function(df, config, model = "memory", exclude=c
     ##TMT-A z-scores calculated with NIP manual and excel sheet
     ###education and sex coded differently women = 2, men = 1
     if (c("attention_test_tmt_a_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex_num)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_a <- log10(df$attention_test_tmt_a_time)
       df$priority_attention_tmt_a_z <-
@@ -340,7 +340,7 @@ RPC_models_EMIF_90_sex_2_way <- function(df, config, model = "memory", exclude=c
     #TMT b: NIP norms
     ##education and sex coded differently
     if (c("priority_executive_tmt_b_time") %in% colnames(df)) {
-      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex)
+      df$sex_tmt <- ifelse(df$sex_num == 0, 2, df$sex_num)
       df$age2_cent_tmt <- ((df$age_rec-60)^2)
       df$log10_tmt_b <- log10(df$priority_executive_tmt_b_time)
       df$priority_executive_tmt_z <- (((1.686 + (df$age_rec * 0.00788) + (df$age2_cent_tmt * 0.00011) + (df$education_category_verhage* -0.046) + (df$sex_tmt * -0.031)) - df$log10_tmt_b) / 0.14567)
