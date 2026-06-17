@@ -51,7 +51,7 @@ query <- 'SELECT * FROM ncdc'
     df_plasma <- df[!is.na(df$p_tau),]
     df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
     df_baseline_education <- df[!is.na(df$education_category_3),]
-    df_apoe <- df[!is.na(df$apoe_carrier),]
+    df_apoe <- df[!is.na(df$apoe_genotype),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
@@ -68,7 +68,7 @@ query <- 'SELECT * FROM ncdc'
     df_apoe <- df_apoe[! duplicated(df_apoe$id),]
     df_grouped <- merge(
       x = df_grouped,
-      y = df_apoe[c("id", "apoe_carrier")],
+      y = df_apoe[c("id", "apoe_carrier", "apoe_genotype")],
       by = "id",
       all.x = T
     )
@@ -160,7 +160,8 @@ query <- 'SELECT * FROM ncdc'
 
     # Apoe
     # df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
-    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
+    df$apoe_carrier <- as.integer(df$apoe_genotype %in% c(4, 5, 6))
+    df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
 
     # Education levels
     # df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
@@ -449,10 +450,10 @@ query <- 'SELECT * FROM ncdc'
 
     # model_summary can't extract from safe_lme_summarye models
     results <- list(
-       "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
-       "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
-       "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
-       "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
+       # "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
+       # "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
+       # "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
+       # "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
 
       "summary_CS_mmse_p_tau_2w" = summary_CS_mmse_p_tau_2w,
       "summary_CS_mmse_gfap_2w" = summary_CS_mmse_gfap_2w,

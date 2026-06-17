@@ -104,7 +104,7 @@ RPC_models_Smart_MR_overall <- function(df, config, model = "memory", exclude=c(
     vtg::log$info("Number of rows in the dataset after exclusion: '{nrow(df)}'")
 
     df %>%
-      dplyr::mutate(dplyr::across(c(date, date_plasma), as.Date, format = "%d/%m/%Y"))
+      dplyr::mutate(dplyr::across(c(date, date_plasma), ~as.Date(.x, format = "%d/%m/%Y")))
     df$difference_time <- lubridate::time_length(lubridate::interval(as.Date(df$date), as.Date(df$date_plasma)), unit = "years")
 
     # Should it be the minimum difference or is it necessary to be within 1 year?
