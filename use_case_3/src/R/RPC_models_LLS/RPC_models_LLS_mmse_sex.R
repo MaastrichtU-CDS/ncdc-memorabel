@@ -1,6 +1,6 @@
 #This is the overall models or most general models.
 ##without interactions and without apoe
-RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_mmse_sex <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -47,22 +47,10 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
       ))
     }
 
-     # Identifying the participants that need to be excluded
-    # Participants will be excluded if date of birth or sex is missing.
-    # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- NULL
-    if (sum(!is.na(df$priority_memory_dr_15_word_list_correct)) > 0) {
-      memory_dr_test_name <- "priority_memory_dr_15_word_list_correct"
-    } else {
-      return(list(
-        "error_message" = paste("Delayed recall test not found - name check")
-      ))
-    }
-    vtg::log$info("Cognitive test available: '{memory_dr_test_name}'")
-
-    df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
-    df_baseline_education <- df[!is.na(df$education_category_verhage),]
+    df_plasma <- df[!is.na(df$p_tau) | !is.na(df$gfap) | !is.na(df$nfl) | !is.na(df$amyloid_b_42) | !is.na(df$amyloid_b_40),]
+    df_plasma$date_plasma <- dplyr::coalesce(df_plasma$date_plasma, df_plasma$date)
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
+    df_baseline_education <- df[!is.na(df$education_category_3),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
     # df_mmse <- df[!is.na(df[["mmse_total"]]) & df$id %in% df_plasma$id & df$id %in% df_baseline$id & df$id %in% df_baseline_education$id & df$id %in% df_apoe$id,]
       # dplyr::group_by(id, date) %>%
@@ -75,12 +63,12 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
-      y = df_baseline_education[c("id", "education_category_verhage", "education_years")],
+      y = df_baseline_education[c("id", "education_category_3", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -92,13 +80,17 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
       by = "id",
       all.x = T
     )
-    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["priority_memory_dr_15_word_list_correct"]]) | !is.na(df[["priority_memory_im_15_word_list_correct"]]) | !is.na(df[["mmse_total"]])
-                                                   | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["priority_executive_tmt_b_time"]])
-                                                   | !is.na(df[["priority_language_animal_fluency_60_correct"]])),]
+    df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["priority_memory_dr_15_word_list_correct"]]) | !is.na(df[["priority_executive_stroop_3_time"]]) | !is.na(df[["mmse_total"]])
+                                                   | !is.na(df[["attention_test_sdst_60_correct"]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["priority_executive_tmt_b_time"]])
+                                                   | !is.na(df[["priority_memory_im_15_word_list_correct"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
+                                                   | !is.na(df[["attention_test_stroop_1_time"]]) | !is.na(df[["attention_test_stroop_2_time"]]) | !is.na(df[["priority_memory_im_pwlt"]])
+                                                   | !is.na(df[["priority_memory_de_pwlt"]])),]
     df <- merge(
-      x = df_cogn_test[c("id", "date", "priority_memory_dr_15_word_list_correct",
-                         "priority_memory_im_15_word_list_correct", "attention_test_tmt_a_time",
-                         "priority_executive_tmt_b_time", "priority_language_animal_fluency_60_correct", "mmse_total")],
+      x = df_cogn_test[c("id", "date", "priority_memory_dr_15_word_list_correct", "mmse_total",
+                         "attention_test_sdst_60_correct", "attention_test_tmt_a_time", "priority_executive_tmt_b_time",
+                         "priority_memory_im_15_word_list_correct", "priority_language_animal_fluency_60_correct",
+                         "priority_executive_stroop_3_time", "attention_test_stroop_1_time", "attention_test_stroop_2_time",
+                         "priority_memory_im_pwlt", "priority_memory_de_pwlt")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -182,7 +174,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
 
     # Education levels
-    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
+    # df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:
@@ -305,7 +297,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
       # sd_apoe = sd(apoe_carrier, na.rm = TRUE)
     )
 
-    
+
     # RIRS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #Overall models
     vtg::log$info("summary_mmse_p_tau")
