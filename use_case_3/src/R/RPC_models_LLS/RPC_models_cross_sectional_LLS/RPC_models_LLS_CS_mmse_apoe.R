@@ -1,6 +1,6 @@
 RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
-  result = tryCatch({ j
+  result = tryCatch({
     con <- RPostgres::dbConnect(
       RPostgres::Postgres(),
       dbname = Sys.getenv("PGDATABASE"),
@@ -48,20 +48,20 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     # Identifying the participants that need to be excluded
     # Participants will be excluded if date of birth or sex is missing.
     # Participants are also excluded if there are no duplicates of ID number (i.e., there has not been a follow_up)
-    memory_dr_test_name <- "priority_memory_dr_15_word_list_correct"
-    df_plasma <- df[!is.na(df$p_tau),]
-    df_baseline <- df[!is.na(df$age) & !is.na(df$sex),]
-    df_baseline_education <- df[!is.na(df$education_category_verhage),]
+    df_plasma <- df[!is.na(df$p_tau) | !is.na(df$gfap) | !is.na(df$nfl) | !is.na(df$amyloid_b_42) | !is.na(df$amyloid_b_40),]
+    df_plasma$date_plasma <- dplyr::coalesce(df_plasma$date_plasma, df_plasma$date)
+    df_baseline <- df[!is.na(df$birth_year) & !is.na(df$sex),]
+    df_baseline_education <- df[!is.na(df$education_category_3),]
     df_apoe <- df[!is.na(df$apoe_carrier),]
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
-      y = df_baseline_education[c("id", "education_category_verhage", "education_years")],
+      y = df_baseline_education[c("id", "education_category_3", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_verhage", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -76,12 +76,14 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     df_cogn_test <- df[df$id %in% df_grouped$id & (!is.na(df[["priority_memory_dr_15_word_list_correct"]]) | !is.na(df[["priority_executive_stroop_3_time"]]) | !is.na(df[["mmse_total"]])
       | !is.na(df[["attention_test_sdst_60_correct"]]) | !is.na(df[["attention_test_tmt_a_time"]]) | !is.na(df[["priority_executive_tmt_b_time"]])
       | !is.na(df[["priority_memory_im_15_word_list_correct"]]) | !is.na(df[["priority_language_animal_fluency_60_correct"]])
-      | !is.na(df[["attention_test_stroop_1_time"]]) | !is.na(df[["attention_test_stroop_2_time"]])),]
+      | !is.na(df[["attention_test_stroop_1_time"]]) | !is.na(df[["attention_test_stroop_2_time"]]) | !is.na(df[["priority_memory_im_pwlt"]])
+      | !is.na(df[["priority_memory_de_pwlt"]])),]
     df <- merge(
       x = df_cogn_test[c("id", "date", "priority_memory_dr_15_word_list_correct", "mmse_total",
         "attention_test_sdst_60_correct", "attention_test_tmt_a_time", "priority_executive_tmt_b_time",
         "priority_memory_im_15_word_list_correct", "priority_language_animal_fluency_60_correct",
-        "priority_executive_stroop_3_time", "attention_test_stroop_1_time", "attention_test_stroop_2_time")],
+        "priority_executive_stroop_3_time", "attention_test_stroop_1_time", "attention_test_stroop_2_time",
+        "priority_memory_im_pwlt", "priority_memory_de_pwlt")],
       y = df_grouped,
       by = "id"
       # all.x = T
@@ -163,7 +165,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
 
     # Education levels
-    df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
+    # df$education_category_3 <- dplyr::recode(df$education_category_verhage, "1"=0, "2"=0, "3"=0, "4"=1, "5"=1, "6"=2, "7"=2)
     df$education <- factor(df$education_category_3, levels = c(0, 1, 2), labels = c("low", "medium", "high"))
 
     # dummy variables:
@@ -181,6 +183,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
       df$amyloid_b_42 / df$amyloid_b_40
     )
     df$amyloid_b_ratio <- df$amyloid_b_ratio_42_40
+    df$log_amyloid_b_ratio_42_40 <- log(df$amyloid_b_ratio_42_40)
 
     df$id <- as.factor(as.character(df$id))
     # df %>% dplyr::mutate_if(is.character, as.factor)
@@ -190,13 +193,15 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
 
     #Descriptive statistics
     #Count of participants
-    dplyr::n_distinct(df$id)
+    # dplyr::n_distinct(df$id)
 
     #Count of women and men (0 = women, 1 = men)
     count_men_and_women_table <- df %>%
+      dplyr::filter(!is.na(id)) %>%
       dplyr::group_by(sex) %>%
       dplyr::summarise(
-        count_sex = dplyr::n_distinct(id)
+        count_sex = dplyr::n_distinct(id),
+        .groups = "drop"
       )
 
     #Average follow-up time with standard deviations and the median.
@@ -213,14 +218,14 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     #descriptives of education
     descriptives_education_table <- df %>%
       dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
-      dplyr::filter(dplyr::n_distinct(id)) %>%
+      # dplyr::filter(dplyr::n_distinct(id)) %>%
       dplyr::summarise(count = dplyr::n())
 
     #This makes a table with means and standard deviations for the following variables per days since baseline
     ##(this should become years (I think...))
     ##Here we are missing all the NPA results
     descriptives_CS_table <- df %>%
-      dplyr::filter(dplyr::n_distinct(id)) %>%
+      # dplyr::filter(dplyr::n_distinct(id)) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -241,7 +246,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     #same as above but here the table sorted by sex
     descriptives_by_sex_table <- df %>%
       dplyr::group_by(sex) %>%
-      dplyr::filter(dplyr::n_distinct(id)) %>%
+      # dplyr::filter(dplyr::n_distinct(id)) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -263,11 +268,11 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
 
   #Z-score transformations
     #Z-score: Picture word learning task (PWLT)
-    #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated 
+    #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated
     #   women = 1, men = 0
     if (c("priority_memory_im_pwlt") %in% colnames(df)) {
       df$priority_memory_im_z <-
-        ((df$priority_memory_im_pwlt - (11.86 + (df$age_cent * -0.07) + (df$sex * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))) / 1.981)
+        ((df$priority_memory_im_pwlt - (11.86 + (df$age_cent * -0.07) + (df$sex_num * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))) / 1.981)
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
     return(list(
@@ -277,13 +282,13 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
 
     #Memory delayed recall z-transformations
     #Z-score: Picture word learning task (PWLT)
-    #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated 
+    #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated
     #   women = 1, men = 0
-    if (memory_dr_test_name == "priority_memory_de_pwlt") {
+    if (c("priority_memory_de_pwlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_de_pwlt
       df$priority_memory_dr_z <- (
         df$priority_memory_de_pwlt - (32.52 + (df$age_cent * -0.23) +
-           (df$sex * 2.92) + (df$education_low * -1.13)
+           (df$sex_num * 2.92) + (df$education_low * -1.13)
          + (df$education_high * -0.04))) / 4.481
       df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
     } else {
@@ -295,9 +300,9 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
         #Z-score: processing speed
     #SDST WAIS-4 norms -> this is for the 120 sec. In LLS we have the 60 sec SDST.
     #  To fix this we time the SDST scores by 2 -> be mindful of this as this could lead to unrealistic scores
-    
-    attention_test_sdst_120_correct <- attention_test_sdst_60_correct*2
-    
+
+    df$attention_test_sdst_120_correct <- df$attention_test_sdst_60_correct*2
+
     if (c("attention_test_sdst_120_correct") %in% colnames(df)){
       df <- df %>%
         dplyr::mutate(sdst_scaled = dplyr::case_when(
@@ -552,7 +557,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     )
     df$priority_executive_stroop_3_z <- pmax(pmin(df$priority_executive_stroop_3_z, 5), -5)
     df$priority_executive_stroop_3_z <- -df$priority_executive_stroop_3_z
-    
+
      ##Z-score: executive functioning - interference
     ##stroop interference score, van der Elst norms
     df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_rec * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low)*0.167) + ((df$age_cent * df$education_high)*0.167))
@@ -643,7 +648,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     #same as above but here the table sorted by sex
     descriptives_by_sex_NPA_table <- df %>%
       dplyr::group_by(sex) %>%
-      dplyr::filter(dplyr::n_distinct(id)) %>%
+      # dplyr::filter(dplyr::n_distinct(id)) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
       mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -703,10 +708,13 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
 
       mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
       sd_priority_executive_stroop_interf_z = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-      n_stroop_interf   = sum(!is.na(priority_executive_stroop_interf_z))
+      n_stroop_interf   = sum(!is.na(priority_executive_stroop_interf_z)),
 
       count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
+
+    df$education_low <- as.factor(df$education_low)
+    df$education_high <- as.factor(df$education_high)
 
     # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
     #2-way interactions for apoe
@@ -729,7 +737,7 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
     #summary_CS_mmse_nfl_2w <- sjPlot::tab_model(CS_mmse_nfl_2w, digits = 10)
 
     vtg::log$info("CS_mmse_p_tau_2w")
-    summary_CS_mmse_p_tau_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + ptau + apoe_carrier * nfl,
+    summary_CS_mmse_p_tau_2w <- safe_lme_summary(mmse_total ~ age_rec + sex + education_low + education_high + apoe_carrier + p_tau + apoe_carrier * nfl,
                                                data = df,
                                                na.action = na.exclude)
 
@@ -789,10 +797,10 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
 
     # model_summary can't extract from safe_lme_summarye models
     results <- list(
-       "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
-       "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
-       "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
-       "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
+       # "summary_CS_mmse_p_tau_3w" = summary_CS_mmse_p_tau_3w,
+       # "summary_CS_mmse_gfap_3w" = summary_CS_mmse_gfap_3w,
+       # "summary_CS_mmse_nfl_3w" = summary_CS_mmse_nfl_3w,
+       # "summary_CS_mmse_amyloid_b_ratio_log_3w" = summary_CS_mmse_amyloid_b_ratio_log_3w,
 
       "summary_CS_mmse_p_tau_2w" = summary_CS_mmse_p_tau_2w,
       "summary_CS_mmse_gfap_2w" = summary_CS_mmse_gfap_2w,
@@ -812,12 +820,12 @@ RPC_models_LLS_CS_mmse_apoe <- function(df, config, model = "memory", exclude=c(
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
-      "descriptives_CS_table" = descriptives_per_year_table,
+      # "descriptives_CS_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
-      "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
+      # "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
-      "descriptives_CS_NPA_table" = descriptives_per_year_NPA_table,
-      "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
+      # "descriptives_CS_NPA_table" = descriptives_per_year_NPA_table,
+      # "descriptives_by_sex_and_FU_NPA_table" = descriptives_by_sex_and_FU_NPA_table,
       "n" = nrow(df),
       "db" = Sys.getenv("PGDATABASE")
           )
