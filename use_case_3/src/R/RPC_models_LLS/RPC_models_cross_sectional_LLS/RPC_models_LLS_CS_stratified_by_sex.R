@@ -160,6 +160,8 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
     # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
 
+    df$sex_num_rev <- 1 - df$sex_num  # 0=Men, 1=Women
+
     # Apoe
     # df$apoe_carrier <- factor(df$apoe_carrier, levels = c(0, 1), labels = c("no","yes"))
     df$apoe_carrier <- factor(df$apoe_carrier, levels = c(F, T), labels = c("no","yes"))
@@ -266,13 +268,17 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
         count_apoe = sum(apoe_carrier == "yes", na.rm = TRUE)
     )
 
-  #Z-score transformations
+     #Z-score transformations
     #Z-score: Picture word learning task (PWLT)
     #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated
     #   women = 1, men = 0
+    #  Sex_num is the wrong variable for this calculation!
     if (c("priority_memory_im_pwlt") %in% colnames(df)) {
-      df$priority_memory_im_z <-
-        ((df$priority_memory_im_pwlt - (11.86 + (df$age_cent * -0.07) + (df$sex_num * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))) / 1.981)
+      df$priority_memory_im_z <- (
+        df$priority_memory_im_pwlt - 
+        (32.52 + (df$age_cent * -0.23) + (df$sex_num_rev * 2.92) + (df$education_low * -1.13) + (df$education_high * -0.04))
+      ) / 4.481
+         
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
     return(list(
@@ -284,23 +290,26 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
     #Z-score: Picture word learning task (PWLT)
     #  We made our own cohort norm-scores for the PWLT - uses the residual standard error in the function as homoscedasticity is not violated
     #   women = 1, men = 0
-    if (c("priority_memory_de_pwlt") %in% colnames(df)) {
+    #  Sex_num is the wrong variable for this calculation!
+   if (c("priority_memory_de_pwlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_de_pwlt
       df$priority_memory_dr_z <- (
-        df$priority_memory_de_pwlt - (32.52 + (df$age_cent * -0.23) +
-           (df$sex_num * 2.92) + (df$education_low * -1.13)
-         + (df$education_high * -0.04))) / 4.481
-      df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
+        df$priority_memory_de_pwlt - 
+        (11.86 + (df$age_cent * -0.07) + (df$sex_num_rev * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))
+      ) / 1.981
+    
+     df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
     } else {
       return(list(
         "error_message" = paste("Delayed recall test not found")
       ))
     }
 
-   #Z-score: processing speed
+        #Z-score: processing speed
     #SDST; Burggraaf et al (2016) norms
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
+   df$attention_test_sdst_60 <- df$attention_test_sdst_60_correct
     if (c("attention_test_sdst_60") %in% colnames(df)) {
       df$attention_test_sdst_60 <- (df$attention_test_sdst_60 * (90/60))
       df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
@@ -318,21 +327,25 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
     }
 
     ##Stroop: Van der Elst norms
+#  Because only the 4 lines is available and we have the 10 lines stroop z-scores, we time all the stroop scores by 2.5
+ df$attention_test_stroop_1_time_10lines <-  df$attention_test_stroop_1_time*2.5
+ df$attention_test_stroop_2_time_10lines <-  df$attention_test_stroop_2_time*2.5
+ df$priority_executive_stroop_3_time_10lines <-  df$priority_executive_stroop_3_time*2.5
+    
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
-        df$priority_attention_stroop_1 <- df$attention_test_stroop_1_time
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_attention_stroop_1_z = ifelse(
             priority_attention_stroop_1_pred_score <= 40.209,
-            ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/5.961),
+            ((attention_test_stroop_1_time_10lines - priority_attention_stroop_1_pred_score)/5.961),
             ifelse(
               priority_attention_stroop_1_pred_score >= 40.210 & priority_attention_stroop_1_pred_score <= 43.353,
-              ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/6.400),
+              ((attention_test_stroop_1_time_10lines - priority_attention_stroop_1_pred_score)/6.400),
               ifelse(
                 priority_attention_stroop_1_pred_score >= 43.354 & priority_attention_stroop_1_pred_score <= 46.059,
-                ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.217),
-                ((attention_test_stroop_1_time - priority_attention_stroop_1_pred_score)/7.921)
+                ((attention_test_stroop_1_time_10lines - priority_attention_stroop_1_pred_score)/7.217),
+                ((attention_test_stroop_1_time_10lines - priority_attention_stroop_1_pred_score)/7.921)
               )
             )
           )
@@ -346,18 +359,17 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
       }
       if(c("attention_test_stroop_2_time") %in% colnames(df)) {
         df$priority_attention_stroop_2_pred_score <- (52.468 + (df$age_cent * 0.209) + (df$age_cent2 * 0.007) + (df$sex_num * 2.390) + (df$education_low * 4.235) + (df$education_high * -2.346))
-        df$priority_attention_test_stroop_2 <- df$attention_test_stroop_2_time
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_attention_stroop_2_z = ifelse(
             priority_attention_stroop_2_pred_score <= 51.661,
-            ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/7.988),
+            ((attention_test_stroop_2_time_10lines - priority_attention_stroop_2_pred_score)/7.988),
             ifelse(
               priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
-              ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/8.459),
+              ((attention_test_stroop_2_time_10lines - priority_attention_stroop_2_pred_score)/8.459),
               ifelse(
                 priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
-                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/9.419),
-                ((attention_test_stroop_2_time - priority_attention_stroop_2_pred_score)/10.587)
+                ((attention_test_stroop_2_time_10lines - priority_attention_stroop_2_pred_score)/9.419),
+                ((attention_test_stroop_2_time_10lines - priority_attention_stroop_2_pred_score)/10.587)
               )
             )
           )
@@ -384,21 +396,19 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
       ))
     }
 
-        # Stroop 3
-        ##Stroop: van der Elst norms
+    ##Stroop: van der Elst norms
         df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
-        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_executive_stroop_3_z = ifelse(
             priority_executive_stroop_3_pred_score <= 79.988,
-            ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/13.963),
+            ((priority_executive_stroop_3_time_10lines - priority_executive_stroop_3_pred_score)/13.963),
             ifelse(
               priority_executive_stroop_3_pred_score >= 79.989 & priority_executive_stroop_3_pred_score <= 92.862,
-              ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/16.367),
+              ((priority_executive_stroop_3_time_10lines - priority_executive_stroop_3_pred_score)/16.367),
               ifelse(
                 priority_executive_stroop_3_pred_score >= 92.863 & priority_executive_stroop_3_pred_score <= 108.585,
-                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/19.506),
-                ((priority_executive_stroop_3 - priority_executive_stroop_3_pred_score)/25.936)
+                ((priority_executive_stroop_3_time_10lines - priority_executive_stroop_3_pred_score)/19.506),
+                ((priority_executive_stroop_3_time_10lines - priority_executive_stroop_3_pred_score)/25.936)
               )
             )
           )
@@ -409,7 +419,7 @@ RPC_models_LLS_CS_stratified_by_sex <- function(df, config, model = "memory", ex
     ##Z-score: executive functioning - interference
         ##stroop interference score, van der Elst norms
         df$priority_executive_interf_stroop_pred_score <- (36.066 + (df$age_cent * 0.500) + (df$age_cent2 * 0.016) + (df$sex_num * 3.010) + (df$education_low * 8.505) + (df$education_high * -2.092) + ((df$age_cent * df$education_low) * 0.167) + ((df$age_cent * df$education_high) * 0.167))
-        df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3 -((df$priority_attention_stroop_1 + df$priority_attention_test_stroop_2)/2))
+        df$priority_executive_stroop_interf <- (df$priority_executive_stroop_3_time_10lines -((df$attention_test_stroop_1_time_10lines + df$attention_test_stroop_2_time_10lines)/2))
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_executive_stroop_interf_z = ifelse(
             priority_executive_interf_stroop_pred_score <= 34.845,
