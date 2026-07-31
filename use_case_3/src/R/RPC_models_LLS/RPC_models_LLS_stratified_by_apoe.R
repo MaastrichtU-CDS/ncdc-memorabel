@@ -306,10 +306,10 @@ RPC_models_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
     #  Sex_num is the wrong variable for this calculation!
     if (c("priority_memory_im_pwlt") %in% colnames(df)) {
       df$priority_memory_im_z <- (
-        df$priority_memory_im_pwlt - 
+        df$priority_memory_im_pwlt -
         (32.52 + (df$age_cent * -0.23) + (df$sex_num_rev * 2.92) + (df$education_low * -1.13) + (df$education_high * -0.04))
       ) / 4.481
-         
+
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
     return(list(
@@ -325,10 +325,10 @@ RPC_models_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
    if (c("priority_memory_de_pwlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_de_pwlt
       df$priority_memory_dr_z <- (
-        df$priority_memory_de_pwlt - 
+        df$priority_memory_de_pwlt -
         (11.86 + (df$age_cent * -0.07) + (df$sex_num_rev * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))
       ) / 1.981
-    
+
      df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
     } else {
       return(list(
@@ -362,7 +362,7 @@ RPC_models_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
  df$attention_test_stroop_1_time_10lines <-  df$attention_test_stroop_1_time*2.5
  df$attention_test_stroop_2_time_10lines <-  df$attention_test_stroop_2_time*2.5
  df$priority_executive_stroop_3_time_10lines <-  df$priority_executive_stroop_3_time*2.5
-    
+
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
@@ -878,6 +878,17 @@ RPC_models_strat_apoe <- function(df, config, model = "memory", exclude=c()) {
 
 
      #Processing speed
+    vtg::log$info("summary_processing_speed_p_tau_apoe_neg")
+    summary_processing_speed_p_tau_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+                                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
+                                                                data = subset(df, apoe_carrier == "no"),
+                                                                random = ~ years_since_baseline | id,
+                                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
+                                                                correlation = nlme::corSymm(form = ~1 | id),
+                                                                method = "REML",
+                                                                na.action = na.exclude,
+                                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
+
      vtg::log$info("summary_processing_speed_p_tau_apoe_pos")
      summary_processing_speed_p_tau_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
