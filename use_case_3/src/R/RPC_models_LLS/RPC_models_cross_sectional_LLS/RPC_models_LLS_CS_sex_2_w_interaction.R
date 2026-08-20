@@ -174,6 +174,31 @@ RPC_models_LLS_CS_sex_2_w_interaction <- function(df, config, model = "memory", 
     df$education_low <- ifelse(df$education == 'low', 1, 0)
     df$education_high <- ifelse(df$education == 'high', 1, 0)
 
+    # Makes education_years variable
+    df <- df %>%
+      dplyr::mutate(
+        education_years = case_when(
+          # Primary choice: Use detailed 9-category variable if present
+          education_category == 1 ~ 8.0,
+          education_category == 2 ~ 12.0,
+          education_category == 3 ~ 13.0,
+          education_category == 4 ~ 14.0,
+          education_category == 5 ~ 15.0,
+          education_category == 6 ~ 16.0,
+          education_category == 7 ~ 17.0,
+          education_category == 8 ~ 18.5,
+          education_category == 9 ~ 22.0,
+          
+          # Fallback choice: Use 3-category variable if 9-category is missing/NA
+          education_category_3 == 0 ~ 10.0,
+          education_category_3 == 1 ~ 14.5,
+          education_category_3 == 2 ~ 18.5,
+          
+          # Default to NA if neither is available or valid
+          TRUE ~ NA_real_
+        )
+      )
+
     # In the original dataset, this variable may not
     # be associated with the plasma data but only with the visit date
     # May be necessary to first check if amyloid_b_42 and amyloid_b_40 are
