@@ -490,7 +490,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
   #Calculate the average CST a and b score
     df <- df %>%
       dplyr::mutate(
-        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_executive_cst_a_z, priority_executive_cst_b_z)), na.rm = TRUE)
+        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_attention_cst_a_z, priority_attention_cst_b_z)), na.rm = TRUE)
       )
       # filter(!is.na(priority_attention_cst_average_z))
     df$priority_attention_cst_average_z <- pmax(pmin(df$priority_attention_cst_average_z, 5), -5)
@@ -542,9 +542,9 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
     df$priority_executive_shifting_z <- pmax(pmin(df$priority_executive_shifting_z, 5), -5)
     df$priority_executive_shifting_z <- -df$priority_executive_shifting_z
 
-##Stroop: van der Elst norms    
+##Stroop: van der Elst norms
         df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
-        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
+        df$priority_executive_stroop_3 <-  df$priority_executive_stroop_3_time # df$priority_executive_stroop_3_time_10
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_executive_stroop_3_z = ifelse(
             priority_executive_stroop_3_pred_score <= 79.988,
@@ -1055,7 +1055,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
 
      #Processing speed
      vtg::log$info("summary_processing_speed_p_tau_apoe_pos")
-     summary_processing_speed_p_tau_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+     summary_processing_speed_p_tau_apoe_pos <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                                + age_rec + sex + sqrt_prior_visit + education_low + education_high + p_tau + p_tau * years_since_baseline,
                                                data = subset(df, apoe_carrier == "yes"),
                                                random = ~ years_since_baseline | id,
@@ -1066,7 +1066,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                                control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_processing_speed_gfap_apoe_neg")
-    summary_processing_speed_gfap_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+    summary_processing_speed_gfap_apoe_neg <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1077,7 +1077,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_processing_speed_gfap_apoe_pos")
-    summary_processing_speed_gfap_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+    summary_processing_speed_gfap_apoe_pos <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + gfap + gfap * years_since_baseline,
                                              data = subset(df, apoe_carrier == "yes"),
                                              random = ~ years_since_baseline | id,
@@ -1088,7 +1088,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_processing_speed_nfl_apoe_neg")
-     summary_processing_speed_nfl_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+     summary_processing_speed_nfl_apoe_neg <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                              + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                              data = subset(df, apoe_carrier == "no"),
                                              random = ~ years_since_baseline | id,
@@ -1099,7 +1099,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                              control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
       vtg::log$info("summary_processing_speed_nfl_apoe_pos")
-      summary_processing_speed_nfl_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+      summary_processing_speed_nfl_apoe_pos <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                               + age_rec + sex + sqrt_prior_visit + education_low + education_high + nfl + nfl * years_since_baseline,
                                               data = subset(df, apoe_carrier == "yes"),
                                               random = ~ years_since_baseline | id,
@@ -1110,7 +1110,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                               control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
     vtg::log$info("summary_processing_speed_amyloid_b_ratio_apoe_neg")
-    summary_processing_speed_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+    summary_processing_speed_amyloid_b_ratio_apoe_neg <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                                         + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                         data = subset(df, apoe_carrier == "no"),
                                                         random = ~ years_since_baseline | id,
@@ -1121,7 +1121,7 @@ RPC_models_ms_strat_apoe <- function(df, config, model = "memory", exclude=c()) 
                                                         control = nlme::lmeControl(opt='optim', maxIter = 500, msMaxIter = 500, msMaxEval = 500, msVerbose = TRUE))
 
      vtg::log$info("summary_processing_speed_amyloid_b_ratio_apoe_pos")
-     summary_processing_speed_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_processing_speed_sdst_z ~ years_since_baseline
+     summary_processing_speed_amyloid_b_ratio_apoe_pos <- safe_lme_summary(priority_processing_speed_ldst_z ~ years_since_baseline
                                                          + age_rec + sex + sqrt_prior_visit + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = subset(df, apoe_carrier == "yes"),
                                                          random = ~ years_since_baseline | id,

@@ -478,7 +478,6 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     } else {
       print("cst a not found")
     }
-
     if (c("priority_executive_cst_b_time") %in% colnames(df)) {
       df$priority_attention_cst_b_z <-
         (((sqrt(df$priority_executive_cst_b_time)) - (4.154 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0001) + (df$sex * 0.136) + (df$education_low * 0.365) + (df$education_high * -0.146))) / 0.639)
@@ -486,11 +485,10 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     } else {
       print("cst b not found")
     }
-
   #Calculate the average CST a and b score
     df <- df %>%
       dplyr::mutate(
-        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_executive_cst_a_z, priority_executive_cst_b_z)), na.rm = TRUE)
+        priority_attention_cst_average_z = rowMeans(dplyr::across(c(priority_attention_cst_a_z, priority_attention_cst_b_z)), na.rm = TRUE)
       )
       # filter(!is.na(priority_attention_cst_average_z))
     df$priority_attention_cst_average_z <- pmax(pmin(df$priority_attention_cst_average_z, 5), -5)
@@ -542,9 +540,9 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     df$priority_executive_shifting_z <- pmax(pmin(df$priority_executive_shifting_z, 5), -5)
     df$priority_executive_shifting_z <- -df$priority_executive_shifting_z
 
-##Stroop: van der Elst norms    
+##Stroop: van der Elst norms
         df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
-        df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
+        df$priority_executive_stroop_3 <-  df$priority_executive_stroop_3_time # df$priority_executive_stroop_3_time_10
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_executive_stroop_3_z = ifelse(
             priority_executive_stroop_3_pred_score <= 79.988,
@@ -713,9 +711,9 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
       n_priority_language_z    = sum(!is.na(priority_language_z)),
 
-      mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
-      sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
-      n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
+      # mean_priority_processing_speed_sdst_z = mean(priority_processing_speed_sdst_z, na.rm = TRUE),
+      # sd_priority_processing_speed_sdst_z   = sd(priority_processing_speed_sdst_z, na.rm = TRUE),
+      # n_priority_processing_speed_sdst_z    = sum(!is.na(priority_processing_speed_sdst_z)),
 
       mean_mmse = mean(mmse_total, na.rm = TRUE),
       sd_mmse   = sd(mmse_total, na.rm = TRUE),
