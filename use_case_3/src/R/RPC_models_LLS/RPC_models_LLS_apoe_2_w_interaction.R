@@ -63,12 +63,12 @@ RPC_models_apoe_2w <- function(df, config, model = "memory", exclude=c()) {
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
-      y = df_baseline_education[c("id", "education_category_3", "education_years")],
+      y = df_baseline_education[c("id", "education_category_3", "education_category", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_category", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -186,7 +186,7 @@ RPC_models_apoe_2w <- function(df, config, model = "memory", exclude=c()) {
     # Makes education_years variable
     df <- df %>%
       dplyr::mutate(
-        education_years = case_when(
+        education_years = dplyr::case_when(
           # Primary choice: Use detailed 9-category variable if present
           education_category == 1 ~ 8.0,
           education_category == 2 ~ 12.0,
@@ -197,12 +197,12 @@ RPC_models_apoe_2w <- function(df, config, model = "memory", exclude=c()) {
           education_category == 7 ~ 17.0,
           education_category == 8 ~ 18.5,
           education_category == 9 ~ 22.0,
-          
+
           # Fallback choice: Use 3-category variable if 9-category is missing/NA
           education_category_3 == 0 ~ 10.0,
           education_category_3 == 1 ~ 14.5,
           education_category_3 == 2 ~ 18.5,
-          
+
           # Default to NA if neither is available or valid
           TRUE ~ NA_real_
         )

@@ -63,12 +63,12 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df_baseline_education <- df_baseline_education[! duplicated(df_baseline_education$id),]
     df_grouped <- merge(
       x = df_baseline[c("id", "age", "sex", "birth_year")],
-      y = df_baseline_education[c("id", "education_category_3", "education_years")],
+      y = df_baseline_education[c("id", "education_category_3", "education_category", "education_years")],
       by = "id"
     )
     df_grouped <- df_grouped[! duplicated(df_grouped$id),]
     df_grouped <- merge(
-      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_years")],
+      x = df_grouped[c("id", "age", "sex", "birth_year", "education_category_3", "education_category", "education_years")],
       y = df_plasma[c("id", "date_plasma", "p_tau", "gfap", "nfl", "amyloid_b_42", "amyloid_b_40", "amyloid_b_ratio_42_40")],
       by = "id"
     )
@@ -166,7 +166,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     df$sex_num <- ifelse(df$sex == 0, 1, 0)
     # df$sex_num <- factor(df$sex_num, levels = c(0, 1), labels = c("female", "male"))
     df$sex <- factor(df$sex, levels = c(0, 1), labels = c("male", "female"))
-    
+
     df$sex_num_rev <- 1 - df$sex_num  # 0=Men, 1=Women
 
     # Apoe
@@ -186,7 +186,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     #Makes education_years variable
     df <- df %>%
       dplyr::mutate(
-        education_years = case_when(
+        education_years = dplyr::case_when(
           # Primary choice: Use detailed 9-category variable if present
           education_category == 1 ~ 8.0,
           education_category == 2 ~ 12.0,
@@ -197,12 +197,12 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
           education_category == 7 ~ 17.0,
           education_category == 8 ~ 18.5,
           education_category == 9 ~ 22.0,
-          
+
           # Fallback choice: Use 3-category variable if 9-category is missing/NA
           education_category_3 == 0 ~ 10.0,
           education_category_3 == 1 ~ 14.5,
           education_category_3 == 2 ~ 18.5,
-          
+
           # Default to NA if neither is available or valid
           TRUE ~ NA_real_
         )
@@ -331,10 +331,10 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
     #  Sex_num is the wrong variable for this calculation!
     if (c("priority_memory_im_pwlt") %in% colnames(df)) {
       df$priority_memory_im_z <- (
-        df$priority_memory_im_pwlt - 
+        df$priority_memory_im_pwlt -
         (32.52 + (df$age_cent * -0.23) + (df$sex_num_rev * 2.92) + (df$education_low * -1.13) + (df$education_high * -0.04))
       ) / 4.481
-         
+
       df$priority_memory_im_z <- pmax(pmin(df$priority_memory_im_z, 5), -5)
     } else {
     return(list(
@@ -350,10 +350,10 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
    if (c("priority_memory_de_pwlt") %in% colnames(df)) {
       df$priority_memory_dr <- df$priority_memory_de_pwlt
       df$priority_memory_dr_z <- (
-        df$priority_memory_de_pwlt - 
+        df$priority_memory_de_pwlt -
         (11.86 + (df$age_cent * -0.07) + (df$sex_num_rev * 1.41) + (df$education_low * -0.45) + (df$education_high * 0.13))
       ) / 1.981
-    
+
      df$priority_memory_dr_z <- pmax(pmin(df$priority_memory_dr_z, 5), -5)
     } else {
       return(list(
@@ -387,7 +387,7 @@ RPC_models_overall_model <- function(df, config, model = "memory", exclude=c()) 
  df$attention_test_stroop_1_time_10lines <-  df$attention_test_stroop_1_time*2.5
  df$attention_test_stroop_2_time_10lines <-  df$attention_test_stroop_2_time*2.5
  df$priority_executive_stroop_3_time_10lines <-  df$priority_executive_stroop_3_time*2.5
-    
+
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
