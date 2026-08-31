@@ -443,7 +443,7 @@ RPC_models_ms_strat_sex <- function(df, config, model = "memory", exclude=c()) {
         #Z-score attention (CST, van der Elst norms)
     if (c("priority_executive_cst_a_time") %in% colnames(df)) {
       df$priority_attention_cst_a_z <-
-        (((sqrt(df$priority_executive_cst_a_time)) - (3.668 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0002) + (df$sex * 0.143) + (df$education_low * 0.188) + (df$education_high * -0.092))) / 0.556)
+        (((sqrt(df$priority_executive_cst_a_time)) - (3.668 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0002) + (df$sex_num * 0.143) + (df$education_low * 0.188) + (df$education_high * -0.092))) / 0.556)
       df$priority_attention_cst_a_z <- -df$priority_attention_cst_a_z
     } else {
       print("cst a not found")
@@ -451,7 +451,7 @@ RPC_models_ms_strat_sex <- function(df, config, model = "memory", exclude=c()) {
 
     if (c("priority_executive_cst_b_time") %in% colnames(df)) {
       df$priority_attention_cst_b_z <-
-        (((sqrt(df$priority_executive_cst_b_time)) - (4.154 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0001) + (df$sex * 0.136) + (df$education_low * 0.365) + (df$education_high * -0.146))) / 0.639)
+        (((sqrt(df$priority_executive_cst_b_time)) - (4.154 + (df$age_cent * 0.023) + (df$age_cent2 * 0.0001) + (df$sex_num * 0.136) + (df$education_low * 0.365) + (df$education_high * -0.146))) / 0.639)
       df$priority_attention_cst_b_z <- -df$priority_attention_cst_b_z
     } else {
       print("cst b not found")
