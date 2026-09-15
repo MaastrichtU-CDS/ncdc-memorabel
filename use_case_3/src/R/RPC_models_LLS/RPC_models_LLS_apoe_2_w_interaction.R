@@ -365,15 +365,14 @@ RPC_models_apoe_2w <- function(df, config, model = "memory", exclude=c()) {
     #SDST; Burggraaf et al (2016) norms
     ##education is coded in years for this formula.. this needs to be fixed
     ##sex is coded male=0, female=1
-   df$attention_test_sdst_60 <- df$attention_test_sdst_60_correct
+    df$attention_test_sdst_60 <- df$attention_test_sdst_60_correct
     if (c("attention_test_sdst_60") %in% colnames(df)) {
-      df$attention_test_sdst_60 <- (df$attention_test_sdst_60 * (90/60))
+      df$attention_test_sdst_60 <- (df$attention_test_sdst_60 * (60/90))
       df$sex_sdst <- ifelse(df$sex_num == 1, 0, 1)
       df$age_cent_sdst <- df$age_rec-46
       df$age_cent_sdst2 <- df$age_cent_sdst^2
       df$priority_processing_speed_sdst_z <-
-        ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * -0.470) + (df$education_years))) / 2.777)
-      df$priority_processing_speed_sdst <-  df$attention_test_sdst_60
+        ((df$attention_test_sdst_60 - (7.653 + (df$age_cent_sdst * -0.0806) + (df$age_cent_sdst2 * -0.000449) + (df$sex_sdst * 0.470) + (df$education_years * 0.1515))) / 2.777)
       df$priority_processing_speed_sdst_z <- pmax(pmin(df$priority_processing_speed_sdst_z, 5), -5)
     } else  {
       return(list(
