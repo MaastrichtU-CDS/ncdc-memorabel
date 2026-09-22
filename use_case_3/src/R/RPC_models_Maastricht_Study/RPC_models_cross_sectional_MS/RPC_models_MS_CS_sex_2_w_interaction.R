@@ -221,7 +221,6 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     #Count of women and men (0 = women, 1 = men)
     count_men_and_women_table <- df %>%
       dplyr::group_by(sex) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         count_sex = dplyr::n_distinct(id)
       )
@@ -240,7 +239,6 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     #descriptives of education
     descriptives_education_table <- df %>%
       dplyr::group_by(years_since_baseline, sex, education_category_3) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(count = dplyr::n())
 
     #This makes a table with means and standard deviations for the following variables per days since baseline
