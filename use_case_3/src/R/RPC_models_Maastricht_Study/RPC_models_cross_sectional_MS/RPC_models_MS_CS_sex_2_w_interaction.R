@@ -246,9 +246,7 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     #This makes a table with means and standard deviations for the following variables per days since baseline
     ##(this should become years (I think...))
     ##Here we are missing all the NPA results
-    descriptives_per_year_table <- df %>%
-      dplyr::group_by(years_since_baseline) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
+    descriptives_baseline_table <- df %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -271,7 +269,6 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
     #same as above but here the table sorted by sex
     descriptives_by_sex_table <- df %>%
       dplyr::group_by(sex) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
       dplyr::summarise(
         nr_participants = dplyr::n_distinct(id),
         mean_p_tau = mean(p_tau, na.rm = TRUE),
@@ -290,29 +287,6 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
         sd_age = sd(age_rec, na.rm = TRUE),
         years_since_baseline = mean(years_since_baseline, na.rm = TRUE),
         sd_years_since_baseline = sd(years_since_baseline, na.rm = TRUE)
-        # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
-      )
-
-    #same as above but here the table sorted by years since baseline and sex
-    descriptives_by_sex_and_FU_table <- df %>%
-      dplyr::group_by(years_since_baseline, sex) %>%
-      dplyr::filter(dplyr::n_distinct(id) > 2) %>%
-      dplyr::summarise(
-        nr_participants = dplyr::n_distinct(id),
-        mean_p_tau = mean(p_tau, na.rm = TRUE),
-        sd_p_tau = sd(p_tau, na.rm = TRUE),
-        mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
-        sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
-        mean_gfap = mean(gfap, na.rm = TRUE),
-        sd_gfap = sd(gfap, na.rm = TRUE),
-        mean_nfl = mean(nfl, na.rm = TRUE),
-        sd_nfl = sd(nfl, na.rm = TRUE),
-        #mean_edu_years = mean(education_years, na.rm = TRUE),
-        #sd_edu_years = sd(education_years, na.rm = TRUE),
-        count_edu_low = sum(education_low == '1', na.rm = TRUE),
-        count_edu_high = sum(education_high == '1', na.rm = TRUE),
-        mean_age = mean(age_rec, na.rm = TRUE),
-        sd_age = sd(age_rec, na.rm = TRUE)
         # count_apoe = sum(apoe_carrier == 'yes', na.rm = TRUE)
       )
 
@@ -768,4 +742,369 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       ))
     }
 
+ # CS model with unstructured covariance structure (add model for every biomarker x cognitive measure)
+    #Immediate recall
+    vtg::log$info("CS_memory_p_tau_im")
+    summary_CS_memory_p_tau_im_sex_2w <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                   + sex * p_tau,
+                                      data = df,
+                                      na.action = na.exclude)
 
+    vtg::log$info("CS_memory_gfap_im")
+    summary_CS_memory_gfap_im_sex_2w <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + gfap
+                                                  + sex * gfap,
+                                     data = df,
+                                     na.action = na.exclude)
+
+    vtg::log$info("CS_memory_nfl_im")
+    summary_CS_memory_nfl_im_sex_2w <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + nfl
+                                                 + sex * nfl,
+                                    data = df,
+                                    na.action = na.exclude)
+
+    vtg::log$info("CS_memory_amyloid_b_ratio_im")
+    summary_CS_memory_amyloid_b_ratio_im_sex_2w <- safe_lme_summary(priority_memory_im_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                             + sex * amyloid_b_ratio,
+                                                data = df,
+                                                na.action = na.exclude)
+
+    #Delayed recall
+    vtg::log$info("CS_memory_p_tau_dr")
+    summary_CS_memory_p_tau_dr_sex_2w <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                   + sex * p_tau,
+                                      data = df,
+                                      na.action = na.exclude)
+
+    vtg::log$info("CS_memory_gfap_dr")
+    summary_CS_memory_gfap_dr_sex_2w <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + gfap
+                                                  + sex * gfap,
+                                     data = df,
+                                     na.action = na.exclude)
+
+    vtg::log$info("CS_memory_nfl_dr")
+    summary_CS_memory_nfl_dr_sex_2w <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + nfl
+                                                 + sex * nfl,
+                                    data = df,
+                                    na.action = na.exclude)
+
+    vtg::log$info("CS_memory_amyloid_b_ratio_dr")
+    summary_CS_memory_amyloid_b_ratio_dr_sex_2w <- safe_lme_summary(priority_memory_dr_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                             + sex * amyloid_b_ratio,
+                                                data = df,
+                                                na.action = na.exclude)
+
+      #processing speed 
+    vtg::log$info("CS_RIRS_processing_speed_p_tau")
+    summary_CS_processing_speed_p_tau_sex_2w <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                          + sex * p_tau,
+                           data = df,
+                           na.action = na.exclude)
+
+    vtg::log$info("CS_RIRS_processing_speed_gfap")
+    summary_CS_processing_speed_gfap_sex_2w <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + gfap
+                                                         + sex * gfap,
+                           data = df,
+                           na.action = na.exclude)
+
+    vtg::log$info("CS_RIRS_processing_speed_nfl")
+    summary_CS_processing_speed_nfl_sex_2w <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + nfl
+                                                        + sex * nfl,
+                           data = df,
+                           na.action = na.exclude)
+
+    vtg::log$info("CS_RIRS_processing_speed_amyloid_b_ratio")
+    summary_CS_processing_speed_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                    + sex * amyloid_b_ratio,
+                           data = df,
+                           na.action = na.exclude)
+
+    #Attention (stroop)
+    vtg::log$info("summary_CS_attention_stroop_average_p_tau")
+    summary_CS_attention_stroop_average_p_tau_sex_2w <- safe_lme_summary(priority_attention_stroop_average_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                                  + sex * p_tau,
+                                                     data = df,
+                                                     method = "REML",
+                                                     na.action = na.exclude)
+
+    vtg::log$info("summary_CS_attention_stroop_average_gfap")
+    summary_CS_attention_stroop_average_gfap_sex_2w <- safe_lme_summary(priority_attention_stroop_average_z ~  age_rec + sex + education_low + education_high + gfap
+                                                                 + sex * gfap,
+                                                    data = df,
+                                                    method = "REML",
+                                                    na.action = na.exclude)
+
+    vtg::log$info("summary_CS_attention_stroop_average_nfl")
+    summary_CS_attention_stroop_average_nfl_sex_2w <- safe_lme_summary(priority_attention_stroop_average_z ~  age_rec + sex + education_low + education_high + nfl
+                                                                + sex * nfl,
+                                                   data = df,
+                                                   method = "REML",
+                                                   na.action = na.exclude)
+
+    vtg::log$info("summary_CS_attention_stroop_average_amyloid_b_ratio")
+    summary_CS_attention_stroop_average_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_attention_stroop_average_z ~  age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                            + sex * amyloid_b_ratio,
+                                                               data = df,
+                                                               method = "REML",
+                                                               na.action = na.exclude
+                                                               )
+    # Executive function (stroop)
+     vtg::log$info("summary_CS_executive_stroop_3_p_tau")
+    summary_CS_executive_stroop_3_p_tau_sex_2w <- safe_lme_summary(priority_executive_stroop_3_z ~  age_rec + sex + education_low + education_high + p_tau
+                                                            + sex * p_tau,
+                                               data = df,
+                                               method = "REML",
+                                               na.action = na.exclude
+                                               )
+    #summary_CS_attention_stroop_3_p_tau_sex_2w <- sjPlot::tab_model(summary_CS_executive_stroop_3_p_tau)
+
+    vtg::log$info("summary_CS_executive_stroop_3_gfap")
+    summary_CS_executive_stroop_3_gfap_sex_2w <- safe_lme_summary(priority_executive_stroop_3_z ~  age_rec + sex + education_low + education_high + gfap
+                                                           + sex * gfap,
+                                              data = df,
+                                              method = "REML",
+                                              na.action = na.exclude
+                                              )
+
+    vtg::log$info("summary_CS_executive_stroop_3_nfl")
+    summary_CS_executive_stroop_3_nfl_sex_2w <- safe_lme_summary(priority_executive_stroop_3_z ~  age_rec + sex + education_low + education_high + nfl
+                                                          + sex * nfl,
+                                             data = df,
+                                             method = "REML",
+                                             na.action = na.exclude
+                                             )
+
+    vtg::log$info("summary_CS_executive_stroop_3_amyloid_b_ratio")
+    summary_CS_executive_stroop_3_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_executive_stroop_3_z ~  age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                      + sex * amyloid_b_ratio,
+                                                         data = df,
+                                                         method = "REML",
+                                                         na.action = na.exclude
+                                                         )
+
+    # Executive function (Interference stroop)
+    vtg::log$info("summary_CS_executive_stroop_interf_p_tau")
+    summary_CS_executive_stroop_interf_p_tau_sex_2w <- safe_lme_summary(priority_executive_stroop_interf_z ~  age_rec + sex + education_low + education_high + p_tau
+                                                                 + sex * p_tau,
+                                                    data = df,
+                                                    method = "REML",
+                                                    na.action = na.exclude
+                                                    )
+
+    vtg::log$info("summary_CS_executive_stroop_interf_gfap")
+    summary_CS_executive_stroop_interf_gfap_sex_2w <- safe_lme_summary(priority_executive_stroop_interf_z ~  age_rec + sex + education_low + education_high + gfap
+                                                                + sex * gfap,
+                                                   data = df,
+                                                   method = "REML",
+                                                   na.action = na.exclude
+                                                   )
+
+    vtg::log$info("summary_CS_executive_stroop_interf_nfl")
+    summary_CS_executive_stroop_interf_nfl_sex_2w <- safe_lme_summary(priority_executive_stroop_interf_z ~  age_rec + sex + education_low + education_high + nfl
+                                                               + sex * nfl,
+                                                  data = df,
+                                                  method = "REML",
+                                                  na.action = na.exclude
+                                                  )
+
+    vtg::log$info("summary_CS_executive_stroop_interf_amyloid_b_ratio")
+    summary_CS_executive_stroop_interf_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_executive_stroop_interf_z ~  age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                           + sex * amyloid_b_ratio,
+                                                              data = df,
+                                                              method = "REML",
+                                                              na.action = na.exclude
+                                                              )
+   #Language
+     vtg::log$info("CS_language_p_tau")
+     summary_CS_language_p_tau_sex_2w <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                   + sex * p_tau,
+                                      data = df,
+                                      method = "REML",
+                                      na.action = na.exclude)
+
+     vtg::log$info("CS_language_gfap")
+     summary_CS_language_gfap_sex_2w <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + gfap
+                                                  + sex * gfap,
+                                     data = df,
+                                     method = "REML",
+                                     na.action = na.exclude)
+
+     vtg::log$info("CS_language_nfl")
+     summary_CS_language_nfl_sex_2w <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + nfl
+                                                 + sex * nfl,
+                                    data = df,
+                                    method = "REML",
+                                    na.action = na.exclude)
+
+     vtg::log$info("CS_language_amyloid_b_ratio")
+     summary_CS_language_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                             + sex * amyloid_b_ratio,
+                                                data = df,
+                                                method = "REML",            
+                                                na.action = na.exclude)
+    
+    #Attention (CST)
+     vtg::log$info("summary_attention_cst_average_p_tau")
+     summary_CS_attention_cst_average_p_tau_sex_2w <- safe_lme_summary(priority_attention_cst_average_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                                + sex * p_tau,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude
+                             )
+
+     vtg::log$info("summary_attention_cst_average_gfap")
+     summary_CS_attention_cst_average_gfap_sex_2w <- safe_lme_summary(priority_attention_cst_average_z ~ age_rec + sex + education_low + education_high + gfap
+                                                               + sex * gfap,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude
+                             )
+
+     vtg::log$info("summary_attention_cst_average_nfl")
+     summary_CS_attention_cst_average_nfl_sex_2w <- safe_lme_summary(priority_attention_cst_average_z ~ age_rec + sex + education_low + education_high + nfl
+                                                              + sex * nfl,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude
+                             )
+
+     vtg::log$info("summary_attention_cst_average_amyloid_b_ratio")
+     summary_CS_attention_cst_average_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_attention_cst_average_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                          + sex * amyloid_b_ratio,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude
+                             )
+
+     #Executive function (CST)
+     vtg::log$info("summary_executive_cst_p_tau")
+     summary_CS_executive_cst_p_tau_sex_2w <- safe_lme_summary(priority_executive_cst_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                        + sex * p_tau,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+     vtg::log$info("summary_executive_cst_gfap")
+     summary_CS_executive_cst_gfap_sex_2w <- safe_lme_summary(priority_executive_cst_z ~ age_rec + sex + education_low + education_high + gfap
+                                                       + sex * gfap,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+     vtg::log$info("summary_executive_cst_nfl")
+     summary_CS_executive_cst_nfl_sex_2w <- safe_lme_summary(priority_executive_cst_z ~ age_rec + sex + education_low + education_high + nfl
+                                                      + sex * nfl,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+     vtg::log$info("summary_executive_cst_amyloid_b_ratio")
+     summary_CS_executive_cst_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_executive_cst_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                  + sex * amyloid_b_ratio,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+
+    #Executive function (shifting)
+     vtg::log$info("summary_executive_shifting_p_tau")
+     summary_CS_executive_shifting_p_tau_sex_2w <- safe_lme_summary(priority_executive_shifting_z ~ age_rec + sex + education_low + education_high + p_tau
+                                                             + sex * p_tau,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+                            
+
+     vtg::log$info("summary_executive_shifting_gfap")
+     summary_CS_executive_shifting_gfap_sex_2w <- safe_lme_summary(priority_executive_shifting_z ~ age_rec + sex + education_low + education_high + gfap
+                                                            + sex * gfap,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+     vtg::log$info("summary_executive_shifting_nfl")
+     summary_CS_executive_shifting_nfl_sex_2w <- safe_lme_summary(priority_executive_shifting_z ~ age_rec + sex + education_low + education_high + nfl
+                                                           + sex * nfl,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+     vtg::log$info("summary_executive_shifting_amyloid_b_ratio")
+     summary_CS_executive_shifting_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_executive_shifting_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
+                                                                       + sex * amyloid_b_ratio,
+                             data = df,
+                             method = "REML",
+                             na.action = na.exclude)
+
+    # model_summary can't extract from lme models
+    results <- list(
+      "summary_CS_memory_p_tau_im_sex_2w" = summary_CS_memory_p_tau_im_sex_2w,
+      "summary_CS_memory_gfap_im_sex_2w" = summary_CS_memory_gfap_im_sex_2w,
+      "summary_CS_memory_nfl_im_sex_2w" = summary_CS_memory_nfl_im_sex_2w,
+      "summary_CS_memory_amyloid_b_ratio_im_sex_2w" = summary_CS_memory_amyloid_b_ratio_im_sex_2w,
+
+      "summary_CS_memory_p_tau_dr_sex_2w" = summary_CS_memory_p_tau_dr_sex_2w,
+      "summary_CS_memory_gfap_dr_sex_2w" = summary_CS_memory_gfap_dr_sex_2w,
+      "summary_CS_memory_nfl_dr_sex_2w" = summary_CS_memory_nfl_dr_sex_2w,
+      "summary_CS_memory_amyloid_b_ratio_dr_sex_2w" = summary_CS_memory_amyloid_b_ratio_dr_sex_2w,
+
+       "summary_CS_language_p_tau_sex_2w" = summary_CS_language_p_tau_sex_2w,
+       "summary_CS_language_gfap_sex_2w" = summary_CS_language_gfap_sex_2w,
+       "summary_CS_language_nfl_sex_2w" = summary_CS_language_nfl_sex_2w,
+       "summary_CS_language_amyloid_b_ratio_sex_2w" = summary_CS_language_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_processing_speed_p_tau_sex_2w" = summary_CS_processing_speed_p_tau_sex_2w,
+      "summary_CS_processing_speed_gfap_sex_2w" = summary_CS_processing_speed_gfap_sex_2w,
+      "summary_CS_processing_speed_nfl_sex_2w" = summary_CS_processing_speed_nfl_sex_2w,
+      "summary_CS_processing_speed_amyloid_b_ratio_sex_2w" = summary_CS_processing_speed_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_attention_stroop_average_p_tau_sex_2w" = summary_CS_attention_stroop_average_p_tau_sex_2w,
+      "summary_CS_attention_stroop_average_gfap_sex_2w" = summary_CS_attention_stroop_average_gfap_sex_2w,
+      "summary_CS_attention_stroop_average_nfl_sex_2w" = summary_CS_attention_stroop_average_nfl_sex_2w,
+      "summary_CS_attention_stroop_average_amyloid_b_ratio_sex_2w" = summary_CS_attention_stroop_average_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_executive_stroop_3_p_tau_sex_2w" = summary_CS_executive_stroop_3_p_tau_sex_2w,
+      "summary_CS_executive_stroop_3_gfap_sex_2w" = summary_CS_executive_stroop_3_gfap_sex_2w,
+      "summary_CS_executive_stroop_3_nfl_sex_2w" = summary_CS_executive_stroop_3_nfl_sex_2w,
+      "summary_CS_executive_stroop_3_amyloid_b_ratio_sex_2w" = summary_CS_executive_stroop_3_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_executive_stroop_interf_p_tau_sex_2w" = summary_CS_executive_stroop_interf_p_tau_sex_2w,
+      "summary_CS_executive_stroop_interf_gfap_sex_2w" = summary_CS_executive_stroop_interf_gfap_sex_2w,
+      "summary_CS_executive_stroop_interf_nfl_sex_2w" = summary_CS_executive_stroop_interf_nfl_sex_2w,
+      "summary_CS_executive_stroop_interf_amyloid_b_ratio_sex_2w" = summary_CS_executive_stroop_interf_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_attention_cst_average_p_tau_sex_2w" = summary_CS_attention_cst_average_p_tau_sex_2w,
+      "summary_CS_attention_cst_average_gfap_sex_2w" = summary_CS_attention_cst_average_gfap_sex_2w,
+      "summary_CS_attention_cst_average_nfl_sex_2w" = summary_CS_attention_cst_average_nfl_sex_2w,
+      "summary_CS_attention_cst_average_amyloid_b_ratio_sex_2w" = summary_CS_attention_cst_average_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_executive_cst_p_tau_sex_2w" = summary_CS_executive_cst_p_tau_sex_2w,
+      "summary_CS_executive_cst_gfap_sex_2w" = summary_CS_executive_cst_gfap_sex_2w,
+      "summary_CS_executive_cst_nfl_sex_2w" = summary_CS_executive_cst_nfl_sex_2w,
+      "summary_CS_executive_cst_amyloid_b_ratio_sex_2w" = summary_CS_executive_cst_amyloid_b_ratio_sex_2w,
+
+      "summary_CS_executive_shifting_p_tau_sex_2w" = summary_CS_executive_shifting_p_tau_sex_2w,
+      "summary_CS_executive_shifting_gfap_sex_2w" = summary_CS_executive_shifting-gfap_sex_2w,
+      "summary_CS_executive_shifting_nfl_sex_2w" = summary_CS_executive_shifting_nfl_sex_2w,
+      "summary_CS_executive_shifting_amyloid_b_ratio_sex_2w" = summary_CS_executive_shifting_amyloid_b_ratio_sex_2w,
+
+      "average_FU_time_table" = average_FU_time_table,
+      "count_men_and_women_table" = count_men_and_women_table,
+      "descriptives_education_table" = descriptives_education_table,
+      "descriptives_baseline_table" = descriptives_per_year_table,
+      "descriptives_by_sex_table" = descriptives_by_sex_table,
+      "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
+      "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
+      "n" = nrow(df),
+      "db" = Sys.getenv("PGDATABASE")
+    )
+    return(results)
+  }, error = function(e) {
+    msg <- "Error while running linear models"
+    vtg::log$info(msg)
+    vtg::log$info(e)
+    return(list(
+      "error_message" = paste(msg, e, sep=" ")
+    ))
+  })
+  return(result)
+}
