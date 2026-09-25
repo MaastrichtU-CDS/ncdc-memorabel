@@ -1,4 +1,4 @@
-RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_sex_2_w_int_cs <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -791,7 +791,7 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
                                                 data = df,
                                                 na.action = na.exclude)
 
-      #processing speed 
+      #processing speed
     vtg::log$info("CS_RIRS_processing_speed_p_tau")
     summary_CS_processing_speed_p_tau_sex_2w <- safe_lme_summary(priority_processing_speed_sdst_z ~ age_rec + sex + education_low + education_high + p_tau
                                                           + sex * p_tau,
@@ -937,9 +937,9 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
      summary_CS_language_amyloid_b_ratio_sex_2w <- safe_lme_summary(priority_language_z ~ age_rec + sex + education_low + education_high + amyloid_b_ratio
                                                              + sex * amyloid_b_ratio,
                                                 data = df,
-                                                method = "REML",            
+                                                method = "REML",
                                                 na.action = na.exclude)
-    
+
     #Attention (CST)
      vtg::log$info("summary_attention_cst_average_p_tau")
      summary_CS_attention_cst_average_p_tau_sex_2w <- safe_lme_summary(priority_attention_cst_average_z ~ age_rec + sex + education_low + education_high + p_tau
@@ -1010,7 +1010,7 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
                              data = df,
                              method = "REML",
                              na.action = na.exclude)
-                            
+
 
      vtg::log$info("summary_executive_shifting_gfap")
      summary_CS_executive_shifting_gfap_sex_2w <- safe_lme_summary(priority_executive_shifting_z ~ age_rec + sex + education_low + education_high + gfap
@@ -1081,14 +1081,14 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       "summary_CS_executive_cst_amyloid_b_ratio_sex_2w" = summary_CS_executive_cst_amyloid_b_ratio_sex_2w,
 
       "summary_CS_executive_shifting_p_tau_sex_2w" = summary_CS_executive_shifting_p_tau_sex_2w,
-      "summary_CS_executive_shifting_gfap_sex_2w" = summary_CS_executive_shifting-gfap_sex_2w,
+      "summary_CS_executive_shifting_gfap_sex_2w" = summary_CS_executive_shifting_gfap_sex_2w,
       "summary_CS_executive_shifting_nfl_sex_2w" = summary_CS_executive_shifting_nfl_sex_2w,
       "summary_CS_executive_shifting_amyloid_b_ratio_sex_2w" = summary_CS_executive_shifting_amyloid_b_ratio_sex_2w,
 
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
-      "descriptives_baseline_table" = descriptives_per_year_table,
+      # "descriptives_baseline_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
       "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,

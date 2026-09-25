@@ -1,4 +1,4 @@
-RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_mmse_sex_cs <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(

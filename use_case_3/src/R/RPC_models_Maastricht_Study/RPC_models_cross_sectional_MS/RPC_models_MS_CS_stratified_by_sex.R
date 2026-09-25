@@ -1,4 +1,4 @@
-RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
+RPC_models_ms_strat_by_sex_cs <- function(df, config, model = "memory", exclude=c()) {
   vtg::log$info("Starting: Models")
   result = tryCatch({
     con <- RPostgres::dbConnect(
@@ -1087,53 +1087,53 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
 
      #Language
      vtg::log$info("CS_language_p_tau_male")
-     CS_language_p_tau_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + p_tau,
+     summary_CS_language_p_tau_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + p_tau,
                                            data = subset(df, sex_num == 0),
                                            method = "REML",
                                            na.action = na.exclude)
 
      vtg::log$info("CS_language_p_tau_female")
-     CS_language_p_tau_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + p_tau,
+     summary_CS_language_p_tau_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + p_tau,
                                              data = subset(df, sex_num == 1),
                                              method = "REML",
                                              na.action = na.exclude)
 
      vtg::log$info("CS_language_gfap_male")
-     CS_language_gfap_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + gfap,
+     summary_CS_language_gfap_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + gfap,
                                           data = subset(df, sex_num == 0),
                                           method = "REML",
                                           na.action = na.exclude)
 
      vtg::log$info("CS_language_gfap_female")
-     CS_language_gfap_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + gfap,
+     summary_CS_language_gfap_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + gfap,
                                             data = subset(df, sex_num == 1),
                                             method = "REML",
                                             na.action = na.exclude)
 
      vtg::log$info("CS_language_nfl_male")
-     CS_language_nfl_male <- safe_lme_summary(priority_language_z ~  age_rec + education_low + education_high + nfl,
+     summary_CS_language_nfl_male <- safe_lme_summary(priority_language_z ~  age_rec + education_low + education_high + nfl,
                                          data = subset(df, sex_num == 0),
                                          method = "REML",
                                          na.action = na.exclude)
-    
+
      vtg::log$info("CS_language_nfl_female")
-     CS_language_nfl_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + nfl,
+     summary_CS_language_nfl_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + nfl,
                                            data = subset(df, sex_num == 1),
                                            method = "REML",
                                            na.action = na.exclude)
 
      vtg::log$info("CS_language_amyloid_b_ratio_male")
-     CS_language_amyloid_b_ratio_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+     summary_CS_language_amyloid_b_ratio_male <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                      data = subset(df, sex_num == 0),
                                                      method = "REML",
                                                      na.action = na.exclude)
 
      vtg::log$info("CS_language_amyloid_b_ratio_female")
-     CS_language_amyloid_b_ratio_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
+     summary_CS_language_amyloid_b_ratio_female <- safe_lme_summary(priority_language_z ~ age_rec + education_low + education_high + amyloid_b_ratio_42_40,
                                                        data = subset(df, sex_num == 1),
                                                        method = "REML",
                                                        na.action = na.exclude)
-    
+
      #Attention (CST)
      vtg::log$info("summary_CS_attention_cst_average_p_tau_male")
      summary_CS_attention_cst_average_p_tau_male <- safe_lme_summary(priority_attention_cst_average_z ~
@@ -1422,7 +1422,7 @@ RPC_models_ms_overall <- function(df, config, model = "memory", exclude=c()) {
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
-      "descriptives_baseline_table" = descriptives_per_year_table,
+      # "descriptives_baseline_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
       "descriptives_per_year_NPA_table" = descriptives_per_year_NPA_table,
