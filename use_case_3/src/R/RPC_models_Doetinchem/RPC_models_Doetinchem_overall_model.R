@@ -335,9 +335,9 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 
     ##Stroop: Van der Elst norms
     #  Doetinchem has the 4 lines Stroop - so we need to time everything by 2.5 to infer the 10 line score.
-    df$attention_test_stroop_1_time_10 <- attention_test_stroop_1_time*2.5
-    df$attention_test_stroop_2_time_10 <- attention_test_stroop_2_time*2.5
-  
+    df$attention_test_stroop_1_time_10 <- df$attention_test_stroop_1_time*2.5
+    df$attention_test_stroop_2_time_10 <- df$attention_test_stroop_2_time*2.5
+
     if (c("attention_test_stroop_1_time") %in% colnames(df) | c("attention_test_stroop_2_time")  %in% colnames(df)) {
       if(c("attention_test_stroop_1_time") %in% colnames(df)) {
         df$priority_attention_stroop_1_pred_score <- (41.517 + (df$age_cent * 0.131) + (df$age_cent2 * 0.003) + (df$education_low * 3.595) + (df$education_high * -1.507))
@@ -345,14 +345,14 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
           priority_attention_stroop_1_z = ifelse(
             priority_attention_stroop_1_pred_score <= 40.209,
-            ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/5.961),
+            ((priority_attention_stroop_1 - priority_attention_stroop_1_pred_score)/5.961),
             ifelse(
               priority_attention_stroop_1_pred_score >= 40.210 & priority_attention_stroop_1_pred_score <= 43.353,
-              ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/6.400),
+              ((priority_attention_stroop_1 - priority_attention_stroop_1_pred_score)/6.400),
               ifelse(
                 priority_attention_stroop_1_pred_score >= 43.354 & priority_attention_stroop_1_pred_score <= 46.059,
-                ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/7.217),
-                ((attention_test_stroop_1 - priority_attention_stroop_1_pred_score)/7.921)
+                ((priority_attention_stroop_1 - priority_attention_stroop_1_pred_score)/7.217),
+                ((priority_attention_stroop_1 - priority_attention_stroop_1_pred_score)/7.921)
               )
             )
           )
@@ -366,14 +366,14 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
           df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
             priority_attention_stroop_2_z = ifelse(
               priority_attention_stroop_2_pred_score <= 51.661,
-              ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/7.988),
+              ((priority_attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/7.988),
               ifelse(
                 priority_attention_stroop_2_pred_score >= 51.662 & priority_attention_stroop_2_pred_score <= 55.861,
-                ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/8.459),
+                ((priority_attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/8.459),
                 ifelse(
                   priority_attention_stroop_2_pred_score >= 55.862 & priority_attention_stroop_2_pred_score <= 60.713,
-                  ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/9.419),
-                  ((attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/10.587)
+                  ((priority_attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/9.419),
+                  ((priority_attention_test_stroop_2 - priority_attention_stroop_2_pred_score)/10.587)
                 )
               )
             )
@@ -399,8 +399,8 @@ RPC_models_DC <- function(df, config, model = "memory", exclude=c()) {
 
     ##Stroop: van der Elst norms
         #  Doetinchem has the 4 lines Stroop - so we need to time everything by 2.5 to infer the 10 line score.
-    df$priority_executive_stroop_3_time_10 <- priority_executive_stroop_3_time*2.5
-    
+    df$priority_executive_stroop_3_time_10 <- df$priority_executive_stroop_3_time*2.5
+
         df$priority_executive_stroop_3_pred_score <- (82.601 + (df$age_cent * 0.714) + (df$age_cent2 * 0.023) + (df$sex_num * 4.470) + (df$education_low * 13.285) + (df$education_high * -3.873))
         df$priority_executive_stroop_3 <- df$priority_executive_stroop_3_time_10
         df <- df %>%  dplyr::rowwise(id) %>% dplyr::mutate(
@@ -452,51 +452,51 @@ descriptives_per_year_NPA_table <- df %>%
     mean_p_tau = mean(p_tau, na.rm = TRUE),
     sd_p_tau = sd(p_tau, na.rm = TRUE),
     n_p_tau = sum(!is.na(p_tau)),
-    
-    mean_amyloid_b_ratio = mean(amyloid_b_ratio, na.rm = TRUE),
-    sd_amyloid_b_ratio = sd(amyloid_b_ratio, na.rm = TRUE),
-    n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio)),
-    
+
+    mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+    sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+    n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+
     mean_gfap = mean(gfap, na.rm = TRUE),
     sd_gfap = sd(gfap, na.rm = TRUE),
     n_gfap = sum(!is.na(gfap)),
-    
+
     mean_nfl = mean(nfl, na.rm = TRUE),
     sd_nfl = sd(nfl, na.rm = TRUE),
     n_nfl = sum(!is.na(nfl)),
-    
+
     high_edu = sum(education_category_3 == "high", na.rm = TRUE),
     medium_edu = sum(education_category_3 == "medium", na.rm = TRUE),
     low_edu = sum(education_category_3 == "low", na.rm = TRUE),
-    
+
     mean_age = mean(age_rec, na.rm = TRUE),
     sd_age = sd(age_rec, na.rm = TRUE),
-    
+
     mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
     sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
     n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
+
     mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
     sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
     n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
+
     mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
     sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
     n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
+
     mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
     sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
     n_priority_executive_stroop_3_z = sum(!is.na(priority_executive_stroop_3_z)),
-    
+
     mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
     sd_priority_executive_stroop_interf_z   = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
     n_priority_executive_stroop_interf_z    = sum(!is.na(priority_executive_stroop_interf_z)),
-    
-    mean_MMSE = mean(MMSE_total, na.rm = TRUE),
-    sd_MMSE   = sd(MMSE_total, na.rm = TRUE),
-    n_MMSE    = sum(!is.na(MMSE_total)),
-    
-    count_apoe = sum(APOE_carrier == 1, na.rm = TRUE)
+
+    mean_MMSE = mean(mmse_total, na.rm = TRUE),
+    sd_MMSE   = sd(mmse_total, na.rm = TRUE),
+    n_MMSE    = sum(!is.na(mmse_total)),
+
+    count_apoe = sum(apoe_carrier == 1, na.rm = TRUE)
   )
 
     #same as above but here the table sorted by sex
@@ -507,107 +507,106 @@ descriptives_per_year_NPA_table <- df %>%
     mean_p_tau = mean(p_tau, na.rm = TRUE),
     sd_p_tau = sd(p_tau, na.rm = TRUE),
     n_p_tau = sum(!is.na(p_tau)),
-    
-    mean_amyloid_b_ratio = mean(amyloid_b_ratio, na.rm = TRUE),
-    sd_amyloid_b_ratio = sd(amyloid_b_ratio, na.rm = TRUE),
-    n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio)),
-    
+
+    mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+    sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+    n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+
     mean_gfap = mean(gfap, na.rm = TRUE),
     sd_gfap = sd(gfap, na.rm = TRUE),
     n_gfap = sum(!is.na(gfap)),
-    
+
     mean_nfl = mean(nfl, na.rm = TRUE),
     sd_nfl = sd(nfl, na.rm = TRUE),
     n_nfl = sum(!is.na(nfl)),
-    
+
     high_edu = sum(education_category_3 == "high", na.rm = TRUE),
     medium_edu = sum(education_category_3 == "medium", na.rm = TRUE),
     low_edu = sum(education_category_3 == "low", na.rm = TRUE),
-    
+
     mean_age = mean(age_rec, na.rm = TRUE),
     sd_age = sd(age_rec, na.rm = TRUE),
-    
+
     mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
     sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
     n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
+
     mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
     sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
     n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
+
     mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
     sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
     n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
+
     mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
     sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
     n_priority_executive_stroop_3_z = sum(!is.na(priority_executive_stroop_3_z)),
-    
+
     mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
     sd_priority_executive_stroop_interf_z   = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
     n_priority_executive_stroop_interf_z    = sum(!is.na(priority_executive_stroop_interf_z)),
-    
-    mean_MMSE = mean(MMSE_total, na.rm = TRUE),
-    sd_MMSE   = sd(MMSE_total, na.rm = TRUE),
-    n_MMSE    = sum(!is.na(MMSE_total)),
-    
-    count_apoe = sum(APOE_carrier == 1, na.rm = TRUE)
+
+    mean_MMSE = mean(mmse_total, na.rm = TRUE),
+    sd_MMSE   = sd(mmse_total, na.rm = TRUE),
+    n_MMSE    = sum(!is.na(mmse_total)),
+
+    count_apoe = sum(apoe_carrier == 1, na.rm = TRUE)
   )
 
     #same as above but here the table sorted by years since baseline and sex
    descriptives_by_sex_and_FU_NPA_table <- df %>%
      dplyr::group_by(years_since_baseline, sex) %>%
      dplyr::summarise(
-    nr_participants = dplyr::n_distinct(id),
-    mean_p_tau = mean(p_tau, na.rm = TRUE),
-    sd_p_tau = sd(p_tau, na.rm = TRUE),
-    n_p_tau = sum(!is.na(p_tau)),
-    
-    mean_amyloid_b_ratio = mean(amyloid_b_ratio, na.rm = TRUE),
-    sd_amyloid_b_ratio = sd(amyloid_b_ratio, na.rm = TRUE),
-    n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio)),
-    
-    mean_gfap = mean(gfap, na.rm = TRUE),
-    sd_gfap = sd(gfap, na.rm = TRUE),
-    n_gfap = sum(!is.na(gfap)),
-    
-    mean_nfl = mean(nfl, na.rm = TRUE),
-    sd_nfl = sd(nfl, na.rm = TRUE),
-    n_nfl = sum(!is.na(nfl)),
-    
-    high_edu = sum(education_category_3 == "high", na.rm = TRUE),
-    medium_edu = sum(education_category_3 == "medium", na.rm = TRUE),
-    low_edu = sum(education_category_3 == "low", na.rm = TRUE),
-    
-    mean_age = mean(age_rec, na.rm = TRUE),
-    sd_age = sd(age_rec, na.rm = TRUE),
-    
-    mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
-    sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
-    n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
-    
-    mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
-    sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
-    n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
-    
-    mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
-    sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
-    n_priority_language_z    = sum(!is.na(priority_language_z)),
-    
-    mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
-    sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
-    n_priority_executive_stroop_3_z = sum(!is.na(priority_executive_stroop_3_z)),
-    
-    mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
-    sd_priority_executive_stroop_interf_z   = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
-    n_priority_executive_stroop_interf_z    = sum(!is.na(priority_executive_stroop_interf_z)),
-    
-    mean_MMSE = mean(MMSE_total, na.rm = TRUE),
-    sd_MMSE   = sd(MMSE_total, na.rm = TRUE),
-    n_MMSE    = sum(!is.na(MMSE_total)),
-    
-    count_apoe = sum(APOE_carrier == 1, na.rm = TRUE)
-  )
+      nr_participants = dplyr::n_distinct(id),
+      mean_p_tau = mean(p_tau, na.rm = TRUE),
+      sd_p_tau = sd(p_tau, na.rm = TRUE),
+      n_p_tau = sum(!is.na(p_tau)),
+
+      mean_amyloid_b_ratio = mean(amyloid_b_ratio_42_40, na.rm = TRUE),
+      sd_amyloid_b_ratio = sd(amyloid_b_ratio_42_40, na.rm = TRUE),
+      n_amyloid_b_ratio = sum(!is.na(amyloid_b_ratio_42_40)),
+
+      mean_gfap = mean(gfap, na.rm = TRUE),
+      sd_gfap = sd(gfap, na.rm = TRUE),
+      n_gfap = sum(!is.na(gfap)),
+
+      mean_nfl = mean(nfl, na.rm = TRUE),
+      sd_nfl = sd(nfl, na.rm = TRUE),
+      n_nfl = sum(!is.na(nfl)),
+
+      high_edu = sum(education_category_3 == "high", na.rm = TRUE),
+      medium_edu = sum(education_category_3 == "medium", na.rm = TRUE),
+      low_edu = sum(education_category_3 == "low", na.rm = TRUE),
+
+      mean_age = mean(age_rec, na.rm = TRUE),
+      sd_age = sd(age_rec, na.rm = TRUE),
+
+      mean_memory_immediate_recall_z = mean(priority_memory_im_z, na.rm = TRUE),
+      sd_memory_immediate_recall_z   = sd(priority_memory_im_z, na.rm = TRUE),
+      n_memory_immediate_recall_z    = sum(!is.na(priority_memory_im_z)),
+
+      mean_memory_delayed_recall_z = mean(priority_memory_dr_z, na.rm = TRUE),
+      sd_memory_delayed_recall_z   = sd(priority_memory_dr_z, na.rm = TRUE),
+      n_memory_delayed_recall_z    = sum(!is.na(priority_memory_dr_z)),
+
+      mean_priority_language_z = mean(priority_language_z, na.rm = TRUE),
+      sd_priority_language_z   = sd(priority_language_z, na.rm = TRUE),
+      n_priority_language_z    = sum(!is.na(priority_language_z)),
+
+      mean_priority_executive_stroop_3_z = mean(priority_executive_stroop_3_z, na.rm = TRUE),
+      sd_priority_executive_stroop_3_z = sd(priority_executive_stroop_3_z, na.rm = TRUE),
+      n_priority_executive_stroop_3_z = sum(!is.na(priority_executive_stroop_3_z)),
+
+      mean_priority_executive_stroop_interf_z = mean(priority_executive_stroop_interf_z, na.rm = TRUE),
+      sd_priority_executive_stroop_interf_z   = sd(priority_executive_stroop_interf_z, na.rm = TRUE),
+      n_priority_executive_stroop_interf_z    = sum(!is.na(priority_executive_stroop_interf_z)),
+
+      mean_MMSE = mean(mmse_total, na.rm = TRUE),
+      sd_MMSE   = sd(mmse_total, na.rm = TRUE),
+      n_MMSE    = sum(!is.na(mmse_total)),
+
+      count_apoe = sum(apoe_carrier == 1, na.rm = TRUE)
     )
 
 
@@ -849,7 +848,7 @@ descriptives_per_year_NPA_table <- df %>%
     #summary_attention_stroop_average_nfl <- sjPlot::tab_model(summary_attention_stroop_average_nfl)
 
     vtg::log$info("summary_attention_stroop_average_amyloid_b_ratio")
-    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_attention_stroop_average_amyloid_b_ratio <- safe_lme_summary(priority_attention_stroop_average_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                                data = df,
                                                                random = ~ years_since_baseline | id,
                                                                weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -894,7 +893,7 @@ descriptives_per_year_NPA_table <- df %>%
     #summary_attention_stroop_3_nfl <- sjPlot::tab_model(summary_executive_stroop_3_nfl)
 
     vtg::log$info("summary_executive_stroop_3_amyloid_b_ratio")
-    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_executive_stroop_3_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_3_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                          data = df,
                                                          random = ~ years_since_baseline | id,
                                                          weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -940,7 +939,7 @@ descriptives_per_year_NPA_table <- df %>%
     #summary_attention_stroop_interf_nfl <- sjPlot::tab_model(summary_executive_stroop_interf_nfl)
 
     vtg::log$info("summary_executive_stroop_interf_amyloid_b_ratio")
-    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio + amyloid_b_ratio * years_since_baseline,
+    summary_executive_stroop_interf_amyloid_b_ratio <- safe_lme_summary(priority_executive_stroop_interf_z ~ years_since_baseline + age_rec + sex + education_low + education_high + amyloid_b_ratio_42_40 + amyloid_b_ratio_42_40 * years_since_baseline,
                                                               data = df,
                                                               random = ~ years_since_baseline | id,
                                                               weights = nlme::varIdent(form= ~1 | years_since_baseline),
@@ -989,7 +988,7 @@ descriptives_per_year_NPA_table <- df %>%
       "average_FU_time_table" = average_FU_time_table,
       "count_men_and_women_table" = count_men_and_women_table,
       "descriptives_education_table" = descriptives_education_table,
-      "descriptives_per_year_table" = descriptives_per_year_table,
+      # "descriptives_per_year_table" = descriptives_per_year_table,
       "descriptives_by_sex_table" = descriptives_by_sex_table,
       "descriptives_by_sex_and_FU_table" = descriptives_by_sex_and_FU_table,
       "descriptives_by_sex_NPA_table" = descriptives_by_sex_NPA_table,
