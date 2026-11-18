@@ -1074,21 +1074,6 @@ descriptives_per_year_NPA_table <- df %>%
       "summary_processing_speed_nfl" = summary_processing_speed_nfl,
       "summary_processing_speed_amyloid_b_ratio" = summary_processing_speed_amyloid_b_ratio,
 
-      "summary_attention_cst_average_p_tau" = summary_attention_cst_average_p_tau,
-      "summary_attention_cst_average_gfap" = summary_attention_cst_average_gfap,
-      "summary_attention_cst_average_nfl" = summary_attention_cst_average_nfl,
-      "summary_attention_cst_average_amyloid_b_ratio" = summary_attention_cst_average_amyloid_b_ratio,
-
-      "summary_executive_cst_p_tau" = summary_executive_cst_p_tau,
-      "summary_executive_cst_gfap" = summary_executive_cst_gfap,
-      "summary_executive_cst_nfl" = summary_executive_cst_nfl,
-      "summary_executive_cst_amyloid_b_ratio" = summary_executive_cst_amyloid_b_ratio,
-
-      "summary_executive_shifting_p_tau" = summary_executive_shifting_p_tau,
-      "summary_executive_shifting_gfap" = summary_executive_shifting_gfap,
-      "summary_executive_shifting_nfl" = summary_executive_shifting_nfl,
-      "summary_executive_shifting_amyloid_b_ratio" = summary_executive_shifting_amyloid_b_ratio,
-
       "summary_attention_stroop_average_p_tau" = summary_attention_stroop_average_p_tau,
       "summary_attention_stroop_average_gfap" = summary_attention_stroop_average_gfap,
       "summary_attention_stroop_average_nfl" = summary_attention_stroop_average_nfl,
